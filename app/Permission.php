@@ -6,14 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Permission extends Model
 {
-    protected $fillable = ['permission', 'user_id'];
+    protected $fillable = ['name'];
 
     protected $guarded = [];
 
     protected $hidden = [];
 
-    public function user() {
-        return $this->belongsTo('App\User');
+    public function users() {
+        return $this->belongsToMany('App/User', 'user_permissions');
     }
+
 
 }

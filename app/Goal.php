@@ -11,4 +11,16 @@ class Goal extends Model
     protected $guarded = [];
 
     protected $hidden = [];
+
+    public function team() {
+        return $this->belongsTo('App\Team');
+    }
+
+    public function game() {
+        return $this->belongsTo('App\game');
+    }
+
+    public function player() {
+        return $this->belongsTo('App\Player');
+    }
 }

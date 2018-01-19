@@ -28,7 +28,7 @@ class User extends Authenticatable
     ];
 
     public function permissions() {
-        return $this->hasMany('App\Permission');
+        return $this->belongsToMany('App/Permission', 'user_permissions');
     }
 
     public function articles() {
@@ -43,7 +43,8 @@ class User extends Authenticatable
         return $this->hasOne('App\UserBan', 'banned_user_id');
     }
 
-    public function bansGiven() {
+    public function bansGiven()
+    {
         return $this->hasMany('App\UserBan', 'banned_by_user_id');
     }
 }

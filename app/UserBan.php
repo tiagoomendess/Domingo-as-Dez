@@ -12,4 +12,12 @@ class UserBan extends Model
 
     protected $hidden = [];
 
+    public function bannedUser() {
+        return $this->belongsTo('App\User', 'banned_user_id');
+    }
+
+    public function bannedByUser() {
+        return $this->belongsTo('App\User', 'banned_by_user_id');
+    }
+
 }

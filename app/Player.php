@@ -11,4 +11,12 @@ class Player extends Model
     protected $guarded = [];
 
     protected $hidden = [];
+
+    public function goals() {
+        return $this->hasMany('App\Goal');
+    }
+
+    public function teams() {
+        return $this->belongsToMany('App\Team', 'transfers');
+    }
 }
