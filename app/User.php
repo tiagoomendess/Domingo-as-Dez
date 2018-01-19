@@ -39,7 +39,11 @@ class User extends Authenticatable
         return $this->hasOne('App\UserProfile');
     }
 
-    public function userBan() {
-        return $this->hasOne('App\UserBan');
+    public function ban() {
+        return $this->hasOne('App\UserBan', 'banned_user_id');
+    }
+
+    public function bansGiven() {
+        return $this->hasMany('App\UserBan', 'banned_by_user_id');
     }
 }

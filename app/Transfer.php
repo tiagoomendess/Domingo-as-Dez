@@ -4,12 +4,11 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class UserBan extends Model
+class Transfer extends Model
 {
-    protected $fillable = ['banned_user_id', 'reason', 'banned_by_user_id'];
+    protected $fillable = ['player_id', 'team_id', 'date', 'visible'];
 
     protected $guarded = [];
 
     protected $hidden = [];
-
 }

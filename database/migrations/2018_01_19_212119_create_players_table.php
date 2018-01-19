@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateUserProfilesTable extends Migration
+class CreatePlayersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,15 @@ class CreateUserProfilesTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_profiles', function (Blueprint $table) {
+        Schema::create('players', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('name');
+            $table->string('association_id')->unique();
+            $table->string('nickname')->nullable();
             $table->string('phone')->nullable();
-            $table->string('bio')->nullable();
-            $table->integer('user_id')->unique();
-            $table->string('picture')->nullable();
+            $table->string('email')->nullable();
+            $table->string('facebook_profile')->nullable();
+            $table->boolean('visible')->default(true);
             $table->timestamps();
         });
     }
@@ -30,6 +33,6 @@ class CreateUserProfilesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_profiles');
+        Schema::dropIfExists('players');
     }
 }
