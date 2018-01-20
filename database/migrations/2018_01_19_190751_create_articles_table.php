@@ -15,11 +15,11 @@ class CreateArticlesTable extends Migration
     {
         Schema::create('articles', function (Blueprint $table) {
             $table->increments('id');
-            $table->enum('media_type', ['none', 'image', 'video']);
-            $table->string('media_link')->nullable();
+            $table->enum('media_type', ['none', 'image', 'video', 'youtube', 'download', 'other']);
+            $table->text('media_link')->nullable();
             $table->string('title');
-            $table->string('description')->nullable();
-            $table->string('text');
+            $table->text('description')->nullable();
+            $table->longText('text');
             $table->integer('user_id');
             $table->timestamp('date');
             $table->boolean('visible')->default(true);

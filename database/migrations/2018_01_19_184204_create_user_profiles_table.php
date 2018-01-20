@@ -16,9 +16,9 @@ class CreateUserProfilesTable extends Migration
         Schema::create('user_profiles', function (Blueprint $table) {
             $table->increments('id');
             $table->string('phone')->nullable();
-            $table->string('bio')->nullable();
+            $table->text('bio')->nullable();
             $table->integer('user_id')->unique();
-            $table->string('picture')->nullable();
+            $table->text('picture')->nullable();
             $table->timestamps();
         });
     }

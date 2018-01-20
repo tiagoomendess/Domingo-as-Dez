@@ -21,6 +21,7 @@ class CreatePlaygroundsTable extends Migration
             $table->integer('width'); //In meters
             $table->integer('height');
             $table->integer('capacity');
+            $table->text('picture')->nullable(); //Url to picture
             $table->boolean('visible')->default(true);
             $table->timestamps();
         });

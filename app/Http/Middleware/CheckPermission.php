@@ -20,25 +20,15 @@ class CheckPermission
      */
     public function handle($request, Closure $next, $permission = null)
     {
+        $user = Auth::user();
 
-        //If we got a specifies permission
-        if ($permission) {
+        $permissions = $user->permissions;
 
-            $permissions = Auth::user()->permissions;
-
-            foreach ($permissions as $perm) {
-
-                if ($perm == $permission)
-                    return $next($request);
-            }
-
-            return abort(403);
-
-        } else { //otherwise, he as got permission
-            return $next($request);
+        foreach ($permissions as $perm) {
+            if ($perm->name == $permission)
+                return $next($request);
         }
 
-
-
+        return abort(403);
     }
 }

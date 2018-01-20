@@ -8,7 +8,7 @@ class ArticleController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth', 'permission:admin');
+        $this->middleware(['auth', 'permission:admin']);
     }
 
     /**
@@ -18,7 +18,7 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        //
+        return response(200);
     }
 
     /**

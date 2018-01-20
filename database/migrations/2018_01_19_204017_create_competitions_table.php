@@ -17,7 +17,7 @@ class CreateCompetitionsTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->enum('competition_type', ['none', 'friendly', 'league', 'cup']);
-            $table->string('picture')->nullable();
+            $table->text('picture')->nullable();
             $table->boolean('visible')->default(true);
             $table->timestamps();
         });
