@@ -16,8 +16,8 @@ Route::get('/', function () {
 });
 
 Auth::routes();
-Route::get('/login/{provider}','Auth\LoginController@redirectToProvider')->where('provider','twitter|facebook|linkedin|google');
-Route::get('/login/{provider}/callback','Auth\LoginController@handleProviderCallback')->where('provider','twitter|facebook|linkedin|google');
+Route::get('/login/{provider}','Auth\LoginController@redirectToProvider')->where('provider','twitter|facebook|google');
+Route::get('/login/{provider}/callback','Auth\LoginController@handleProviderCallback')->where('provider','twitter|facebook|google');
 
 Route::get('/home', 'HomeController@index')->name('home');
 

@@ -29,6 +29,19 @@ class LoginController extends Controller
     use AuthenticatesUsers;
 
     /**
+     * Handle an authentication attempt.
+     *
+     * @return Response
+     */
+    public function authenticate()
+    {
+        if (Auth::attempt(['email' => $email, 'password' => $password])) {
+            // Authentication passed...
+            return redirect()->intended('dashboard');
+        }
+    }
+
+    /**
      * Where to redirect users after login.
      *
      * @var string
