@@ -11,4 +11,12 @@ class Playground extends Model
     protected $guarded = [];
 
     protected $hidden = [];
+
+    public function club() {
+        return $this->belongsTo('App\Club');
+    }
+
+    public function games() {
+        return $this->hasMany('App\Game');
+    }
 }

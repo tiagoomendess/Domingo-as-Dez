@@ -15,7 +15,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'verified',
     ];
 
     /**
@@ -25,6 +25,15 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password', 'remember_token',
+    ];
+
+    /**
+     *  The attributes that should be casted to native types.
+     *
+     *  @var array
+     */
+    protected $casts = [
+        'settings' => 'array'
     ];
 
     public function permissions() {
@@ -46,5 +55,10 @@ class User extends Authenticatable
     public function bansGiven()
     {
         return $this->hasMany('App\UserBan', 'banned_by_user_id');
+    }
+
+    public function socialProviders()
+    {
+        return $this->hasMany('App\SocialProvider');
     }
 }

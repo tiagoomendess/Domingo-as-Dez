@@ -24,7 +24,7 @@ class CreateGamesTable extends Migration
             $table->integer('goals_home')->nullable();
             $table->integer('goals_away')->nullable();
             $table->boolean('finished');
-            $table->boolean('visible');
+            $table->boolean('visible')->default(true);
             $table->timestamps();
         });
     }

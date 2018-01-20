@@ -15,7 +15,7 @@ class Article extends Model
     protected $hidden = [];
     **/
 
-    protected $fillable = ['media_type', 'media_link', 'title', 'description', 'text', 'user_id', 'date', 'visible'];
+    protected $fillable = ['media_id', 'title', 'description', 'text', 'user_id', 'date', 'visible'];
 
     protected $guarded = [];
 
@@ -23,5 +23,9 @@ class Article extends Model
 
     public function user() {
         return $this->belongsTo('App\User');
+    }
+
+    public function  media() {
+        return $this->belongsTo('App\Media');
     }
 }

@@ -17,7 +17,7 @@ class CreateTeamsTable extends Migration
             $table->increments('id');
             $table->integer('club_id');
             $table->string('name');
-            $table->boolean('visible');
+            $table->boolean('visible')->default(true);
             $table->timestamps();
         });
     }

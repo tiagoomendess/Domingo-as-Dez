@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateArticlesTable extends Migration
+class CreateMessagesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,13 @@ class CreateArticlesTable extends Migration
      */
     public function up()
     {
-        Schema::create('articles', function (Blueprint $table) {
+        Schema::create('messages', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('media_id')->nullable();
-            $table->string('title');
-            $table->text('description')->nullable();
-            $table->longText('text');
             $table->integer('user_id');
-            $table->timestamp('date');
+            $table->longText('content');
+            $table->boolean('anonymous')->default(false);
+            $table->boolean('credits')->default(false);
+            $table->boolean('archived')->default(false);
             $table->boolean('visible')->default(true);
             $table->timestamps();
         });
@@ -33,6 +32,6 @@ class CreateArticlesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('articles');
+        Schema::dropIfExists('messages');
     }
 }
