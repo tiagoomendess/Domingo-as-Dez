@@ -86,7 +86,7 @@ class RegisterController extends Controller
         ]);
     }
 
-    public function verifyPage() {
+    public function verifyEmailPage() {
         return 'Verifica o teu email';
     }
 
@@ -95,24 +95,25 @@ class RegisterController extends Controller
         $user = User::where('email', $email)->first();
 
         //If the user is already verified
-        if ($user->verified = true) {
+        if ($user->verified == true) {
 
             $errors = new MessageBag();
             $errors->add('already_verified', trans('auth.already_verified'));
-            return redirect()->route('verifyEmail')->withErrors($errors);
+            return redirect()->route('verifyEmailPage')->withErrors($errors);
 
         }
 
         if ($token == $user->email_token) {
 
             $user->verified = true;
+            $user->email_token = null;
             $user->save();
 
         } else {
 
             $errors = new MessageBag();
             $errors->add('verify_token_mismatch', trans('auth.verify_token_mismatch'));
-            return redirect()->route('verifyEmail')->withErrors($errors);
+            return redirect()->route('verifyEmailPage')->withErrors($errors);
 
         }
 
