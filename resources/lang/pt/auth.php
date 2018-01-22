@@ -15,5 +15,8 @@ return [
 
     'failed' => 'These credentials do not match our records.',
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
-
+    'banned' => 'Este utilizador está banido do website',
+    'already_verified' => 'Este utilizador já está verificado.',
+    'verify_token_mismatch' => 'A token de verificação é inválida.',
+    'not_verified' => 'Esta conta não tem o email verificado.',
 ];

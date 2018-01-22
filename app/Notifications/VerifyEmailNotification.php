@@ -53,7 +53,7 @@ class VerifyEmailNotification extends Notification
                 'email' => $this->email,
                 'token' => $this->token,
             ]))
-            ->line(trans('thanks'));
+            ->line(trans('emails.thanks'));
     }
 
     /**

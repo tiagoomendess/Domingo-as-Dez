@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\MessageBag;
 use App\SocialProvider;
 use App\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 use League\Flysystem\Exception;
@@ -28,18 +29,6 @@ class LoginController extends Controller
 
     use AuthenticatesUsers;
 
-    /**
-     * Handle an authentication attempt.
-     *
-     * @return Response
-     */
-    public function authenticate()
-    {
-        if (Auth::attempt(['email' => $email, 'password' => $password])) {
-            // Authentication passed...
-            return redirect()->intended('dashboard');
-        }
-    }
 
     /**
      * Where to redirect users after login.
@@ -56,6 +45,40 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+
+    protected function redirectTo()
+    {
+        return '/path';
+    }
+
+    /**
+     * Gets called after a user is authenticated
+     */
+    protected function authenticated(Request $request, $user)
+    {
+
+        $loginFailed = false;
+        $errors = new MessageBag();
+
+        //checks if the user is not verified
+        if(!$user->verified) {
+            $errors->add('not_verified', trans('auth.not_verified'));
+            $loginFailed = true;
+        }
+
+        //checks id the user is banned
+        if ($user->ban) {
+            $errors->add('banned', trans('auth.banned'));
+            $loginFailed = true;
+        }
+
+        //If there was at least one problem, logout and redirect back
+        if ($loginFailed){
+            Auth::logout();
+            return redirect()->back()->withErrors($errors);
+        }
+
     }
 
     /**
