@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Front;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class HomePageController extends Controller
 {
@@ -12,6 +13,6 @@ class HomePageController extends Controller
 
         $user = Auth::user();
 
-        return view('');
+        return view('front.pages.homepage');
     }
 }

@@ -1,7 +1,7 @@
 @extends('front.layouts.default-page')
 
-@section('title')
-    {{ config('custom.site_name') }}
+@section('head')
+    <title>{{ config('custom.site_name') }}</title>
 @endsection
 
 @section('content')

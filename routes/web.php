@@ -22,6 +22,6 @@ Route::get('/register/verify/{email}/{token}', 'Auth\RegisterController@verifyEm
 Route::get('/login/{provider}','Auth\LoginController@redirectToProvider')->where('provider','twitter|facebook|google');
 Route::get('/login/{provider}/callback','Auth\LoginController@handleProviderCallback')->where('provider','twitter|facebook|google');
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/', 'Front\HomePageController@index')->name('home');
 
 Route::get('/dashboard', 'Backoffice\DashboardController@index')->name('dashboard');
