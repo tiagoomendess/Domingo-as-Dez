@@ -38,15 +38,15 @@ class User extends Authenticatable
     ];
 
     public function permissions() {
-        return $this->belongsToMany('App/Permission', 'user_permissions');
+        return $this->belongsToMany(Permission::class, 'user_permissions');
     }
 
     public function articles() {
         return $this->hasMany('App\Article');
     }
 
-    public function userProfile() {
-        return $this->hasOne('App\UserProfile');
+    public function profile() {
+        return $this->hasOne(UserProfile::class);
     }
 
     public function ban() {

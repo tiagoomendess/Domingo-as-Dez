@@ -16,6 +16,7 @@ Route::get('/', function () {
 });
 
 Auth::routes();
+Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
 Route::get('/register/verify', 'Auth\RegisterController@verifyEmailPage')->name('verifyEmailPage');
 Route::get('/register/verify/{email}/{token}', 'Auth\RegisterController@verifyEmail')->name('verifyEmail');
 Route::get('/login/{provider}','Auth\LoginController@redirectToProvider')->where('provider','twitter|facebook|google');
@@ -23,4 +24,4 @@ Route::get('/login/{provider}/callback','Auth\LoginController@handleProviderCall
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::resource('article', 'ArticleController');
+Route::get('/dashboard', 'Backoffice\DashboardController@index')->name('dashboard');

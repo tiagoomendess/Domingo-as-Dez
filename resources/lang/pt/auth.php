@@ -19,4 +19,9 @@ return [
     'already_verified' => 'Este utilizador já está verificado.',
     'verify_token_mismatch' => 'A token de verificação é inválida.',
     'not_verified' => 'Esta conta não tem o email verificado.',
+    'logout' => 'Terminar Sessão',
+    'remember_me' => 'Lembrar-me',
+    'login' => 'Login',
+    'register' => 'Registar',
+    'permission_denied' => 'Permissão negada.'
 ];

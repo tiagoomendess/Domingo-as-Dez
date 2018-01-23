@@ -10,5 +10,8 @@ class HomePageController extends Controller
     //Landing page of the website
     public function index() {
 
+        $user = Auth::user();
+
+        return view('');
     }
 }

@@ -3,8 +3,8 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use App\Permission;
 use Auth;
+use App\Permission;
 
 /**
  * Verifies if the user has the permission stated in the parameter
@@ -20,6 +20,7 @@ class CheckPermission
      */
     public function handle($request, Closure $next, $permission = null)
     {
+
         $user = Auth::user();
 
         $permissions = $user->permissions;
@@ -29,6 +30,6 @@ class CheckPermission
                 return $next($request);
         }
 
-        return abort(403);
+        return abort(404, trans('auth.permission_denied'));
     }
 }
