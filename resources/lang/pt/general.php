@@ -23,4 +23,7 @@ return [
     'video' => 'Video',
     'other' => 'Outro',
     'none' => 'Nenhum',
+    'tags' => 'Tags',
+    'tags_help' => 'Palavras separadas por vírgulas',
+    'file' => 'Ficheiro',
 ];

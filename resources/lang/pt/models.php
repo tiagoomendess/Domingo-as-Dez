@@ -24,5 +24,6 @@ return [
     'no_seasons' => 'Não existem épocas',
     'no_teams' => 'Não há equipas',
     'no_media' => 'Não há multimédia.',
+    'media_type' => 'Tipo de Multimédia',
 
 ];

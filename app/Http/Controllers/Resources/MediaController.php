@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Resources;
 use App\Media;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\MessageBag;
 
 class MediaController extends Controller
 {
@@ -44,7 +45,27 @@ class MediaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $request->validate([
+            'tags' => 'required|max:255|String',
+            'url' => 'required_without:file|max:255|url|nullable',
+            'file' => 'required_without:url|file|size:200000|nullable',
+            'visible' => 'required',
+        ]);
+
+        $errors = new MessageBag();
+
+        if ($request->input('url') != null) {
+
+        }
+        else {
+            if ($request->file('photo')->isValid()) {
+
+            } else {
+                $errors->add('file_invalid', trans('custom_error.file_invalid'));
+
+            }
+        }
     }
 
     /**
