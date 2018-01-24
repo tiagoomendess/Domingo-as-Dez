@@ -3,3 +3,41 @@
     margin-top: 3px;
     max-height: 58px;
 }
+
+.dropdown-content-custom {
+    margin-top: 64px;
+    background-color: #1E88E5;
+    color: white;
+}
+
+.dropdown-content-custom a {
+    color: white;
+    font-weight: 300;
+    font-size: 16px;
+}
+
+.dropdown-content-custom li {
+
+}
+
+.dropdown-content-custom li:hover {
+    background-color: #1B7ACE;
+}
+
+.dropdown-content-custom li a {
+    color: white;
+
+}
+
+.dropdown-content-custom a:hover {
+    color: rgb(255, 255, 255);
+    background-color: #1B7ACE;
+}
+
+.dropdown-content-custom li:hover li.active li.selected{
+    background-color: #1B7ACE;
+}
+
+.dropdown-content-custom li.active.selected {
+    background-color: #1B7ACE;
+}

@@ -1,12 +1,16 @@
-<nav class="top-nav blue darken-2">
-    <div class="nav-wrapper">
-        <a href="#" class="brand-logo center hidden-md hidden-sm hidden-xs">{{ config('custom.site_name') }}</a>
-        <a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">menu</i></a>
-        <ul class="right">
-            <li><a href="#modal_logout" class="modal-trigger"><i class="fa fa-power-off" aria-hidden="true"></i></a></li>
-        </ul>
-    </div>
-</nav>
+<div class="navbar-fixed">
+    <nav class="top-nav blue darken-2">
+        <div class="nav-wrapper">
+
+                <a href="#" class="brand-logo center hidden-md hidden-sm hidden-xs" style="font-weight: 200;">{{ config('custom.site_name') }}</a>
+                <a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">menu</i></a>
+                <ul class="right">
+                    <li><a href="#modal_logout" class="modal-trigger"><i class="fa fa-power-off" aria-hidden="true"></i></a></li>
+                </ul>
+
+        </div>
+    </nav>
+</div>
 
 <div id="modal_logout" class="modal">
     <div class="modal-content">

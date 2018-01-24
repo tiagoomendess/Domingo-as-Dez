@@ -13,4 +13,5 @@ return [
     'social_logins' => true,
     'default_profile_pic' => '/images/default-profile.png',
     'site_logo' => '/images/domingo.png',
+    'results_per_page' => 15,
 ];

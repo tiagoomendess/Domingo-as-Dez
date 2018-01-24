@@ -2,21 +2,28 @@
 
 namespace App\Http\Controllers\Resources;
 
-use App\Article;
+use App\Media;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class ArticleController extends Controller
+class MediaController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('permission:media');
+        $this->middleware('permission:media.edit')->except('index');
+    }
+
     /**
      * Display a listing of the resource.
-     *
      *
      */
     public function index()
     {
-        $articles = Article::paginate(config('custom.results_per_page'));
-        return view('backoffice.pages.articles')->with(['articles' => $articles]);
+        $medias = Media::paginate(config('custom.results_per_page'));
+        return view('backoffice.pages.media')->with(['medias' => $medias]);
     }
 
     /**
@@ -26,7 +33,7 @@ class ArticleController extends Controller
      */
     public function create()
     {
-        //
+        return view('backoffice.pages.create_media');
     }
 
     /**
@@ -43,10 +50,10 @@ class ArticleController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Article  $article
+     * @param  \App\Media  $media
      * @return \Illuminate\Http\Response
      */
-    public function show(Article $article)
+    public function show(Media $media)
     {
         //
     }
@@ -54,10 +61,10 @@ class ArticleController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Article  $article
+     * @param  \App\Media  $media
      * @return \Illuminate\Http\Response
      */
-    public function edit(Article $article)
+    public function edit(Media $media)
     {
         //
     }
@@ -66,10 +73,10 @@ class ArticleController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Article  $article
+     * @param  \App\Media  $media
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Article $article)
+    public function update(Request $request, Media $media)
     {
         //
     }
@@ -77,10 +84,10 @@ class ArticleController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Article  $article
+     * @param  \App\Media  $media
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Article $article)
+    public function destroy(Media $media)
     {
         //
     }

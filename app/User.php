@@ -63,6 +63,17 @@ class User extends Authenticatable
         return $this->hasMany('App\SocialProvider');
     }
 
+    public function hasPermission($permission) {
+        $permissions = $this->permissions;
+
+        foreach ($permissions as $perm) {
+            if ($perm->name == $permission || $perm->name == 'admin')
+                return true;
+        }
+
+        return false;
+    }
+
     public function sendPasswordResetNotification($token)
     {
         $this->notify(new MyResetPasswordNotification($token));

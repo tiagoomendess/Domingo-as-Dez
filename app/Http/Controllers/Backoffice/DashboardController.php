@@ -15,9 +15,6 @@ class DashboardController extends Controller
 
     public function index() {
 
-        $user = Auth::user();
-        $permissions = $user->permissions;
-
-        return view('backoffice.pages.dashboard')->with(['user' => $user, 'permissions' => $permissions]);
+        return view('backoffice.pages.dashboard');
     }
 }

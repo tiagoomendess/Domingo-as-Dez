@@ -26,7 +26,7 @@ class CheckPermission
         $permissions = $user->permissions;
 
         foreach ($permissions as $perm) {
-            if ($perm->name == $permission)
+            if ($perm->name == $permission || $perm->name == 'admin')
                 return $next($request);
         }
 

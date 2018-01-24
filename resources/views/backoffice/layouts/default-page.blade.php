@@ -5,7 +5,7 @@
     <link type="text/css" rel="stylesheet" href="/materialize/css/materialize.min.css"  media="screen,projection"/>
     <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
     <link type="text/css" rel="stylesheet" href="/css/backoffice_style.css"  media="screen,projection"/>
-    @yield('head')
+    @yield('head-content')
 @endsection
 
 @section('body')
@@ -14,16 +14,17 @@
 
         @include('backoffice.partial.sidenav')
 
-        <div class="content-wrapper">
+
             @include('backoffice.partial.navbar')
 
             <div class="row">
-                <div class="col s12">
-                    @yield('content')
+                <div class="content-wrapper">
+                    <div class="col s12">
+                        @yield('content')
+                    </div>
                 </div>
-
             </div>
-        </div>
+
     </div>
 
     <!-- End of page, load scripts -->
@@ -39,5 +40,12 @@
             }
         );
 
+        $(document).ready(function(){
+            // the "href" attribute of the modal trigger must specify the modal ID that wants to be triggered
+            $('#modal_logout').modal();
+        });
+
     </script>
+
+    @yield('scripts')
 @endsection

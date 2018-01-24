@@ -25,3 +25,10 @@ Route::get('/login/{provider}/callback','Auth\LoginController@handleProviderCall
 Route::get('/', 'Front\HomePageController@index')->name('home');
 
 Route::get('/dashboard', 'Backoffice\DashboardController@index')->name('dashboard');
+
+//Resources ---------------------
+Route::resources([
+    'media' => 'Resources\MediaController',
+    'articles' => 'Resources\ArticleController',
+]);
+//End of Resources
