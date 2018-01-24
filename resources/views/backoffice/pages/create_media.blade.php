@@ -16,7 +16,7 @@
     @include('backoffice.partial.form_errors')
 
     <div class="row">
-        <form class="" method="POST" action="{{ route('media.store') }}">
+        <form class="" method="POST" action="{{ route('media.store') }}" enctype="multipart/form-data">
 
             {{ csrf_field() }}
 
@@ -40,7 +40,7 @@
                 <div class="file-field input-field col s12 l5">
                     <div class="btn">
                         <span>{{ trans('general.file') }}</span>
-                        <input name="file" type="file" multiple>
+                        <input name="file" type="file">
                     </div>
 
                     <div class="file-path-wrapper">

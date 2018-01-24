@@ -32,3 +32,5 @@ Route::resources([
     'articles' => 'Resources\ArticleController',
 ]);
 //End of Resources
+
+Route::get('/app_media/{filename}', 'Front\PublicMediaController@show')->name('showMedia');

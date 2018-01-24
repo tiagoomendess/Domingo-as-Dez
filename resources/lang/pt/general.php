@@ -15,7 +15,8 @@ return [
     'title' => 'Titulo',
     'description' => 'Descrição',
     'author' => 'Autor',
-    'created_at' => 'Criado a',
+    'created_at' => 'Criado em',
+    'updated_at' => 'Alterado em',
     'url' => 'Url',
     'link' => 'Link',
     'visible' => 'Visível',
@@ -26,4 +27,5 @@ return [
     'tags' => 'Tags',
     'tags_help' => 'Palavras separadas por vírgulas',
     'file' => 'Ficheiro',
+    'id' => 'Id',
 ];

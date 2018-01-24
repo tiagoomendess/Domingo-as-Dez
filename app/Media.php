@@ -19,4 +19,8 @@ class Media extends Model
     public function  articles() {
         return $this->hasMany('App\Article');
     }
+
+    public function publicUrl() {
+        return str_replace('media', 'app_media', $this->url);
+    }
 }
