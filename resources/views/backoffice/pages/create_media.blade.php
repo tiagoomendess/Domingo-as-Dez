@@ -22,7 +22,7 @@
 
             <div class="row">
                 <div class="input-field col s12">
-                    <input name="tags" placeholder="{{ trans('general.tags_help') }}" id="tags" type="text" class="validate" required>
+                    <input name="tags" placeholder="{{ trans('general.tags_help') }}" id="tags" type="text" value="{{ old('tags') }}" class="validate" required>
                     <label for="first_name">{{ trans('general.tags') }}</label>
                 </div>
             </div>
@@ -30,7 +30,7 @@
             <div class="row">
                 <div class="input-field col s12 l5">
                     <input name="url" id="url" type="text" class="validate">
-                    <label for="first_name">{{ trans('general.url') }}</label>
+                    <label for="url">{{ trans('general.url') }}</label>
                 </div>
 
                 <div class="col s12 l2">
@@ -64,7 +64,7 @@
 
             <div class="row">
                 <div class="file-field input-field col s5">
-                    <button class="btn waves-effect waves-light" type="submit" name="action">Submit
+                    <button class="btn waves-effect waves-light" type="submit" name="action">{{ trans('general.send') }}
                         <i class="material-icons right">send</i>
                     </button>
                 </div>

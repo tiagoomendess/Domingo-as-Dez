@@ -12,7 +12,7 @@
     </li>
 
     @if(Auth::user()->hasPermission('articles'))
-        <li><a class="waves-effect" href="#">{{ trans('models.articles') }}</a></li>
+        <li><a class="waves-effect" href="{{ route('articles.index') }}">{{ trans('models.articles') }}</a></li>
     @endif
 
     @if(Auth::user()->hasPermission('clubs'))
@@ -28,6 +28,6 @@
     @endif
 
     @if(Auth::user()->hasPermission('media'))
-        <li><a class="waves-effect" href="#">{{ trans('models.media') }}</a></li>
+        <li><a class="waves-effect" href="{{ route('media.index') }}">{{ trans('models.media') }}</a></li>
     @endif
 </ul>

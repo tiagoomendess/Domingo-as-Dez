@@ -25,5 +25,9 @@ return [
     'no_teams' => 'Não há equipas',
     'no_media' => 'Não há multimédia.',
     'media_type' => 'Tipo de Multimédia',
+    'id' => 'Id',
+    'name' => 'Nome',
+    'visible' => 'Visivel',
+    'delete_warning' => 'Tem a certeza que quer apagar este recurso?',
 
 ];

@@ -152,21 +152,38 @@ class MediaController extends Controller
      * @param  \App\Media  $media
      * @return \Illuminate\Http\Response
      */
-    public function edit(Media $media)
+    public function edit($id)
     {
-        //
+        $media = Media::findOrFail($id);
+        return view('backoffice.pages.edit_media', ['media' => $media]);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Media  $media
+     * @param  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Media $media)
+    public function update(Request $request, $id)
     {
-        //
+        $media = Media::findOrFail($id);
+
+        $request->validate([
+            'tags' => 'required|max:255|String',
+            'visible' => 'required',
+        ]);
+
+        if($request->input('visible') == 'true')
+            $visible = true;
+        else
+            $visible = false;
+
+        $media->tags = str_replace(', ', ',', $request->input('tags'));
+        $media->visible = $visible;
+        $media->save();
+
+        return redirect(route('media.show', ['media' => $media]));
     }
 
     /**
