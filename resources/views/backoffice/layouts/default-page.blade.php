@@ -20,6 +20,7 @@
             <div class="row">
                 <div class="content-wrapper">
                     <div class="col s12">
+
                         @yield('content')
                     </div>
                 </div>
@@ -46,6 +47,10 @@
         });
 
     </script>
+
+    @if(Session::has('popup_message'))
+        @include('backoffice.partial.popup_message')
+    @endif
 
     @yield('scripts')
 @endsection

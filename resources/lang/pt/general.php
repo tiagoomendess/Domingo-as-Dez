@@ -38,4 +38,8 @@ return [
     'warning' => 'Aviso',
     'success' => 'Sucesso',
     'error' => 'Erro',
+    'message' => 'Mensagem',
+    'today' => 'Hoje',
+    'clear' => 'Limpar',
+    'date' => 'Data',
 ];

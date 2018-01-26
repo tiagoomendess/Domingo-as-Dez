@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Resources;
 
 use App\Media;
+use Illuminate\Contracts\Session\Session;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\MessageBag;
 use Illuminate\Support\Facades\Auth;
+use League\Flysystem\Exception;
 
 class MediaController extends Controller
 {
@@ -17,10 +19,6 @@ class MediaController extends Controller
         $this->middleware('auth');
         $this->middleware('permission:media');
         $this->middleware('permission:media.edit')->except('index');
-    }
-
-    public function getMediaFromOutside($filename) {
-
     }
 
     /**
@@ -131,7 +129,10 @@ class MediaController extends Controller
             }
         }
 
-        return redirect()->route('media.show', ['media' => $media]);
+        $message = new MessageBag();
+        $message->add('sucess', trans('sucess.model_added', ['model_name' => trans('models.media')]));
+
+        return redirect()->route('media.show', ['media' => $media])->with(['popup_message' => $message]);
     }
 
     /**
@@ -183,7 +184,10 @@ class MediaController extends Controller
         $media->visible = $visible;
         $media->save();
 
-        return redirect(route('media.show', ['media' => $media]));
+        $message = new MessageBag();
+        $message->add('sucess', trans('sucess.model_edited', ['model_name' => trans('models.media')]));
+
+        return redirect(route('media.show', ['media' => $media]))->with('popup_message', $message);
     }
 
     /**
@@ -192,8 +196,38 @@ class MediaController extends Controller
      * @param  \App\Media  $media
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Media $media)
+    public function destroy($id)
     {
-        //
+        $media = Media::findOrFail($id);
+
+        $articles = $media->articles;
+
+        foreach ($articles as $article) {
+            $article->media_id = null;
+            $article->save();
+        }
+
+        //if it does not huave http means it's a local file
+        if (!str_contains($media->url, 'http')){
+
+            $path = str_replace('storage', 'public', $media->url);
+
+            try {
+                Storage::delete($path);
+            } catch (Exception $e) {
+                $errors = new MessageBag();
+                $errors->add('error_deleting', trans('errors.deleting_file'));
+                Session::flash('popup_errors', $errors);
+            }
+
+        }
+
+        $media->delete();
+
+        $messages = new MessageBag();
+        $messages->add('sucess', trans('sucess.model_deleted', ['model_name' => trans('models.media')]));
+
+
+        return redirect()->route('media.index')->with('popup_message', $messages);
     }
 }

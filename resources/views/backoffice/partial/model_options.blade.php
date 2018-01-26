@@ -11,12 +11,27 @@
 <!-- Modal Structure -->
 <div id="delete_modal" class="modal">
     <div class="modal-content">
-        <h4 class="">{{ trans('general.warning') }}</h4>
-        <p class="flow-text">{{ trans('models.delete_warning') }}</p>
-    </div>
-    <div class="modal-footer">
-        <a href="#" class="modal-action modal-close waves-effect waves-green btn-flat">{{ trans('general.no') }}</a>
-        <a href="#" class="modal-action waves-effect waves-green btn-flat">{{ trans('general.yes') }}</a>
+        <h4 class="center">{{ trans('general.warning') }}</h4>
+        <p class="flow-text center">{{ trans('models.delete_warning') }}</p>
+
+        <div class="row">
+            <div class="col s6">
+                <a href="#" class="modal-close waves-effect waves-light btn-large green right">{{ trans('general.no') }}</a>
+            </div>
+
+            <div class="col s6">
+                <form action="{{ $delete_route }}" method="POST">
+
+                    {{ method_field('DELETE') }}
+                    {{ csrf_field() }}
+
+                    <button class="btn waves-effect waves-light red darken-1 btn-large" type="submit" name="action">{{ trans('general.yes') }}
+                    </button>
+
+                </form>
+            </div>
+
+        </div>
     </div>
 </div>
 
