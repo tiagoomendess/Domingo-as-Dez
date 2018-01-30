@@ -10,16 +10,17 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\MessageBag;
 use Illuminate\Support\Facades\Auth;
 use League\Flysystem\Exception;
+use Illuminate\Support\Facades\DB;
 
 class MediaController extends Controller
 {
 
     public function __construct()
     {
-
+/*
         $this->middleware('auth');
         $this->middleware('permission:media');
-        $this->middleware('permission:media.edit')->except('index');
+        $this->middleware('permission:media.edit')->except('index');*/
     }
 
     /**
@@ -35,13 +36,26 @@ class MediaController extends Controller
     public function mediaQuery(Request $request) {
 
         $request->validate([
-            'tags' => 'required|string|max:155'
+            'tags' => 'nullable|string|max:155'
         ]);
 
-        if($request->input('tags') == 'all') {
-            $medias = Media::paginate(config('custom.results_per_page'));
+        if ($request->input('tags') == null)
+            $tags = 'all';
+
+        $tags = str_replace(', ', ',', $request->input('tags'));
+        $tags_array = explode(',', $tags);
+
+        if($tags == 'all') {
+            $medias = Media::where('visible', true)->orderBy('id', 'desc')->limit(config('custom.results_per_page'))->get();
         } else {
-            $medias = Media::where('tags', 'like', '%' . $request->input('tags') . '%')->paginate(config('custom.results_per_page'));
+
+            $medias = DB::table('media')->where('tags', 'like', '%' . $tags_array[0] . '%');
+
+            for($i = 1; $i < count($tags_array); $i++) {
+                $medias = $medias->orWhere('tags', 'like', '%' . $tags_array[$i] . '%');
+            }
+
+            $medias = $medias->where('visible', true)->orderBy('id', 'desc')->limit(config('custom.results_per_page'))->get();
         }
 
         return response()->json(['response' => $medias]);

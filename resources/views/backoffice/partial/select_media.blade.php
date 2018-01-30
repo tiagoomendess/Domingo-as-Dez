@@ -38,6 +38,8 @@
 
             var tags = $('#tags').val();
 
+            //alert(tags);
+
             $.post('/media_query', { tags: tags }, function (callback) {
 
                 buildList(callback.response);
@@ -48,11 +50,16 @@
 
     function buildList(response) {
 
+        console.log(response.length);
+
         var media_list = $('#media_list');
 
         media_list.empty();
 
-        for (var i = 0; i < response.total; i++) {
+        for (var i = 0; i < response.length; i++) {
+
+            if (response[i].visible == false)
+                continue;
 
             var m1 = $('<div></div>');
             m1.addClass('col s4 l3');
@@ -63,7 +70,7 @@
             m2.addClass('modal-close');
             m2.attr('id', 'm_2_' + i);
             m2.attr('href', '#');
-            m2.attr('onclick', 'setSelectedMediaId(' + response.data[i].id + ')');
+            m2.attr('onclick', 'setSelectedMediaId(' + response[i].id + ')');
             m2.appendTo(m1);
 
             var m3 = $('<div></div>');
@@ -77,10 +84,10 @@
             m4.attr('id', 'm_4_' + i);
             m4.appendTo(m3);
 
-            if (response.data[i].media_type == 'image') {
+            if (response[i].media_type == 'image') {
                 var m5 = $('<img/>');
                 m5.attr('id', 'm_5_' + i);
-                m5.attr('src', response.data[i].url);
+                m5.attr('src', response[i].url);
                 m5.appendTo(m4);
             } else {
                 var m5 = $('<img/>');
@@ -89,7 +96,7 @@
                 m5.appendTo(m4);
             }
 
-            var m6 = $('<p>' + response.data[i].media_type + '<br>' + response.data[i].tags + '</p>');
+            var m6 = $('<p>' + response[i].media_type + '<br>' + response[i].tags + '</p>');
             m6.attr('id', 'm_6_' + i);
             m6.addClass('truncate center');
             m6.appendTo(m4);

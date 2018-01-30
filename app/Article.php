@@ -15,7 +15,7 @@ class Article extends Model
     protected $hidden = [];
     **/
 
-    protected $fillable = ['media_id', 'title', 'description', 'text', 'user_id', 'date', 'visible'];
+    protected $fillable = ['media_id', 'title', 'description', 'text', 'user_id', 'date', 'tags', 'visible'];
 
     protected $guarded = [];
 

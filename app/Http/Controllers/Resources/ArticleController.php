@@ -6,6 +6,8 @@ use App\Article;
 use App\Media;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class ArticleController extends Controller
 {
@@ -49,9 +51,10 @@ class ArticleController extends Controller
         $request->validate([
             'title' => 'required|max:155|string',
             'description' => 'required|max:280|string',
+            'selected_media_id' => 'nullable|integer',
             'editor1' => 'required|max:65000|string',
-            'url' => 'required_without:file|max:255|url|nullable',
-            'file' => 'nullable|required_without:url|file|max:200000',
+            'date' => 'required|date',
+            'tags' => 'nullable|string|max:280',
             'visible' => 'required',
         ]);
 
@@ -62,19 +65,26 @@ class ArticleController extends Controller
         else
             $visible = false;
 
+        $title = $request->input('title');
+        $description = $request->input('description');
+        $media_id = $request->input('selected_media_id');
+        $text = $request->input('editor1');
+        $date = $request->input('date');
+        $tags = str_replace(', ', ',', $request->input('tags'));
 
-        if ($request->input('url') != null) {
+        $date = Carbon::createFromFormat('d-m-Y', $date)->toDateTimeString();
 
-            $media = Media::where('url', $request->input('url'))->first();
+        $article = Article::create([
+            'title' => $title,
+            'description' => $description,
+            'media_id' => $media_id,
+            'text' => $text,
+            'date' => $date,
+            'tags' => $tags,
+            'user_id' => $user->id,
+        ]);
 
-            if (!$media) {
-
-                $media = Media::create([
-                    ''
-                ]);
-            }
-        }
-
+        return redirect(route('articles.show', ['article' => $article]));
     }
 
     /**
@@ -86,7 +96,12 @@ class ArticleController extends Controller
     {
         $article = Article::findOrFail($id);
 
-        return view('backoffice.pages.article', ['article' => $article]);
+        if ($article->media_id == null)
+            $media = null;
+        else
+            $media = Media::find($article->media_id);
+
+        return view('backoffice.pages.article', ['article' => $article, 'media' => $media]);
     }
 
     /**

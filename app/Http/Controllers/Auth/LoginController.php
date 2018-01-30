@@ -75,7 +75,7 @@ class LoginController extends Controller
         //check if the user is verified
         $user = User::where('email', $request->get('email'))->first();
 
-        if (!$user->verified) {
+        if (!$user || !$user->verified) {
             $this->incrementLoginAttempts($request);
             return $this->sendFailedLoginResponse($request);
         }

@@ -21,6 +21,7 @@ class CreateArticlesTable extends Migration
             $table->longText('text');
             $table->integer('user_id');
             $table->timestamp('date');
+            $table->text('tags')->nullable();
             $table->boolean('visible')->default(true);
             $table->timestamps();
         });
