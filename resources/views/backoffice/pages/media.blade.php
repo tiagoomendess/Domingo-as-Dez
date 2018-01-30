@@ -16,7 +16,7 @@
             <br>
             @if($media->media_type == 'image')
 
-                <img class="responsive-img" src="{{ $media->url }}">
+                <img style="max-width: 50%;" class="responsive-img materialboxed" src="{{ $media->url }}">
 
             @elseif($media->media_type == 'video')
 
@@ -47,4 +47,13 @@
         @include('backoffice.partial.model_options', ['edit_route' => route('media.edit', ['media' => $media]), 'delete_route' => route('media.destroy', ['media' => $media])])
     @endif
 
+@endsection
+
+@section('scripts')
+    <script>
+        $(document).ready(function(){
+            $('.materialboxed').materialbox();
+        });
+
+    </script>
 @endsection

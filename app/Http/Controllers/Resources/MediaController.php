@@ -17,10 +17,10 @@ class MediaController extends Controller
 
     public function __construct()
     {
-/*
+
         $this->middleware('auth');
         $this->middleware('permission:media');
-        $this->middleware('permission:media.edit')->except('index');*/
+        $this->middleware('permission:media.edit')->except('index');
     }
 
     /**
@@ -160,7 +160,7 @@ class MediaController extends Controller
         }
 
         $message = new MessageBag();
-        $message->add('sucess', trans('sucess.model_added', ['model_name' => trans('models.media')]));
+        $message->add('success', trans('success.model_added', ['model_name' => trans('models.media')]));
 
         return redirect()->route('media.show', ['media' => $media])->with(['popup_message' => $message]);
     }
@@ -205,6 +205,17 @@ class MediaController extends Controller
             'visible' => 'required',
         ]);
 
+        $user = Auth::user();
+        if ($user->id != $media->user_id) {
+            if(!$user->hasPermission('admin')) {
+
+                $error = new MessageBag();
+                $error->add('error', trans('errors.no_permission'));
+
+                return redirect(route('media.show', ['media' => $media]))->with(['popup_message' => $error]);
+            }
+        }
+
         if($request->input('visible') == 'true')
             $visible = true;
         else
@@ -215,7 +226,7 @@ class MediaController extends Controller
         $media->save();
 
         $message = new MessageBag();
-        $message->add('sucess', trans('sucess.model_edited', ['model_name' => trans('models.media')]));
+        $message->add('success', trans('success.model_edited', ['model_name' => trans('models.media')]));
 
         return redirect(route('media.show', ['media' => $media]))->with('popup_message', $message);
     }
@@ -229,6 +240,17 @@ class MediaController extends Controller
     public function destroy($id)
     {
         $media = Media::findOrFail($id);
+
+        $user = Auth::user();
+        if ($user->id != $media->user_id) {
+            if(!$user->hasPermission('admin')) {
+
+                $error = new MessageBag();
+                $error->add('error', trans('errors.no_permission'));
+
+                return redirect(route('media.show', ['media' => $media]))->with(['popup_message' => $error]);
+            }
+        }
 
         $articles = $media->articles;
 
@@ -255,7 +277,7 @@ class MediaController extends Controller
         $media->delete();
 
         $messages = new MessageBag();
-        $messages->add('sucess', trans('sucess.model_deleted', ['model_name' => trans('models.media')]));
+        $messages->add('success', trans('success.model_deleted', ['model_name' => trans('models.media')]));
 
 
         return redirect()->route('media.index')->with('popup_message', $messages);

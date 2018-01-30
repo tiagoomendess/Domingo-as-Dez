@@ -22,7 +22,7 @@
 
             <div class="row">
                 <div class="input-field col s12">
-                    <input id="title" name="title" type="text" class="validate" data-length="155">
+                    <input id="title" name="title" type="text" class="validate" data-length="155" value="{{ old('title') }}">
                     <label for="title">{{ trans('general.title') }}</label>
                 </div>
             </div>
@@ -31,9 +31,7 @@
                 <form class="col s12">
                     <div class="row">
                         <div class="input-field col s12">
-                            <textarea id="description" name="description" class="materialize-textarea" data-length="280" rows="1">
-                                {{ old('description') }}
-                            </textarea>
+                            <textarea id="description" name="description" class="materialize-textarea" data-length="280" rows="1">{{ old('description') }}</textarea>
                             <label for="description">{{ trans('general.description') }}</label>
                         </div>
                     </div>
@@ -105,6 +103,8 @@
 
     @include('backoffice.partial.select_media')
 
+    @include('backoffice.partial.pick_a_date_js')
+
     <script type="text/javascript" src="/ckeditor4/ckeditor.js"></script>
 
     <script>
@@ -116,15 +116,6 @@
 
             $('input#title').characterCounter();
 
-            $('.datepicker').pickadate({
-                format: 'dd-mm-yyyy',
-                selectMonths: true,
-                selectYears: 3,
-                today: '{{ trans('general.today') }}',
-                clear: '{{ trans('general.clear') }}',
-                close: '{{ trans('general.ok') }}',
-                closeOnSelect: false
-            });
         });
 
     </script>

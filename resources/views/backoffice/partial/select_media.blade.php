@@ -5,16 +5,17 @@
         <div class="row">
             <div class="col s12">
                 <div class="row">
-                    <div class="input-field inline">
-                        <input name="tags" id="tags" type="text" class="validate">
-                        <label for="tags">{{ trans('general.tags') }}</label>
+                    <div class="center">
+                        <div class="input-field inline">
+                            <input name="tags_search" id="tags_search" type="text" class="validate">
+                            <label for="tags_search">{{ trans('general.tags') }}</label>
+                        </div>
+
+                        <div class="input-field inline">
+                            <a id="search_media" class="btn waves-effect waves-light">{{ trans('general.search') }}</a>
+                        </div>
                     </div>
 
-                    <div class="input-field inline">
-
-                        <a id="search_media" class="btn waves-effect waves-light">{{ trans('general.search') }}</a>
-
-                    </div>
                 </div>
             </div>
         </div>
@@ -32,13 +33,20 @@
 </div>
 
 <script>
+
+    $(document).ready(function () {
+        $.post('/media_query', { tags: 'all' }, function (callback) {
+
+            buildList(callback.response);
+
+        });
+    });
+
     $(function () {
 
         $('#search_media').on('click', function () {
 
-            var tags = $('#tags').val();
-
-            //alert(tags);
+            var tags = $('#tags_search').val();
 
             $.post('/media_query', { tags: tags }, function (callback) {
 
@@ -55,6 +63,12 @@
         var media_list = $('#media_list');
 
         media_list.empty();
+
+        if(response.length < 1) {
+            var error_msg = $('<p>{{ trans('errors.search_no_results') }}</p>');
+            error_msg.addClass('flow-text red-text center');
+            error_msg.appendTo(media_list);
+        }
 
         for (var i = 0; i < response.length; i++) {
 

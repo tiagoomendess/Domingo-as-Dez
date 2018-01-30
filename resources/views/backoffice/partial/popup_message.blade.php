@@ -21,8 +21,8 @@
                 @endforeach
             @endif
 
-            @if(isset(Session::get('popup_message')->messages()['sucess']))
-                @foreach(Session::get('popup_message')->messages()['sucess'] as $message)
+            @if(isset(Session::get('popup_message')->messages()['success']))
+                @foreach(Session::get('popup_message')->messages()['success'] as $message)
                     <li class="green-text">{{ $message }}</li>
                 @endforeach
             @endif

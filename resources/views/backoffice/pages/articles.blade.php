@@ -26,9 +26,12 @@
                     </thead>
 
                     @foreach($articles as $article)
-                        <td>{{ $article->title }}</td>
-                        <td>{{ $article->created_at }}</td>
-                        <td>{{ $article->user->name }}</td>
+                        <tr>
+                            <td><a href="{{ route('articles.show', ['article' => $article]) }}">{{ $article->title }}</a></td>
+                            <td>{{ $article->created_at }}</td>
+                            <td>{{ $article->user->name }}</td>
+                        </tr>
+
                     @endforeach
 
                     {{ $articles->links() }}
@@ -37,7 +40,7 @@
         </div>
     </div>
 
-    @if(Auth::user()->hasPermission('media.edit'))
+    @if(Auth::user()->hasPermission('articles.edit'))
         <div class="fixed-action-btn">
             <a class="btn-floating btn-large green waves-effect" href="{{ route('articles.create') }}">
                 <i class="large material-icons">add</i>

@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use Illuminate\Support\MessageBag;
 
 class ArticleController extends Controller
 {
@@ -50,7 +51,7 @@ class ArticleController extends Controller
     {
         $request->validate([
             'title' => 'required|max:155|string',
-            'description' => 'required|max:280|string',
+            'description' => 'nullable|max:280|string',
             'selected_media_id' => 'nullable|integer',
             'editor1' => 'required|max:65000|string',
             'date' => 'required|date',
@@ -72,7 +73,10 @@ class ArticleController extends Controller
         $date = $request->input('date');
         $tags = str_replace(', ', ',', $request->input('tags'));
 
-        $date = Carbon::createFromFormat('d-m-Y', $date)->toDateTimeString();
+        $media = Media::where('id', $media_id)->where('visible', true)->get();
+
+        if (count($media) != 1)
+            $media_id = null;
 
         $article = Article::create([
             'title' => $title,
@@ -126,7 +130,52 @@ class ArticleController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'title' => 'required|max:155|string',
+            'description' => 'nullable|max:280|string',
+            'selected_media_id' => 'nullable|integer',
+            'editor1' => 'required|max:65000|string',
+            'date' => 'required|date',
+            'tags' => 'nullable|string|max:280',
+            'visible' => 'required',
+        ]);
+
+        $messages = new MessageBag();
+
+        $article = Article::findOrFail($id);
+        $user = Auth::user();
+        if ($user->id != $article->user_id) {
+            if(!$user->hasPermission('admin')) {
+
+                $error = new MessageBag();
+                $error->add('error', trans('errors.no_permission'));
+
+                return redirect(route('articles.show', ['article' => $article]))->with(['popup_message' => $error]);
+            }
+        }
+
+        if($request->input('visible') == 'true')
+            $visible = true;
+        else
+            $visible = false;
+
+        $media_id = $request->input('selected_media_id');
+        $media = Media::where('id', $media_id)->where('visible', true)->get();
+
+        if (count($media) != 1)
+            $media_id = null;
+
+        $article->title = $request->input('title');
+        $article->description = $request->input('description');
+        $article->media_id = $media_id;
+        $article->text = $request->input('editor1');
+        $article->date = $request->input('date');
+        $article->tags = str_replace(', ', ',', $request->input('tags'));
+        $article->save();
+
+        $messages->add('success', trans('success.model_edited', ['model_name' => trans('models.article')]));
+
+        return redirect(route('articles.show', ['article' => $article]))->with(['popup_message' => $messages]);
     }
 
     /**
@@ -137,6 +186,23 @@ class ArticleController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = Auth::user();
+        $article = Article::findOrFail($id);
+
+        if ($user->id != $article->user_id) {
+            if(!$user->hasPermission('admin')) {
+
+                $error = new MessageBag();
+                $error->add('error', trans('errors.no_permission'));
+
+                return redirect(route('articles.show', ['article' => $article]))->with(['popup_message' => $error]);
+            }
+        }
+
+        $article->delete();
+        $message = new MessageBag();
+        $message->add('success', trans('success.model_deleted', ['model_name' => trans('models.article')]));
+
+        return redirect(route('articles.index'))->with(['popup_message' => $message]);
     }
 }

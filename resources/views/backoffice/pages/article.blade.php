@@ -13,13 +13,13 @@
 
     <div class="row">
         <div class="col s12">
-            <h3><b>{{ trans('general.title') }}:</b> {{ $article->title }}</h3>
-            <p class="flow-text"><b>{{ trans('general.description') }}:</b> {{ $article->description }}</p>
+            <h3>{{ $article->title }}</h3>
+
 
             @if($media)
                 @if($media->media_type == 'image')
 
-                    <img class="responsive-img" src="{{ $media->url }}">
+                    <img style="max-width: 50%;" class="responsive-img materialboxed" src="{{ $media->url }}">
 
                 @elseif($media->media_type == 'video')
 
@@ -34,9 +34,17 @@
                 @endif
             @endif
 
+            <p class="flow-text">{{ $article->description }}</p>
+
+            <div>
+                {!! $article->text !!}
+            </div>
+
             <p class="flow-text">
+
                 <b>{{ trans('general.id') }} : </b> {{ $article->id }} <br>
                 <b>{{ trans('general.tags') }} : </b> {{ $article->tags }} <br>
+                <b>{{ trans('general.date') }} : </b> {{ $article->date }} <br>
                 <b>{{ trans('general.visible') }} : </b> {{ $article->visible }} <br>
                 <b>{{ trans('general.author') }} : </b> {{ App\User::find($article->user_id)->name }} <br>
                 <b>{{ trans('general.created_at') }} : </b> {{ $article->created_at }} <br>
@@ -47,6 +55,14 @@
 
 @endsection
 
-@if(Auth::user()->hasPermission('media.edit'))
+@if(Auth::user()->hasPermission('articles.edit'))
     @include('backoffice.partial.model_options', ['edit_route' => route('articles.edit', ['article' => $article]), 'delete_route' => route('articles.destroy', ['article' => $article])])
 @endif
+
+@section('scripts')
+    <script>
+        $(document).ready(function(){
+            $('.materialboxed').materialbox();
+        });
+    </script>
+@endsection
