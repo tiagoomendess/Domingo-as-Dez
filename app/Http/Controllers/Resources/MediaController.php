@@ -16,6 +16,7 @@ class MediaController extends Controller
 
     public function __construct()
     {
+
         $this->middleware('auth');
         $this->middleware('permission:media');
         $this->middleware('permission:media.edit')->except('index');
@@ -29,6 +30,21 @@ class MediaController extends Controller
     {
         $medias = Media::paginate(config('custom.results_per_page'));
         return view('backoffice.pages.medias')->with(['medias' => $medias]);
+    }
+
+    public function mediaQuery(Request $request) {
+
+        $request->validate([
+            'tags' => 'required|string|max:155'
+        ]);
+
+        if($request->input('tags') == 'all') {
+            $medias = Media::paginate(config('custom.results_per_page'));
+        } else {
+            $medias = Media::where('tags', 'like', '%' . $request->input('tags') . '%')->paginate(config('custom.results_per_page'));
+        }
+
+        return response()->json(['response' => $medias]);
     }
 
     /**

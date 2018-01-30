@@ -27,12 +27,26 @@
                 <form class="col s12">
                     <div class="row">
                         <div class="input-field col s12">
-                            <textarea id="description" name="description" class="materialize-textarea" data-length="280"></textarea>
+                            <textarea id="description" name="description" class="materialize-textarea" data-length="280" rows="1"></textarea>
                             <label for="description">{{ trans('general.description') }}</label>
                         </div>
                     </div>
                 </form>
-            </div>
+
+
+                <div class="row">
+
+                    <div class="input-field inline">
+                        <a class="waves-effect waves-light btn modal-trigger" href="#select_media">Imagem</a>
+                    </div>
+
+                    <div class="input-field inline">
+                        <input id="selected_media_id" name="selected_media_id" type="number" class="validate" value="">
+                        <label for="selected_media_id">{{ trans('general.id') }}</label>
+                    </div>
+
+                </div>
+
 
             <div class="row">
                 <div class="col s12">
@@ -61,6 +75,14 @@
                 </div>
             </div>
 
+            <div class="row">
+                <div class="file-field input-field col s5">
+                    <button class="btn waves-effect waves-light" type="submit" name="action">{{ trans('general.send') }}
+                        <i class="material-icons right">send</i>
+                    </button>
+                </div>
+            </div>
+
         </form>
     </div>
 
@@ -68,12 +90,16 @@
 
 @section('scripts')
 
+    @include('backoffice.partial.select_media')
+
     <script type="text/javascript" src="/ckeditor4/ckeditor.js"></script>
 
     <script>
         $(document).ready(function() {
 
             CKEDITOR.replace( 'editor1' );
+
+            $('#select_media').modal();
 
             $('input#title').characterCounter();
 

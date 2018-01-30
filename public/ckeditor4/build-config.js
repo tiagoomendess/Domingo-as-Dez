@@ -13,10 +13,10 @@
  * (1) http://ckeditor.com/builder
  *     Visit online builder to build CKEditor from scratch.
  *
- * (2) http://ckeditor.com/builder/3da2db4f05155ed69e4856bf7c8a175b
+ * (2) http://ckeditor.com/builder/2b4c6cb12e5e0b51ea440e335d1e54b4
  *     Visit online builder to build CKEditor, starting with the same setup as before.
  *
- * (3) http://ckeditor.com/builder/download/3da2db4f05155ed69e4856bf7c8a175b
+ * (3) http://ckeditor.com/builder/download/2b4c6cb12e5e0b51ea440e335d1e54b4
  *     Straight download link to the latest version of CKEditor (Optimized) with the same setup as before.
  *
  * NOTE:
@@ -51,55 +51,48 @@ var CKBUILDER_CONFIG = {
 		'tests'
 	],
 	plugins : {
-		'SimpleImage' : 1,
 		'a11yhelp' : 1,
 		'about' : 1,
-		'allowsave' : 1,
+		'allmedias' : 1,
 		'base64image' : 1,
 		'basicstyles' : 1,
 		'blockquote' : 1,
+		'ckawesome' : 1,
 		'clipboard' : 1,
 		'contextmenu' : 1,
 		'elementspath' : 1,
+		'emojione' : 1,
 		'enterkey' : 1,
 		'entities' : 1,
 		'filebrowser' : 1,
 		'floatingspace' : 1,
 		'format' : 1,
+		'googledocs' : 1,
 		'horizontalrule' : 1,
 		'htmlwriter' : 1,
 		'image' : 1,
-		'imageresizerowandcolumn' : 1,
-		'imgur' : 1,
 		'indentlist' : 1,
 		'link' : 1,
 		'list' : 1,
-		'locationmap' : 1,
 		'magicline' : 1,
-		'markdown' : 1,
 		'maximize' : 1,
-		'pastebase64' : 1,
 		'pastefromword' : 1,
 		'pastetext' : 1,
-		'qrc' : 1,
 		'removeformat' : 1,
 		'resize' : 1,
 		'scayt' : 1,
 		'showborders' : 1,
-		'simage' : 1,
 		'sourcearea' : 1,
 		'specialchar' : 1,
 		'stylescombo' : 1,
-		'symbol' : 1,
 		'tab' : 1,
 		'table' : 1,
 		'tableselection' : 1,
 		'tabletools' : 1,
-		'textindent' : 1,
 		'toolbar' : 1,
 		'undo' : 1,
-		'uploadfile' : 1,
 		'uploadimage' : 1,
+		'video' : 1,
 		'videodetector' : 1,
 		'wsc' : 1,
 		'wysiwygarea' : 1

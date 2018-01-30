@@ -25,8 +25,6 @@ CKEDITOR.editorConfig = function( config ) {
 		{ name: 'colors' },
 		{ name: 'about' }
 	];
-	config.imgurClientID = '1fbdffaf59c3e88';
-	//e2ccb23d9c174c8dae65a78f9a953b44339bfe5d
 
 	// Remove some buttons provided by the standard plugins, which are
 	// not needed in the Standard(s) toolbar.

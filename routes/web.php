@@ -31,6 +31,6 @@ Route::resources([
     'media' => 'Resources\MediaController',
     'articles' => 'Resources\ArticleController',
 ]);
-//End of Resources
 
-Route::get('/app_media/{filename}', 'Front\PublicMediaController@show')->name('showMedia');
+Route::post('media_query', 'Resources\MediaController@mediaQuery')->name('mediaQuery');
+

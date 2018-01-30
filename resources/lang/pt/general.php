@@ -42,4 +42,6 @@ return [
     'today' => 'Hoje',
     'clear' => 'Limpar',
     'date' => 'Data',
+    'select' => 'Selecionar',
+    'search' => 'Procurar',
 ];
