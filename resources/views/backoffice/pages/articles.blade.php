@@ -16,7 +16,7 @@
             @if(!$articles || $articles->count() == 0)
                 <p class="flow-text">{{ trans('models.no_articles') }}</p>
             @else
-                <table class="responsive-table bordered">
+                <table class="bordered">
                     <thead>
                     <tr>
                         <th>{{ trans('general.title') }}</th>

@@ -11,10 +11,6 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Auth::routes();
 Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
 Route::get('/register/verify', 'Auth\RegisterController@verifyEmailPage')->name('verifyEmailPage');
@@ -30,7 +26,11 @@ Route::get('/dashboard', 'Backoffice\DashboardController@index')->name('dashboar
 Route::resources([
     'media' => 'Resources\MediaController',
     'articles' => 'Resources\ArticleController',
+    'permissions' => 'Resources\PermissionController',
+    'users' => 'Resources\UserController',
 ]);
+
+//Route::get('/users', 'Resources\UserController@index')->name('users.index');
 
 Route::post('media_query', 'Resources\MediaController@mediaQuery')->name('mediaQuery');
 

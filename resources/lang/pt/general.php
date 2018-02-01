@@ -10,6 +10,7 @@ return [
     'abort' => 'Abortar',
     'back' => 'Voltar',
     'name' => 'Nome',
+    'email' => 'Email',
     'image' => 'Imagem',
     'close' => 'Fechar',
     'title' => 'Titulo',
@@ -44,4 +45,9 @@ return [
     'date' => 'Data',
     'select' => 'Selecionar',
     'search' => 'Procurar',
+    'admins' => 'Administradores',
+    'all_users' => 'Todos os utilizadores',
+    'verified' => 'Verificado',
+    'bio' => 'Bio',
+    'phone' => 'Telefone',
 ];

@@ -24,10 +24,16 @@
     @endif
 
     @if(Auth::user()->hasPermission('games'))
-        <li><a class="waves-effect" href="#">{{ trans('models.teams') }}</a></li>
+        <li><a class="waves-effect" href="#">{{ trans('models.games') }}</a></li>
     @endif
 
     @if(Auth::user()->hasPermission('media'))
         <li><a class="waves-effect" href="{{ route('media.index') }}">{{ trans('models.media') }}</a></li>
     @endif
+
+    @if(Auth::user()->hasPermission('admin'))
+        <li><a class="waves-effect" href="{{ route('permissions.index') }}">{{ trans('models.permissions') }}</a></li>
+        <li><a class="waves-effect" href="{{ route('users.index') }}">{{ trans('models.users') }}</a></li>
+    @endif
+
 </ul>

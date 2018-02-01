@@ -13,7 +13,7 @@ class Permission extends Model
     protected $hidden = [];
 
     public function users() {
-        return $this->belongsToMany('App/User', 'user_permissions');
+        return $this->belongsToMany(User::class, 'user_permissions');
     }
 
 
