@@ -51,4 +51,7 @@
         </div>
     </div>
 
+    @include('backoffice.partial.model_options', ['edit_route' => route('users.edit', ['user' => $user])])
+
+
 @endsection
