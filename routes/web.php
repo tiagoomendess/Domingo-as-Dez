@@ -28,6 +28,9 @@ Route::resources([
     'articles' => 'Resources\ArticleController',
     'permissions' => 'Resources\PermissionController',
     'users' => 'Resources\UserController',
+    'users_profile' => 'Resources\UserProfileController',
+    'user_bans' => 'Resources\UserBanController',
+    'user_permissions' => 'Resources\UserPermissionsController',
 ]);
 
 //Route::get('/users', 'Resources\UserController@index')->name('users.index');

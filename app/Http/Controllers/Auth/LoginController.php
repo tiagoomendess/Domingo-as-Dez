@@ -80,6 +80,12 @@ class LoginController extends Controller
             return $this->sendFailedLoginResponse($request);
         }
 
+        //check if the user is banned
+        if ($user->isBanned()) {
+            $this->incrementLoginAttempts($request);
+            return $this->sendFailedLoginResponse($request);
+        }
+
         if ($this->attemptLogin($request)) {
             return $this->sendLoginResponse($request);
         }
@@ -165,15 +171,20 @@ class LoginController extends Controller
         }
 
         //If the user is banned
-        if ($user->ban) {
+        if ($user->isBanned()) {
+
             $errors = new MessageBag();
             $errors->add('login', trans('auth.banned'));
             return redirect()->route('login')->withErrors($errors);
+
         } else { //let him in
+
             Auth::login($user);
+
         }
 
         return redirect()->route('home');
 
     }
+
 }

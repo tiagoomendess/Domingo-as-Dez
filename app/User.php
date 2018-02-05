@@ -49,8 +49,8 @@ class User extends Authenticatable
         return $this->hasOne(UserProfile::class);
     }
 
-    public function ban() {
-        return $this->hasOne('App\UserBan', 'banned_user_id');
+    public function bans() {
+        return $this->hasMany('App\UserBan', 'banned_user_id');
     }
 
     public function bansGiven()
@@ -77,5 +77,26 @@ class User extends Authenticatable
     public function sendPasswordResetNotification($token)
     {
         $this->notify(new MyResetPasswordNotification($token));
+    }
+
+    public function isBanned() {
+
+        //Get all bans
+        $bans = $this->bans;
+
+        if(count($bans) > 0) {
+
+            foreach ($bans as $ban) {
+
+                //If there is as ban not pardoned
+                if(!$ban->pardoned)
+                    return true;
+            }
+
+        } else {
+            return false;
+        }
+
+        return false;
     }
 }

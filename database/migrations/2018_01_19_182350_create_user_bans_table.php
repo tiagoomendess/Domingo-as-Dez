@@ -18,6 +18,7 @@ class CreateUserBansTable extends Migration
             $table->integer('banned_user_id')->unique();
             $table->string('reason');
             $table->integer('banned_by_user_id');
+            $table->boolean('pardoned');
             $table->timestamps();
         });
     }

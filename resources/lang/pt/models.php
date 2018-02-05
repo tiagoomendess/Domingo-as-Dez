@@ -40,5 +40,10 @@ return [
     'name' => 'Nome',
     'visible' => 'Visivel',
     'delete_warning' => 'Tem a certeza que quer apagar este recurso?',
+    'email' => 'Email',
+    'picture' => 'Fotografia',
+    'bio' => 'Bio',
+    'reason' => 'Razão',
+    'banned_by' => 'Banido por',
 
 ];

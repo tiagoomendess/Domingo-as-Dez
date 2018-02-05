@@ -39,6 +39,11 @@ class UserController extends Controller
 
     public function edit($id) {
 
+        $user = User::findOrFail($id);
+        $permissions = $user->permissions;
+        $profile = $user->profile;
+
+        return view('backoffice.pages.edit_user', ['user' => $user, 'permissions' => $permissions, 'profile' => $profile]);
     }
 
     public function store(Request $request) {

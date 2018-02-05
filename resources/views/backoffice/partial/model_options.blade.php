@@ -49,7 +49,7 @@
         </div>
     </div>
 
-@section('scripts')
+    @section('scripts')
     <script>
 
         $(document).ready(function(){
@@ -58,7 +58,7 @@
         });
 
     </script>
-@endsection
+    @endsection
 
 @endif
 
