@@ -30,4 +30,10 @@ return [
 
     'goals' => 'Ver Golos',
     'goals.edit' => 'Criar Golos',
+
+    'teams' => 'Ver Equipas',
+    'teams.edit' => 'Criar Equipas',
+
+    'users' => 'Ver Utilizadores',
+    'users.edit' => 'Editar Utilizadores',
 ];

@@ -37,3 +37,7 @@ Route::resources([
 
 Route::post('media_query', 'Resources\MediaController@mediaQuery')->name('mediaQuery');
 
+Route::get('users/get_permissions_json/{id}', 'Resources\UserController@getPermissionsJson')->name('getPermissionsJson');
+Route::post('users/add_permission', 'Resources\UserController@addPermission')->name('addPermission');
+Route::post('users/remove_permission', 'Resources\UserController@removePermission')->name('removePermission');
+

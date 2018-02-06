@@ -89,7 +89,7 @@ class UserProfileController extends Controller
         $message = new MessageBag();
         $message->add('success', trans('success.model_edited', ['model_name' => trans('models.profile')]));
 
-        return redirect(route('users.show', ['user' => $user]));
+        return redirect(route('users.show', ['user' => $user]))->with(['popup_message' => $message]);
     }
 
     /**

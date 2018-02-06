@@ -58,8 +58,6 @@
 
     function buildList(response) {
 
-        console.log(response.length);
-
         var media_list = $('#media_list');
 
         media_list.empty();

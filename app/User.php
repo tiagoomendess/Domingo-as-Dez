@@ -64,6 +64,7 @@ class User extends Authenticatable
     }
 
     public function hasPermission($permission) {
+
         $permissions = $this->permissions;
 
         foreach ($permissions as $perm) {

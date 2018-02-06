@@ -12,6 +12,7 @@ class VerifyCsrfToken extends Middleware
      * @var array
      */
     protected $except = [
-        '/media_query'
+        '/media_query',
+        '/users/remove_permission',
     ];
 }

@@ -12,7 +12,7 @@ class UserController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(['auth', 'permission:admin']);
+        $this->middleware(['auth', 'permission:admin'])->except('removePermission');
     }
 
     public function index() {
@@ -51,7 +51,60 @@ class UserController extends Controller
     }
 
     public function update($id) {
+        abort(404);
+    }
 
+    public function addPermission(Request $request) {
+
+        $request->validate([
+            'user_id' => 'integer|required',
+            'permission_id' => 'integer|required',
+        ]);
+
+        $permission = Permission::find($request->input('permission_id'));
+        $user = User::find($request->input('user_id'));
+
+        if (!$user || !$permission)
+            return response(404);
+
+        if (!$user->hasPermission($permission->name)) {
+
+            $user->permissions()->attach($permission->id);
+            $user->save();
+
+        }
+
+        return response(200);
+
+    }
+
+    public function removePermission(Request $request) {
+
+        $request->validate([
+            'user_id' => 'integer|required',
+            'permission_id' => 'integer|required',
+        ]);
+
+        $permission = Permission::find($request->input('permission_id'));
+        $user = User::find($request->input('user_id'));
+
+        if (!$user || !$permission)
+            return response(404);
+
+        $user->permissions()->detach($permission->id);
+        $user->save();
+
+        $new_permissions = $user->permissions;
+
+        return response(200);
+
+    }
+
+    public function getPermissionsJson($id) {
+
+        $user = User::findOrFail($id);
+
+        return response()->json($user->permissions);
     }
 
 }

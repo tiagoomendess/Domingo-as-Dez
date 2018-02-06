@@ -93,25 +93,8 @@
             <h4>{{ trans('models.permissions') }}</h4>
             <div class="divider"></div>
 
-            @if(!isset($permissions) || count($permissions) < 1)
-                <p class="flow-text">{{ trans('models.no_permissions') }}</p>
-            @else
-                <table>
-                    @foreach($permissions as $perm)
-                        <tr>
-                            <td>
+            @include('backoffice.partial.manage_permissions')
 
-                            </td>
-
-                            <td>
-
-                            </td>
-                        </tr>
-                    @endforeach
-                </table>
-
-
-            @endif
         </div>
     </div>
 @endsection
@@ -123,4 +106,6 @@
             $('#ban_modal').modal();
         });
     </script>
+
+    @include('backoffice.partial.manage_permissions_scripts')
 @endsection
