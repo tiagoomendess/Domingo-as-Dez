@@ -17,7 +17,6 @@ class CreateClubsTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->text('emblem'); //Url to image
-            $table->text('association_page_link')->nullable();
             $table->string('website')->nullable();
             $table->boolean('visible')->default(true);
             $table->timestamps();

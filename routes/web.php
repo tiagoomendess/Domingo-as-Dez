@@ -31,6 +31,7 @@ Route::resources([
     'users_profile' => 'Resources\UserProfileController',
     'user_bans' => 'Resources\UserBanController',
     'user_permissions' => 'Resources\UserPermissionsController',
+    'competitions' => 'Resources\CompetitionController',
 ]);
 
 //Route::get('/users', 'Resources\UserController@index')->name('users.index');

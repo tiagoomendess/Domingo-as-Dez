@@ -22,6 +22,7 @@ class CreatePlayersTable extends Migration
             $table->string('phone')->nullable();
             $table->string('email')->nullable();
             $table->text('facebook_profile')->nullable();
+            $table->text('obs')->nullable();
             $table->boolean('visible')->default(true);
             $table->timestamps();
         });

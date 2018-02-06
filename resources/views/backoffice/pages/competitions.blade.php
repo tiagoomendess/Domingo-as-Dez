@@ -1,36 +1,36 @@
 @extends('backoffice.layouts.default-page')
 
 @section('head-content')
-    <title>{{ trans('models.permissions') }}</title>
+    <title>{{ trans('models.competitions') }}</title>
 @endsection
 
 @section('content')
     <div class="row">
         <div class="col s12">
-            <h1>{{ trans('models.permissions') }}</h1>
+            <h1>{{ trans('models.competitions') }}</h1>
         </div>
     </div>
 
     <div class="row">
         <div class="col s12">
-            @if(!$permissions || $permissions->count() == 0)
-                <p class="flow-text">{{ trans('models.no_permissions') }}</p>
+            @if(!$competitions || $competitions->count() == 0)
+                <p class="flow-text">{{ trans('models.no_competitions') }}</p>
             @else
                 <table class="bordered">
                     <thead>
                     <tr>
                         <th>{{ trans('general.id') }}</th>
                         <th>{{ trans('general.name') }}</th>
-                        <th>{{ trans('general.description') }}</th>
+                        <th>{{ trans('general.type') }}</th>
                     </tr>
                     </thead>
 
-                    @foreach($permissions as $permission)
+                    @foreach($competitions as $competition)
 
                         <tr>
-                            <td>{{ $permission->id }}</td>
-                            <td><a href="{{ route('permissions.show', ['permission' => $permission]) }}">{{ $permission->name }}</a></td>
-                            <td>{{ trans('permissions.' . $permission->name) }}</td>
+                            <td>{{ $competition->id }}</td>
+                            <td><a href="{{ route('competitions.show', ['competition' => $competition]) }}">{{ $competition->name }}</a></td>
+                            <td>{{ $competition->$competition_type }}</td>
                         </tr>
 
                     @endforeach
@@ -43,13 +43,13 @@
     <div class="row">
         <div class="col s12">
 
-            {{ $permissions->links() }}
+            {{ $competitions->links() }}
         </div>
     </div>
 
-    @if(Auth::user()->hasPermission('admin'))
+    @if(Auth::user()->hasPermission('competitions.edit'))
         <div class="fixed-action-btn">
-            <a class="btn-floating btn-large green waves-effect" href="{{ route('permissions.create') }}">
+            <a class="btn-floating btn-large green waves-effect" href="{{ route('competitions.create') }}">
                 <i class="large material-icons">add</i>
             </a>
         </div>
