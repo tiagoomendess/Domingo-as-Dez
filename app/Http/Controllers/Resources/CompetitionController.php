@@ -28,7 +28,7 @@ class CompetitionController extends Controller
      */
     public function create()
     {
-        //
+        return view('backoffice.pages.create_competition');
     }
 
     /**
@@ -50,7 +50,9 @@ class CompetitionController extends Controller
      */
     public function show($id)
     {
-        //
+        $competition = Competition::findOrFail($id);
+        return view('backoffice.pages.competition', ['competition' => $competition]);
+
     }
 
     /**
@@ -61,7 +63,9 @@ class CompetitionController extends Controller
      */
     public function edit($id)
     {
-        //
+        $competition = Competition::findOrFail($id);
+
+        return view('backoffice.pages.edit_competition', ['competition' => $competition]);
     }
 
     /**
@@ -73,7 +77,7 @@ class CompetitionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $competition = Competition::findOrFail($id);
     }
 
     /**
@@ -84,6 +88,6 @@ class CompetitionController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $competition = Competition::findOrFail($id);
     }
 }
