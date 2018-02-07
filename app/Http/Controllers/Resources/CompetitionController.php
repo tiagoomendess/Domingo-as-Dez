@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Media;
 use Illuminate\Support\MessageBag;
+use Illuminate\Support\Facades\Storage;
+use Auth;
 
 class CompetitionController extends Controller
 {
@@ -58,30 +60,18 @@ class CompetitionController extends Controller
 
         if ($request->hasFile('file')) {
 
-            $file = $request->file('file');
-            $originalName = $file->getClientOriginalName();
-            $filename = str_random(3) . time() . str_random(6) . '-' . $originalName;
-
-            $url = '/storage/media/images/' . $filename;
-            $path = '/public/media/images/';
-
-            Storage::putFileAs(
-                $path, $file, $filename
+            $url = MediaController::storeImage(
+                $request->file('file'),
+                $name . ',' . trans('models.competition')
             );
 
-            $media = Media::create([
-                'url' => $url,
-                'media_type' => 'image',
-                'tags' => $name . ',' . trans('models.competition'),
-                'user_id' => Auth::user()->id,
-                'visible' => true,
-            ]);
-
         } else {
+
             //melhorar depois
             $messages = new MessageBag();
             $messages->add('error', trans('errors.file_invalid'));
             return redirect()->back();
+
         }
 
         $competition = Competition::create([
@@ -132,13 +122,56 @@ class CompetitionController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'name' => 'string|max:155|required|unique:competitions,name',
-            'competition_type' => 'required|string|max:20',
+            'name' => 'string|max:155|required',
             'file' => 'nullable|image|max:20000',
             'visible' => 'required',
         ]);
 
         $competition = Competition::findOrFail($id);
+        $messages = new MessageBag();
+
+        if($request->input('visible') == 'true')
+            $visible = true;
+        else
+            $visible = false;
+
+        $name = $request->input('name');
+
+        if ($request->hasFile('file')) {
+
+            $file = $request->file('file');
+            $originalName = $file->getClientOriginalName();
+            $filename = str_random(3) . time() . str_random(6) . '-' . $originalName;
+
+            $url = '/storage/media/images/' . $filename;
+            $path = '/public/media/images/';
+
+            Storage::putFileAs(
+                $path, $file, $filename
+            );
+
+            Media::create([
+                'url' => $url,
+                'media_type' => 'image',
+                'tags' => $name . ',' . trans('models.competition'),
+                'user_id' => Auth::user()->id,
+                'visible' => true,
+            ]);
+
+        } else {
+            $url = $competition->picture;
+        }
+
+        //alterar valores
+        $competition->name = $name;
+        $competition->visible = $visible;
+        $competition->picture = $url;
+        $competition->save();
+
+        $messages->add('success', trans('success.model_edited', ['model_name' => trans('models.competition')]));
+
+        return redirect(route('competitions.show', ['competition' => $competition]))->with(['popup_message' => $messages]);
+
     }
 
     /**
@@ -150,5 +183,12 @@ class CompetitionController extends Controller
     public function destroy($id)
     {
         $competition = Competition::findOrFail($id);
+
+        $competition->delete();
+
+        $messages = new MessageBag();
+        $messages->add('success', trans('success.model_deleted', ['model_name' => trans('models.competition')]));
+
+        return redirect()->route('competitions.index')->with('popup_message', $messages);
     }
 }

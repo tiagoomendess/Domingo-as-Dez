@@ -45,7 +45,7 @@
                 <b>{{ trans('general.id') }} : </b> {{ $article->id }} <br>
                 <b>{{ trans('general.tags') }} : </b> {{ $article->tags }} <br>
                 <b>{{ trans('general.date') }} : </b> {{ $article->date }} <br>
-                <b>{{ trans('general.visible') }} : </b> {{ $article->visible }} <br>
+                <b>{{ trans('general.visible') }} : </b> {{ trans_choice('general.boolean', $article->visible) }} <br>
                 <b>{{ trans('general.author') }} : </b> {{ App\User::find($article->user_id)->name }} <br>
                 <b>{{ trans('general.created_at') }} : </b> {{ $article->created_at }} <br>
                 <b>{{ trans('general.updated_at') }} : </b> {{ $article->updated_at }} <br>

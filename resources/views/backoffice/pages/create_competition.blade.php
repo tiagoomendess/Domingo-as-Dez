@@ -46,7 +46,7 @@
             <div class="file-field input-field col s12">
                 <div class="btn">
                     <span>{{ trans('general.file') }}</span>
-                    <input name="file" type="file">
+                    <input required name="file" type="file">
                 </div>
                 <div class="file-path-wrapper">
                     <input class="file-path validate" type="text">

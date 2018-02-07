@@ -35,7 +35,8 @@
                 <b>{{ trans('general.url') }} : </b> {{ url($media->url) }} <br>
                 <b>{{ trans('models.media_type') }} : </b> {{ $media->media_type }} <br>
                 <b>{{ trans('general.tags') }} : </b> {{ $media->tags }} <br>
-                <b>{{ trans('general.visible') }} : </b> {{ $media->visible }} <br>
+                <b>{{ trans('general.visible') }} : </b> {{ trans_choice('general.boolean', $media->visible) }} <br>
+                <b>{{ trans('general.author') }} : </b> {{ $media->user->name }} <br>
                 <b>{{ trans('general.created_at') }} : </b> {{ $media->created_at }} <br>
                 <b>{{ trans('general.updated_at') }} : </b> {{ $media->updated_at }} <br>
             </p>

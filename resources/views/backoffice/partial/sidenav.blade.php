@@ -19,6 +19,10 @@
         <li><a class="waves-effect" href="{{ route('competitions.index') }}">{{ trans('models.competitions') }}</a></li>
     @endif
 
+    @if(Auth::user()->hasPermission('seasons'))
+        <li><a class="waves-effect" href="{{ route('seasons.index') }}">{{ trans('models.seasons') }}</a></li>
+    @endif
+
     @if(Auth::user()->hasPermission('clubs'))
         <li><a class="waves-effect" href="#">{{ trans('models.clubs') }}</a></li>
     @endif

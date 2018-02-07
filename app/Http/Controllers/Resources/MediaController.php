@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Resources;
 
 use App\Media;
 use Illuminate\Contracts\Session\Session;
+use Illuminate\Http\File;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
@@ -281,5 +282,43 @@ class MediaController extends Controller
 
 
         return redirect()->route('media.index')->with('popup_message', $messages);
+    }
+
+
+    /**
+     * Guarda uma imagem no disco e retorna o url
+     *
+     * @param $file
+     * @param $tags
+     * @return string
+     */
+    public static function storeImage($file, $tags = null) {
+
+        $originalName = $file->getClientOriginalName();
+        $filename = str_random(3) . time() . str_random(6) . '-' . $originalName;
+
+        $url = '/storage/media/images/' . $filename;
+        $path = '/public/media/images/';
+
+        try {
+
+            Storage::putFileAs(
+                $path, $file, $filename
+            );
+
+            Media::create([
+                'url' => $url,
+                'media_type' => 'image',
+                'tags' => $tags,
+                'user_id' => Auth::user()->id,
+                'visible' => true,
+            ]);
+
+        } catch (\Exception $e) {
+            return null;
+        }
+
+        return $url;
+
     }
 }

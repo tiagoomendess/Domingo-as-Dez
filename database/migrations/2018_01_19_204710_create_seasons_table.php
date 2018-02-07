@@ -15,10 +15,11 @@ class CreateSeasonsTable extends Migration
     {
         Schema::create('seasons', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
-            $table->integer('competition_id');
-            $table->integer('relegates'); //Number of clubs to be relegated
-            $table->integer('promotes'); //Number of clubs to be promoted
+            $table->integer('competition_id')->references('id')->on('competitions')->onDelete('cascade');
+            $table->integer('start_year');
+            $table->integer('end_year');
+            $table->integer('relegates')->nullable(); //Number of clubs to be relegated
+            $table->integer('promotes')->nullable(); //Number of clubs to be promoted
             $table->boolean('visible')->default(true);
             $table->timestamps();
         });

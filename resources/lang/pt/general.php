@@ -50,7 +50,7 @@ return [
     'verified' => 'Verificado',
     'bio' => 'Bio',
     'phone' => 'Telefone',
-    'boolean' => '{0} Não | {1} Sim',
+    'boolean' => '{0}Não|{1}Sim',
     'ban' => 'Banir',
     'ban_reason' => 'Escreva a razão pela qual quer banir o utilizador.',
     'type' => 'Tipo',

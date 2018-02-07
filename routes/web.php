@@ -34,6 +34,7 @@ Route::resources([
     'user_bans' => 'Resources\UserBanController',
     'user_permissions' => 'Resources\UserPermissionsController',
     'competitions' => 'Resources\CompetitionController',
+    'seasons' => 'Resources\SeasonController',
 ]);
 
 //Route::get('/users', 'Resources\UserController@index')->name('users.index');
