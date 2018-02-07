@@ -45,5 +45,10 @@ return [
     'bio' => 'Bio',
     'reason' => 'Razão',
     'banned_by' => 'Banido por',
+    'competition_type' => 'Tipo de Competição',
+    'friendly' => 'Amigável',
+    'league' => 'Liga',
+    'cup' => 'Taça',
+    'tournament' => 'Torneio',
 
 ];

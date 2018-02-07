@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Resources;
 use App\Competition;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Media;
+use Illuminate\Support\MessageBag;
 
 class CompetitionController extends Controller
 {
@@ -39,7 +41,59 @@ class CompetitionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'string|max:155|required|unique:competitions,name',
+            'competition_type' => 'required|string|max:20',
+            'file' => 'required|image|max:20000',
+            'visible' => 'required',
+        ]);
+
+        if($request->input('visible') == 'true')
+            $visible = true;
+        else
+            $visible = false;
+
+        $name = $request->input('name');
+        $competition_type = $request->input('competition_type');
+
+        if ($request->hasFile('file')) {
+
+            $file = $request->file('file');
+            $originalName = $file->getClientOriginalName();
+            $filename = str_random(3) . time() . str_random(6) . '-' . $originalName;
+
+            $url = '/storage/media/images/' . $filename;
+            $path = '/public/media/images/';
+
+            Storage::putFileAs(
+                $path, $file, $filename
+            );
+
+            $media = Media::create([
+                'url' => $url,
+                'media_type' => 'image',
+                'tags' => $name . ',' . trans('models.competition'),
+                'user_id' => Auth::user()->id,
+                'visible' => true,
+            ]);
+
+        } else {
+            //melhorar depois
+            $messages = new MessageBag();
+            $messages->add('error', trans('errors.file_invalid'));
+            return redirect()->back();
+        }
+
+        $competition = Competition::create([
+            'name' => $name,
+            'competition_type' => $competition_type,
+            'picture' => $url,
+            'visible' => $visible
+
+        ]);
+
+        return redirect(route('competitions.show', ['competition' => $competition]));
+
     }
 
     /**
@@ -77,6 +131,13 @@ class CompetitionController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'name' => 'string|max:155|required|unique:competitions,name',
+            'competition_type' => 'required|string|max:20',
+            'file' => 'nullable|image|max:20000',
+            'visible' => 'required',
+        ]);
+
         $competition = Competition::findOrFail($id);
     }
 

@@ -16,7 +16,7 @@ class CreateCompetitionsTable extends Migration
         Schema::create('competitions', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->enum('competition_type', ['none', 'friendly', 'league', 'cup']);
+            $table->enum('competition_type', ['none', 'friendly', 'league', 'cup', 'tournament']);
             $table->text('picture')->nullable();
             $table->boolean('visible')->default(true);
             $table->timestamps();

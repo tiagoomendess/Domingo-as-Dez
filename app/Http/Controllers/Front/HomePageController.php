@@ -15,4 +15,8 @@ class HomePageController extends Controller
 
         return view('front.pages.homepage');
     }
+
+    public function home() {
+        return redirect(route('homePage'));
+    }
 }

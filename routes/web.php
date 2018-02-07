@@ -18,9 +18,11 @@ Route::get('/register/verify/{email}/{token}', 'Auth\RegisterController@verifyEm
 Route::get('/login/{provider}','Auth\LoginController@redirectToProvider')->where('provider','twitter|facebook|google');
 Route::get('/login/{provider}/callback','Auth\LoginController@handleProviderCallback')->where('provider','twitter|facebook|google');
 
-Route::get('/', 'Front\HomePageController@index')->name('home');
+Route::get('/', 'Front\HomePageController@index')->name('homePage');
 
 Route::get('/dashboard', 'Backoffice\DashboardController@index')->name('dashboard');
+
+Route::get('/home', 'Front\HomePageController@home')->name('home');
 
 //Resources ---------------------
 Route::resources([
