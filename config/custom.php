@@ -14,4 +14,5 @@ return [
     'default_profile_pic' => '/images/default-profile.png',
     'site_logo' => '/images/domingo.png',
     'results_per_page' => 15,
+    'default_emblem' => '/images/default-emblem.png',
 ];

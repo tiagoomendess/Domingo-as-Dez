@@ -16,7 +16,7 @@ class CreateClubsTable extends Migration
         Schema::create('clubs', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->text('emblem'); //Url to image
+            $table->text('emblem')->nullable(); //Url to image
             $table->string('website')->nullable();
             $table->boolean('visible')->default(true);
             $table->timestamps();

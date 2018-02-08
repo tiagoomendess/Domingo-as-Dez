@@ -1,14 +1,14 @@
 @extends('backoffice.layouts.default-page')
 
 @section('head-content')
-    <title>{{ trans('general.add') }} {{ trans('models.competition') }}</title>
+    <title>{{ trans('general.add') }} {{ trans('models.club') }}</title>
 @endsection
 
 @section('content')
 
     <div class="row">
         <div class="col s12">
-            <h1>{{ trans('general.add') }} {{ trans('models.competition') }}</h1>
+            <h1>{{ trans('general.add') }} {{ trans('models.club') }}</h1>
         </div>
     </div>
 
@@ -20,35 +20,22 @@
         </div>
     @endif
 
-    <form action="{{ route('competitions.store') }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('clubs.store') }}" method="POST" enctype="multipart/form-data">
 
         {{ csrf_field() }}
 
         <div class="row">
             <div class="input-field col s12 m8 l6">
-                <input required name="name" id="name" type="text" class="validate" value="{{ old('name') }}">
+                <input name="name" id="name" type="text" class="validate" value="{{ old('name') }}" required>
                 <label for="name">{{ trans('general.name') }}</label>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col s12 m8 l6">
-                <label>{{ trans('models.competition_type') }}</label>
-                <select name="competition_type" class="browser-default" required>
-                    <option value="none" disabled selected>{{ trans('general.choose_option') }}</option>
-                    <option value="friendly">{{ trans('models.friendly') }}</option>
-                    <option value="cup">{{ trans('models.cup') }}</option>
-                    <option value="league">{{ trans('models.league') }}</option>
-                    <option value="tournament">{{ trans('models.tournament') }}</option>
-                </select>
             </div>
         </div>
 
         <div class="row">
             <div class="file-field input-field col s12 m8 l6">
                 <div class="btn">
-                    <span>{{ trans('general.file') }}</span>
-                    <input required name="file" type="file">
+                    <span>{{ trans('models.emblem') }}</span>
+                    <input name="emblem" type="file">
                 </div>
                 <div class="file-path-wrapper">
                     <input class="file-path validate" type="text">
@@ -57,7 +44,14 @@
         </div>
 
         <div class="row">
-            <div class="col s12 m8 l6">
+            <div class="input-field col s12 m8 l6">
+                <input name="website" id="website" type="text" class="validate" value="{{ old('website') }}">
+                <label for="website">{{ trans('models.website') }}</label>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col s12">
                 <div class="switch">
                     <label>
                         {{ trans('general.visible') }}

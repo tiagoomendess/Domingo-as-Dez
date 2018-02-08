@@ -13,7 +13,13 @@
 
     </div>
 
-    @include('backoffice.partial.form_errors')
+    @if(count($errors) > 0)
+        <div class="row">
+            <div class="col s12">
+                @include('backoffice.partial.form_errors')
+            </div>
+        </div>
+    @endif
 
     <div class="row">
         <form class="" method="POST" action="{{ route('media.store') }}" enctype="multipart/form-data">

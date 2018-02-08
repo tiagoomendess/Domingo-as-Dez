@@ -55,5 +55,7 @@ return [
     'obs' => 'Observações',
     'relegates' => 'Despromove',
     'promotes' => 'Promove',
+    'emblem' => 'Emblema',
+    'website' => 'Website',
 
 ];

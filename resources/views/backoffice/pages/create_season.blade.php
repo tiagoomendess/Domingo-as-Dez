@@ -12,11 +12,13 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="col s12">
-            @include('backoffice.partial.form_errors')
+    @if(count($errors) > 0)
+        <div class="row">
+            <div class="col s12">
+                @include('backoffice.partial.form_errors')
+            </div>
         </div>
-    </div>
+    @endif
 
     <form action="{{ route('seasons.store') }}" method="POST">
 

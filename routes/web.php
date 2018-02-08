@@ -35,6 +35,7 @@ Route::resources([
     'user_permissions' => 'Resources\UserPermissionsController',
     'competitions' => 'Resources\CompetitionController',
     'seasons' => 'Resources\SeasonController',
+    'clubs' => 'Resources\ClubController',
 ]);
 
 //Route::get('/users', 'Resources\UserController@index')->name('users.index');
