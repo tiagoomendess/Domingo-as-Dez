@@ -16,13 +16,14 @@ class CreatePlayersTable extends Migration
         Schema::create('players', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->text('picture');
+            $table->text('picture')->nullable();
             $table->string('association_id')->unique();
             $table->string('nickname')->nullable();
             $table->string('phone')->nullable();
             $table->string('email')->nullable();
             $table->text('facebook_profile')->nullable();
             $table->text('obs')->nullable();
+            $table->enum('position', ['none', 'striker', 'midfielder', 'defender', 'goalkeeper'])->default('none');
             $table->boolean('visible')->default(true);
             $table->timestamps();
         });

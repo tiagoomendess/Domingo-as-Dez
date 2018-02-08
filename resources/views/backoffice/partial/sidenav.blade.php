@@ -28,7 +28,7 @@
     @endif
 
     @if(Auth::user()->hasPermission('teams'))
-        <li><a class="waves-effect" href="#">{{ trans('models.teams') }}</a></li>
+        <li><a class="waves-effect" href="{{ route('teams.index') }}">{{ trans('models.teams') }}</a></li>
     @endif
 
     @if(Auth::user()->hasPermission('games'))

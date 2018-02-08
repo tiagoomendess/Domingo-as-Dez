@@ -15,7 +15,8 @@ class CreateTeamsTable extends Migration
     {
         Schema::create('teams', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('club_id');
+            $table->integer('club_id')->unsigned();
+            $table->foreign('club_id')->references('id')->on('clubs')->onDelete('cascade');
             $table->string('name');
             $table->boolean('visible')->default(true);
             $table->timestamps();
