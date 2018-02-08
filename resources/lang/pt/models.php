@@ -50,5 +50,10 @@ return [
     'league' => 'Liga',
     'cup' => 'Taça',
     'tournament' => 'Torneio',
+    'start_year' => 'Ano Inicio',
+    'end_year' => 'Ano Fim',
+    'obs' => 'Observações',
+    'relegates' => 'Despromove',
+    'promotes' => 'Promove',
 
 ];

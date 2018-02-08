@@ -17,7 +17,7 @@ class ArticleController extends Controller
     {
         $this->middleware('auth');
         $this->middleware('permission:articles');
-        $this->middleware('permission:articles.edit')->except('index');
+        $this->middleware('permission:articles.edit')->except(['index', 'show']);
     }
 
     /**

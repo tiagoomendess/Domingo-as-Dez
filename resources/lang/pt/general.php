@@ -55,5 +55,6 @@ return [
     'ban_reason' => 'Escreva a razão pela qual quer banir o utilizador.',
     'type' => 'Tipo',
     'create' => 'Criar',
+    'current' => 'Atual',
 
 ];

@@ -12,7 +12,9 @@ class UserController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(['auth', 'permission:admin'])->except('removePermission');
+        $this->middleware('auth');
+        $this->middleware('permission:users');
+        $this->middleware('permission:users.edit')->except(['index', 'show']);
     }
 
     public function index() {

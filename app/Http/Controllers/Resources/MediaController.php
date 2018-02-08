@@ -21,7 +21,7 @@ class MediaController extends Controller
 
         $this->middleware('auth');
         $this->middleware('permission:media');
-        $this->middleware('permission:media.edit')->except('index');
+        $this->middleware('permission:media.edit')->except(['index', 'show']);
     }
 
     /**

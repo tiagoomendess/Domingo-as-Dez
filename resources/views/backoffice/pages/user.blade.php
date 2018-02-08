@@ -51,7 +51,8 @@
         </div>
     </div>
 
-    @include('backoffice.partial.model_options', ['edit_route' => route('users.edit', ['user' => $user])])
-
+    @if(Auth::user()->hasPermission('users.edit'))
+        @include('backoffice.partial.model_options', ['edit_route' => route('users.edit', ['user' => $user])])
+    @endif
 
 @endsection

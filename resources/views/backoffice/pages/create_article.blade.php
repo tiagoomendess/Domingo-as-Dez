@@ -28,14 +28,13 @@
             </div>
 
             <div class="row">
-                <form class="col s12">
-                    <div class="row">
-                        <div class="input-field col s12">
-                            <textarea id="description" name="description" class="materialize-textarea" data-length="280" rows="1">{{ old('description') }}</textarea>
-                            <label for="description">{{ trans('general.description') }}</label>
-                        </div>
+
+                <div class="row">
+                    <div class="input-field col s12">
+                        <textarea id="description" name="description" class="materialize-textarea" data-length="280" rows="1">{{ old('description') }}</textarea>
+                        <label for="description">{{ trans('general.description') }}</label>
                     </div>
-                </form>
+                </div>
 
                 <div class="row">
 

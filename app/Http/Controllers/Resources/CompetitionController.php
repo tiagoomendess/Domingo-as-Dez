@@ -12,6 +12,14 @@ use Auth;
 
 class CompetitionController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('permission:competitions');
+        $this->middleware('permission:competitions.edit')->except(['index', 'show']);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -62,7 +70,7 @@ class CompetitionController extends Controller
 
             $url = MediaController::storeImage(
                 $request->file('file'),
-                $name . ',' . trans('models.competition')
+                $name . ',' . trans('models.competition') . ',' . trans('models.' . $competition_type)
             );
 
         } else {

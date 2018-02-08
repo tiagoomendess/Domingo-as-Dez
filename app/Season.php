@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Season extends Model
 {
-    protected $fillable = ['competition_id', 'relegates', 'promotes', 'start_year', 'end_year', 'visible'];
+    protected $fillable = ['competition_id', 'relegates', 'promotes', 'start_year', 'end_year', 'obs', 'visible'];
 
     protected $guarded = [];
 

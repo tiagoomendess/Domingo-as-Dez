@@ -47,12 +47,8 @@
         </div>
     </div>
 
-    @if(Auth::user()->hasPermission('admin'))
-        <div class="fixed-action-btn">
-            <a class="btn-floating btn-large green waves-effect" href="{{ route('permissions.create') }}">
-                <i class="large material-icons">add</i>
-            </a>
-        </div>
+    @if(Auth::user()->hasPermission('permissions.edit'))
+        @include('backoffice.partial.add_model_button', ['route' => route('permissions.create')])
     @endif
 
 @endsection

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Club extends Model
 {
-    protected $fillable = ['name', 'emblem', 'association_page_link', 'website', 'visible'];
+    protected $fillable = ['name', 'emblem', 'website', 'visible'];
 
     protected $guarded = [];
 
