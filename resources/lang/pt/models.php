@@ -57,5 +57,8 @@ return [
     'promotes' => 'Promove',
     'emblem' => 'Emblema',
     'website' => 'Website',
+    'association_id' => 'Nº Associação',
+    'facebook_profile' => 'Perfil de Facebook',
+    'position' => 'Posição',
 
 ];

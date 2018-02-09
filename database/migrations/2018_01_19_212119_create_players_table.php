@@ -14,10 +14,11 @@ class CreatePlayersTable extends Migration
     public function up()
     {
         Schema::create('players', function (Blueprint $table) {
+
             $table->increments('id');
             $table->string('name');
             $table->text('picture')->nullable();
-            $table->string('association_id')->unique();
+            $table->string('association_id')->unique()->nullable();
             $table->string('nickname')->nullable();
             $table->string('phone')->nullable();
             $table->string('email')->nullable();
@@ -26,6 +27,7 @@ class CreatePlayersTable extends Migration
             $table->enum('position', ['none', 'striker', 'midfielder', 'defender', 'goalkeeper'])->default('none');
             $table->boolean('visible')->default(true);
             $table->timestamps();
+
         });
     }
 

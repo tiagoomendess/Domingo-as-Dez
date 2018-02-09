@@ -37,6 +37,7 @@ Route::resources([
     'seasons' => 'Resources\SeasonController',
     'clubs' => 'Resources\ClubController',
     'teams' => 'Resources\TeamController',
+    'players' => 'Resources\PlayerController',
 ]);
 
 //Route::get('/users', 'Resources\UserController@index')->name('users.index');

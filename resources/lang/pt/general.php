@@ -56,5 +56,11 @@ return [
     'type' => 'Tipo',
     'create' => 'Criar',
     'current' => 'Atual',
+    'nickname' => 'Alcunha',
+    'goalkeeper' => 'Guarda Redes',
+    'defender' => 'Defesa',
+    'midfielder' => 'Médio',
+    'striker' => 'Atacante',
+    'or' => 'Ou',
 
 ];
