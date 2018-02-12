@@ -1,14 +1,14 @@
 @extends('backoffice.layouts.default-page')
 
 @section('head-content')
-    <title>{{ trans('general.add') }} {{ trans('models.club') }}</title>
+    <title>{{ trans('general.edit') }} {{ trans('models.club') }}</title>
 @endsection
 
 @section('content')
 
     <div class="row">
         <div class="col s12">
-            <h1>{{ trans('general.add') }} {{ trans('models.club') }}</h1>
+            <h1>{{ trans('general.edit') }} {{ trans('models.club') }}</h1>
         </div>
     </div>
 

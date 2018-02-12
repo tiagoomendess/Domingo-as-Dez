@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\MessageBag;
 use Illuminate\Support\Facades\Auth;
+use Intervention\Image\Facades\Image;
 use League\Flysystem\Exception;
 use Illuminate\Support\Facades\DB;
 
@@ -320,5 +321,54 @@ class MediaController extends Controller
 
         return $url;
 
+    }
+
+
+    /**
+     *
+     * Will save a squared image of any image ratio
+     *
+     * @param $image \Intervention\Image\Image
+     * @param $filename string
+     * @param $size int
+     * @param $format string
+     * @param $path string
+     * @param $upzise boolean
+     *
+     * @return string
+     */
+    public static function storeSquareImage(\Intervention\Image\Image $image, $filename, $size = 500, $format = 'png', $path = null, $upzise = false) {
+
+        if (!$path)
+            $path = config('custom.media_images_folder');
+
+        $filename = str_random(3) . time() . str_random(3) . '_' . $filename;
+        $filename = str_replace(' ', '_', $filename);
+
+        //Fit the image to a squared image
+        if ($upzise)
+            $image->fit($size, $size);
+        else
+            $image->fit($size, $size, function ($constraint) {
+                $constraint->upsize();
+            });
+
+        //Save the image to the disk
+        $image->save(public_path($path) . '/' .$filename . '.' . $format);
+
+        $url = $path . '/' . $filename . '.' . $format;
+        return $url;
+
+    }
+
+    public static function removeLatin($string) {
+
+        $replaced = str_replace(
+            ['ç', 'Ç', 'ã', 'Ã', 'õ', 'Õ', 'é', 'É', 'â', 'Â', 'ê', 'Ê'],
+            ['c', 'C', 'a', 'A', 'o', 'O', 'e', 'E', 'A', 'A', 'e', 'E'],
+            $string
+        );
+
+        return $replaced;
     }
 }

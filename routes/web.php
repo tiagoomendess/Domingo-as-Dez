@@ -48,3 +48,5 @@ Route::get('users/get_permissions_json/{id}', 'Resources\UserController@getPermi
 Route::post('users/add_permission', 'Resources\UserController@addPermission')->name('addPermission');
 Route::post('users/remove_permission', 'Resources\UserController@removePermission')->name('removePermission');
 
+Route::get('clubs/{id}/teams', 'Resources\ClubController@getTeams')->name('getClubTeams');
+

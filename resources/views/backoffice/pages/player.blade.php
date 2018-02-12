@@ -48,6 +48,36 @@
 
     <div class="row">
 
+        <div class="col s6 m4 l3">
+            <label>{{ trans('models.club') }}</label>
+            <select id="club_id" name="club_id" class="browser-default" disabled>
+                <option disabled value="0" selected>{{ trans('general.choose_option') }}</option>
+            </select>
+        </div>
+
+        <div class="col s6 m4 l3">
+            <label>{{ trans('models.team') }}</label>
+            <select id="team_id" name="team_id" class="browser-default" disabled>
+                <option value="0" disabled selected>{{ trans('general.choose_first', ['name' => trans('models.club')]) }}</option>
+            </select>
+        </div>
+
+    </div>
+
+    <div class="row">
+
+        <div class="col s12 m8 l6">
+            @if($player->picture)
+                <img class="materialboxed" src="{{ $player->picture }}">
+            @else
+                <img class="materialboxed"  src="{{ config('custom.default_profile_pic') }}">
+            @endif
+        </div>
+
+    </div>
+
+    <div class="row">
+
         <div class="input-field col s12 m4 l3">
             <input name="phone" id="phone" type="text" class="validate" value="{{ $player->phone }}" disabled>
             <label for="phone">{{ trans('general.phone') }}</label>
@@ -61,44 +91,15 @@
     </div>
 
     <div class="row">
-
-        <div class="file-field input-field col s12 m8 l6">
-            <div class="btn">
-                <span>{{ trans('models.picture') }}</span>
-                <input name="picture" type="file" disabled>
-            </div>
-            <div class="file-path-wrapper">
-                <input class="file-path validate" type="text">
-            </div>
-        </div>
-
-    </div>
-
-    <div class="row">
-        <div class="col s12 m8 l6">
-            <p class="flow-text center">
-                {{ trans('general.or') }}
-            </p>
-        </div>
-    </div>
-
-    <div class="row">
         <div class="input-field col s12 m8 l6">
-            <input name="picture_url" id="picture_url" type="text" class="validate" value="{{ $player->picture }}" disabled>
-            <label for="picture_url">{{ trans('general.url') }} {{ trans('models.picture') }}</label>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="input-field col s12 m8 l6">
-            <input name="facebook_profile" id="url" type="text" class="validate" value="{{ $player->facebook_profile }}">
+            <input disabled name="facebook_profile" id="url" type="text" class="validate" value="{{ $player->facebook_profile }}">
             <label for="facebook_profile">{{ trans('models.facebook_profile') }}</label>
         </div>
     </div>
 
     <div class="row">
         <div class="input-field col s12 m8 l6">
-            <textarea id="obs" name="obs" class="materialize-textarea" rows="1">{{ $player->obs }}</textarea>
+            <textarea disabled id="obs" name="obs" class="materialize-textarea" rows="1">{{ $player->obs }}</textarea>
             <label for="obs">{{ trans('models.obs') }}</label>
         </div>
     </div>
@@ -119,6 +120,13 @@
             </div>
         </div>
     </div>
+
+    @if(Auth::user()->haspermission('players.edit'))
+        @include('backoffice.partial.model_options', [
+            'delete_route' => route('players.destroy', ['player' => $player]),
+            'edit_route' => route('players.edit', ['player' => $player])
+        ])
+    @endif
 
 
 @endsection

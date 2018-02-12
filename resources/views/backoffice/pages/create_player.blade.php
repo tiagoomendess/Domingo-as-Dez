@@ -51,6 +51,7 @@
 
                     <option value="none" disabled selected>{{ trans('general.choose_option') }}</option>
 
+                    <option value="none">{{ trans('general.none') }}</option>
                     <option value="goalkeeper">{{ trans('general.goalkeeper') }}</option>
                     <option value="defender">{{ trans('general.defender') }}</option>
                     <option value="midfielder">{{ trans('general.midfielder') }}</option>
@@ -63,14 +64,22 @@
 
         <div class="row">
 
-            <div class="input-field col s12 m4 l3">
-                <input name="phone" id="phone" type="text" class="validate" value="{{ old('phone') }}">
-                <label for="phone">{{ trans('general.phone') }}</label>
+            <div class="col s6 m4 l3">
+                <label>{{ trans('models.club') }}</label>
+                <select id="club_id" name="club_id" class="browser-default">
+                    <option disabled value="0" selected>{{ trans('general.choose_option') }}</option>
+                    <option onclick="updateTeamList(0)" value="0">{{ trans('general.none') }}</option>
+                    @foreach(App\Club::all() as $club)
+                        <option onclick="updateTeamList({{ $club->id }})" value="{{ $club->id }}">{{ $club->name }}</option>
+                    @endforeach
+                </select>
             </div>
 
-            <div class="input-field col s12 m4 l3">
-                <input name="email" id="email" type="email" class="validate" value="{{ old('email') }}">
-                <label for="email">{{ trans('general.email') }}</label>
+            <div class="col s6 m4 l3">
+                <label>{{ trans('models.team') }}</label>
+                <select id="team_id" name="team_id" class="browser-default" disabled>
+                    <option value="0" disabled selected>{{ trans('general.choose_first', ['name' => trans('models.club')]) }}</option>
+                </select>
             </div>
 
         </div>
@@ -100,7 +109,22 @@
             <div class="input-field col s12 m8 l6">
                 <input name="picture_url" id="picture_url" type="text" class="validate" value="{{ old('picture_url') }}">
                 <label for="picture_url">{{ trans('general.url') }} {{ trans('models.picture') }}</label>
+
             </div>
+        </div>
+
+        <div class="row">
+
+            <div class="input-field col s12 m4 l3">
+                <input name="phone" id="phone" type="text" class="validate" value="{{ old('phone') }}">
+                <label for="phone">{{ trans('general.phone') }}</label>
+            </div>
+
+            <div class="input-field col s12 m4 l3">
+                <input name="email" id="email" type="email" class="validate" value="{{ old('email') }}">
+                <label for="email">{{ trans('general.email') }}</label>
+            </div>
+
         </div>
 
         <div class="row">
@@ -137,4 +161,8 @@
         </div>
 
     </form>
+@endsection
+
+@section('scripts')
+    @include('backoffice.partial.update_team_list_js')
 @endsection

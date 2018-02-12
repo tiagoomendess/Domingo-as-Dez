@@ -6,7 +6,6 @@ use App\Media;
 use App\Player;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Auth;
 
@@ -63,32 +62,13 @@ class PlayerController extends Controller
             'visible' => 'required',
         ]);
 
-        $image = null;
-        $name = $request->input('name');
 
         if($request->input('visible') == 'true')
             $visible = true;
         else
             $visible = false;
 
-        if ($request->hasFile('picture')) {
-
-            $image = Image::make($request->file('picture'));
-
-            $image->fit(500, 500, function ($constraint) {
-                $constraint->upsize();
-            });
-
-        } else if ($request->input('picture_url') != null) {
-
-            $image = Image::make($request->input('picture_url'));
-
-            $image->fit(500, 500, function ($constraint) {
-                $constraint->upsize();
-            });
-
-        }
-
+        $name = $request->input('name');
         $association_id = $request->input('association_id');
         $nickname = $request->input('nickname');
         $phone = $request->input('phone');
@@ -97,35 +77,35 @@ class PlayerController extends Controller
         $obs = $request->input('obs');
         $position = $request->input('position');
 
+        $image = null;
+        $url = null;
+
+        if ($request->hasFile('picture'))
+            $image = Image::make($request->file('picture'));
+        else if ($request->input('picture_url') != null)
+            $image = Image::make($request->input('picture_url'));
 
         if ($image) {
 
-            $path = 'storage/media/images/';
-            $filename = str_random(6) . '_' . str_replace(' ', '_', $name) . '.png';
-            $public_url = '/storage/media/images/' . $filename;
-            $image->save(public_path($path) . $filename);
+            $url = MediaController::storeSquareImage($image, $name);
 
             $tags = trans('models.player') . ',' . $name;
-
-            if($nickname)
+            if ($nickname)
                 $tags = $tags . ',' . $nickname;
 
             Media::create([
                 'user_id' => Auth::user()->id,
-                'url' => $public_url,
+                'url' => $url,
                 'media_type' => 'image',
                 'tags' => $tags,
             ]);
-
-        } else {
-            $public_url = null;
         }
 
         $player = Player::create([
 
             'name' => $name,
             'nickname' => $nickname,
-            'picture' => $public_url,
+            'picture' => $url,
             'association_id' => $association_id,
             'phone' => $phone,
             'email' => $email,
@@ -159,7 +139,8 @@ class PlayerController extends Controller
      */
     public function edit($id)
     {
-        //
+        $player = Player::findOrFail($id);
+        return view('backoffice.pages.edit_player', ['player' => $player]);
     }
 
     /**

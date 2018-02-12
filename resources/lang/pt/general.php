@@ -62,5 +62,6 @@ return [
     'midfielder' => 'Médio',
     'striker' => 'Atacante',
     'or' => 'Ou',
+    'choose_first' => 'Primeiro escolhe :name',
 
 ];

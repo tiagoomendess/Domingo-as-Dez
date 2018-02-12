@@ -15,4 +15,7 @@ return [
     'site_logo' => '/images/domingo.png',
     'results_per_page' => 15,
     'default_emblem' => '/images/default-emblem.png',
+    'media_images_folder' => '/storage/media/images',
+    'media_videos_folder' => '/storage/media/videos',
+    'media_other_folder' => '/storage/media/files',
 ];

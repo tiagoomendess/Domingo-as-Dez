@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Resources;
 
 use App\Club;
+use App\Media;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\MessageBag;
+use Intervention\Image\Facades\Image;
+use Auth;
 
 class ClubController extends Controller
 {
@@ -66,11 +69,23 @@ class ClubController extends Controller
         $website = $request->input('website');
 
         if($request->hasFile('emblem')) {
-            $url = MediaController::storeImage($request->file('emblem'),
-             trans('models.emblem') . ',' . trans('models.club') . ',' . $name
-             );
+
+            $image = Image::make($request->file('emblem'));
+            $filename = MediaController::removeLatin(trans('models.emblem') . '_' . $name);
+
+            $url = MediaController::storeSquareImage($image, $filename);
+
+            Media::create([
+                'user_id' => Auth::user()->id,
+                'url' => $url,
+                'media_type' => 'image',
+                'tags' => trans('models.emblem') . ',' . trans('models.club') . ',' . $name,
+            ]);
+
         } else {
+
             $url = null;
+
         }
 
         $club = Club::create([
@@ -138,11 +153,22 @@ class ClubController extends Controller
         $website = $request->input('website');
 
         if($request->hasFile('emblem')) {
-            $url = MediaController::storeImage($request->file('emblem'),
-                trans('models.emblem') . ',' . trans('models.club') . ',' . $name
-            );
+
+            $image = Image::make($request->file('emblem'));
+            $filename = MediaController::removeLatin(trans('models.emblem') . '_' . $name);
+            $url = MediaController::storeSquareImage($image, $filename);
+
+            Media::create([
+                'user_id' => Auth::user()->id,
+                'url' => $url,
+                'media_type' => 'image',
+                'tags' => trans('models.emblem') . ',' . trans('models.club') . ',' . $name,
+            ]);
+
         } else {
+
             $url = $club->emblem;
+
         }
 
         $club->name = $name;
@@ -172,5 +198,12 @@ class ClubController extends Controller
         $messages->add('success', trans('success.model_deleted', ['model_name' => trans('models.club')]));
 
         return redirect(route('clubs.index'))->with(['popup_message' => $messages]);
+    }
+
+    public function getTeams($id) {
+
+        $club = Club::findOrFail($id);
+
+        return response()->json($club->teams);
     }
 }
