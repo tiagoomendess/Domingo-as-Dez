@@ -63,5 +63,6 @@ return [
     'striker' => 'Atacante',
     'or' => 'Ou',
     'choose_first' => 'Primeiro escolhe :name',
+    'upload' => 'Carregar',
 
 ];

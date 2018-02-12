@@ -84,50 +84,60 @@
         </div>
 
         <div class="row">
-            <div class="file-field input-field col s10 m6 l5">
-                <div class="btn">
-                    <span>{{ trans('models.picture') }}</span>
-                    <input name="picture" type="file">
-                </div>
-                <div class="file-path-wrapper">
-                    <input class="file-path validate" type="text">
-                </div>
-            </div>
 
-            <div class="col s2 m2 l1">
+            <div class="col s12 m4 l3">
                 @if($player->picture)
-                    <img src="{{ $player->picture }}" alt="" style="max-height: 60px;">
+                    <img width="100%" class="materialboxed" src="{{ $player->picture }}">
                 @else
-                    <img src="{{ config('custom.default_profile_pic') }}" alt="" style="max-height: 30px;">
+                    <img width="100%" class="materialboxed"  src="{{ config('custom.default_profile_pic') }}">
                 @endif
             </div>
-        </div>
 
-        <div class="row">
-            <div class="col s12 m8 l6">
-                <p class="flow-text center">
-                    {{ trans('general.or') }}
-                </p>
+            <div class="col s12 m4 l3">
+
+                <div class="col s12">
+
+                    <h4 class="flow-text">Alterar Fotografia</h4>
+                    <div class="divider"></div>
+
+                </div>
+
+                <div class="file-field input-field col s12">
+                    <div class="btn">
+                        <span>{{ trans('general.upload') }}</span>
+                        <input name="picture" type="file">
+                    </div>
+                    <div class="file-path-wrapper">
+                        <input class="file-path validate" type="text">
+                    </div>
+
+                </div>
+
+                <div class="col s12">
+                    <p class="center">
+                        {{ trans('general.or') }}
+                    </p>
+                </div>
+
+                <div class="input-field col s12">
+                    <input name="picture_url" id="picture_url" type="text" class="validate" value="{{ old('picture_url') }}">
+                    <label for="picture_url">{{ trans('general.url') }} {{ trans('models.picture') }}</label>
+
+                </div>
+
             </div>
-        </div>
 
-        <div class="row">
-            <div class="input-field col s12 m8 l6">
-                <input name="picture_url" id="picture_url" type="text" class="validate" value="{{ old('picture_url') }}">
-                <label for="picture_url">{{ trans('general.url') }} {{ trans('models.picture') }}</label>
-
-            </div>
         </div>
 
         <div class="row">
 
             <div class="input-field col s12 m4 l3">
-                <input name="phone" id="phone" type="text" class="validate" value="{{ old('phone') }}">
+                <input name="phone" id="phone" type="text" class="validate" value="{{ old('phone', $player->phone) }}">
                 <label for="phone">{{ trans('general.phone') }}</label>
             </div>
 
             <div class="input-field col s12 m4 l3">
-                <input name="email" id="email" type="email" class="validate" value="{{ old('email') }}">
+                <input name="email" id="email" type="email" class="validate" value="{{ old('email', $player->email) }}">
                 <label for="email">{{ trans('general.email') }}</label>
             </div>
 
@@ -135,14 +145,14 @@
 
         <div class="row">
             <div class="input-field col s12 m8 l6">
-                <input name="facebook_profile" id="url" type="text" class="validate" value="{{ old('facebook_profile') }}">
+                <input name="facebook_profile" id="url" type="text" class="validate" value="{{ old('facebook_profile', $player->facebook_profile) }}">
                 <label for="facebook_profile">{{ trans('models.facebook_profile') }}</label>
             </div>
         </div>
 
         <div class="row">
             <div class="input-field col s12 m8 l6">
-                <textarea id="obs" name="obs" class="materialize-textarea" rows="1">{{ old('obs') }}</textarea>
+                <textarea id="obs" name="obs" class="materialize-textarea" rows="1">{{ old('obs', $player->obs) }}</textarea>
                 <label for="obs">{{ trans('models.obs') }}</label>
             </div>
         </div>
@@ -153,7 +163,12 @@
                     <label>
                         {{ trans('general.visible') }}
                         <input name="visible" type="hidden" value="false">
-                        <input name="visible" type="checkbox" value="true" checked>
+                        @if ($player->visible)
+                            <input name="visible" type="checkbox" value="true" checked>
+                        @else
+                            <input name="visible" type="checkbox" value="true">
+                        @endif
+
                         <span class="lever"></span>
                     </label>
                 </div>

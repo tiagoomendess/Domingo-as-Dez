@@ -66,11 +66,11 @@
 
     <div class="row">
 
-        <div class="col s12 m8 l6">
+        <div class="col s12 m4 l3">
             @if($player->picture)
-                <img class="materialboxed" src="{{ $player->picture }}">
+                <img width="100%" class="materialboxed" src="{{ $player->picture }}">
             @else
-                <img class="materialboxed"  src="{{ config('custom.default_profile_pic') }}">
+                <img width="100%" class="materialboxed"  src="{{ config('custom.default_profile_pic') }}">
             @endif
         </div>
 
