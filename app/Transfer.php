@@ -11,4 +11,14 @@ class Transfer extends Model
     protected $guarded = [];
 
     protected $hidden = [];
+
+    public function player()
+    {
+        return $this->belongsTo(Player::class);
+    }
+
+    public function team()
+    {
+        return $this->belongsTo(Team::class);
+    }
 }

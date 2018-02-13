@@ -35,6 +35,7 @@ return [
     'no_players' => 'Não há jogadores',
     'no_permissions' => 'Não existem permissões',
     'no_messages' => 'Não há mensagens',
+    'no_transfers' => 'Não há transferências',
     'media_type' => 'Tipo de Multimédia',
     'id' => 'Id',
     'name' => 'Nome',
@@ -60,5 +61,7 @@ return [
     'association_id' => 'Nº Associação',
     'facebook_profile' => 'Perfil de Facebook',
     'position' => 'Posição',
-
+    'transfer' => 'Transferência',
+    'transfers' => 'Transferências',
+    'to' => 'Para',
 ];

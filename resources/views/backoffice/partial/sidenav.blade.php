@@ -35,6 +35,10 @@
         <li><a class="waves-effect" href="{{ route('players.index') }}">{{ trans('models.players') }}</a></li>
     @endif
 
+    @if(Auth::user()->hasPermission('transfers'))
+        <li><a class="waves-effect" href="{{ route('transfers.index') }}">{{ trans('models.transfers') }}</a></li>
+    @endif
+
     @if(Auth::user()->hasPermission('games'))
         <li><a class="waves-effect" href="#">{{ trans('models.games') }}</a></li>
     @endif

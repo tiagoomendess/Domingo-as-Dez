@@ -38,6 +38,7 @@ Route::resources([
     'clubs' => 'Resources\ClubController',
     'teams' => 'Resources\TeamController',
     'players' => 'Resources\PlayerController',
+    'transfers' => 'Resources\TransferController',
 ]);
 
 //Route::get('/users', 'Resources\UserController@index')->name('users.index');
