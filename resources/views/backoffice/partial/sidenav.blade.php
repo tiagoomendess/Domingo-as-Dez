@@ -47,7 +47,11 @@
         <li><a class="waves-effect" href="{{ route('media.index') }}">{{ trans('models.media') }}</a></li>
     @endif
 
-    @if(Auth::user()->hasPermission('admin'))
+    @if(Auth::user()->hasPermission('playgrounds'))
+        <li><a class="waves-effect" href="{{ route('playgrounds.index') }}">{{ trans('models.playgrounds') }}</a></li>
+    @endif
+
+    @if(Auth::user()->hasPermission('permissions'))
         <li><a class="waves-effect" href="{{ route('permissions.index') }}">{{ trans('models.permissions') }}</a></li>
         <li><a class="waves-effect" href="{{ route('users.index') }}">{{ trans('models.users') }}</a></li>
     @endif

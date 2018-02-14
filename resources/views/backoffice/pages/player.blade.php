@@ -51,14 +51,23 @@
         <div class="col s6 m4 l3">
             <label>{{ trans('models.club') }}</label>
             <select id="club_id" name="club_id" class="browser-default" disabled>
-                <option disabled value="0" selected>{{ trans('general.choose_option') }}</option>
+                @if($player->getTeam())
+                    <option disabled value="0" selected>{{ $player->getTeam()->club->name }}</option>
+                @else
+                    <option disabled value="0" selected>{{ trans('general.none') }}</option>
+                @endif
+
             </select>
         </div>
 
         <div class="col s6 m4 l3">
             <label>{{ trans('models.team') }}</label>
             <select id="team_id" name="team_id" class="browser-default" disabled>
-                <option value="0" disabled selected>{{ trans('general.choose_first', ['name' => trans('models.club')]) }}</option>
+                @if($player->getTeam())
+                    <option disabled value="0" selected>{{ $player->getTeam()->name }}</option>
+                @else
+                    <option disabled value="0" selected>{{ trans('general.none') }}</option>
+                @endif
             </select>
         </div>
 

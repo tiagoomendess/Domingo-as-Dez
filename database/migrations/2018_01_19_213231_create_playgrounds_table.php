@@ -18,9 +18,9 @@ class CreatePlaygroundsTable extends Migration
             $table->integer('club_id')->nullable();
             $table->string('name');
             $table->string('surface');
-            $table->integer('width'); //In meters
-            $table->integer('height');
-            $table->integer('capacity');
+            $table->integer('width')->nullable(); //In meters
+            $table->integer('height')->nullable();
+            $table->integer('capacity')->nullable();
             $table->text('picture')->nullable(); //Url to picture
             $table->text('obs')->nullable();
             $table->boolean('visible')->default(true);

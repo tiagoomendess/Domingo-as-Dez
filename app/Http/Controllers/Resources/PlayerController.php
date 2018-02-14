@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Resources;
 
 use App\Media;
 use App\Player;
+use App\Transfer;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\MessageBag;
@@ -61,6 +63,7 @@ class PlayerController extends Controller
             'obs' => 'string|max:3000|min:6|nullable',
             'position' => 'required|string|min:3|max:10',
             'visible' => 'required',
+            'team_id' => 'nullable|integer|exists:teams,id',
         ]);
 
 
@@ -116,6 +119,19 @@ class PlayerController extends Controller
             'visible' => $visible,
 
         ]);
+
+
+        //create new transfer if user defined a club to that player
+        if ($request->input('team_id')) {
+
+            Transfer::create([
+                'player_id' => $player->id,
+                'team_id' => $request->input('team_id'),
+                'date' => Carbon::now()->format("Y-m-d"),
+                'visible' => true,
+            ]);
+
+        }
 
         return redirect(route('players.show', ['player' => $player]));
     }

@@ -78,7 +78,7 @@
             <div class="col s6 m4 l3">
                 <label>{{ trans('models.team') }}</label>
                 <select id="team_id" name="team_id" class="browser-default" disabled>
-                    <option value="0" disabled selected>{{ trans('general.choose_first', ['name' => trans('models.club')]) }}</option>
+                    <option value="" disabled selected>{{ trans('general.choose_first', ['name' => trans('models.club')]) }}</option>
                 </select>
             </div>
 

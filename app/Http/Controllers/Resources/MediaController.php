@@ -287,7 +287,7 @@ class MediaController extends Controller
 
 
     /**
-     * Guarda uma imagem no disco e retorna o url
+     * Guarda uma imagem no disco, cria Media e retorna o url
      *
      * @param $file
      * @param $tags
