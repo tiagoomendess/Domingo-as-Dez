@@ -150,4 +150,11 @@
         </div>
     </div>
 
+    @if(Auth::user()->haspermission('games.edit'))
+        @include('backoffice.partial.model_options', [
+            'delete_route' => route('games.destroy', ['game' => $game]),
+            'edit_route' => route('games.edit', ['game' => $game])
+        ])
+    @endif
+
 @endsection

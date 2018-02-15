@@ -1,14 +1,14 @@
 @extends('backoffice.layouts.default-page')
 
 @section('head-content')
-    <title>{{ trans('general.add') }} {{ trans('models.game') }}</title>
+    <title>{{ trans('general.edit') }} {{ trans('models.game') }}</title>
 @endsection
 
 @section('content')
 
     <div class="row">
         <div class="col s12">
-            <h1>{{ trans('general.add') }} {{ trans('models.game') }}</h1>
+            <h1>{{ trans('general.edit') }} {{ trans('models.game') }}</h1>
         </div>
     </div>
 
@@ -20,26 +20,39 @@
         </div>
     @endif
 
-    <form action="{{ route('games.store') }}" method="POST">
+    <form action="{{ route('games.update', ['game' => $game]) }}" method="POST">
 
         {{ csrf_field() }}
+
+        {{ method_field('PUT') }}
 
         <div class="row">
 
             <div class="col s6 m4 l3">
                 <label>{{ trans('general.home_club') }}</label>
                 <select id="club_id" name="club_id" class="browser-default" required>
-                    <option disabled value="0" selected>{{ trans('general.choose_option') }}</option>
+                    <option onclick="updateTeamList( {{ $game->homeTeam->club->id }}, 'home_team_id')" value="{{ $game->homeTeam->club->id }}" selected>{{ $game->homeTeam->club->name  }}</option>
                     @foreach(App\Club::all() as $club)
-                        <option onclick="updateTeamList( {{ $club->id }}, 'home_team_id')" value="{{ $club->id }}">{{ $club->name }}</option>
+
+                        @if($club->id != $game->homeTeam->club->id)
+                            <option onclick="updateTeamList( {{ $club->id }}, 'home_team_id')" value="{{ $club->id }}">{{ $club->name }}</option>
+                        @endif
+
                     @endforeach
                 </select>
             </div>
 
             <div class="col s6 m4 l3">
                 <label>{{ trans('general.home_team') }}</label>
-                <select id="home_team_id" name="home_team_id" class="browser-default" disabled required>
-                    <option value="0" disabled selected>{{ trans('general.choose_first', ['name' => trans('general.home_club')]) }}</option>
+                <select id="home_team_id" name="home_team_id" class="browser-default" required>
+                    <option value="{{ $game->homeTeam->id }}" selected>{{ $game->homeTeam->name }}</option>
+                    @foreach($game->homeTeam->club->teams as $team)
+
+                        @if ($game->id != $game->homeTeam->id)
+                            <option value="{{ $team->id }}">{{ $team->name }}</option>
+                        @endif
+
+                    @endforeach
                 </select>
             </div>
 
@@ -50,17 +63,27 @@
             <div class="col s6 m4 l3">
                 <label>{{ trans('general.away_club') }}</label>
                 <select id="club_id" name="club_id" class="browser-default" required>
-                    <option disabled value="0" selected>{{ trans('general.choose_option') }}</option>
+                    <option onclick="updateTeamList( {{ $game->awayTeam->club->id }}, 'away_team_id')" value="{{ $game->awayTeam->club->id }}" selected>{{ $game->awayTeam->club->name }}</option>
                     @foreach(App\Club::all() as $club)
-                        <option onclick="updateTeamList({{ $club->id }} , 'away_team_id')" value="{{ $club->id }}">{{ $club->name }}</option>
+                        @if($club->id != $game->awayTeam->club->id)
+                            <option onclick="updateTeamList( {{ $club->id }}, 'away_team_id')" value="{{ $club->id }}">{{ $club->name }}</option>
+                        @endif
                     @endforeach
                 </select>
             </div>
 
             <div class="col s6 m4 l3">
                 <label>{{ trans('general.away_team') }}</label>
-                <select id="away_team_id" name="away_team_id" class="browser-default" disabled required>
-                    <option value="0" disabled selected>{{ trans('general.choose_first', ['name' => trans('general.away_club')]) }}</option>
+                <select id="away_team_id" name="away_team_id" class="browser-default" required>
+                    <option value="{{ $game->awayTeam->id }}" selected>{{ $game->awayTeam->name }}</option>
+
+                    @foreach($game->awayTeam->club->teams as $team)
+
+                        @if ($game->id != $game->awayTeam->id)
+                            <option value="{{ $team->id }}">{{ $team->name }}</option>
+                        @endif
+
+                    @endforeach
                 </select>
             </div>
 
@@ -71,22 +94,43 @@
             <div class="col s5 m3 l2">
                 <label>{{ trans('models.competition') }}</label>
                 <select id="competition_id" name="competition_id" class="browser-default" required>
-                    <option disabled value="0" selected>{{ trans('general.choose_option') }}</option>
+                    <option onclick="updateSeasonList({{ $game->season->competition->id }})" value="{{ $game->season->competition->id }}" selected>{{ $game->season->competition->name }}</option>
                     @foreach(App\Competition::all() as $competition)
-                        <option onclick="updateSeasonList({{ $competition->id }})" value="{{ $competition->id }}">{{ $competition->name }}</option>
+                        @if ($competition->id != $game->season->competition->id)
+                            <option onclick="updateSeasonList({{ $competition->id }})" value="{{ $competition->id }}">{{ $competition->name }}</option>
+                        @endif
+
                     @endforeach
                 </select>
             </div>
 
             <div class="col s5 m3 l2">
                 <label>{{ trans('models.season') }}</label>
-                <select id="season_id" name="season_id" class="browser-default" disabled required>
-                    <option value="0" disabled selected>{{ trans('general.choose_first', ['name' => trans('models.competition')]) }}</option>
+                <select id="season_id" name="season_id" class="browser-default" required>
+                    @if($game->season->start_year != $game->season->end_year)
+                        <option value="{{ $game->season_id }}" selected>{{ $game->season->start_year }}/{{ $game->season->end_year }}</option>
+                    @else
+                        <option value="{{ $game->season_id }}" selected>{{ $game->season->start_year }}</option>
+                    @endif
+
+                    @foreach($game->season->competition->seasons as $season)
+
+                        @if($season->id != $game->season->id)
+
+                            @if($season->start_year != $season->end_year)
+                                <option value="{{ $season->id }}">{{ $season->start_year }}/{{ $season->end_year }}</option>
+                            @else
+                                <option value="{{ $season->id }}">{{ $season->start_year }}</option>
+                            @endif
+
+                        @endif
+
+                    @endforeach
                 </select>
             </div>
 
             <div class="input-field col s2 m2 l2">
-                <input type="number" name="round" id="round" required value="{{ old('round') }}">
+                <input type="number" name="round" id="round" required value="{{ old('round', $game->round) }}">
                 <label for="round">{{ trans('general.round') }}</label>
             </div>
 
@@ -94,13 +138,16 @@
 
         <div class="row">
 
+            <?php
+                $carbon = \Carbon\Carbon::createFromFormat("Y-m-d h:i:s", $game->date);
+            ?>
             <div class="input-field col s6 m4 l3">
-                <input id="date" name="date" type="text" class="datepicker" required>
+                <input id="date" name="date" type="text" class="datepicker" required value="{{$carbon->year}}-{{ $carbon->month }}-{{$carbon->day}}">
                 <label for="date">{{ trans('general.day') }}</label>
             </div>
 
             <div class="input-field col s6 m4 l3">
-                <input id="hour" name="hour" type="text" class="timepicker" required>
+                <input id="hour" name="hour" type="text" class="timepicker" required value="{{ $carbon->hour }}:{{ $carbon->minute }}">
                 <label for="hour">{{ trans('general.hour') }}</label>
             </div>
         </div>

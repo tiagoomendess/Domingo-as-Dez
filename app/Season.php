@@ -13,10 +13,10 @@ class Season extends Model
     protected $hidden = [];
 
     public function competition() {
-        return $this->belongsTo('App\Competition');
+        return $this->belongsTo(Competition::class);
     }
 
     public function games() {
-        return $this->hasMany('App\Game');
+        return $this->hasMany(Game::class);
     }
 }

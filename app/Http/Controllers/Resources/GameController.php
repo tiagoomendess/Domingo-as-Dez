@@ -6,6 +6,7 @@ use App\Game;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\MessageBag;
 
 class GameController extends Controller
 {
@@ -123,7 +124,8 @@ class GameController extends Controller
      */
     public function edit($id)
     {
-        //
+        $game = Game::findOrFail($id);
+        return view('backoffice.pages.edit_game', ['game' => $game]);
     }
 
     /**
@@ -135,7 +137,13 @@ class GameController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
+        $game = Game::findOrFail($id);
+
+        $messages = new MessageBag();
+        $messages->add('success', trans('success.model_edited', ['model_name' => trans('models.game')]));
+
+        return redirect(route('games.show', ['game' => $game]))->with(['popup_message' => $messages]);
     }
 
     /**
@@ -146,6 +154,11 @@ class GameController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $game = Game::findOrFail($id);
+
+        $messages = new MessageBag();
+        $messages->add('success', trans('success.model_deleted', ['model_name' => trans('models.game')]));
+
+        return redirect(route('games.index'))->with(['popup_message' => $messages]);
     }
 }
