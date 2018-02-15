@@ -40,7 +40,7 @@
     @endif
 
     @if(Auth::user()->hasPermission('games'))
-        <li><a class="waves-effect" href="#">{{ trans('models.games') }}</a></li>
+        <li><a class="waves-effect" href="{{ route('games.index') }}">{{ trans('models.games') }}</a></li>
     @endif
 
     @if(Auth::user()->hasPermission('media'))

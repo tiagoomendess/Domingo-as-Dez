@@ -1,8 +1,13 @@
 <script>
 
-    function updateTeamList(id) {
+    function updateTeamList(id, element_id) {
 
-        var team_dropdown = $("#team_id");
+        if (element_id == null)
+            element_id = "#team_id";
+        else
+            element_id = "#" + element_id;
+
+        var team_dropdown = $(element_id);
         team_dropdown.prop('disabled', true);
         team_dropdown.empty();
 

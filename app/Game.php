@@ -13,22 +13,22 @@ class Game extends Model
     protected $hidden = [];
 
     public function season() {
-        return $this->belongsTo('App\Season');
+        return $this->belongsTo(Season::class);
     }
 
     public function goals() {
-        return $this->hasMany('App\Goal');
+        return $this->hasMany(Goal::class);
     }
 
     public function playground() {
-        return $this->belongsTo('App\Playground');
+        return $this->belongsTo(Playground::class);
     }
 
     public function homeTeam() {
-        return $this->belongsTo('App/Team', 'home_team_id');
+        return $this->belongsTo(Team::class, 'home_team_id');
     }
 
     public function awayTeam() {
-        return $this->belongsTo('App/Team', 'away_team_id');
+        return $this->belongsTo(Team::class, 'away_team_id');
     }
 }

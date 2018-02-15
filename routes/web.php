@@ -40,6 +40,7 @@ Route::resources([
     'players' => 'Resources\PlayerController',
     'transfers' => 'Resources\TransferController',
     'playgrounds' => 'Resources\PlaygroundController',
+    'games' => 'Resources\GameController',
 ]);
 
 //Route::get('/users', 'Resources\UserController@index')->name('users.index');
@@ -51,4 +52,5 @@ Route::post('users/add_permission', 'Resources\UserController@addPermission')->n
 Route::post('users/remove_permission', 'Resources\UserController@removePermission')->name('removePermission');
 
 Route::get('clubs/{id}/teams', 'Resources\ClubController@getTeams')->name('getClubTeams');
+Route::get('competitions/{id}/seasons', 'Resources\CompetitionController@getSeasons')->name('getCompetitionsSeasons');
 

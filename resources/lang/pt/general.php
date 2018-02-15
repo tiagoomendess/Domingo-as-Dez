@@ -64,5 +64,15 @@ return [
     'or' => 'Ou',
     'choose_first' => 'Primeiro escolhe :name',
     'upload' => 'Carregar',
+    'home_team' => 'Equipa Visitada',
+    'away_team' => 'Equipa Visitante',
+    'home_club' => 'Clube Visitado',
+    'away_club' => 'Clube Visitante',
+    'day' => 'Dia',
+    'hour' => 'Hora',
+    'finished' => 'Terminado',
+    'round' => 'Ronda',
+    'goals_away' => 'Golos Visitante',
+    'goals_home' => 'Golos Visitado',
 
 ];

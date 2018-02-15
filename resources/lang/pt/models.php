@@ -37,6 +37,7 @@ return [
     'no_messages' => 'Não há mensagens',
     'no_transfers' => 'Não há transferências',
     'no_playgrounds' => 'Não existem recintos',
+    'no_games' => 'Não existem jogos',
     'no_picture' => 'Não existe fotografia',
     'media_type' => 'Tipo de Multimédia',
     'id' => 'Id',

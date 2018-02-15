@@ -199,4 +199,12 @@ class CompetitionController extends Controller
 
         return redirect()->route('competitions.index')->with('popup_message', $messages);
     }
+
+    public function getSeasons($id) {
+
+        $competition = Competition::findOrFail($id);
+
+        return response()->json($competition->seasons);
+
+    }
 }
