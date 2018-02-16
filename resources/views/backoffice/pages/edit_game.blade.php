@@ -139,27 +139,27 @@
         <div class="row">
 
             <?php
-                $carbon = \Carbon\Carbon::createFromFormat("Y-m-d h:i:s", $game->date);
+                $carbon = \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $game->date);
             ?>
             <div class="input-field col s6 m4 l3">
-                <input id="date" name="date" type="text" class="datepicker" required value="{{$carbon->year}}-{{ $carbon->month }}-{{$carbon->day}}">
+                <input id="date" name="date" type="text" class="datepicker" required value="{{$carbon->format("Y-m-d")}}">
                 <label for="date">{{ trans('general.day') }}</label>
             </div>
 
             <div class="input-field col s6 m4 l3">
-                <input id="hour" name="hour" type="text" class="timepicker" required value="{{ $carbon->hour }}:{{ $carbon->minute }}">
+                <input id="hour" name="hour" type="text" class="timepicker" required value="{{ $carbon->format("H:i") }}">
                 <label for="hour">{{ trans('general.hour') }}</label>
             </div>
         </div>
 
         <div class="row">
             <div class="input-field col s6 m4 l3">
-                <input type="number" name="goals_home" id="goals_home">
+                <input type="number" name="goals_home" id="goals_home" value="{{ $game->goals_home }}">
                 <label for="goals_home">{{ trans('general.goals_home') }}</label>
             </div>
 
             <div class="input-field col s6 m4 l3">
-                <input type="number" name="goals_away" id="goals_away">
+                <input type="number" name="goals_away" id="goals_away" value="{{ $game->goals_away }}">
                 <label for="goals_away">{{ trans('general.goals_away') }}</label>
             </div>
         </div>
@@ -168,10 +168,29 @@
             <div class="col s6 m4 l3">
                 <label>{{ trans('models.playground') }}</label>
                 <select id="playground_id" name="playground_id" class="browser-default" required>
-                    <option value="" selected>{{ trans('general.none') }}</option>
-                    @foreach(App\Playground::all() as $playground)
-                        <option value="{{ $playground->id }}">{{ $playground->name }}</option>
-                    @endforeach
+                    @if ($game->playground)
+
+                        <option value="{{ $game->playground->id }}" selected>{{ $game->playground->name }}</option>
+
+                        @foreach(App\Playground::all() as $playground)
+
+                            @if ($playground->id != $game->playground->id)
+                                <option value="{{ $playground->id }}">{{ $playground->name }}</option>
+                            @endif
+
+                        @endforeach
+
+                    @else
+
+                        <option value="" selected>{{ trans('general.none') }}</option>
+
+                        @foreach(App\Playground::all() as $playground)
+                            <option value="{{ $playground->id }}">{{ $playground->name }}</option>
+                        @endforeach
+
+                    @endif
+
+
                 </select>
             </div>
         </div>
@@ -182,7 +201,12 @@
                     <label>
                         {{ trans('general.finished') }}
                         <input name="finished" type="hidden" value="false">
-                        <input name="finished" type="checkbox" value="true">
+                        @if($game->finished)
+                            <input name="finished" type="checkbox" value="true" checked>
+                        @else
+                            <input name="finished" type="checkbox" value="true">
+                        @endif
+
                         <span class="lever"></span>
                     </label>
                 </div>
@@ -195,7 +219,11 @@
                     <label>
                         {{ trans('general.visible') }}
                         <input name="visible" type="hidden" value="false">
-                        <input name="visible" type="checkbox" value="true" checked>
+                        @if($game->visible)
+                            <input name="visible" type="checkbox" value="true" checked>
+                        @else
+                            <input name="visible" type="checkbox" value="true">
+                        @endif
                         <span class="lever"></span>
                     </label>
                 </div>
@@ -204,7 +232,7 @@
 
         <div class="row">
             <div class="input-field col s12">
-                @include('backoffice.partial.button', ['color' => 'green', 'icon' => 'send', 'text' => trans('general.create')])
+                @include('backoffice.partial.button', ['color' => 'green', 'icon' => 'save', 'text' => trans('general.save')])
             </div>
         </div>
 

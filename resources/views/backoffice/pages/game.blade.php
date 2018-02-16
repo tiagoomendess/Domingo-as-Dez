@@ -79,26 +79,29 @@
 
     <div class="row">
 
+        <?php
+        $carbon = \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $game->date);
+        ?>
         <div class="input-field col s6 m4 l3">
-            <input id="date" name="date" type="text" class="datepicker" disabled>
-            <label for="date">{{ $game->date }}</label>
+            <input id="date" name="date" type="text" class="datepicker" disabled value="{{$carbon->format("Y-m-d")}}">
+            <label for="date">{{ trans('general.day') }}</label>
         </div>
 
         <div class="input-field col s6 m4 l3">
-            <input id="hour" name="hour" type="text" class="timepicker" disabled>
-            <label for="hour">{{ $game->date }}</label>
+            <input id="hour" name="hour" type="text" class="timepicker" disabled value="{{ $carbon->format("H:i") }}">
+            <label for="hour">{{ trans('general.hour') }}</label>
         </div>
     </div>
 
     <div class="row">
         <div class="input-field col s6 m4 l3">
-            <input type="number" name="goals_home" id="goals_home">
-            <label for="goals_home">{{ $game->goals_home }}</label>
+            <input type="number" name="goals_home" id="goals_home" value="{{ $game->goals_home }}" disabled>
+            <label for="goals_home">{{ trans('general.goals_home') }}</label>
         </div>
 
         <div class="input-field col s6 m4 l3">
-            <input type="number" name="goals_away" id="goals_away">
-            <label for="goals_away">{{ $game->goals_away }}</label>
+            <input type="number" name="goals_away" id="goals_away" value="{{ $game->goals_away }}" disabled>
+            <label for="goals_away">{{trans('general.goals_away')}}</label>
         </div>
     </div>
 
