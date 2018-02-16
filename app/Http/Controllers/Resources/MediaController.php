@@ -297,6 +297,7 @@ class MediaController extends Controller
 
         $originalName = $file->getClientOriginalName();
         $filename = str_random(3) . time() . str_random(6) . '-' . $originalName;
+        $filename = self::removeLatin($filename);
 
         $url = '/storage/media/images/' . $filename;
         $path = '/public/media/images/';
@@ -364,8 +365,8 @@ class MediaController extends Controller
     public static function removeLatin($string) {
 
         $replaced = str_replace(
-            ['ç', 'Ç', 'ã', 'Ã', 'õ', 'Õ', 'é', 'É', 'â', 'Â', 'ê', 'Ê'],
-            ['c', 'C', 'a', 'A', 'o', 'O', 'e', 'E', 'A', 'A', 'e', 'E'],
+            ['ç', 'Ç', 'ã', 'Ã', 'õ', 'Õ', 'é', 'É', 'â', 'Â', 'ê', 'Ê', 'ó', 'Ó'],
+            ['c', 'C', 'a', 'A', 'o', 'O', 'e', 'E', 'A', 'A', 'e', 'E', 'o', 'O'],
             $string
         );
 

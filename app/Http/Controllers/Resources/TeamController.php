@@ -147,4 +147,11 @@ class TeamController extends Controller
 
         return redirect(route('teams.index'))->with(['popup_message' => $messages]);
     }
+
+    public function getCurrentPlayers($id) {
+
+        $team = Team::findOrFail($id);
+
+        return response()->json($team->getCurrentPlayers());
+    }
 }

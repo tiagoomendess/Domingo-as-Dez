@@ -74,5 +74,6 @@ return [
     'round' => 'Ronda',
     'goals_away' => 'Golos Visitante',
     'goals_home' => 'Golos Visitado',
+    'minute' => 'Minuto',
 
 ];

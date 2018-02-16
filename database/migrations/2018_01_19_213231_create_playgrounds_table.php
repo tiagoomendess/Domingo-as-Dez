@@ -15,7 +15,8 @@ class CreatePlaygroundsTable extends Migration
     {
         Schema::create('playgrounds', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('club_id')->nullable();
+            $table->integer('club_id')->nullable()->unsigned();
+            $table->forign('club_id')->references('id')->on('clubs')->onDelete('cascade');
             $table->string('name');
             $table->string('surface');
             $table->integer('width')->nullable(); //In meters
@@ -26,6 +27,9 @@ class CreatePlaygroundsTable extends Migration
             $table->boolean('visible')->default(true);
             $table->timestamps();
         });
+
+        Schema::enableForeignKeyConstraints();
+
     }
 
     /**

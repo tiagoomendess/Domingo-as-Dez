@@ -22,7 +22,7 @@ class Player extends Model
 
     public function getTeam() {
 
-        $last_transfer = Transfer::where('player_id', $this->id)->orderBy('date', 'desc')->first();
+        $last_transfer = $this->getLastTransfer();
 
         if ($last_transfer != null)
             return $last_transfer->team;
@@ -39,5 +39,10 @@ class Player extends Model
         else
             return null;
 
+    }
+
+    public function getLastTransfer() {
+
+        return Transfer::where('player_id', $this->id)->orderBy('date', 'desc')->first();
     }
 }

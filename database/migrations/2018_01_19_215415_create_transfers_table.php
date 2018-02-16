@@ -15,12 +15,16 @@ class CreateTransfersTable extends Migration
     {
         Schema::create('transfers', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('player_id');
-            $table->integer('team_id')->nullable();
+            $table->integer('player_id')->unsigned();
+            $table->foreign('player_id')->references('id')->on('players')->onDelete('cascade');
+            $table->integer('team_id')->unsigned()->nullable();
+            $table->foreign('team_id')->references('id')->on('teams')->onDelete('cascade');
             $table->timestamp('date');
             $table->boolean('visible')->default(true);
             $table->timestamps();
         });
+
+        Schema::enableForeignKeyConstraints();
     }
 
     /**

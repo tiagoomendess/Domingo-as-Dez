@@ -15,15 +15,20 @@ class CreateGoalsTable extends Migration
     {
         Schema::create('goals', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('player_id');
-            $table->integer('team_id');
-            $table->integer('game_id');
+            $table->integer('player_id')->unsigned();
+            $table->foreign('player_id')->references('id')->on('players')->onDelete('cascade');
+            $table->integer('team_id')->unsigned();
+            $table->foreign('team_id')->references('id')->on('teams')->onDelete('cascade');
+            $table->integer('game_id')->unsigned();
+            $table->foreign('game_id')->references('id')->on('games')->onDelete('cascade');
             $table->boolean('own_goal')->default(false);
             $table->boolean('penalty')->default(false);
             $table->integer('minute')->nullable();
             $table->boolean('visible')->default(true);
             $table->timestamps();
         });
+
+        Schema::enableForeignKeyConstraints();
     }
 
     /**

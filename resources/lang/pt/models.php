@@ -38,6 +38,7 @@ return [
     'no_transfers' => 'Não há transferências',
     'no_playgrounds' => 'Não existem recintos',
     'no_games' => 'Não existem jogos',
+    'no_goals' => 'Não existem golos',
     'no_picture' => 'Não existe fotografia',
     'media_type' => 'Tipo de Multimédia',
     'id' => 'Id',
@@ -73,4 +74,6 @@ return [
     'height' => 'Comprimento',
     'capacity' => 'Capacidade',
     'surface' => 'Superfície',
+    'own_goal' => 'Auto Golo',
+    'penalty' => 'Penalty',
 ];

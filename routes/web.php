@@ -41,10 +41,12 @@ Route::resources([
     'transfers' => 'Resources\TransferController',
     'playgrounds' => 'Resources\PlaygroundController',
     'games' => 'Resources\GameController',
+    'goals' => 'Resources\GoalController',
 ]);
 
 //Route::get('/users', 'Resources\UserController@index')->name('users.index');
 
+//Routes to javascript
 Route::post('media_query', 'Resources\MediaController@mediaQuery')->name('mediaQuery');
 
 Route::get('users/get_permissions_json/{id}', 'Resources\UserController@getPermissionsJson')->name('getPermissionsJson');
@@ -53,4 +55,6 @@ Route::post('users/remove_permission', 'Resources\UserController@removePermissio
 
 Route::get('clubs/{id}/teams', 'Resources\ClubController@getTeams')->name('getClubTeams');
 Route::get('competitions/{id}/seasons', 'Resources\CompetitionController@getSeasons')->name('getCompetitionsSeasons');
+Route::get('seasons/{id}/games', 'Resources\SeasonController@getGames')->name('getSeasonGames');
+Route::get('teams/{id}/current_players', 'Resources\TeamController@getCurrentPlayers')->name('getTeamCurrentPlayers');
 

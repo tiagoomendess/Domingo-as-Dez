@@ -2,8 +2,6 @@
 
     function updateSeasonList(id, element_id) {
 
-        console.log("Entrou");
-
         if (element_id == null)
             element_id = "#season_id";
         else
@@ -26,8 +24,6 @@
         $.get("/competitions/" + id + "/seasons", function (data) {
 
             season_dropdown.prop('disabled', false);
-
-            console.log(data);
 
             if(data.length == 0) {
                 var op = $("<option>Nenhuma</option>");
