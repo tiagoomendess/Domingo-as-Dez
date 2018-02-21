@@ -14,7 +14,6 @@
 
         @include('backoffice.partial.sidenav')
 
-
             @include('backoffice.partial.navbar')
 
             <div class="row">

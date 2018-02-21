@@ -8,6 +8,7 @@ use App\Player;
 use App\Team;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\MessageBag;
 
 class GoalController extends Controller
 {
@@ -126,7 +127,8 @@ class GoalController extends Controller
      */
     public function edit($id)
     {
-        //
+        $goal = Goal::findOrFail($id);
+        return view('backoffice.pages.edit_goal', ['goal' => $goal]);
     }
 
     /**
@@ -138,7 +140,56 @@ class GoalController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'game_id' => 'required|integer|exists:games,id',
+            'player_id' => 'required|integer|exists:players,id',
+            'selected_team_id' => 'required|integer|exists:teams,id',
+            'own_goal' => 'required|string',
+            'visible' => 'required|string',
+            'penalty' => 'required|string',
+            'minute' => 'nullable|integer|min:1|max:140',
+        ]);
+
+        $goal = Goal::findOrFail($id);
+
+        if($request->input('own_goal') == 'true')
+            $own_goal = true;
+        else
+            $own_goal = false;
+
+        if($request->input('penalty') == 'true')
+            $penalty = true;
+        else
+            $penalty = false;
+
+        if($request->input('visible') == 'true')
+            $visible = true;
+        else
+            $visible = false;
+
+        $game = Game::find($request->input('game_id'));
+        $player = Player::find($request->input('player_id'));
+        $team = Team::find($request->input('selected_team_id'));
+        $minute = $request->input('minute');
+
+        if($team->id != $player->getTeam()->id)
+            $own_goal = true;
+
+        $goal->game_id = $game->id;
+        $goal->player_id = $player->id;
+        $goal->team_id = $team->id;
+        $goal->minute = $minute;
+        $goal->penalty = $penalty;
+        $goal->own_goal = $own_goal;
+        $goal->visible = $visible;
+
+        $goal->save();
+
+        $messages = new MessageBag();
+        $messages->add('success', trans('success.model_edited', ['model_name' => trans('models.goal')]));
+
+        return redirect(route('goals.show', ['goal' => $goal]))->with(['popup_message' => $messages]);
+
     }
 
     /**
@@ -149,6 +200,12 @@ class GoalController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $goal = Goal::findOrFail($id);
+        $goal->delete();
+
+        $messages = new MessageBag();
+        $messages->add('success', trans('success.model_deleted', ['model_name' => trans('models.goal')]));
+
+        return redirect(route('goals.index'))->with(['popup_message' => $messages]);
     }
 }

@@ -1,15 +1,17 @@
-<ul id="slide-out" class="side-nav fixed">
+<ul id="slide-out" class="side-nav fixed" style="height: 100%;">
 
     <li>
         <div class="user-view">
             <div class="background">
                 <img src="https://picsum.photos/300/230?image=1058">
             </div>
-            <a href="#"><img class="circle" src="{{ Auth::user()->profile->picture }}"></a>
-            <a href="#!name"><span class="white-text name">{{ Auth::user()->name }}</span></a>
-            <a href="#!email"><span class="white-text email">{{ Auth::user()->email }}</span></a>
+            <a href="{{ route('users.show', ['user' => Auth::user()]) }}"><img class="circle" src="{{ Auth::user()->profile->picture }}"></a>
+            <a href="{{ route('users.show', ['user' => Auth::user()]) }}"><span class="white-text name">{{ Auth::user()->name }}</span></a>
+            <a href="{{ route('users.show', ['user' => Auth::user()]) }}"><span class="white-text email">{{ Auth::user()->email }}</span></a>
         </div>
     </li>
+
+    <li><a class="waves-effect" href="{{ route('dashboard') }}">{{ trans('backoffice.dashboard') }}</a></li>
 
     @if(Auth::user()->hasPermission('articles'))
         <li><a class="waves-effect" href="{{ route('articles.index') }}">{{ trans('models.articles') }}</a></li>
