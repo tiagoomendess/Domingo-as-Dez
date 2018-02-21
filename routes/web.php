@@ -44,8 +44,6 @@ Route::resources([
     'goals' => 'Resources\GoalController',
 ]);
 
-//Route::get('/users', 'Resources\UserController@index')->name('users.index');
-
 //Routes to javascript
 Route::post('media_query', 'Resources\MediaController@mediaQuery')->name('mediaQuery');
 
@@ -57,4 +55,6 @@ Route::get('clubs/{id}/teams', 'Resources\ClubController@getTeams')->name('getCl
 Route::get('competitions/{id}/seasons', 'Resources\CompetitionController@getSeasons')->name('getCompetitionsSeasons');
 Route::get('seasons/{id}/games', 'Resources\SeasonController@getGames')->name('getSeasonGames');
 Route::get('teams/{id}/current_players', 'Resources\TeamController@getCurrentPlayers')->name('getTeamCurrentPlayers');
+
+Route::get('settings', 'SettingsController@index')->name('settings.index');
 
