@@ -46,11 +46,11 @@
 
             <div class="col s6 m4 l3">
                 <label>{{ trans('models.club') }}</label>
-                <select id="club_id" name="club_id" class="browser-default">
+                <select onchange="updateTeamList('club_id', 'team_id')" id="club_id" name="club_id" class="browser-default">
                     <option disabled value="0" selected>{{ trans('general.choose_option') }}</option>
-                    <option onclick="updateTeamList(0)" value="0">{{ trans('general.none') }}</option>
+                    <option value="0">{{ trans('general.none') }}</option>
                     @foreach(App\Club::all() as $club)
-                        <option onclick="updateTeamList({{ $club->id }})" value="{{ $club->id }}">{{ $club->name }}</option>
+                        <option value="{{ $club->id }}">{{ $club->name }}</option>
                     @endforeach
                 </select>
             </div>
@@ -100,19 +100,21 @@
 
                             @if ($player->nickname && $player->picture)
 
-                    "#{{ $player->id }} {{ $player->name }} ({{ $player->nickname }})": '{{ $player->picture }}',
+                                "#{{ $player->id }} {{ $player->name }} ({{ $player->nickname }})": '{{ $player->picture }}',
 
-                    @elseif (!$player->nickname && $player->picture)
+                            @elseif (!$player->nickname && $player->picture)
 
-                    "#{{ $player->id }} {{ $player->name }}": '{{ $player->picture }}',
+                                "#{{ $player->id }} {{ $player->name }}": '{{ $player->picture }}',
 
-                    @elseif ($player->nickname && !$player->picture)
+                            @elseif ($player->nickname && !$player->picture)
 
-                    "#{{ $player->id }} {{ $player->name }} ({{ $player->nickname }})": '{{ config('custom.default_profile_pic') }}',
+                                "#{{ $player->id }} {{ $player->name }} ({{ $player->nickname }})": '{{ config('custom.default_profile_pic') }}',
 
-                    @elseif (!$player->nickname && !$player->picture)
-                    "#{{ $player->id }} {{ $player->name }}": '{{ config('custom.default_profile_pic') }}',
-                    @endif
+                            @elseif (!$player->nickname && !$player->picture)
+
+                                "#{{ $player->id }} {{ $player->name }}": '{{ config('custom.default_profile_pic') }}',
+
+                            @endif
 
                     @endforeach
                 },
@@ -129,7 +131,7 @@
 
                     console.log(id);
                 },
-                minLength: 1
+                minLength: 2
             });
         })
     </script>

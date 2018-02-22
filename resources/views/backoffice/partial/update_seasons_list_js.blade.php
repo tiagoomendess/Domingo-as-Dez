@@ -1,20 +1,19 @@
 <script>
 
-    function updateSeasonList(id, element_id) {
+    function updateSeasonList(dropdown_origem, dropdown_destino) {
 
-        if (element_id == null)
-            element_id = "#season_id";
-        else
-            element_id = "#" + element_id;
+        console.log('Entrou em updateSeasonList');
 
-        var season_dropdown = $(element_id);
+        var season_dropdown = $('#' + dropdown_destino);
         season_dropdown.prop('disabled', true);
         season_dropdown.empty();
 
-        //Disable 2nd dropdown
-        if (id == 0) {
+        var id = $('#' + dropdown_origem).val();
 
-            var op = $("<option> Primeiro escolhe Clube</option>");
+        //Disable 2nd dropdown
+        if (id == 0 || id == null) {
+
+            var op = $("<option> Primeiro escolhe Competição</option>");
             op.attr('value', '0');
             op.appendTo(season_dropdown);
             season_dropdown.prop('disabled', true);
@@ -28,6 +27,12 @@
             if(data.length == 0) {
                 var op = $("<option>Nenhuma</option>");
                 op.attr('value', 0);
+                op.appendTo(season_dropdown);
+            } else {
+                var op = $("<option>Escolha uma opção</option>");
+                op.attr('value', 0);
+                //op.prop('disabled', true);
+                op.prop('selected', true);
                 op.appendTo(season_dropdown);
             }
 

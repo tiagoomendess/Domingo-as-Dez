@@ -28,10 +28,10 @@
 
             <div class="col s6 m4 l3">
                 <label>{{ trans('general.home_club') }}</label>
-                <select id="club_id" name="club_id" class="browser-default" required>
+                <select onchange="updateTeamList('home_club_id', 'home_team_id')" id="home_club_id" name="club_id" class="browser-default" required>
                     <option disabled value="0" selected>{{ trans('general.choose_option') }}</option>
                     @foreach(App\Club::all() as $club)
-                        <option onclick="updateTeamList( {{ $club->id }}, 'home_team_id')" value="{{ $club->id }}">{{ $club->name }}</option>
+                        <option value="{{ $club->id }}">{{ $club->name }}</option>
                     @endforeach
                 </select>
             </div>
@@ -49,10 +49,10 @@
 
             <div class="col s6 m4 l3">
                 <label>{{ trans('general.away_club') }}</label>
-                <select id="club_id" name="club_id" class="browser-default" required>
+                <select onchange="updateTeamList('away_club_id', 'away_team_id')" id="away_club_id" name="club_id" class="browser-default" required>
                     <option disabled value="0" selected>{{ trans('general.choose_option') }}</option>
                     @foreach(App\Club::all() as $club)
-                        <option onclick="updateTeamList({{ $club->id }} , 'away_team_id')" value="{{ $club->id }}">{{ $club->name }}</option>
+                        <option value="{{ $club->id }}">{{ $club->name }}</option>
                     @endforeach
                 </select>
             </div>
@@ -70,10 +70,10 @@
 
             <div class="col s5 m3 l2">
                 <label>{{ trans('models.competition') }}</label>
-                <select id="competition_id" name="competition_id" class="browser-default" required>
+                <select onchange="updateSeasonList('competition_id', 'season_id')" id="competition_id" name="competition_id" class="browser-default" required>
                     <option disabled value="0" selected>{{ trans('general.choose_option') }}</option>
                     @foreach(App\Competition::all() as $competition)
-                        <option onclick="updateSeasonList({{ $competition->id }})" value="{{ $competition->id }}">{{ $competition->name }}</option>
+                        <option value="{{ $competition->id }}">{{ $competition->name }}</option>
                     @endforeach
                 </select>
             </div>

@@ -66,11 +66,11 @@
 
             <div class="col s6 m4 l3">
                 <label>{{ trans('models.club') }}</label>
-                <select id="club_id" name="club_id" class="browser-default">
+                <select id="club_id" name="club_id" class="browser-default" onchange="updateTeamList('club_id', 'team_id')">
                     <option disabled value="0" selected>{{ trans('general.choose_option') }}</option>
-                    <option onclick="updateTeamList(0)" value="0">{{ trans('general.none') }}</option>
+                    <option value="0">{{ trans('general.none') }}</option>
                     @foreach(App\Club::all() as $club)
-                        <option onclick="updateTeamList({{ $club->id }})" value="{{ $club->id }}">{{ $club->name }}</option>
+                        <option value="{{ $club->id }}">{{ $club->name }}</option>
                     @endforeach
                 </select>
             </div>

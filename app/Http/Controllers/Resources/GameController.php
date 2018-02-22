@@ -214,4 +214,17 @@ class GameController extends Controller
 
         return redirect(route('games.index'))->with(['popup_message' => $messages]);
     }
+
+    public function getTeams($id) {
+
+        $game = Game::findOrFail($id);
+
+        $game->homeTeam->club;
+        $game->awayTeam->club;
+
+        $teams[0] = $game->homeTeam;
+        $teams[1] = $game->awayTeam;
+
+        return response()->json($teams);
+    }
 }

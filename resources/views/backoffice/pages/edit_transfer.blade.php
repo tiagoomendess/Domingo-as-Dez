@@ -54,32 +54,29 @@
 
             <div class="col s6 m4 l3">
                 <label>{{ trans('models.club') }}</label>
-                <select id="club_id" name="club_id" class="browser-default">
+                <select onchange="updateTeamList('club_id', 'team_id')" id="club_id" name="club_id" class="browser-default">
 
                     @if($transfer->team)
-                        <option onclick="updateTeamList({{ $transfer->team->club->id }})"
-                                value="{{ $transfer->team->club->id }}" selected>{{ $transfer->team->club->name }}</option>
+                        <option value="{{ $transfer->team->club->id }}" selected>{{ $transfer->team->club->name }}</option>
 
                         @foreach(App\Club::all() as $club)
 
                             @if ($club->id != $transfer->team->club->id)
-                                <option onclick="updateTeamList({{ $club->id }})" value="{{ $club->id }}">{{ $club->name }}</option>
+                                <option value="{{ $club->id }}">{{ $club->name }}</option>
                             @endif
 
                         @endforeach
 
-                        <option onclick="updateTeamList(0)" value="0">{{ trans('general.none') }}</option>
+                        <option value="0">{{ trans('general.none') }}</option>
 
                     @else
-                        <option onclick="updateTeamList(0)" value="0">{{ trans('general.none') }}</option>
+                        <option value="0">{{ trans('general.none') }}</option>
 
                         @foreach(App\Club::all() as $club)
-                            <option onclick="updateTeamList({{ $club->id }})" value="{{ $club->id }}">{{ $club->name }}</option>
+                            <option value="{{ $club->id }}">{{ $club->name }}</option>
                         @endforeach
 
                     @endif
-
-
 
                 </select>
             </div>

@@ -30,12 +30,12 @@
 
             <div class="col s6 m4 l3">
                 <label>{{ trans('general.home_club') }}</label>
-                <select id="club_id" name="club_id" class="browser-default" required>
-                    <option onclick="updateTeamList( {{ $game->homeTeam->club->id }}, 'home_team_id')" value="{{ $game->homeTeam->club->id }}" selected>{{ $game->homeTeam->club->name  }}</option>
+                <select onchange="updateTeamList('home_club_id', 'home_team_id')" id="home_club_id" name="club_id" class="browser-default" required>
+                    <option value="{{ $game->homeTeam->club->id }}" selected>{{ $game->homeTeam->club->name  }}</option>
                     @foreach(App\Club::all() as $club)
 
                         @if($club->id != $game->homeTeam->club->id)
-                            <option onclick="updateTeamList( {{ $club->id }}, 'home_team_id')" value="{{ $club->id }}">{{ $club->name }}</option>
+                            <option value="{{ $club->id }}">{{ $club->name }}</option>
                         @endif
 
                     @endforeach
@@ -62,11 +62,11 @@
 
             <div class="col s6 m4 l3">
                 <label>{{ trans('general.away_club') }}</label>
-                <select id="club_id" name="club_id" class="browser-default" required>
-                    <option onclick="updateTeamList( {{ $game->awayTeam->club->id }}, 'away_team_id')" value="{{ $game->awayTeam->club->id }}" selected>{{ $game->awayTeam->club->name }}</option>
+                <select onchange="updateTeamList('away_club_id', 'away_team_id')" id="away_club_id" name="club_id" class="browser-default" required>
+                    <option value="{{ $game->awayTeam->club->id }}" selected>{{ $game->awayTeam->club->name }}</option>
                     @foreach(App\Club::all() as $club)
                         @if($club->id != $game->awayTeam->club->id)
-                            <option onclick="updateTeamList( {{ $club->id }}, 'away_team_id')" value="{{ $club->id }}">{{ $club->name }}</option>
+                            <option value="{{ $club->id }}">{{ $club->name }}</option>
                         @endif
                     @endforeach
                 </select>
@@ -93,11 +93,11 @@
 
             <div class="col s5 m3 l2">
                 <label>{{ trans('models.competition') }}</label>
-                <select id="competition_id" name="competition_id" class="browser-default" required>
-                    <option onclick="updateSeasonList({{ $game->season->competition->id }})" value="{{ $game->season->competition->id }}" selected>{{ $game->season->competition->name }}</option>
+                <select onchange="updateSeasonList('competition_id', 'season_id')" id="competition_id" name="competition_id" class="browser-default" required>
+                    <option value="{{ $game->season->competition->id }}" selected>{{ $game->season->competition->name }}</option>
                     @foreach(App\Competition::all() as $competition)
                         @if ($competition->id != $game->season->competition->id)
-                            <option onclick="updateSeasonList({{ $competition->id }})" value="{{ $competition->id }}">{{ $competition->name }}</option>
+                            <option value="{{ $competition->id }}">{{ $competition->name }}</option>
                         @endif
 
                     @endforeach
