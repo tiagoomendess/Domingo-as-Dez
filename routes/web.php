@@ -18,11 +18,13 @@ Route::get('/register/verify/{email}/{token}', 'Auth\RegisterController@verifyEm
 Route::get('/login/{provider}','Auth\LoginController@redirectToProvider')->where('provider','twitter|facebook|google');
 Route::get('/login/{provider}/callback','Auth\LoginController@handleProviderCallback')->where('provider','twitter|facebook|google');
 
+//Front
 Route::get('/', 'Front\HomePageController@index')->name('homePage');
 
-Route::get('/dashboard', 'Backoffice\DashboardController@index')->name('dashboard');
-
 Route::get('/home', 'Front\HomePageController@home')->name('home');
+
+//Backoffice
+Route::get('/dashboard', 'Backoffice\DashboardController@index')->name('dashboard');
 
 //Resources ---------------------
 Route::resources([
@@ -58,4 +60,8 @@ Route::get('teams/{id}/current_players', 'Resources\TeamController@getCurrentPla
 Route::get('games/{id}/teams', 'Resources\GameController@getTeams')->name('getGameTeams');
 
 Route::get('settings', 'SettingsController@index')->name('settings.index');
+
+//Front
+Route::get('/noticias', 'ArticleController@index')->name('publicNews');
+
 

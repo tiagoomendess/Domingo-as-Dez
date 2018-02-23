@@ -10,16 +10,19 @@
 
 @section('body')
 
-    <div>
-        @include('front.partial.navbar')
-        @include('front.partial.sidenav')
-    </div>
+    @include('front.partial.sidenav')
 
-    <div class="row">
-        <div class="col xs12 l10 offset-l1">
-            @yield('content')
+    @include('front.partial.navbar')
+
+    <main>
+        <div class="row">
+            <div class="container">
+                @yield('content')
+            </div>
         </div>
-    </div>
+    </main>
+
+    @include('front.partial.footer')
 
     <!-- End of page, load scripts -->
     <script type="text/javascript" src="/js/jquery-3.2.1.min.js"></script>

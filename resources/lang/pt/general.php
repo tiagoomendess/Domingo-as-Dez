@@ -75,5 +75,7 @@ return [
     'goals_away' => 'Golos Visitante',
     'goals_home' => 'Golos Visitado',
     'minute' => 'Minuto',
+    'news' => 'Notícias',
+    'home_page' => 'Início',
 
 ];
