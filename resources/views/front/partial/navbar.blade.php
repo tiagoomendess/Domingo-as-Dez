@@ -16,7 +16,7 @@
 
                             <ul id="competitions_dropdown" class="dropdown-content dropdown-content-custom">
                                 @foreach(\App\Competition::all()->where('visible', true) as $competition)
-                                    <li><a href="#">{{ $competition->name }}</a></li>
+                                    <li><a href="{{ route('competition', ['slug' => str_slug($competition->name)]) }}">{{ $competition->name }}</a></li>
                                 @endforeach
                             </ul>
 

@@ -124,8 +124,8 @@ class MediaController extends Controller
 
                 $file = $request->file('file');
                 $extension = $file->getClientOriginalExtension();
-                $originalName = $file->getClientOriginalName();
-                $filename = str_random(3) . time() . str_random(6) . '-' . $originalName;
+                $originalName = str_slug($file->getClientOriginalName());
+                $filename = str_random(3) . time() . str_random(6) . '_' . $originalName;
 
                 $mediaType = 'other';
                 $folder = 'files';
@@ -295,8 +295,8 @@ class MediaController extends Controller
      */
     public static function storeImage($file, $tags = null) {
 
-        $originalName = $file->getClientOriginalName();
-        $filename = str_random(3) . time() . str_random(6) . '-' . $originalName;
+        $originalName = str_slug($file->getClientOriginalName());
+        $filename = str_random(3) . time() . str_random(6) . '_' . $originalName;
         $filename = self::removeLatin($filename);
 
         $url = '/storage/media/images/' . $filename;

@@ -226,5 +226,6 @@ class GameController extends Controller
         $teams[1] = $game->awayTeam;
 
         return response()->json($teams);
+
     }
 }

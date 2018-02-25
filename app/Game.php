@@ -31,4 +31,98 @@ class Game extends Model
     public function awayTeam() {
         return $this->belongsTo(Team::class, 'away_team_id');
     }
+
+    /**
+     * Get total home goals of this game
+    */
+    public function getTotalHomeGoals() {
+
+        $goals = $this->goals;
+        $total_goals = 0;
+
+        foreach ($goals as $goal) {
+
+            if ($goal->team->id == $this->homeTeam->id)
+                $total_goals++;
+
+        }
+
+        return $total_goals;
+    }
+
+    /**
+     * Get total home goals of this game
+     */
+    public function getTotalAwayGoals() {
+
+        $goals = $this->goals;
+        $total_goals = 0;
+
+        foreach ($goals as $goal) {
+
+            if ($goal->team->id == $this->awayTeam->id)
+                $total_goals++;
+
+        }
+
+        return $total_goals;
+    }
+
+    /**
+     * Gets the winner of this game
+     *
+     * @return Team
+    */
+    public function winner() {
+
+        if ($this->finished) {
+
+            if ($this->goals_home && $this->goals_away) {
+
+                if ($this->goals_home > $this->goals_away)
+                    return $this->homeTeam();
+                else if ($this->goals_home < $this->goals_away)
+                    return $this->awayTeam();
+                else
+                    return null;
+
+            } else {
+
+                if ($this->getTotalHomeGoals() > $this->getTotalAwayGoals())
+                    return $this->homeTeam();
+                else if ($this->getTotalHomeGoals() < $this->getTotalAwayGoals())
+                    return $this->awayTeam();
+                else
+                    return null;
+
+            }
+        } else
+            return null;
+
+    }
+
+    public function isDraw() {
+
+        if ($this->finished) {
+
+            if ($this->goals_home && $this->goals_away) {
+
+                if ($this->goals_home == $this->goals_away)
+                    return true;
+                else
+                    return false;
+
+            } else {
+
+                if ($this->getTotalHomeGoals() == $this->getTotalAwayGoals())
+                    return true;
+
+                else
+                    return false;
+
+            }
+
+        } else
+            return null;
+    }
 }
