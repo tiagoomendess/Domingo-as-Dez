@@ -11,4 +11,6 @@ return [
     'table_points' => 'Pontos',
     'table_played' => 'Jogos',
     'table_position' => 'Posição',
+    'league_round' => 'Jornada',
+    'cup_round' => 'Eliminatória',
 ];

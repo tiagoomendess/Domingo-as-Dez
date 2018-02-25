@@ -74,7 +74,7 @@ class Season extends Model
             if($game->finished) {
 
                 //if there is a result hard set
-                if($game->goals_home != null && $game->goals_away != null) {
+                if(!is_null($game->goals_home) && !is_null($game->goals_away)) {
 
                     if($game->id == 20)
                         dd($game);
@@ -130,7 +130,7 @@ class Season extends Model
             if($game->finished) {
 
                 //if there is a result hard set
-                if($game->goals_home && $game->goals_away) {
+                if(!is_null($game->goals_home) && !is_null($game->goals_away)) {
 
                     if($game->goals_home == $game->goals_away)
                         $total_draws ++;

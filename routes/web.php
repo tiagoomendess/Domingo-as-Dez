@@ -64,6 +64,7 @@ Route::get('settings', 'SettingsController@index')->name('settings.index');
 //Front
 Route::get('/noticias', 'Front\ArticleController@index')->name('publicNews');
 Route::get('/competicao/{slug}', 'Front\CompetitionsController@show')->name('competition');
-Route::get('/competicao/{slug}/get_round_info/{season}/{round}', 'Front\CompetitionsController@getRoundInfo')->name('getRoundInfo');
+
+Route::get('/competicao/{slug}/get_season_info/{season}/round/{round}', 'Front\CompetitionsController@getRoundInfo')->name('getRoundInfo');
 
 

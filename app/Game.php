@@ -77,21 +77,21 @@ class Game extends Model
 
         if ($this->finished) {
 
-            if ($this->goals_home && $this->goals_away) {
+            if (!is_null($this->goals_home) && !is_null($this->goals_away)) {
 
                 if ($this->goals_home > $this->goals_away)
-                    return $this->homeTeam();
+                    return $this->homeTeam;
                 else if ($this->goals_home < $this->goals_away)
-                    return $this->awayTeam();
+                    return $this->awayTeam;
                 else
                     return null;
 
             } else {
 
                 if ($this->getTotalHomeGoals() > $this->getTotalAwayGoals())
-                    return $this->homeTeam();
+                    return $this->homeTeam;
                 else if ($this->getTotalHomeGoals() < $this->getTotalAwayGoals())
-                    return $this->awayTeam();
+                    return $this->awayTeam;
                 else
                     return null;
 
@@ -103,26 +103,34 @@ class Game extends Model
 
     public function isDraw() {
 
+        $isDraw = false;
+
         if ($this->finished) {
 
-            if ($this->goals_home && $this->goals_away) {
+            if (!is_null($this->goals_home) && !is_null($this->goals_away)) {
 
                 if ($this->goals_home == $this->goals_away)
-                    return true;
+                    $isDraw = true;
                 else
-                    return false;
+                    $isDraw = false;
 
             } else {
 
                 if ($this->getTotalHomeGoals() == $this->getTotalAwayGoals())
-                    return true;
+                    $isDraw = true;
 
                 else
-                    return false;
+                    $isDraw = false;
 
             }
 
-        } else
-            return null;
+        } else {
+
+            $isDraw = false;
+
+        }
+
+        return $isDraw;
+
     }
 }

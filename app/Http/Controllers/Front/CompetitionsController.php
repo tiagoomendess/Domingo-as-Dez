@@ -6,9 +6,11 @@ use App\Competition;
 use App\Game;
 use App\Season;
 use App\Team;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Validator;
 
 class CompetitionsController extends Controller
@@ -19,9 +21,8 @@ class CompetitionsController extends Controller
 
     public function show($slug) {
 
-
-        $comp_name = str_replace('-', ' ', $slug);
         $comp = null;
+        $round_chosen = 0;
 
         $competitions = Competition::all();
 
@@ -37,12 +38,56 @@ class CompetitionsController extends Controller
         if(!$comp)
             abort(404);
 
-        return view('front.pages.competition', ['competition' => $competition]);
+        $season = $comp->seasons->first();
+        $total_teams = $season->getTotalTeams();
+
+        //Decide wich round to display ---------------------------
+        $now = Carbon::now();
+
+        $past_games = DB::table('games')
+            ->where('season_id', $season->id)
+            ->where('date', '<', $now->format('Y-m-d H:m:s'))
+            ->limit($total_teams / 2)
+            ->orderBy('date', 'desc')
+            ->get();
+
+        $futu_games = DB::table('games')
+            ->where('season_id', $season->id)
+            ->where('date', '>', $now->format('Y-m-d H:m:s'))
+            ->limit($total_teams / 2)
+            ->orderBy('date', 'asc')
+            ->get();
+
+        // End Decide wich round to display-----------------
+
+        $past_games_avg = 0;
+        $futu_games_avg = 0;
+
+        foreach ($past_games as $past_game) {
+            $past_games_avg += Carbon::createFromFormat('Y-m-d H:i:s', $past_game->date)->timestamp;
+        }
+
+        $past_games_avg = $past_games_avg / $past_games->count();
+
+        foreach ($futu_games as $futu_game) {
+            $futu_games_avg += Carbon::createFromFormat('Y-m-d H:i:s', $futu_game->date)->timestamp;
+        }
+
+        $futu_games_avg = $futu_games_avg / $futu_games->count();
+
+        $current_timestamp = $now->timestamp;
+
+        //what is closest
+        if ($current_timestamp - $past_games_avg < $futu_games_avg - $current_timestamp)
+            $round_chosen = $past_games->first()->round;
+        else
+            $round_chosen = $futu_games->first()->round;
+
+        return view('front.pages.competition', ['competition' => $comp, 'season' => $season, 'round_chosen' => $round_chosen]);
 
     }
 
     public function getRoundInfo($slug, $season, $round) {
-
 
         $matches = Game::where('season_id', $season)->where('round', $round)->where('visible', true)->get();
 
@@ -70,9 +115,14 @@ class CompetitionsController extends Controller
 
         $unique_teams = $season->getUniqueTeams();
 
-        $sorted_table = $this->sortAFPBLeagueTable($season, $unique_teams);
+        if ($season->competition->competition_type == 'league')
+            $sorted_table = $this->sortAFPBLeagueTable($season, $games, $unique_teams);
+        else
+            $sorted_table = null;
 
-        dd($sorted_table);
+        $round_info['table'] = $sorted_table;
+
+        return response()->json($round_info);
 
     }
 
@@ -86,7 +136,7 @@ class CompetitionsController extends Controller
      *
      * @return array
     */
-    public function sortAFPBLeagueTable($season, $teams) {
+    public function sortAFPBLeagueTable($season, $games, $teams) {
 
         /** RULES
          *  1) Número de pontos alcançados pelos clubes nos jogos disputados entre si
@@ -97,17 +147,6 @@ class CompetitionsController extends Controller
          *  6) Menor número de golos sofridos na competição
          */
 
-        //aux necessary for sorting
-        $aux = [
-            'team' => null,
-            'club_name' => '',
-            'points' => 0,
-            'gf' => 0,
-            'ga' => 0,
-            'gd' => 0,
-            'v' => 0,
-        ];
-
         $table = array();
         $i = 0;
 
@@ -116,10 +155,11 @@ class CompetitionsController extends Controller
 
             $table[$i]['team'] = $team;
             $table[$i]['club_name'] = $team->club->name;
-            $table[$i]['v'] = $season->getTeamTotalWins($team);
-            $table[$i]['points'] = ($table[$i]['v'] * 3) + ($season->getTeamTotalDraws($team));
-            $table[$i]['gf'] = $season->getTotalGoalsForTeam($team);
-            $table[$i]['ga'] = $season->getTotalGoalsAgainstTeam($team);
+            $table[$i]['v'] = $this->getTotalWins($team, $games);
+            $table[$i]['d'] = $this->getTotalDraws($team, $games);
+            $table[$i]['points'] = ($table[$i]['v'] * 3) + $table[$i]['d'];
+            $table[$i]['gf'] = $this->getTotalGoalsForTeam($team, $games);
+            $table[$i]['ga'] = $this->getTotalGoalsAgainstTeam($team, $games);
             $table[$i]['gd'] = $table[$i]['gf'] - $table[$i]['ga'];
 
             $i++;
@@ -157,7 +197,7 @@ class CompetitionsController extends Controller
 
                             } else {
 
-                                if ($game_between->finished && $game_between->winner->id == $team_i->id)
+                                if ($game_between->finished && $game_between->winner()->id == $team_i->id)
                                     $local_i_points += 3;
                                 else
                                     $local_j_points += 3;
@@ -285,6 +325,104 @@ class CompetitionsController extends Controller
         return $table;
     }
 
+    /**
+     * Gets the total wins for the team in the games provided
+     *
+     * @param $team Team
+     * @param $games Collection
+     *
+     * @return int
+    */
+    public function getTotalWins($team, $games) {
 
+        $total_wins = 0;
+
+        foreach ($games as $game) {
+
+            if($game->finished && !$game->isDraw()) {
+
+                if($game->winner()->id == $team->id)
+                    $total_wins++;
+
+            }
+
+        }
+
+        return $total_wins;
+    }
+
+    /**
+     * Gets the total amount of games that the provided team has drawn in the games provided
+     * @param $team Team
+     * @param $games Collection
+     *
+     * @return int
+    */
+    public function getTotalDraws($team, $games) {
+
+        $total_draws = 0;
+
+        foreach ($games as $game) {
+
+            //Only check games that are draws
+            if($game->finished && $game->isDraw()) {
+
+                //Check if the team provided is in that game
+                if($game->homeTeam->id == $team->id || $game->awayTeam->id == $team->id)
+                    $total_draws++;
+
+            }
+
+        }
+
+        return $total_draws;
+
+    }
+
+    /**
+     * Gets the total amount of goals that the provided team has scored in the games provided
+     * @param $team Team
+     * @param $games Collection
+     *
+     * @return int
+     */
+    public function getTotalGoalsForTeam($team, $games) {
+
+        $total_goals = 0;
+
+        foreach ($games as $game) {
+
+            if ($game->homeTeam->id == $team->id)
+                $total_goals += $game->getTotalHomeGoals();
+
+            if ($game->awayTeam->id == $team->id)
+                $total_goals += $game->getTotalAwayGoals();
+        }
+
+        return $total_goals;
+    }
+
+    /**
+     * Gets the total amount of goals that the provided team has conceded in the games provided
+     * @param $team Team
+     * @param $games Collection
+     *
+     * @return int
+     */
+    public function getTotalGoalsAgainstTeam($team, $games) {
+
+        $total_goals = 0;
+
+        foreach ($games as $game) {
+
+            if ($game->homeTeam->id == $team->id)
+                $total_goals += $game->getTotalAwayGoals();
+
+            if ($game->awayTeam->id == $team->id)
+                $total_goals += $game->getTotalHomeGoals();
+        }
+
+        return $total_goals;
+    }
 
 }

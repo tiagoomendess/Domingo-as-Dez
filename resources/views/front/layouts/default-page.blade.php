@@ -43,4 +43,6 @@
         });
     </script>
 
+    @yield('scripts')
+
 @endsection
