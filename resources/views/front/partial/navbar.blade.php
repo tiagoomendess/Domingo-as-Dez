@@ -11,7 +11,7 @@
                         <ul id="nav-mobile" class="left hide-on-med-and-down">
 
                             <li><a href="{{ route('homePage') }}">{{ trans('general.home_page') }}</a></li>
-                            <li><a href="#">{{ trans('general.news') }}</a></li>
+                            <li><a href="{{ route('publicNews') }}">{{ trans('general.news') }}</a></li>
                             <li><a class="dropdown-button" href="#" data-activates="competitions_dropdown">{{ trans('models.competitions') }}<i class="material-icons right">arrow_drop_down</i></a></li>
 
                             <ul id="competitions_dropdown" class="dropdown-content dropdown-content-custom">

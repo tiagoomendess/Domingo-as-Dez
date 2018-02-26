@@ -138,6 +138,15 @@
 
                 if (data.matches[i]['started'] && !data.matches[i]['finished']) {
 
+                    var inside_wrapper1 = $('<div style="width: 100%;" class="center"></div>');
+                    inside_wrapper1.appendTo(div2);
+
+                    var div_date1 = $('<div style="width: 100%" class=""><h5 class="center">' + data.matches[i]['goals_home'] +' - ' + data.matches[i]['goals_away'] +'</h5></div>');
+                    div_date1.appendTo(inside_wrapper1);
+
+                    var div_playground1 = $('<div style="width: 100%" class="center"><small>Não terminado</small></div>');
+                    div_playground1.appendTo(inside_wrapper1);
+
                 } else if(data.matches[i]['finished']) {
 
                     var h3 = $('<h4 style="width: 100%" class="center">' + data.matches[i]['goals_home'] +' - ' + data.matches[i]['goals_away'] + '</h4>');
@@ -145,13 +154,13 @@
 
                 } else {
 
-                    var inside_wrapper = $('<div class="center"></div>');
+                    var inside_wrapper = $('<div style="width: 100%;" class="center"></div>');
                     inside_wrapper.appendTo(div2);
 
-                    var div_date = $('<div style="width: 100%" class=""><span>' + data.matches[i]['date'] +'</span></div>');
+                    var div_date = $('<div style="width: 100%" class=""><span class="center" style="margin-top: 20px;">' + data.matches[i]['date'] +'</span></div>');
                     div_date.appendTo(inside_wrapper);
 
-                    var div_playground = $('<div style="width: 100%" class=""><small>' + data.matches[i]['playground_name'] + '</small></div>');
+                    var div_playground = $('<div style="width: 100%" class="center"><small>' + data.matches[i]['playground_name'] + '</small></div>');
                     div_playground.appendTo(inside_wrapper);
 
                 }

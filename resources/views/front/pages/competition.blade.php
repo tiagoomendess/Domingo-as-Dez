@@ -36,40 +36,37 @@
 
                     <div id="game_list" class="collection">
                         @for($i = 0; $i < $season->getTotalTeams() / 2; $i++)
-                            <a id="link_to_game" href="#" class="collection-item">
+                            <a href="#" class="collection-item">
+                                <div>
+                                    <div class="row" style="margin-bottom: 0px;">
 
-                                <table id="games_table">
-                                    <tr>
-                                        <td>
+                                        <div class="col xs4 s4 m4 l4">
+
                                             <div class="center">
-                                                <img style="width: 50px" src="" alt="">
-                                                <div style="width: 100%"></div>
-                                            </div>
-                                        </td>
+                                                <div style="width: 100%">
+                                                    <div class="linear-background center" style="height: 50px; width: 50px; margin-bottom: 10px;"></div>
+                                                </div>
 
-                                        <td class="center">
+                                                <div class="linear-background" style="height: 14px"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col xs4 s4 m4 l4">
                                             <div class="valign-wrapper">
-
                                                 <div style="width: 100%">
-                                                    21/01/2018
+                                                    <div class="linear-background" style="height: 14px"></div>
                                                 </div>
-
-                                                <div style="width: 100%">
-                                                    Estadio Cidade de Barcelos
-                                                </div>
-
                                             </div>
-                                        </td>
+                                        </div>
 
-                                        <td>
+                                        <div class="col xs4 s4 m4 l4">
                                             <div class="center">
-                                                <img id="away_emblem_{{ $i }}" style="width: 50px" src="" alt="">
-                                                <div style="width: 100%" id="away_club_name_{{ $i }}"></div>
+                                                <div class="linear-background" style="height: 50px; width: 50px; margin-bottom: 10px;"></div>
+                                                <div class="linear-background" style="height: 14px"></div>
                                             </div>
-                                        </td>
-                                    </tr>
-                                </table>
-
+                                        </div>
+                                    </div>
+                                </div>
                             </a>
                         @endfor
                     </div>

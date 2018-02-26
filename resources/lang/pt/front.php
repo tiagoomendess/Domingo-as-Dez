@@ -1,6 +1,7 @@
 <?php
 
 return [
+
     'all_rights_reserved' => 'Todos os direitos reservados',
     'read_more' => 'Ler Mais',
     'classification' => 'Classificação',
@@ -13,4 +14,7 @@ return [
     'table_position' => 'P',
     'league_round' => 'Jornada',
     'cup_round' => 'Eliminatória',
+    'privacy_policy' => 'Política de Privacidade',
+    'terms_and_conditions' => 'Termos e Condições',
+
 ];

@@ -12,7 +12,7 @@
                 <div class="card medium hoverable">
                     <div class="card-image">
                         <img src="{{ $article->media->url }}">
-                        <span class="card-title" style="text-shadow: #000000, 1px 1px 1px">{{ $article->title }}</span>
+                        <span class="card-title" style="text-shadow: 1px 1px 3px #000000;">{{ $article->title }}</span>
                     </div>
                     <div class="card-content">
                         <p class="">{{ str_limit($article->description, 155) }}</p>

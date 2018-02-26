@@ -20,7 +20,7 @@
 <div class="footer-copyright">
     <div class="container">
         © {{ \Carbon\Carbon::now()->year }} - {{ config('custom.site_name') }}. {{ trans('front.all_rights_reserved') }}
-        <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
+        <a class="grey-text text-lighten-4 right" href="http://mendes.com.pt">Desenvolvido por Tiago Mendes</a>
     </div>
 </div>
 </footer>
