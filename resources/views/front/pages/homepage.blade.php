@@ -9,7 +9,7 @@
 
         @foreach($articles as $article)
             <div class="col xs12 s12 m6 l4 xl4">
-                <div class="card medium">
+                <div class="card medium hoverable">
                     <div class="card-image">
                         <img src="{{ $article->media->url }}">
                         <span class="card-title" style="text-shadow: #000000, 1px 1px 1px">{{ $article->title }}</span>

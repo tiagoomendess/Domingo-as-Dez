@@ -7,10 +7,21 @@
         var season_id = $('#season_id').val();
         var round = parseInt($('#round').val());
         var competition_slug = $('#competition_slug').val();
+        var max_round = parseInt($('#max_round').val());
+
+        if(round >= max_round) {
+
+            return;
+        }
+
+        var round_name_element = $('#round_name');
+        round_name_element.empty();
+
+        $('<p class="center"> Jornada ' + (round + 1) +'</p>').appendTo(round_name_element);
+
         $('#round').attr('value', round + 1);
 
         updateRoundInfo(competition_slug, season_id, round + 1);
-
 
     }
 
@@ -25,6 +36,11 @@
             $("#left_button").prop('disabled', true);
             return;
         }
+
+        var round_name_element = $('#round_name');
+        round_name_element.empty();
+
+        $('<p class="center"> Jornada ' + (round - 1) +'</p>').appendTo(round_name_element);
 
         $('#round').attr('value', round -1);
 
@@ -47,7 +63,6 @@
         var tbody = $("#tbody");
 
         console.log(round);
-
 
         $.get("/competicao/" + competition_slug + "/get_season_info/" + season + "/round/" + round, function (data) {
 
@@ -89,9 +104,68 @@
 
             }
 
+            var game_list = $("#game_list");
+            game_list.empty();
+
             for (i = 0; i < data.matches.length; i++) {
 
-                var home__name = $('#home_club');
+                var game_link = $("<a></a>");
+                game_link.attr('href', '#');
+                game_link.addClass('collection-item');
+                game_link.appendTo(game_list);
+
+                var game_table = $('<div></div>');
+                game_table.appendTo(game_link);
+
+                var table_row = $('<div class="row" style="margin-bottom: 0px;"></div>');
+                table_row.appendTo(game_table);
+
+                var td1 = $('<div class="col xs4 s4 m4 l4"></div>');
+                td1.appendTo(table_row);
+                var div1 = $('<div class="center"></div>');
+                div1.appendTo(td1);
+
+                var home_emblem = $('<img style="width: 50px;" src="' + data.matches[i]['home_club_emblem'] + '"/>');
+                home_emblem.appendTo( div1);
+
+                var home_name = $('<div style="width: 100%">' + data.matches[i]['home_club_name'] +'</div>');
+                home_name.appendTo(div1);
+
+                var td2 = $('<div class="col xs4 s4 m4 l4"></div>');
+                td2.appendTo(table_row);
+                var div2 = $('<div class="valign-wrapper"></div>');
+                div2.appendTo(td2);
+
+                if (data.matches[i]['started'] && !data.matches[i]['finished']) {
+
+                } else if(data.matches[i]['finished']) {
+
+                    var h3 = $('<h4 style="width: 100%" class="center">' + data.matches[i]['goals_home'] +' - ' + data.matches[i]['goals_away'] + '</h4>');
+                    h3.appendTo(div2);
+
+                } else {
+
+                    var inside_wrapper = $('<div class="center"></div>');
+                    inside_wrapper.appendTo(div2);
+
+                    var div_date = $('<div style="width: 100%" class=""><span>' + data.matches[i]['date'] +'</span></div>');
+                    div_date.appendTo(inside_wrapper);
+
+                    var div_playground = $('<div style="width: 100%" class=""><small>' + data.matches[i]['playground_name'] + '</small></div>');
+                    div_playground.appendTo(inside_wrapper);
+
+                }
+
+                var td3 = $('<div class="col xs4 s4 m4 l4"></div>');
+                td3.appendTo(table_row);
+                var div3 = $('<div class="center"></div>');
+                div3.appendTo(td3);
+
+                var away_emblem = $('<img style="width: 50px;" src="' + data.matches[i]['away_club_emblem'] + '"/>');
+                away_emblem.appendTo(div3);
+
+                var away_name = $('<div style="width: 100%">' + data.matches[i]['away_club_name'] +'</div>');
+                away_name.appendTo(div3);
             }
 
         });

@@ -11,6 +11,7 @@
         <input id="competition_slug" type="hidden" value="{{ str_slug($competition->name) }}">
         <input id="season_id" type="hidden" value="{{ $season->id }}">
         <input id="round" type="hidden" value="{{ $round_chosen }}">
+        <input id="max_round" type="hidden" value="{{ $season->getTotalRounds() }}">
 
         <div class="row">
 
@@ -24,33 +25,37 @@
                     <div class="row">
 
                         <table>
-                            <th><a id="left_button" class="waves-effect waves btn-flat"><i class="material-icons left">arrow_back</i></a></th>
-                            <th>
+                            <th><a onclick="leftClick()" id="left_button" class="waves-effect waves btn-flat"><i class="material-icons left">arrow_back</i></a></th>
+                            <th id="round_name">
                                 <p class="center">{{ trans('front.league_round') }} {{ $round_chosen }}</p>
                             </th>
-                            <th><a id="right_button" class="waves-effect waves btn-flat right"><i class="material-icons left">arrow_forward</i></a></th>
+                            <th><a onclick="rightClick()" id="right_button" class="waves-effect waves btn-flat right"><i class="material-icons left">arrow_forward</i></a></th>
                         </table>
 
                     </div>
 
-                    <div class="collection">
+                    <div id="game_list" class="collection">
                         @for($i = 0; $i < $season->getTotalTeams() / 2; $i++)
                             <a id="link_to_game" href="#" class="collection-item">
 
-                                <table id="table">
+                                <table id="games_table">
                                     <tr>
                                         <td>
                                             <div class="center">
-                                                <img id="home_emblem_{{ $i }}" style="width: 50px" src="" alt="">
-                                                <div style="width: 100%" id="home_club_name_{{ $i }}"></div>
+                                                <img style="width: 50px" src="" alt="">
+                                                <div style="width: 100%"></div>
                                             </div>
                                         </td>
 
                                         <td class="center">
                                             <div class="valign-wrapper">
 
-                                                <div style="width: 100%" id="central_info_{{ $i }}">
+                                                <div style="width: 100%">
+                                                    21/01/2018
+                                                </div>
 
+                                                <div style="width: 100%">
+                                                    Estadio Cidade de Barcelos
                                                 </div>
 
                                             </div>

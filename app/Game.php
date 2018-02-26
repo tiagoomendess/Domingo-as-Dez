@@ -77,7 +77,7 @@ class Game extends Model
 
         if ($this->finished) {
 
-            if (!is_null($this->goals_home) && !is_null($this->goals_away)) {
+            if ((!is_null($this->goals_home)) && (!is_null($this->goals_away))) {
 
                 if ($this->goals_home > $this->goals_away)
                     return $this->homeTeam;
@@ -107,7 +107,7 @@ class Game extends Model
 
         if ($this->finished) {
 
-            if (!is_null($this->goals_home) && !is_null($this->goals_away)) {
+            if ((!is_null($this->goals_home)) && (!is_null($this->goals_away))) {
 
                 if ($this->goals_home == $this->goals_away)
                     $isDraw = true;

@@ -110,7 +110,9 @@ class CompetitionsController extends Controller
 
         foreach ($matches as $match) {
 
-            $round_info['matches'][$i]['date'] = $match->date;
+            $carbon = Carbon::createFromFormat('Y-m-d H:i:s', $match->date);
+
+            $round_info['matches'][$i]['date'] = $carbon->format("d/m/Y \à\s H\Hi");
             $round_info['matches'][$i]['playground_name'] = $match->playground->name;
             $round_info['matches'][$i]['finished'] = $match->finished;
 
@@ -120,7 +122,7 @@ class CompetitionsController extends Controller
             $round_info['matches'][$i]['away_club_name'] = $match->awayTeam->club->name;
             $round_info['matches'][$i]['away_club_emblem'] = $match->awayTeam->club->emblem;
 
-            if (!is_null($match->goals_home && !is_null($match->goals_away))) {
+            if ((!is_null($match->goals_home)) && (!is_null($match->goals_away))) {
 
                 $round_info['matches'][$i]['goals_home'] = $match->goals_home;
                 $round_info['matches'][$i]['goals_away'] = $match->goals_away;
