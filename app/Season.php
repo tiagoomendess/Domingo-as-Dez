@@ -254,4 +254,25 @@ class Season extends Model
 
         return $gamesBetween;
     }
+
+
+    /**
+     * Gets the total amount of rounds that season has
+     *
+     * @return int
+    */
+    public function getTotalRounds() {
+
+        $highest_round = 0;
+
+        foreach ($this->games as $game) {
+
+            if ($highest_round < $game->round)
+                $highest_round = $game->round;
+
+        }
+
+        return $highest_round;
+
+    }
 }

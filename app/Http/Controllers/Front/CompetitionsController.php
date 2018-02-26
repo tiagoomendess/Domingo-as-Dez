@@ -46,16 +46,16 @@ class CompetitionsController extends Controller
 
         $past_games = DB::table('games')
             ->where('season_id', $season->id)
-            ->where('date', '<', $now->format('Y-m-d H:m:s'))
-            ->limit($total_teams / 2)
+            ->where('date', '<', $now->format('Y-m-d H:i:s'))
             ->orderBy('date', 'desc')
+            ->limit(($total_teams / 2))
             ->get();
 
         $futu_games = DB::table('games')
             ->where('season_id', $season->id)
-            ->where('date', '>', $now->format('Y-m-d H:m:s'))
-            ->limit($total_teams / 2)
+            ->where('date', '>', $now->format('Y-m-d H:i:s'))
             ->orderBy('date', 'asc')
+            ->limit(($total_teams / 2))
             ->get();
 
         // End Decide wich round to display-----------------
@@ -63,25 +63,37 @@ class CompetitionsController extends Controller
         $past_games_avg = 0;
         $futu_games_avg = 0;
 
-        foreach ($past_games as $past_game) {
-            $past_games_avg += Carbon::createFromFormat('Y-m-d H:i:s', $past_game->date)->timestamp;
+        if ($past_games->count() == 0) {
+
+            $round_chosen = 1;
+
+        } else if ($futu_games->count() == 0) {
+
+            $round_chosen = $season->getTotalRounds();
+
+        } else {
+
+            foreach ($past_games as $past_game) {
+                $past_games_avg += Carbon::createFromFormat('Y-m-d H:i:s', $past_game->date)->timestamp;
+            }
+
+            $past_games_avg = $past_games_avg / $past_games->count();
+
+            foreach ($futu_games as $futu_game) {
+                $futu_games_avg += Carbon::createFromFormat('Y-m-d H:i:s', $futu_game->date)->timestamp;
+            }
+
+            $futu_games_avg = $futu_games_avg / $futu_games->count();
+
+            $current_timestamp = $now->timestamp;
+
+            //what is closest
+            if ($current_timestamp - $past_games_avg < $futu_games_avg - $current_timestamp)
+                $round_chosen = $past_games->first()->round;
+            else
+                $round_chosen = $futu_games->first()->round;
+
         }
-
-        $past_games_avg = $past_games_avg / $past_games->count();
-
-        foreach ($futu_games as $futu_game) {
-            $futu_games_avg += Carbon::createFromFormat('Y-m-d H:i:s', $futu_game->date)->timestamp;
-        }
-
-        $futu_games_avg = $futu_games_avg / $futu_games->count();
-
-        $current_timestamp = $now->timestamp;
-
-        //what is closest
-        if ($current_timestamp - $past_games_avg < $futu_games_avg - $current_timestamp)
-            $round_chosen = $past_games->first()->round;
-        else
-            $round_chosen = $futu_games->first()->round;
 
         return view('front.pages.competition', ['competition' => $comp, 'season' => $season, 'round_chosen' => $round_chosen]);
 
@@ -100,12 +112,31 @@ class CompetitionsController extends Controller
 
             $round_info['matches'][$i]['date'] = $match->date;
             $round_info['matches'][$i]['playground_name'] = $match->playground->name;
+            $round_info['matches'][$i]['finished'] = $match->finished;
 
             $round_info['matches'][$i]['home_club_name'] = $match->homeTeam->club->name;
             $round_info['matches'][$i]['home_club_emblem'] = $match->homeTeam->club->emblem;
 
             $round_info['matches'][$i]['away_club_name'] = $match->awayTeam->club->name;
             $round_info['matches'][$i]['away_club_emblem'] = $match->awayTeam->club->emblem;
+
+            if (!is_null($match->goals_home && !is_null($match->goals_away))) {
+
+                $round_info['matches'][$i]['goals_home'] = $match->goals_home;
+                $round_info['matches'][$i]['goals_away'] = $match->goals_away;
+
+            } else {
+
+                $round_info['matches'][$i]['goals_home'] = $match->getTotalHomeGoals();
+                $round_info['matches'][$i]['goals_away'] = $match->getTotalAwayGoals();
+
+            }
+
+            if(Carbon::createFromFormat("Y-m-d H:i:s", $match->date)->timestamp < Carbon::now()->timestamp) {
+                $round_info['matches'][$i]['started'] = true;
+            } else {
+                $round_info['matches'][$i]['started'] = false;
+            }
 
             $i++;
 

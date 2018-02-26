@@ -19,7 +19,7 @@ class CreateTransfersTable extends Migration
             $table->foreign('player_id')->references('id')->on('players')->onDelete('cascade');
             $table->integer('team_id')->unsigned()->nullable();
             $table->foreign('team_id')->references('id')->on('teams')->onDelete('cascade');
-            $table->timestamp('date');
+            $table->timestamp('date')->useCurrent();
             $table->boolean('visible')->default(true);
             $table->timestamps();
         });

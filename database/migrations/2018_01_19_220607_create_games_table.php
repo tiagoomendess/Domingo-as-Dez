@@ -22,7 +22,7 @@ class CreateGamesTable extends Migration
             $table->integer('season_id')->unsigned();
             $table->foreign('season_id')->references('id')->on('seasons')->onDelete('cascade');
             $table->integer('round');
-            $table->timestamp('date');
+            $table->timestamp('date')->useCurrent();
             $table->integer('playground_id')->unsigned()->nullable();
             $table->foreign('playground_id')->references('id')->on('playgrounds')->onDelete('cascade');
             $table->integer('goals_home')->nullable();

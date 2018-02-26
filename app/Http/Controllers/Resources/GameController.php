@@ -178,7 +178,6 @@ class GameController extends Controller
         $round = $request->input('round');
         $playground_id = $request->input('playground_id');
 
-
         $game->home_team_id = $home_team_id;
         $game->away_team_id = $away_team_id;
         $game->goals_home = $goals_home;

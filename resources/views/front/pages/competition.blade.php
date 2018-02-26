@@ -8,6 +8,10 @@
 
     @if($competition->competition_type == 'league')
 
+        <input id="competition_slug" type="hidden" value="{{ str_slug($competition->name) }}">
+        <input id="season_id" type="hidden" value="{{ $season->id }}">
+        <input id="round" type="hidden" value="{{ $round_chosen }}">
+
         <div class="row">
 
             <div class="col xs12 s12 m12 l12 xl12">
@@ -16,41 +20,92 @@
 
             <div class="col xs12 s12 m12 l6 xl6">
                 <div class="card-panel">
+
                     <div class="row">
 
-                        <input id="competition_slug" type="hidden" value="{{ str_slug($competition->name) }}">
-                        <input id="season_id" type="hidden" value="{{ $season->id }}">
-                        <input id="round" type="hidden" value="{{ $round_chosen }}">
-
-                        <table id="round_table">
-                            <thead>
-                                <th><a class="waves-effect waves btn-flat left"> <i class="material-icons">arrow_back</i></a></th>
-                                <th class="center">{{ trans('front.league_round') }}</th>
-                                <th><a class="waves-effect waves btn-flat right"> <i class="material-icons">arrow_forward</i></a></th>
-                            </thead>
-
+                        <table>
+                            <th><a id="left_button" class="waves-effect waves btn-flat"><i class="material-icons left">arrow_back</i></a></th>
+                            <th>
+                                <p class="center">{{ trans('front.league_round') }} {{ $round_chosen }}</p>
+                            </th>
+                            <th><a id="right_button" class="waves-effect waves btn-flat right"><i class="material-icons left">arrow_forward</i></a></th>
                         </table>
 
                     </div>
+
+                    <div class="collection">
+                        @for($i = 0; $i < $season->getTotalTeams() / 2; $i++)
+                            <a id="link_to_game" href="#" class="collection-item">
+
+                                <table id="table">
+                                    <tr>
+                                        <td>
+                                            <div class="center">
+                                                <img id="home_emblem_{{ $i }}" style="width: 50px" src="" alt="">
+                                                <div style="width: 100%" id="home_club_name_{{ $i }}"></div>
+                                            </div>
+                                        </td>
+
+                                        <td class="center">
+                                            <div class="valign-wrapper">
+
+                                                <div style="width: 100%" id="central_info_{{ $i }}">
+
+                                                </div>
+
+                                            </div>
+                                        </td>
+
+                                        <td>
+                                            <div class="center">
+                                                <img id="away_emblem_{{ $i }}" style="width: 50px" src="" alt="">
+                                                <div style="width: 100%" id="away_club_name_{{ $i }}"></div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+
+                            </a>
+                        @endfor
+                    </div>
+
                 </div>
             </div>
 
             <div class="col xs12 s12 m12 l6 xl6">
                 <div class="card-panel">
-                    <table id="positions_table">
+                    <table>
 
                         <thead>
-                            <th>{{ trans('front.table_position') }}</th>
-                            <th>{{ trans('front.table_club') }}</th>
-                            <th class="right">{{ trans('front.table_points') }}</th>
+                        <th>{{ trans('front.table_position') }}</th>
+                        <th style="width: 30px"></th>
+                        <th>{{ trans('front.table_club') }}</th>
+                        <th>{{ trans('front.table_goals_favor') }}</th>
+                        <th>{{ trans('front.table_goals_against') }}</th>
+                        <th>{{ trans('front.table_goal_difference') }}</th>
+                        <th class="right">{{ trans('front.table_points') }}</th>
                         </thead>
 
                         <tbody id="tbody">
+
+                        @for($i = 0; $i < $season->getTotalTeams(); $i++)
+                            <tr>
+                                <td style="height: 61px">{{ $i + 1}}</td>
+                                <td style="height: 61px; width: 30px"><div class="linear-background" style="height: 25px; width: 25px"></div></td>
+                                <td style="height: 61px"><div class="linear-background" style="height: 14px"></div></td>
+                                <td style="height: 61px"><div class="linear-background" style="height: 14px"></div></td>
+                                <td style="height: 61px"><div class="linear-background" style="height: 14px"></div></td>
+                                <td style="height: 61px"><div class="linear-background" style="height: 14px"></div></td>
+                                <td style="height: 61px"><div class="linear-background" style="height: 14px"></div></td>
+                            </tr>
+                        @endfor
 
                         </tbody>
 
                     </table>
                 </div>
+
+                <small>Nota: Esta tabela está ordenada pelos criterios de desempate.</small>
             </div>
         </div>
 
