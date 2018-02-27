@@ -21,6 +21,7 @@ class CreateSeasonsTable extends Migration
             $table->integer('end_year');
             $table->integer('relegates')->nullable(); //Number of clubs to be relegated
             $table->integer('promotes')->nullable(); //Number of clubs to be promoted
+            $table->enum('table_rules', ['none', 'points_only', 'afpb_league', 'afpb_cup', 'cup', 'fpf_league', 'fpf_cup', 'liga_portugal'])->default('points_only');
             $table->text('obs')->nullable();
             $table->boolean('visible')->default(true);
             $table->timestamps();

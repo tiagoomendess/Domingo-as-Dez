@@ -16,3 +16,6 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('/competicao/{slug}/table/{season}/round/{round}', 'Front\CompetitionsController@getTable')->name('getTable')->where(['season' => '[0-9]+', 'round' => '[0-9]+']);
+Route::get('/competicao/{slug}/games/{season}/round/{round}', 'Front\CompetitionsController@getGames')->name('getGames')->where(['season' => '[0-9]+', 'round' => '[0-9]+']);

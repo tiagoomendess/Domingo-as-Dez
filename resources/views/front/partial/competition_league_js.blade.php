@@ -64,50 +64,12 @@
 
         console.log(round);
 
-        $.get("/competicao/" + competition_slug + "/get_season_info/" + season + "/round/" + round, function (data) {
-
-            tbody.empty();
-            console.log(data);
-
-            for (i = 0; i < data.table.length; i++) {
-
-                var tr = $("<tr></tr>");
-                var td1 = $("<td>" + (i + 1) + "</td>");
-
-                var td2 = $("<td></td>");
-                td2.attr('style', 'width: 30px');
-
-                var emblem = $("<img>");
-                emblem.addClass('table_emblem');
-                emblem.attr('src', data.table[i].team.club['emblem']);
-                emblem.appendTo(td2);
-
-                var td3 = $("<td>" + data.table[i].team.club['name'] + "</td>");
-
-                var td4 = $("<td>" + data.table[i]['gf'] + "</td>");
-
-                var td5 = $("<td>" + data.table[i]['ga'] + "</td>");
-
-                var td6 = $("<td>" + data.table[i]['gd'] + "</td>");
-
-                var td7 = $("<td>" + data.table[i]['points'] + "</td>");
-                td7.addClass('right');
-
-                tr.appendTo(tbody);
-                td1.appendTo(tr);
-                td2.appendTo(tr);
-                td3.appendTo(tr);
-                td4.appendTo(tr);
-                td5.appendTo(tr);
-                td6.appendTo(tr);
-                td7.appendTo(tr);
-
-            }
+        $.get("/api/competicao/" + competition_slug + "/games/" + season + "/round/" + round, function (data) {
 
             var game_list = $("#game_list");
             game_list.empty();
 
-            for (i = 0; i < data.matches.length; i++) {
+            for (i = 0; i < data.length; i++) {
 
                 var game_link = $("<a></a>");
                 game_link.attr('href', '#');
@@ -125,10 +87,10 @@
                 var div1 = $('<div class="center"></div>');
                 div1.appendTo(td1);
 
-                var home_emblem = $('<img style="width: 50px;" src="' + data.matches[i]['home_club_emblem'] + '"/>');
+                var home_emblem = $('<img style="width: 50px;" src="' + data[i]['home_club_emblem'] + '"/>');
                 home_emblem.appendTo( div1);
 
-                var home_name = $('<div style="width: 100%">' + data.matches[i]['home_club_name'] +'</div>');
+                var home_name = $('<div style="width: 100%">' + data[i]['home_club_name'] +'</div>');
                 home_name.appendTo(div1);
 
                 var td2 = $('<div class="col xs4 s4 m4 l4"></div>');
@@ -136,20 +98,20 @@
                 var div2 = $('<div class="valign-wrapper"></div>');
                 div2.appendTo(td2);
 
-                if (data.matches[i]['started'] && !data.matches[i]['finished']) {
+                if (data[i]['started'] && !data[i]['finished']) {
 
                     var inside_wrapper1 = $('<div style="width: 100%;" class="center"></div>');
                     inside_wrapper1.appendTo(div2);
 
-                    var div_date1 = $('<div style="width: 100%" class=""><h5 class="center">' + data.matches[i]['goals_home'] +' - ' + data.matches[i]['goals_away'] +'</h5></div>');
+                    var div_date1 = $('<div style="width: 100%" class=""><h5 class="center">' + data[i]['goals_home'] +' - ' + data[i]['goals_away'] +'</h5></div>');
                     div_date1.appendTo(inside_wrapper1);
 
                     var div_playground1 = $('<div style="width: 100%" class="center"><small>Não terminado</small></div>');
                     div_playground1.appendTo(inside_wrapper1);
 
-                } else if(data.matches[i]['finished']) {
+                } else if(data[i]['finished']) {
 
-                    var h3 = $('<h4 style="width: 100%" class="center">' + data.matches[i]['goals_home'] +' - ' + data.matches[i]['goals_away'] + '</h4>');
+                    var h3 = $('<h4 style="width: 100%" class="center">' + data[i]['goals_home'] +' - ' + data[i]['goals_away'] + '</h4>');
                     h3.appendTo(div2);
 
                 } else {
@@ -157,10 +119,10 @@
                     var inside_wrapper = $('<div style="width: 100%;" class="center"></div>');
                     inside_wrapper.appendTo(div2);
 
-                    var div_date = $('<div style="width: 100%" class=""><span class="center" style="margin-top: 20px;">' + data.matches[i]['date'] +'</span></div>');
+                    var div_date = $('<div style="width: 100%" class=""><span class="center" style="margin-top: 20px;">' + data[i]['date'] +'</span></div>');
                     div_date.appendTo(inside_wrapper);
 
-                    var div_playground = $('<div style="width: 100%" class="center"><small>' + data.matches[i]['playground_name'] + '</small></div>');
+                    var div_playground = $('<div style="width: 100%" class="center"><small>' + data[i]['playground_name'] + '</small></div>');
                     div_playground.appendTo(inside_wrapper);
 
                 }
@@ -170,11 +132,53 @@
                 var div3 = $('<div class="center"></div>');
                 div3.appendTo(td3);
 
-                var away_emblem = $('<img style="width: 50px;" src="' + data.matches[i]['away_club_emblem'] + '"/>');
+                var away_emblem = $('<img style="width: 50px;" src="' + data[i]['away_club_emblem'] + '"/>');
                 away_emblem.appendTo(div3);
 
-                var away_name = $('<div style="width: 100%">' + data.matches[i]['away_club_name'] +'</div>');
+                var away_name = $('<div style="width: 100%">' + data[i]['away_club_name'] +'</div>');
                 away_name.appendTo(div3);
+            }
+
+        });
+
+        $.get("/api/competicao/" + competition_slug + "/table/" + season + "/round/" + round, function (data) {
+
+            tbody.empty();
+            console.log(data);
+
+            for (i = 0; i < data.length; i++) {
+
+                var tr = $("<tr></tr>");
+                var td1 = $("<td>" + (i + 1) + "</td>");
+
+                var td2 = $("<td></td>");
+                td2.attr('style', 'width: 30px');
+
+                var emblem = $("<img>");
+                emblem.addClass('table_emblem');
+                emblem.attr('src', data[i].team.club['emblem']);
+                emblem.appendTo(td2);
+
+                var td3 = $("<td>" + data[i].team.club['name'] + "</td>");
+
+                var td4 = $("<td>" + data[i]['gf'] + "</td>");
+
+                var td5 = $("<td>" + data[i]['ga'] + "</td>");
+
+                var td6 = $("<td>" + data[i]['gd'] + "</td>");
+
+                var td7 = $("<td>" + data[i]['points'] + "</td>");
+                td7.addClass('right');
+
+                tr.appendTo(tbody);
+                td1.appendTo(tr);
+                td2.appendTo(tr);
+                td3.appendTo(tr);
+                td4.appendTo(tr);
+                td5.appendTo(tr);
+                td6.appendTo(tr);
+                td7.appendTo(tr);
+
             }
 
         });

@@ -25,6 +25,7 @@ Route::get('/home', 'Front\HomePageController@home')->name('home');
 
 //Backoffice
 Route::get('/dashboard', 'Backoffice\DashboardController@index')->name('dashboard');
+Route::get('settings', 'SettingsController@index')->name('settings.index');
 
 //Resources ---------------------
 Route::resources([
@@ -58,8 +59,7 @@ Route::get('competitions/{id}/seasons', 'Resources\CompetitionController@getSeas
 Route::get('seasons/{id}/games', 'Resources\SeasonController@getGames')->name('getSeasonGames');
 Route::get('teams/{id}/current_players', 'Resources\TeamController@getCurrentPlayers')->name('getTeamCurrentPlayers');
 Route::get('games/{id}/teams', 'Resources\GameController@getTeams')->name('getGameTeams');
-
-Route::get('settings', 'SettingsController@index')->name('settings.index');
+//-----
 
 //Front
 Route::get('/noticias', 'Front\ArticlesController@index')->name('publicNews');
