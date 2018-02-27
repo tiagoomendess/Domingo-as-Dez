@@ -117,15 +117,15 @@
 
     @elseif ($competition->competition_type == 'cup')
 
-        <p>Ainda não existe nenhuma representaçlão gráfica para o tipo de competição Taça</p>
+        <p class="flow-text">Ainda não existe nenhuma representação gráfica para o tipo de competição Taça</p>
 
     @elseif ($competition->competition_type == 'friendly')
 
-        <p>Ainda não existe nenhuma representaçlão gráfica para o tipo de competição Amigavel</p>
+        <p class="flow-text">Ainda não existe nenhuma representação gráfica para o tipo de competição Amigavel</p>
 
     @elseif ($competition->competition_type == 'tournament')
 
-        <p>Ainda não existe nenhuma representaçlão gráfica para o tipo de competição Torneio</p>
+        <p class="flow-text">Ainda não existe nenhuma representação gráfica para o tipo de competição Torneio</p>
 
     @endif
 
