@@ -64,7 +64,6 @@ Route::get('games/{id}/teams', 'Resources\GameController@getTeams')->name('getGa
 //Front
 Route::get('/noticias', 'Front\ArticlesController@index')->name('publicNews');
 Route::get('/competicao/{slug}', 'Front\CompetitionsController@show')->name('competition');
-
-Route::get('/competicao/{slug}/get_season_info/{season}/round/{round}', 'Front\CompetitionsController@getRoundInfo')->name('getRoundInfo');
+Route::get('/transferencias', 'Front\TransfersController@index')->name('transfers');
 
 

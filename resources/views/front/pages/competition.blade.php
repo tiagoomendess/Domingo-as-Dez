@@ -6,6 +6,12 @@
 
 @section('content')
 
+    <div class="row">
+        <div class="col xs12 s12 m12 l12 xl12">
+            <h1>{{ $competition->name }}</h1>
+        </div>
+    </div>
+
     @if($competition->competition_type == 'league')
 
         <input id="competition_slug" type="hidden" value="{{ str_slug($competition->name) }}">
@@ -14,10 +20,6 @@
         <input id="max_round" type="hidden" value="{{ $season->getTotalRounds() }}">
 
         <div class="row">
-
-            <div class="col xs12 s12 m12 l12 xl12">
-                <h2>{{ $competition->name }}</h2>
-            </div>
 
             <div class="col xs12 s12 m12 l6 xl6">
                 <div class="card-panel">

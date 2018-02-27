@@ -28,6 +28,8 @@
 
                         <ul id="nav-mobile" class="right hide-on-med-and-down">
 
+                            <li><a href="{{ route('transfers') }}">{{ trans('models.transfers') }}</a></li>
+
                             @if(Auth::check())
 
                                 <li><a class="dropdown-button" href="#" data-activates="dropdown1">
