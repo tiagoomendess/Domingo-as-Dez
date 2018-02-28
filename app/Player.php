@@ -20,6 +20,10 @@ class Player extends Model
         return $this->belongsToMany('App\Team', 'transfers');
     }
 
+    public function transfers() {
+        return $this->hasMany(Transfer::class);
+    }
+
     public function getTeam() {
 
         $last_transfer = $this->getLastTransfer();
@@ -44,5 +48,19 @@ class Player extends Model
     public function getLastTransfer() {
 
         return Transfer::where('player_id', $this->id)->orderBy('date', 'desc')->first();
+    }
+
+    public function getPreviousTeam() {
+
+        $transfers = Transfer::where('player_id', $this->id)->orderBy('date', 'desc')->limit(2)->get();
+
+        if($transfers->count() < 2)
+            return null;
+
+        if($transfers->last()->team)
+            return $transfers->last()->team;
+        else
+            return null;
+
     }
 }

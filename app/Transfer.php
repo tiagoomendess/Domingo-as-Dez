@@ -21,4 +21,11 @@ class Transfer extends Model
     {
         return $this->belongsTo(Team::class);
     }
+
+    public function getPreviousTransfer() {
+
+        return Transfer::where('player_id', $this->player->id)->where('date', '<', $this->date)->orderBy('date', 'desc')->first();
+
+    }
+
 }

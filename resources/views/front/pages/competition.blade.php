@@ -114,7 +114,6 @@
         </div>
 
 
-
     @elseif ($competition->competition_type == 'cup')
 
         <p class="flow-text">Ainda não existe nenhuma representação gráfica para o tipo de competição Taça</p>
