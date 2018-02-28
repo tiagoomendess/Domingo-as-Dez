@@ -27,6 +27,10 @@ class CompetitionsController extends Controller
             abort(404);
 
         $season = $comp->seasons->first();
+
+        if (!$season)
+            abort(404);
+
         $total_teams = $season->getTotalTeams();
 
         //Decide wich round to display ---------------------------
