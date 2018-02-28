@@ -61,7 +61,7 @@
             <label>{{ trans('models.season') }}</label>
             <select id="season_id" name="season_id" class="browser-default" disabled>
 
-                @if($game->start_year != $game->end_year)
+                @if($game->season->start_year != $game->season->end_year)
                     <option value="0" disabled selected>{{ $game->season->start_year }} / {{ $game->season->end_year }}</option>
                 @else
                     <option value="0" disabled selected>{{ $game->season->start_year }}</option>

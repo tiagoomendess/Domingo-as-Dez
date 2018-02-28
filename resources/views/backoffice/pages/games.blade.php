@@ -35,7 +35,7 @@
                             <td>
 
                                 <a href="{{ route('games.show', ['game' => $game]) }}">
-                                    {{ $game->homeTeam->club->name }} vs {{ $game->awayTeam->club->name }} ({{ $game->homeTeam->name }})
+                                [{{ $game->round }}] {{ $game->homeTeam->club->name }} vs {{ $game->awayTeam->club->name }} ({{ $game->homeTeam->name }})
                                 </a>
 
                             </td>

@@ -13,14 +13,14 @@ class Goal extends Model
     protected $hidden = [];
 
     public function team() {
-        return $this->belongsTo('App\Team');
+        return $this->belongsTo(Team::class);
     }
 
     public function game() {
-        return $this->belongsTo('App\game');
+        return $this->belongsTo(Game::class);
     }
 
     public function player() {
-        return $this->belongsTo('App\Player');
+        return $this->belongsTo(Player::class);
     }
 }
