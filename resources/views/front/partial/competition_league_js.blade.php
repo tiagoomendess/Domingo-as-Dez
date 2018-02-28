@@ -119,7 +119,7 @@
                     var inside_wrapper = $('<div style="width: 100%;" class="center"></div>');
                     inside_wrapper.appendTo(div2);
 
-                    var div_date = $('<div style="width: 100%" class=""><span class="center" style="margin-top: 20px;">' + data[i]['date'] +'</span></div>');
+                    var div_date = $('<div style="width: 100%; margin-top: 10px;" class=""><span class="center" style="margin-top: 20px;">' + data[i]['date'] +'</span></div>');
                     div_date.appendTo(inside_wrapper);
 
                     var div_playground = $('<div style="width: 100%" class="center"><small>' + data[i]['playground_name'] + '</small></div>');

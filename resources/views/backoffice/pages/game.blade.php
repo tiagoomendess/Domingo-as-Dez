@@ -62,7 +62,7 @@
             <select id="season_id" name="season_id" class="browser-default" disabled>
 
                 @if($game->season->start_year != $game->season->end_year)
-                    <option value="0" disabled selected>{{ $game->season->start_year }} / {{ $game->season->end_year }}</option>
+                    <option value="0" disabled selected>{{ $game->season->start_year }}/{{ $game->season->end_year }}</option>
                 @else
                     <option value="0" disabled selected>{{ $game->season->start_year }}</option>
                 @endif
