@@ -17,25 +17,32 @@
             @if(!$medias || $medias->count() == 0)
                 <p class="flow-text">{{ trans('models.no_media') }}</p>
             @else
-                <table class="bordered">
-                    <thead>
-                    <tr>
-                        <th>{{ trans('general.url') }}</th>
-                        <th>{{ trans('general.created_at') }}</th>
-                        <th>{{ trans('general.author') }}</th>
-                    </tr>
-                    </thead>
 
+                <div class="row">
                     @foreach($medias as $media)
-                        <tr>
-                            <td><a href="{{ route('media.show', ['media' => $media->id]) }}">{{ $media->tags }}</a></td>
-                            <td>{{ $media->created_at }}</td>
-                            <td>{{ $media->user->name }}</td>
-                        </tr>
-                    @endforeach
+                        <div class="col xs1 s6 m4 l3">
+                            <div class="card small">
+                                <div class="card-image">
 
-                    {{ $medias->links() }}
-                </table>
+                                    @if($media->media_type == 'image')
+                                        <img src="{{ $media->url }}">
+                                    @else
+                                        <img src="http://placehold.it/1280x720">
+                                    @endif
+
+                                </div>
+                                <div class="card-content">
+                                    <p>{{ $media->tags }}</p>
+                                </div>
+                                <div class="card-action">
+                                    <a class="right" href="{{ route('media.show', ['media' => $media]) }}">{{ trans('general.details') }}</a>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+
+                {{ $medias->links() }}
             @endif
 
             @if(Auth::user()->hasPermission('media.edit'))

@@ -48,12 +48,17 @@
 
                     <div class="col s12">
                         <div class="input-field inline">
-                            <a class="waves-effect waves-light btn modal-trigger" href="#select_media">Imagem</a>
+                            <a class="waves-effect waves-light btn modal-trigger" href="#select_media">{{ trans('models.media') }}</a>
                         </div>
 
                         <div class="input-field inline">
-                            <input id="selected_media_id" name="selected_media_id" type="number" class="validate" value="{{ $article->media_id }}">
-                            <label for="selected_media_id">{{ trans('general.id') }}</label>
+                            @if($article->media)
+                                <input id="selected_media_id" name="selected_media_id" type="number" class="validate" value="{{ old('selected_media_id', $article->media->id ) }}" disabled>
+                            @else
+                                <input id="selected_media_id" name="selected_media_id" type="number" class="validate" value="{{ old('selected_media_id') }}" disabled>
+                            @endif
+
+                            <label for="selected_media_id">{{ trans('models.media') }} {{ trans('general.id') }}</label>
                         </div>
                     </div>
 

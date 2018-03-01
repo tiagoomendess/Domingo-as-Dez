@@ -77,5 +77,7 @@ return [
     'minute' => 'Minuto',
     'news' => 'Notícias',
     'home_page' => 'Início',
+    'more' => 'Mais',
+    'details' => 'Detalhes',
 
 ];
