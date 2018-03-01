@@ -74,7 +74,7 @@
                 continue;
 
             var m1 = $('<div></div>');
-            m1.addClass('col s4 l3');
+            m1.addClass('col xs12 s12 m4 l3');
             m1.attr('id', 'm_1_' + i);
             m1.appendTo('#media_list');
 

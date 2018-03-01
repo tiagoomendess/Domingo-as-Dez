@@ -20,7 +20,7 @@
 
                 <div class="row">
                     @foreach($medias as $media)
-                        <div class="col xs1 s6 m4 l3">
+                        <div class="col xs12 s12 m6 l3">
                             <div class="card small">
                                 <div class="card-image">
 
