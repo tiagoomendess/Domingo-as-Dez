@@ -86,15 +86,16 @@
             m2.appendTo(m1);
 
             var m3 = $('<div></div>');
-            m3.addClass('media_square_box');
+            m3.addClass('card small');
             m3.attr('id', 'm_3_' + i);
             m3.addClass('hoverable');
             m3.appendTo(m2);
 
             var m4 = $('<div></div>');
-            m4.addClass('media_square_box_content');
+            m4.addClass('card-image');
             m4.attr('id', 'm_4_' + i);
             m4.appendTo(m3);
+
 
             if (response[i].media_type == 'image') {
                 var m5 = $('<img/>');
@@ -102,16 +103,19 @@
                 m5.attr('src', response[i].url);
                 m5.appendTo(m4);
             } else {
-                var m5 = $('<img/>');
+                var m5 = $('<img style="min-height: min-height: 100%"/>');
                 m5.attr('id', 'm_5_' + i);
                 m5.attr('src', 'http://placehold.it/300x300');
                 m5.appendTo(m4);
             }
 
+            var m4_1 = $('<div class="card-content"></div>');
+            m4_1.appendTo(m3);
+
             var m6 = $('<p>' + response[i].media_type + '<br>' + response[i].tags + '</p>');
             m6.attr('id', 'm_6_' + i);
-            m6.addClass('truncate center');
-            m6.appendTo(m4);
+            m6.addClass('center');
+            m6.appendTo(m4_1);
 
         }
     }

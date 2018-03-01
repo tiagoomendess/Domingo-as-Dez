@@ -296,6 +296,15 @@ class MediaController extends Controller
     public static function storeImage($file, $tags = null) {
 
         $originalName = str_slug($file->getClientOriginalName());
+
+        if (ends_with($originalName, 'jpg') && !ends_with($originalName, '.jpg')) {
+            $originalName = str_replace_last('jpg', '.jpg', $originalName);
+        }
+
+        if (ends_with($originalName, 'png') && !ends_with($originalName, '.png')) {
+            $originalName = str_replace_last('png', '.png', $originalName);
+        }
+
         $filename = str_random(3) . time() . str_random(6) . '_' . $originalName;
         $filename = self::removeLatin($filename);
 
