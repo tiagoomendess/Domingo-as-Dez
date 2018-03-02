@@ -7,18 +7,32 @@
 @section('content')
 
     <div class="row">
-        <div class="col xs12 s12 m10 offset-m1 l8">
+        <div class="col xs12 s12 m10 l9 offset-m1">
+
+            <h1>{{ $article->title }}</h1>
+            <p class="flow-text">{{ $article->description }}</p>
+
+        </div>
+
+        <div class="col xs12 s12 m10 l9 offset-m1">
+
+            @if($article->media_id)
+                <img class="responsive-img materialboxed" src="{{ $article->media->url }}">
+            @else
+                <?php
+                $str = (string) $article->id;
+                $arr = str_split($str); // convert string to an array
+                ?>
+                <img class="responsive-img materialboxed" src="{{ "/images/16_9_placeholder_" . end($arr) . ".jpg" }}" alt="">
+            @endif
+
+        </div>
+
+        <div class="col xs12 s12 m10 l9 offset-m1">
+
             <div class="card">
-                <div class="card-image">
-                    <img src="images/sample-1.jpg">
-                    <span class="card-title">Card Title</span>
-                </div>
                 <div class="card-content">
-                    <p>I am a very simple card. I am good at containing small bits of information.
-                        I am convenient because I require little markup to use effectively.</p>
-                </div>
-                <div class="card-action">
-                    <a href="#">This is a link</a>
+                    {!! $article->text !!}
                 </div>
             </div>
         </div>

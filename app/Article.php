@@ -26,6 +26,6 @@ class Article extends Model
     }
 
     public function  media() {
-        return $this->belongsTo('App\Media');
+        return $this->belongsTo(Media::class);
     }
 }

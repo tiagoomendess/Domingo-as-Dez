@@ -20,7 +20,7 @@ class CreateArticlesTable extends Migration
             $table->text('description')->nullable();
             $table->longText('text');
             $table->integer('user_id');
-            $table->timestamp('date');
+            $table->timestamp('date')->useCurrent();
             $table->text('tags')->nullable();
             $table->boolean('visible')->default(true);
             $table->timestamps();
