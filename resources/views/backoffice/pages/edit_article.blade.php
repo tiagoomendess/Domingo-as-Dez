@@ -53,9 +53,9 @@
 
                         <div class="input-field inline">
                             @if($article->media)
-                                <input id="selected_media_id" name="selected_media_id" type="number" class="validate" value="{{ old('selected_media_id', $article->media->id ) }}" disabled>
+                                <input id="selected_media_id" name="selected_media_id" type="number" class="validate" value="{{ old('selected_media_id', $article->media->id ) }}">
                             @else
-                                <input id="selected_media_id" name="selected_media_id" type="number" class="validate" value="{{ old('selected_media_id') }}" disabled>
+                                <input id="selected_media_id" name="selected_media_id" type="number" class="validate" value="{{ old('selected_media_id') }}">
                             @endif
 
                             <label for="selected_media_id">{{ trans('models.media') }} {{ trans('general.id') }}</label>

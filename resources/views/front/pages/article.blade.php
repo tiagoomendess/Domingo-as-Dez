@@ -17,13 +17,13 @@
         <div class="col xs12 s12 m10 l9 offset-m1">
 
             @if($article->media_id)
-                <img class="responsive-img materialboxed" src="{{ $article->media->url }}">
+                <img style="min-width: 100%;" class="responsive-img materialboxed" src="{{ $article->media->url }}">
             @else
                 <?php
                 $str = (string) $article->id;
                 $arr = str_split($str); // convert string to an array
                 ?>
-                <img class="responsive-img materialboxed" src="{{ "/images/16_9_placeholder_" . end($arr) . ".jpg" }}" alt="">
+                <img style="min-width: 100%;" class="responsive-img materialboxed" src="{{ "/images/16_9_placeholder_" . end($arr) . ".jpg" }}" alt="">
             @endif
 
         </div>
