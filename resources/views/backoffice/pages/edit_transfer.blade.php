@@ -83,14 +83,26 @@
 
             <div class="col s6 m4 l3">
                 <label>{{ trans('models.team') }}</label>
-                <select id="team_id" name="team_id" class="browser-default" disabled>
-                    @if($transfer->team)
-                        <option value="{{ $transfer->team->id }}" selected>{{ $transfer->team->name }}</option>
-                    @else
-                        <option value="0" selected disabled>{{ trans('general.choose_first', ['name' => trans('models.club')])}}</option>
-                    @endif
 
-                </select>
+                @if($transfer->team)
+                    <select id="team_id" name="team_id" class="browser-default">
+
+                        <option value="{{ $transfer->team->id }}" selected>{{ $transfer->team->name }}</option>
+
+                        @foreach($transfer->team->club->teams as $team)
+                            @if($team->id != $transfer->team->id)
+                                <option value="{{ $team->id }}">{{ $team->name }}</option>
+                            @endif
+                        @endforeach
+
+                    </select>
+                @else
+                    <select id="team_id" name="team_id" class="browser-default" disabled>
+                        <option value="0" selected disabled>{{ trans('general.choose_first', ['name' => trans('models.club')])}}</option>
+                    </select>
+                @endif
+
+
             </div>
 
         </div>

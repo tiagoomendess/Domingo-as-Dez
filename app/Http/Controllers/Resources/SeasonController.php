@@ -56,6 +56,7 @@ class SeasonController extends Controller
             'promotes' => 'required|integer|min:0|max:30',
             'obs' => 'nullable|string|max:60000',
             'visible' => 'required',
+            'table_rules' => 'nullable|string|in:none,points_only,afpb_league,afpb_cup,cup,fpf_league,fpf_cup,liga_portugal',
 
         ]);
 
@@ -82,6 +83,7 @@ class SeasonController extends Controller
         $relegates = $request->input('relegates');
         $promotes =  $request->input('promotes');
         $obs = $request->input('obs');
+        $table_rules = $request->input('table_rules');
 
         $season = Season::create([
             'competition_id' => $competition_id,
@@ -91,6 +93,7 @@ class SeasonController extends Controller
             'promotes' => $promotes,
             'obs' => $obs,
             'visible' => $visible,
+            'table_rules' => $table_rules,
         ]);
 
         return redirect(route('seasons.show', ['season' => $season]));
@@ -142,6 +145,7 @@ class SeasonController extends Controller
             'promotes' => 'required|integer|min:0|max:30',
             'obs' => 'nullable|string|max:60000',
             'visible' => 'required',
+            'table_rules' => 'nullable|string|in:none,points_only,afpb_league,afpb_cup,cup,fpf_league,fpf_cup,liga_portugal',
 
         ]);
 
@@ -170,6 +174,7 @@ class SeasonController extends Controller
         $relegates = $request->input('relegates');
         $promotes =  $request->input('promotes');
         $obs = $request->input('obs');
+        $table_rules = $request->input('table_rules');
 
         $season->competition_id = $competition_id;
         $season->start_year = $start_year;
@@ -178,6 +183,7 @@ class SeasonController extends Controller
         $season->relegates = $relegates;
         $season->obs = $obs;
         $season->visible = $visible;
+        $season->table_rules = $table_rules;
         $season->save();
 
         $messages = new MessageBag();

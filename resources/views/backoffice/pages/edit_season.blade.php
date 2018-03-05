@@ -51,7 +51,7 @@
         </div>
 
         <div class="row">
-            <div class="col s12 m8 l6">
+            <div class="col s12 m4 l3">
                 <label>{{ trans('models.competition') }}</label>
                 <select name="competition" class="browser-default" required>
                     <option value="{{ $season->competition_id }}" selected>{{ \App\Competition::find($season->competition_id)->name }}</option>
@@ -66,6 +66,28 @@
 
                 </select>
             </div>
+
+            <div class="col s12 m4 l3">
+                <label>{{ trans('models.table_rules') }}</label>
+                <select name="table_rules" class="browser-default">
+
+                    @if($season->table_rules)
+                        <option selected value="{{ $season->table_rules }}">{{ trans('models.' . $season->table_rules) }}</option>
+                    @else
+                        <option selected value="none">{{ trans('general.none') }}</option>
+                    @endif
+
+                    <option value="points_only">{{ trans('models.points_only') }}</option>
+                    <option value="afpb_league">{{ trans('models.afpb_league') }}</option>
+                    <option value="afpb_cup">{{ trans('models.afpb_cup') }}</option>
+                    <option value="cup">{{ trans('models.cup') }}</option>
+                    <option value="fpf_league">{{ trans('models.fpf_league') }}</option>
+                    <option value="fpf_cup">{{ trans('models.fpf_cup') }}</option>
+                    <option value="liga_portugal">{{ trans('models.liga_portugal') }}</option>
+
+                </select>
+            </div>
+
         </div>
 
         <div class="row">

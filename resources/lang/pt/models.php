@@ -76,4 +76,12 @@ return [
     'surface' => 'Superfície',
     'own_goal' => 'Auto Golo',
     'penalty' => 'Penalty',
+    'table_rules' => 'Regras de Tabela',
+    'points_only' => 'Apenas Pontos',
+    'afpb_league' => 'Liga AFPB',
+    'afpb_cup' => 'Taça AFPB',
+    'fpf_league' => 'Liga FPF',
+    'fpf_cup' => 'Taça FPF',
+    'liga_portugal' => 'Liga Portugal',
+
 ];
