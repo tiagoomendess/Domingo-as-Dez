@@ -14,21 +14,25 @@
 
         <div class="col xs12 s12 m2 l2 xl2">
 
-            <div class="input-field ">
-                <select id="season_select" onchange="seasonChange()">
+            <div id="season_select_div">
+                <div class="input-field">
 
-                    <option value="{{ $season->id }}" selected>@if($season->start_year != $season->end_year){{$season->start_year}}/{{ $season->end_year }}@else{{$season->start_year}}@endif</option>
+                    <select id="season_select" onchange="seasonChange()">
 
-                    @foreach($competition->seasons as $s)
+                        <option value="{{ $season->id }}" selected>@if($season->start_year != $season->end_year){{$season->start_year}}/{{ $season->end_year }}@else{{$season->start_year}}@endif</option>
 
-                        @if($s->id != $season->id)
-                            <option value="{{ $s->id }}">@if($s->start_year != $s->end_year){{$s->start_year}}/{{ $s->end_year }}@else{{$s->start_year}}@endif</option>
-                        @endif
+                        @foreach($competition->seasons as $s)
 
-                    @endforeach
-                </select>
-                <label>{{ trans('models.season') }}</label>
+                            @if($s->id != $season->id)
+                                <option value="{{ $s->id }}">@if($s->start_year != $s->end_year){{$s->start_year}}/{{ $s->end_year }}@else{{$s->start_year}}@endif</option>
+                            @endif
+
+                        @endforeach
+                    </select>
+                    <label>{{ trans('models.season') }}</label>
+                </div>
             </div>
+
 
         </div>
     </div>
