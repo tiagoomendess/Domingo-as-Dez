@@ -1,5 +1,9 @@
 <script>
 
+    $(document).ready(function() {
+        $('select').material_select();
+    });
+
     window.onload = firstLoad;
 
     function rightClick() {
@@ -58,15 +62,39 @@
 
     }
 
+    function seasonChange(){
+
+        console.log('seasonChange');
+
+        var select = $('#season_select');
+        var season_id = $('#season_id');
+        var max_round = $('#max_round');
+
+        var new_id = select.val();
+        season_id.attr('value', new_id);
+
+        var round = parseInt($('#round').val());
+        var competition_slug = $('#competition_slug').val();
+
+        $.get("/api/season/" + new_id, function (response) {
+
+            console.log(response);
+            max_round.attr("value", response.data['max_rounds']);
+
+        }).fail(function () {
+            console.log("failled");
+        });
+
+        updateRoundInfo(competition_slug, new_id, round);
+    }
+
     function updateRoundInfo(competition_slug, season, round) {
 
         var tbody = $("#tbody");
+        var game_list = $("#game_list");
 
-        console.log(round);
+        $.get("/api/competicao/" + competition_slug + "/season/" + season + "/round/" + round + "/games", function (data) {
 
-        $.get("/api/competicao/" + competition_slug + "/games/" + season + "/round/" + round, function (data) {
-
-            var game_list = $("#game_list");
             game_list.empty();
 
             for (i = 0; i < data.length; i++) {
@@ -139,9 +167,12 @@
                 away_name.appendTo(div3);
             }
 
+        }).fail(function () {
+            game_list.empty();
+            $('<p class="flow-text red-text center">Não foram encontrados nenhuns jogos</p>').appendTo(game_list);
         });
 
-        $.get("/api/competicao/" + competition_slug + "/table/" + season + "/round/" + round, function (data) {
+        $.get("/api/competicao/" + competition_slug + "/season/" + season + "/round/" + round + "/table", function (data) {
 
             tbody.empty();
             console.log(data);
@@ -181,8 +212,12 @@
 
             }
 
+        }).fail(function () {
+            tbody.empty();
         });
 
     }
+    
+
 
 </script>

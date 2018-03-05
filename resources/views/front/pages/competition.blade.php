@@ -7,8 +7,29 @@
 @section('content')
 
     <div class="row">
-        <div class="col xs12 s12 m12 l12 xl12">
+
+        <div class="col xs12 s12 m10 l10 xl10">
             <h1>{{ $competition->name }}</h1>
+        </div>
+
+        <div class="col xs12 s12 m2 l2 xl2">
+
+            <div class="input-field ">
+                <select id="season_select" onchange="seasonChange()">
+
+                    <option value="{{ $season->id }}" selected>@if($season->start_year != $season->end_year){{$season->start_year}}/{{ $season->end_year }}@else{{$season->start_year}}@endif</option>
+
+                    @foreach($competition->seasons as $s)
+
+                        @if($s->id != $season->id)
+                            <option value="{{ $s->id }}">@if($s->start_year != $s->end_year){{$s->start_year}}/{{ $s->end_year }}@else{{$s->start_year}}@endif</option>
+                        @endif
+
+                    @endforeach
+                </select>
+                <label>{{ trans('models.season') }}</label>
+            </div>
+
         </div>
     </div>
 

@@ -26,12 +26,7 @@
                         <p class="">{{ str_limit($article->description, 155) }}</p>
                     </div>
                     <div class="card-action">
-                        <a href="{{ route('news.show', [
-                            'year' => \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $article->date)->year,
-                            'month' => \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $article->date)->month,
-                            'day' => \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $article->date)->day,
-                            'slug' => str_slug($article->title)
-                        ]) }}" class="right blue-text">{{ trans('front.read_more') }}</a>
+                        <a href="{{ $article->getPublicUrl() }}" class="right blue-text">{{ trans('front.read_more') }}</a>
                     </div>
                 </div>
             </div>

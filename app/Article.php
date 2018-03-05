@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Article extends Model
@@ -27,5 +28,23 @@ class Article extends Model
 
     public function  media() {
         return $this->belongsTo(Media::class);
+    }
+
+    /**
+     * Gets the public url for this article
+     *
+     * @return string
+    */
+    public function getPublicUrl() {
+
+        $slug = str_slug($this->title);
+        $carbon = Carbon::createFromFormat("Y-m-d H:i:s", $this->date);
+
+        return route('news.show', [
+            'year' => $carbon->format("Y"),
+            'month' => $carbon->format("m"),
+            'day' => $carbon->format("d"),
+            'slug' => $slug,
+        ]);
     }
 }
