@@ -39,4 +39,30 @@ class Competition extends Model
         return $comp;
 
     }
+
+    /**
+     * Gets the serason that starts and ends in the provided years
+     *
+     * @param $start_year int
+     * @param $end_year int
+     *
+     * @return Season
+    */
+    public function getSeasonByYears($start_year, $end_year = null){
+
+        $season = null;
+
+        foreach ($this->seasons as $s) {
+
+            if (!$end_year) {
+                if ($s->start_year == $start_year && $s->start_year == $s->end_year)
+                    $season = $s;
+            } else {
+                if ($s->start_year == $start_year && $s->end_year == $end_year)
+                    $season = $s;
+            }
+        }
+
+        return $season;
+    }
 }

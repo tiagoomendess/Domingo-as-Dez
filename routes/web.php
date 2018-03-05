@@ -47,7 +47,7 @@ Route::resources([
     'goals' => 'Resources\GoalController',
 ]);
 
-//Routes to javascript
+//Routes to javascript in backend
 Route::post('media_query', 'Resources\MediaController@mediaQuery')->name('mediaQuery');
 
 Route::get('users/get_permissions_json/{id}', 'Resources\UserController@getPermissionsJson')->name('getPermissionsJson');
@@ -66,5 +66,14 @@ Route::get('/noticias', 'Front\ArticlesController@index')->name('news.index');
 Route::get('/noticia/{year}/{month}/{day}/{slug}', 'Front\ArticlesController@show')->name('news.show');
 Route::get('/competicao/{slug}', 'Front\CompetitionsController@show')->name('competition');
 Route::get('/transferencias', 'Front\TransfersController@index')->name('transfers');
+Route::get('/jogo/{home_club}/{away_club}/{competition_slug}/{season_start_year}/{season_end_year?}', 'Front\GamesController@show')
+    ->name('front.games.show')
+    ->where([
+        'home_club' => '[a-z0-9\-]+',
+        'away_club' => '[a-z0-9\-]+',
+        'competition_slug' => '[a-z0-9\-]+',
+        'season_start_year' => '[0-9]+',
+        'season_end_year' => '[0-9]+',
+    ]);
 
 

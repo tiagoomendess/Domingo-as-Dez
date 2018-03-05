@@ -55,6 +55,20 @@ class Season extends Model
 
     }
 
+    public function getGameByClubNameSlug($home_club_slug, $away_club_slug) {
+
+        $games = $this->games;
+        $selected = null;
+
+        foreach ($games as $game) {
+
+            if (str_slug($game->homeTeam->club->name) == $home_club_slug && str_slug($game->awayTeam->club->name) == $away_club_slug)
+                $selected = $game;
+        }
+
+        return $selected;
+    }
+
     /**
      *
      * Gets te total amount of wins for the provided team

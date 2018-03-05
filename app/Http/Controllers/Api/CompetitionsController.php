@@ -41,6 +41,7 @@ class CompetitionsController extends Controller
             $matches[$i]['date'] = $carbon->format("d/m/Y \à\s H\Hi");
             $matches[$i]['playground_name'] = $game->playground->name;
             $matches[$i]['finished'] = $game->finished;
+            $matches[$i]['url'] = $game->getPublicUrl();
 
             $matches[$i]['home_club_name'] = $game->homeTeam->club->name;
             $matches[$i]['home_club_emblem'] = $game->homeTeam->club->emblem;

@@ -133,4 +133,29 @@ class Game extends Model
         return $isDraw;
 
     }
+
+    public function getPublicUrl() {
+
+        if ($this->season->start_year != $this->season->end_year) {
+
+            return route('front.games.show', [
+                'home_club' => str_slug($this->homeTeam->club->name),
+                'away_club' => str_slug($this->awayTeam->club->name),
+                'competition_slug' => str_slug($this->season->competition->name),
+                'season_start_year' => str_slug($this->season->start_year),
+                'season_end_year' => str_slug($this->season->end_year),
+            ]);
+
+        } else {
+
+            return route('front.games.show', [
+                'home_club' => str_slug($this->homeTeam->club->name),
+                'away_club' => str_slug($this->awayTeam->club->name),
+                'competition_slug' => str_slug($this->season->competition->name),
+                'season_start_year' => str_slug($this->season->start_year),
+            ]);
+
+        }
+
+    }
 }
