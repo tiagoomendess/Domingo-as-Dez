@@ -62,7 +62,7 @@ class GoalController extends Controller
     {
         $request->validate([
             'game_id' => 'required|integer|exists:games,id',
-            'player_id' => 'required|integer|exists:players,id',
+            'player_id' => 'nullable|integer|exists:players,id',
             'selected_team_id' => 'required|integer|exists:teams,id',
             'own_goal' => 'required|string',
             'visible' => 'required|string',
@@ -86,7 +86,12 @@ class GoalController extends Controller
             $visible = false;
 
         $game = Game::find($request->input('game_id'));
-        $player = Player::find($request->input('player_id'));
+
+        if ($request->input('player_id'))
+            $player = Player::find($request->input('player_id'));
+        else
+            $player = null;
+
         $team = Team::find($request->input('selected_team_id'));
         $minute = $request->input('minute');
 
@@ -142,7 +147,7 @@ class GoalController extends Controller
     {
         $request->validate([
             'game_id' => 'required|integer|exists:games,id',
-            'player_id' => 'required|integer|exists:players,id',
+            'player_id' => 'nullable|integer|exists:players,id',
             'selected_team_id' => 'required|integer|exists:teams,id',
             'own_goal' => 'required|string',
             'visible' => 'required|string',
@@ -168,7 +173,11 @@ class GoalController extends Controller
             $visible = false;
 
         $game = Game::find($request->input('game_id'));
-        $player = Player::find($request->input('player_id'));
+        if ($request->input('player_id'))
+            $player = Player::find($request->input('player_id'));
+        else
+            $player = null;
+
         $team = Team::find($request->input('selected_team_id'));
         $minute = $request->input('minute');
 

@@ -79,5 +79,6 @@ return [
     'home_page' => 'Início',
     'more' => 'Mais',
     'details' => 'Detalhes',
+    'unknown' => 'Desconhecido',
 
 ];

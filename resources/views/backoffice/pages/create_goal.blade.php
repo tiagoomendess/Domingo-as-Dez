@@ -179,6 +179,9 @@
                                 value="" selected>
                             {{ trans('general.choose_first', ['name' => trans('models.team')])}}
                         </option>
+
+                        <option value="">{{ trans('general.unknown')}}</option>
+
                     </select>
                 </div>
             </div>

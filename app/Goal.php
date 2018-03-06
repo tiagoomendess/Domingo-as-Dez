@@ -23,4 +23,25 @@ class Goal extends Model
     public function player() {
         return $this->belongsTo(Player::class);
     }
+
+    public function getPlayerName() {
+
+        if ($this->player) {
+            return $this->player->name;
+        } else {
+            return trans('general.unknown');
+        }
+    }
+
+    public function getPlayerNickName() {
+
+        if ($this->player) {
+            if($this->player->nickname)
+                return $this->player->name;
+            else
+                return null;
+        } else {
+            return null;
+        }
+    }
 }
