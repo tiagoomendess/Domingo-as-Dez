@@ -83,5 +83,8 @@ return [
     'fpf_league' => 'Liga FPF',
     'fpf_cup' => 'Taça FPF',
     'liga_portugal' => 'Liga Portugal',
+    'referee' => 'Árbitro',
+    'referees' => 'Árbitros',
+    'no_referees' => 'Não há árbitros',
 
 ];

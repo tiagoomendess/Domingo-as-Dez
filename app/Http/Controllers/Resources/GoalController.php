@@ -87,20 +87,23 @@ class GoalController extends Controller
 
         $game = Game::find($request->input('game_id'));
 
-        if ($request->input('player_id'))
-            $player = Player::find($request->input('player_id'));
-        else
-            $player = null;
-
         $team = Team::find($request->input('selected_team_id'));
         $minute = $request->input('minute');
 
-        if($team->id != $player->getTeam()->id)
-            $own_goal = true;
+        if ($request->input('player_id')) {
+
+            $player = Player::find($request->input('player_id'));
+
+            if($team->id != $player->getTeam()->id)
+                $own_goal = true;
+        }
+        else
+            $player = null;
+
 
         $goal = Goal::create([
             'game_id' => $game->id,
-            'player_id' => $player->id,
+            'player_id' => $request->input('player_id'),
             'team_id' => $team->id,
             'own_goal' => $own_goal,
             'penalty' => $penalty,
@@ -173,19 +176,22 @@ class GoalController extends Controller
             $visible = false;
 
         $game = Game::find($request->input('game_id'));
-        if ($request->input('player_id'))
-            $player = Player::find($request->input('player_id'));
-        else
-            $player = null;
 
         $team = Team::find($request->input('selected_team_id'));
         $minute = $request->input('minute');
 
-        if($team->id != $player->getTeam()->id)
-            $own_goal = true;
+        if ($request->input('player_id')) {
+
+            $player = Player::find($request->input('player_id'));
+
+            if($team->id != $player->getTeam()->id)
+                $own_goal = true;
+        }
+        else
+            $player = null;
 
         $goal->game_id = $game->id;
-        $goal->player_id = $player->id;
+        $goal->player_id = $request->input('player_id');
         $goal->team_id = $team->id;
         $goal->minute = $minute;
         $goal->penalty = $penalty;

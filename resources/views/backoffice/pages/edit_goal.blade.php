@@ -117,20 +117,25 @@
 
                 </select>
 
-
             </div>
 
             <div class="col s6 m4 l3">
                 <label>{{ trans('models.player') }}</label>
                 <select name="player_id" id="player_id" class="browser-default">
 
-                    <option value="{{ $goal->player->id }}" selected>
-                        @if($goal->player->nickname)
-                            {{ $goal->player->name }} ({{ $goal->player->nickname }})
-                        @else
-                            {{ $goal->player->name }}
-                        @endif
-                    </option>
+                    @if($goal->player)
+                        <option value="{{ $goal->player->id }}" selected>
+                            @if($goal->player->nickname)
+                                {{ $goal->player->name }} ({{ $goal->player->nickname }})
+                            @else
+                                {{ $goal->player->name }}
+                            @endif
+                        </option>
+                    @else
+                        <option selected>
+                            {{ trans('general.unknown') }}
+                        </option>
+                    @endif
                 </select>
             </div>
         </div>

@@ -37,11 +37,20 @@ class Goal extends Model
 
         if ($this->player) {
             if($this->player->nickname)
-                return $this->player->name;
+                return $this->player->nickname;
             else
                 return null;
         } else {
             return null;
         }
+    }
+
+    public function getPlayerPicture() {
+
+        if ($this->player)
+            return $this->player->getPicture();
+        else
+            return config('custom.default_profile_pic');
+
     }
 }

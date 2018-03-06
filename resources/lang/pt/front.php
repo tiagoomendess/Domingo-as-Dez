@@ -17,5 +17,6 @@ return [
     'round' => 'Ronda',
     'privacy_policy' => 'Política de Privacidade',
     'terms_and_conditions' => 'Termos e Condições',
+    'referee_team' => 'Equipa de Arbitragem',
 
 ];

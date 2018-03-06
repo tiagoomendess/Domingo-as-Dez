@@ -63,10 +63,10 @@
                 <div class="col s6 m4 l3">
                     <label>{{ trans('models.player') }}</label>
                     <select name ="player_id" id="player_id" class="browser-default" disabled>
-                        @if($goal->player->nickname)
-                            <option disabled selected>{{ $goal->player->name }} ({{ $goal->player->nickname }})</option>
+                        @if($goal->getPlayerNickname())
+                            <option disabled selected>{{ $goal->getPlayerName() }} ({{ $goal->getPlayerNickname() }})</option>
                         @else
-                            <option disabled selected>{{ $goal->player->name }}</option>
+                            <option disabled selected>{{ $goal->getPlayerName() }}</option>
                         @endif
                     </select>
                 </div>

@@ -170,4 +170,22 @@ class Game extends Model
         else
             return false;
     }
+
+    //gets the score via total goals or via goals_home/away field
+    public function getHomeScore() {
+
+        if ($this->goals_home)
+            return $this->goals_home;
+        else
+            return $this->getTotalHomeGoals();
+    }
+
+    //gets the score via total goals or via goals_home/away field
+    public function getAwayScore() {
+
+        if ($this->goals_away)
+            return $this->goals_away;
+        else
+            return $this->getTotalAwayGoals();
+    }
 }

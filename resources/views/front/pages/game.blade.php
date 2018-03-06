@@ -16,11 +16,11 @@
 
     <div class="parallax-container">
 
-        <div class="parallax">
+        <div class="parallax" style="background-color: black">
             @if($game->playground->picture)
-                <img src="{{ $game->playground->picture }}" alt="">
+                <img style="opacity: 0.5" src="{{ $game->playground->picture }}" alt="">
             @else
-                <img src="{{ \App\Media::getPlaceholder('16:9', $game->homeTeam->club->id) }}" alt="">
+                <img style="opacity: 0.5" src="{{ \App\Media::getPlaceholder('16:9', $game->homeTeam->club->id) }}" alt="">
             @endif
 
         </div>
@@ -34,7 +34,7 @@
                             <div class="row">
 
                                 <div class="col xs12 s12 hide-on-med-and-up">
-                                    <h4 class="center white-text small-text-shaddow light">
+                                    <h4 class="center white-text light">
                                         @if($game->season->competition->competition_type == 'league')
                                             {{ trans('front.league_round') }} {{ $game->round  }}
                                         @elseif($game->season->competition->competition_type == 'cup')
@@ -47,12 +47,12 @@
 
                                 <div class="col s6 m4 l4 center">
                                     <img class="game-emblem" src="{{ $game->homeTeam->club->getEmblem() }}" alt="">
-                                    <p class="flow-text white-text small-text-shaddow" style="margin-top: 5px">{{ $game->homeTeam->club->name }}</p>
+                                    <p class="flow-text white-text" style="margin-top: 5px">{{ $game->homeTeam->club->name }}</p>
                                 </div>
 
                                 <div class="col s12 m4 l4 hide-on-small-and-down">
 
-                                    <h4 class="center white-text small-text-shaddow light">
+                                    <h4 class="center white-text light">
                                         @if($game->season->competition->competition_type == 'league')
                                             {{ trans('front.league_round') }} {{ $game->round  }}
                                         @elseif($game->season->competition->competition_type == 'cup')
@@ -64,11 +64,13 @@
 
                                     @if($game->started())
                                         <div id="game_started" class="center">
-                                            <h1 class="center">0 - 0</h1>
+                                            <h1 class="center white-text">
+                                                {{ $game->getHomeScore() }} - {{ $game->getAwayScore() }}
+                                            </h1>
                                         </div>
                                     @endif
 
-                                    <ul class="center">
+                                    <ul class="center white-text">
                                         <li>
                                             <i class="material-icons valign-middle">date_range</i>
                                             <span class="valign-middle">
@@ -95,19 +97,19 @@
 
                                 <div class="col s6 m4 l4 center">
                                     <img class="game-emblem" src="{{ $game->awayTeam->club->getEmblem() }}" alt="">
-                                    <p class="flow-text white-text small-text-shaddow" style="margin-top: 5px">{{ $game->awayTeam->club->name }}</p>
+                                    <p class="flow-text white-text" style="margin-top: 5px">{{ $game->awayTeam->club->name }}</p>
                                 </div>
 
                                 <div class="col xs12 s12 hide-on-med-and-up center">
 
                                     @if($game->started())
                                         <div id="game_started">
-                                            <h1>0 - 0</h1>
+                                            <h1 class="white-text">{{ $game->getHomeScore() }} - {{ $game->getAwayScore() }}</h1>
                                         </div>
                                     @endif
 
                                     <div id="game_info">
-                                        <p>
+                                        <p class="white-text">
                                             <i class="material-icons valign-middle">date_range</i> <span class="valign-middle">{{ \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $game->date)->format("d/m/Y") }}</span> |
                                             <i class="material-icons valign-middle">access_time</i> <span class="valign-middle">{{ \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $game->date)->format("H\Hi") }}</span> |
                                             <i class="material-icons valign-middle">place</i> <span class="valign-middle">{{ $game->playground->name }}</span>
@@ -165,16 +167,17 @@
                             <span class="card-title"><img style="width: 20px;" src="{{ $game->homeTeam->club->getEmblem() }}" alt=""> {{ trans('models.goals') }}</span>
 
                             <ul class="collection">
+
                                 @foreach($game->goals as $goal)
 
                                     @if($goal->team->id == $game->homeTeam->id)
                                         <li class="collection-item avatar">
-                                            <img src="{{ $goal->player->getPicture() }}" alt="" class="circle">
+                                            <img src="{{ $goal->getPlayerPicture() }}" alt="" class="circle">
                                             <span class="title">
-                                                @if($goal->player->nickname)
-                                                    {{ $goal->player->name }} ({{ $goal->player->nickname }})
+                                                @if($goal->getPlayerNickname())
+                                                    {{ $goal->getPlayerName() }} ({{ $goal->getPlayerNickname() }})
                                                 @else
-                                                    {{ $goal->player->name }}
+                                                    {{ $goal->getPlayerName() }}
                                                 @endif
                                             </span>
                                             <p>{{ $goal->minute }}"
@@ -192,21 +195,13 @@
                         </div>
                     </div>
 
-                    <div class="card col s12">
-                        <div class="card-content">
-                            <span class="card-title">Card Title</span>
-                            <p>I am a very simple card. I am good at containing small bits of information.
-                                I am convenient because I require little markup to use effectively.</p>
-                        </div>
-                    </div>
                 </div>
 
                 <div class="col xs12 s12 m12 l4">
                     <div class="card">
                         <div class="card-content">
-                            <span class="card-title">Card Title</span>
-                            <p>I am a very simple card. I am good at containing small bits of information.
-                                I am convenient because I require little markup to use effectively.</p>
+                            <span class="card-title center">{{ trans('front.referee_team') }}</span>
+
                         </div>
                     </div>
                 </div>
@@ -221,12 +216,12 @@
 
                                     @if($goal->team->id == $game->awayTeam->id)
                                         <li class="collection-item avatar">
-                                            <img src="{{ $goal->player->getPicture() }}" alt="" class="circle">
+                                            <img src="{{ $goal->getPlayerPicture() }}" alt="" class="circle">
                                             <span class="title">
-                                                @if($goal->player->nickname)
-                                                    {{ $goal->player->name }} ({{ $goal->player->nickname }})
+                                                @if($goal->getPlayerNickName())
+                                                    {{ $goal->getPlayerName() }} ({{ $goal->getPlayerNickName() }})
                                                 @else
-                                                    {{ $goal->player->name }}
+                                                    {{ $goal->getPlayerName() }}
                                                 @endif
                                             </span>
                                             <p>{{ $goal->minute }}"
