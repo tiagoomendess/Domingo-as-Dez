@@ -63,4 +63,14 @@ class Player extends Model
             return null;
 
     }
+
+    /**
+     * Gets the emblem of the club if it has one, or the default icon
+     */
+    public function getPicture() {
+        if($this->picture)
+            return $this->picture;
+        else
+            return config('custom.default_profile_pic');
+    }
 }

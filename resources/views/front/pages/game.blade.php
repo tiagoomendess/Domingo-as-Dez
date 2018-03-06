@@ -63,9 +63,9 @@
                                     </h4>
 
                                     @if($game->started())
-                                    <div id="game_started" class="center">
-                                        <h1 class="center">0 - 0</h1>
-                                    </div>
+                                        <div id="game_started" class="center">
+                                            <h1 class="center">0 - 0</h1>
+                                        </div>
                                     @endif
 
                                     <ul class="center">
@@ -101,9 +101,9 @@
                                 <div class="col xs12 s12 hide-on-med-and-up center">
 
                                     @if($game->started())
-                                    <div id="game_started">
-                                        <h1>0 - 0</h1>
-                                    </div>
+                                        <div id="game_started">
+                                            <h1>0 - 0</h1>
+                                        </div>
                                     @endif
 
                                     <div id="game_info">
@@ -159,9 +159,41 @@
 
             <div class="row">
 
-                <div class="col xs12 s12 m4 l4">
-                    <div class="card">
-                        <div class="card-content white-text">
+                <div class="col xs12 s12 m12 l4">
+                    <div class="card col s12">
+                        <div class="card-content">
+                            <span class="card-title"><img style="width: 20px;" src="{{ $game->homeTeam->club->getEmblem() }}" alt=""> {{ trans('models.goals') }}</span>
+
+                            <ul class="collection">
+                                @foreach($game->goals as $goal)
+
+                                    @if($goal->team->id == $game->homeTeam->id)
+                                        <li class="collection-item avatar">
+                                            <img src="{{ $goal->player->getPicture() }}" alt="" class="circle">
+                                            <span class="title">
+                                                @if($goal->player->nickname)
+                                                    {{ $goal->player->name }} ({{ $goal->player->nickname }})
+                                                @else
+                                                    {{ $goal->player->name }}
+                                                @endif
+                                            </span>
+                                            <p>{{ $goal->minute }}"
+                                                @if($goal->penalty)
+                                                    <br> {{ trans('models.penalty') }}
+                                                @elseif($goal->own_goal)
+                                                    <br> {{ trans('models.own_goal') }}
+                                                @endif
+                                            </p>
+                                        </li>
+                                    @endif
+
+                                @endforeach
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="card col s12">
+                        <div class="card-content">
                             <span class="card-title">Card Title</span>
                             <p>I am a very simple card. I am good at containing small bits of information.
                                 I am convenient because I require little markup to use effectively.</p>
@@ -169,9 +201,9 @@
                     </div>
                 </div>
 
-                <div class="col xs12 s12 m4 l4">
+                <div class="col xs12 s12 m12 l4">
                     <div class="card">
-                        <div class="card-content white-text">
+                        <div class="card-content">
                             <span class="card-title">Card Title</span>
                             <p>I am a very simple card. I am good at containing small bits of information.
                                 I am convenient because I require little markup to use effectively.</p>
@@ -179,12 +211,31 @@
                     </div>
                 </div>
 
-                <div class="col xs12 s12 m4 l4">
-                    <div class="card">
-                        <div class="card-content white-text">
-                            <span class="card-title">Card Title</span>
-                            <p>I am a very simple card. I am good at containing small bits of information.
-                                I am convenient because I require little markup to use effectively.</p>
+                <div class="col xs12 s12 m12 l4">
+                    <div class="card col s12">
+                        <div class="card-content">
+                            <span class="card-title"><img style="width: 20px;" src="{{ $game->awayTeam->club->getEmblem() }}" alt=""> {{ trans('models.goals') }}</span>
+
+                            <ul class="collection">
+                                @foreach($game->goals as $goal)
+
+                                    @if($goal->team->id == $game->awayTeam->id)
+                                        <li class="collection-item avatar">
+                                            <img src="{{ $goal->player->getPicture() }}" alt="" class="circle">
+                                            <span class="title">
+                                                @if($goal->player->nickname)
+                                                    {{ $goal->player->name }} ({{ $goal->player->nickname }})
+                                                @else
+                                                    {{ $goal->player->name }}
+                                                @endif
+                                            </span>
+                                            <p>{{ $goal->minute }}"
+                                            </p>
+                                        </li>
+                                    @endif
+
+                                @endforeach
+                            </ul>
                         </div>
                     </div>
                 </div>
