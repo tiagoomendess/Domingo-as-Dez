@@ -1,0 +1,207 @@
+@extends('front.layouts.no-container')
+
+@section('head-content')
+    <title>
+        {{ $game->homeTeam->club->name }} vs {{ $game->awayTeam->club->name }}
+        {{ $game->season->competition->name }}
+        @if($game->season->start_year != $game->season->end_year)
+            {{ $game->season->start_year }}/{{ $game->season->end_year }}
+        @else
+            {{ $game->season->start_year }}
+        @endif
+    </title>
+@endsection
+
+@section('content')
+
+    <div class="parallax-container">
+
+        <div class="parallax">
+            @if($game->playground->picture)
+                <img src="{{ $game->playground->picture }}" alt="">
+            @else
+                <img src="{{ \App\Media::getPlaceholder('16:9', $game->homeTeam->club->id) }}" alt="">
+            @endif
+
+        </div>
+
+        <div style="height: 100%;">
+            <div class="outer">
+                <div class="middle">
+                    <div class="inner">
+
+                        <div class="container">
+                            <div class="row">
+
+                                <div class="col xs12 s12 hide-on-med-and-up">
+                                    <h4 class="center white-text small-text-shaddow light">
+                                        @if($game->season->competition->competition_type == 'league')
+                                            {{ trans('front.league_round') }} {{ $game->round  }}
+                                        @elseif($game->season->competition->competition_type == 'cup')
+                                            {{ trans('front.cup_round') }} {{ $game->round  }}
+                                        @else
+                                            {{ trans('front.round') }} {{ $game->round  }}
+                                        @endif
+                                    </h4>
+                                </div>
+
+                                <div class="col s6 m4 l4 center">
+                                    <img class="game-emblem" src="{{ $game->homeTeam->club->getEmblem() }}" alt="">
+                                    <p class="flow-text white-text small-text-shaddow" style="margin-top: 5px">{{ $game->homeTeam->club->name }}</p>
+                                </div>
+
+                                <div class="col s12 m4 l4 hide-on-small-and-down">
+
+                                    <h4 class="center white-text small-text-shaddow light">
+                                        @if($game->season->competition->competition_type == 'league')
+                                            {{ trans('front.league_round') }} {{ $game->round  }}
+                                        @elseif($game->season->competition->competition_type == 'cup')
+                                            {{ trans('front.cup_round') }} {{ $game->round  }}
+                                        @else
+                                            {{ trans('front.round') }} {{ $game->round  }}
+                                        @endif
+                                    </h4>
+
+                                    @if($game->started())
+                                    <div id="game_started" class="center">
+                                        <h1 class="center">0 - 0</h1>
+                                    </div>
+                                    @endif
+
+                                    <ul class="center">
+                                        <li>
+                                            <i class="material-icons valign-middle">date_range</i>
+                                            <span class="valign-middle">
+                                                {{ \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $game->date)->format("d/m/Y") }}
+                                            </span>
+                                        </li>
+
+                                        <li>
+                                            <i class="material-icons valign-middle">access_time</i>
+                                            <span class="valign-middle">
+                                                {{ \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $game->date)->format("H\Hi") }}
+                                            </span>
+                                        </li>
+
+                                        <li>
+                                            <i class="material-icons valign-middle">place</i>
+                                            <span class="valign-middle">
+                                                {{ $game->playground->name }}
+                                            </span>
+                                        </li>
+                                    </ul>
+
+                                </div>
+
+                                <div class="col s6 m4 l4 center">
+                                    <img class="game-emblem" src="{{ $game->awayTeam->club->getEmblem() }}" alt="">
+                                    <p class="flow-text white-text small-text-shaddow" style="margin-top: 5px">{{ $game->awayTeam->club->name }}</p>
+                                </div>
+
+                                <div class="col xs12 s12 hide-on-med-and-up center">
+
+                                    @if($game->started())
+                                    <div id="game_started">
+                                        <h1>0 - 0</h1>
+                                    </div>
+                                    @endif
+
+                                    <div id="game_info">
+                                        <p>
+                                            <i class="material-icons valign-middle">date_range</i> <span class="valign-middle">{{ \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $game->date)->format("d/m/Y") }}</span> |
+                                            <i class="material-icons valign-middle">access_time</i> <span class="valign-middle">{{ \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $game->date)->format("H\Hi") }}</span> |
+                                            <i class="material-icons valign-middle">place</i> <span class="valign-middle">{{ $game->playground->name }}</span>
+                                        </p>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="section grey lighten-4">
+        <div class="container">
+            <div class="row">
+                <div class="col s7 m7 l5">
+                    <div class="input-field col s12">
+                        <select id="competition_id">
+                            <option value="{{ $game->season->competition->id }}" selected>{{ $game->season->competition->name }}</option>
+                        </select>
+                        <label>{{ trans('models.competition') }}</label>
+                    </div>
+                </div>
+
+                <div class="col s5 m5 l2">
+                    <div class="input-field col s12">
+                        <select id="season_id">
+                            <option value="{{ $game->season->id }}" selected>@if($game->season->start_year != $game->season->end_year){{ $game->season->start_year }}/{{ $game->season->end_year }}@else{{ $game->season->start_year }}@endif</option>
+                        </select>
+                        <label>{{ trans('models.season') }}</label>
+                    </div>
+                </div>
+
+                <div class="col s12 m12 l5">
+                    <div class="input-field col s12">
+                        <select id="game_id">
+                            <option value="{{ $game->id }}" selected>{{ $game->homeTeam->club->name }} vs {{ $game->awayTeam->club->name }}</option>
+                        </select>
+                        <label>{{ trans('models.game') }}</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+
+                <div class="col xs12 s12 m4 l4">
+                    <div class="card">
+                        <div class="card-content white-text">
+                            <span class="card-title">Card Title</span>
+                            <p>I am a very simple card. I am good at containing small bits of information.
+                                I am convenient because I require little markup to use effectively.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col xs12 s12 m4 l4">
+                    <div class="card">
+                        <div class="card-content white-text">
+                            <span class="card-title">Card Title</span>
+                            <p>I am a very simple card. I am good at containing small bits of information.
+                                I am convenient because I require little markup to use effectively.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col xs12 s12 m4 l4">
+                    <div class="card">
+                        <div class="card-content white-text">
+                            <span class="card-title">Card Title</span>
+                            <p>I am a very simple card. I am good at containing small bits of information.
+                                I am convenient because I require little markup to use effectively.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+@endsection
+
+@section ('scripts')
+    <script>
+        $(document).ready(function(){
+            $('.parallax').parallax();
+            $('select').material_select();
+        });
+    </script>
+@endsection

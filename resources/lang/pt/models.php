@@ -5,7 +5,7 @@ return [
     'articles' => 'Artigos',
     'competition' => 'Competição',
     'competitions' => 'Competições',
-    'season' => 'Epoca',
+    'season' => 'Época',
     'seasons' => 'Epocas',
     'team' => 'Equipa',
     'teams' => 'Equipas',

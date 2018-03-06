@@ -19,4 +19,14 @@ class Club extends Model
     public function teams() {
         return $this->hasMany('App\Team');
     }
+
+    /**
+     * Gets the emblem of the club if it has one, or the default icon
+    */
+    public function getEmblem() {
+        if($this->emblem)
+            return $this->emblem;
+        else
+            return config('custom.default_emblem');
+    }
 }

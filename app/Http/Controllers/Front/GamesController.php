@@ -15,7 +15,6 @@ class GamesController extends Controller
         if (!$competition)
             return abort(404);
 
-
         $season = $competition->getSeasonByYears($season_start_year, $season_end_year);
 
         if (!$season)
@@ -23,11 +22,10 @@ class GamesController extends Controller
 
         $game = $season->getGameByClubNameSlug($home_club, $away_club);
 
-
         if (!$game || !$game->visible)
             return abort(404);
 
-        dd($game);
+        return view('front.pages.game', ['game' => $game]);
 
     }
 }

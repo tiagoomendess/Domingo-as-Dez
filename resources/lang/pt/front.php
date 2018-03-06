@@ -14,6 +14,7 @@ return [
     'table_position' => 'P',
     'league_round' => 'Jornada',
     'cup_round' => 'Eliminatória',
+    'round' => 'Ronda',
     'privacy_policy' => 'Política de Privacidade',
     'terms_and_conditions' => 'Termos e Condições',
 

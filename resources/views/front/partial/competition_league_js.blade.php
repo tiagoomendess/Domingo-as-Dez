@@ -100,7 +100,7 @@
             for (i = 0; i < data.length; i++) {
 
                 var game_link = $("<a></a>");
-                game_link.attr('href', '#');
+                game_link.attr('href', data[i]['url']);
                 game_link.addClass('collection-item');
                 game_link.appendTo(game_list);
 

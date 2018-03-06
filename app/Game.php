@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Game extends Model
@@ -157,5 +158,16 @@ class Game extends Model
 
         }
 
+    }
+
+    public function started() {
+
+        $now = Carbon::now();
+        $date = Carbon::createFromFormat("Y-m-d H:i:s", $this->date);
+
+        if ($now->timestamp > $date->timestamp)
+            return true;
+        else
+            return false;
     }
 }
