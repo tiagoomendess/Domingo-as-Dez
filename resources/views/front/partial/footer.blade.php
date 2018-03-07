@@ -19,8 +19,18 @@
 
 <div class="footer-copyright">
     <div class="container">
-        © {{ \Carbon\Carbon::now()->year }} - {{ config('custom.site_name') }}. {{ trans('front.all_rights_reserved') }}
-        <a class="grey-text text-lighten-4 right" href="http://mendes.com.pt">Desenvolvido por Tiago Mendes</a>
+
+        <div class="row" style="margin-bottom: 0px;">
+            <div class="col xs12 s12 m8 l8">
+                © {{ \Carbon\Carbon::now()->year }} - {{ config('custom.site_name') }}. {{ trans('front.all_rights_reserved') }}
+            </div>
+
+            <div class="col xs12 s12 m4 l4">
+                <a class="grey-text text-lighten-4 right" href="http://mendes.com.pt">Desenvolvido por Tiago Mendes</a>
+            </div>
+
+        </div>
+
     </div>
 </div>
 </footer>

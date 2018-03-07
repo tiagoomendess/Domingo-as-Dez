@@ -6,9 +6,9 @@
                 <div class="background">
                     <img src="https://picsum.photos/300/230?image=1058&blur">
                 </div>
-                <a href="#!user"><img class="circle" src="{{ Auth::user()->profile->picture }}"></a>
-                <a href="#!name"><span class="white-text name">{{ Auth::user()->name }}</span></a>
-                <a href="#!email"><span class="white-text email">{{ Auth::user()->email }}</span></a>
+                <a href="#"><img class="circle" src="{{ Auth::user()->profile->getPicture() }}"></a>
+                <a href="#"><span class="white-text name">{{ Auth::user()->name }}</span></a>
+                <a href="#"><span class="white-text email">{{ Auth::user()->email }}</span></a>
             </div>
         </li>
 
@@ -23,5 +23,25 @@
     @endif
 
     <li><div class="divider"></div></li>
-    <li><a class="waves-effect" href="#!">Third Link With Waves</a></li>
+
+    <li><a class="waves-effect" href="{{ route('homePage') }}">{{ trans('general.home_page') }}</a></li>
+    <li><a class="waves-effect" href="{{ route('news.index') }}">{{ trans('general.news') }}</a></li>
+
+    <li class="no-padding">
+        <ul class="collapsible collapsible-accordion">
+            <li class="bold">
+                <a class="collapsible-header waves-effect" style="padding-left: 31px;">{{ trans('models.competitions') }}</a>
+                <div class="collapsible-body">
+                    <ul>
+                        @foreach(\App\Competition::all()->where('visible', true) as $competition)
+                            <li><a class="waves-effect" href="{{ route('competition', ['slug' => str_slug($competition->name)]) }}"> {{ $competition->name }}</a></li>
+                        @endforeach
+                    </ul>
+                </div>
+            </li>
+        </ul>
+    </li>
+
+    <li><a class="waves-effect" href="{{ route('transfers') }}">{{ trans('models.transfers') }}</a></li>
+
 </ul>

@@ -15,4 +15,13 @@ class UserProfile extends Model
     public function user() {
         return $this->belongsTo('App\User');
     }
+
+    public function getPicture() {
+
+        if ($this->picture)
+            return $this->picture;
+        else
+            return config('custom.default_profile_pic');
+
+    }
 }
