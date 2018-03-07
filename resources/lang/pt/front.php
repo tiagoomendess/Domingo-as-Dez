@@ -19,5 +19,9 @@ return [
     'terms_and_conditions' => 'Termos e Condições',
     'referee_team' => 'Equipa de Arbitragem',
     'to_be_announced' => 'A anunciar',
+    'email' => 'Email',
+    'password' => 'Palavra chave',
+    'forgot_password' => 'Esqueci-me da palavra chave',
+    'remember_me' => 'Lembrar-me',
 
 ];

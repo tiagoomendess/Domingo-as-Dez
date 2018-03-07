@@ -3,7 +3,7 @@
     <li>
         <div class="user-view">
             <div class="background">
-                <img src="https://picsum.photos/300/230?image=1058">
+                <img src="{{ config('custom.dashboard_sidenav_image') }}">
             </div>
             <a href="{{ route('users.show', ['user' => Auth::user()]) }}"><img class="circle" src="{{ Auth::user()->profile->picture }}"></a>
             <a href="{{ route('users.show', ['user' => Auth::user()]) }}"><span class="white-text name">{{ Auth::user()->name }}</span></a>

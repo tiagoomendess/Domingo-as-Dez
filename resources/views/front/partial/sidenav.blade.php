@@ -4,7 +4,7 @@
         <li>
             <div class="user-view">
                 <div class="background">
-                    <img src="https://picsum.photos/300/230?image=1058&blur">
+                    <img src="{{ config('custom.site_sidenav_image') }}">
                 </div>
                 <a href="#"><img class="circle" src="{{ Auth::user()->profile->getPicture() }}"></a>
                 <a href="#"><span class="white-text name">{{ Auth::user()->name }}</span></a>
