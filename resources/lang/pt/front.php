@@ -18,5 +18,6 @@ return [
     'privacy_policy' => 'Política de Privacidade',
     'terms_and_conditions' => 'Termos e Condições',
     'referee_team' => 'Equipa de Arbitragem',
+    'to_be_announced' => 'A anunciar',
 
 ];

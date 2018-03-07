@@ -73,4 +73,14 @@ class Player extends Model
         else
             return config('custom.default_profile_pic');
     }
+
+    /**
+     * Gets the name and nickname if exists
+    */
+    public function displayName() {
+        if($this->nickname)
+            return $this->name . ' (' . $this->nickname . ')';
+        else
+            return $this->name;
+    }
 }

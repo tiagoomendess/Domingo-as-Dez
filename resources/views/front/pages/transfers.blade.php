@@ -24,104 +24,80 @@
 
             @foreach($transfers as $transfer)
 
-                <div class="card horizontal">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="row" style="margin-bottom: 0px;">
 
-                    <div class="card-image" style="height: 200px; width: 200px;">
-                        @if($transfer->player->picture)
-                            <img style="width: 100%;" src="{{ $transfer->player->picture }}" alt="">
-                        @else
-                            <img style="width: 100%;" src="{{ config('custom.default_profile_pic') }}" alt="">
-                        @endif
-                    </div>
-
-                    <div class="card-stacked">
-
-                        <div class="card-content">
-
-                            <div class="row" style="margin-bottom: 10px;">
-                                <div class="col xs12 s12 m12 l12 center">
-                                    <p class="flow-text">{{ \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $transfer->date)->format("d/m/Y") }}</p>
-                                </div>
+                            <div class="col xs2 s4 m4 l3 xl3 valign-wrapper" style="min-height: 200px;">
+                                <img style="width: 100%;" class="circle responsive-img" src="{{ $transfer->player->getPicture() }}" alt="">
                             </div>
 
-                            <div class="row" style="margin-bottom: 8px;">
+                            <div class="col xs10 s8 m8 l9 xl9">
 
-                                <div class="col xs5 s5">
-                                    @if($transfer->getPreviousTransfer() && $transfer->getPreviousTransfer()->team)
+                                <div class="row">
 
-                                        <div style="width: 100%" class="center">
-                                            <img style="width: 30px;" src="{{ $transfer->getPreviousTransfer()->team->club->emblem }}" alt="">
-                                        </div>
-
-                                        <div class="center" style="width: 100%">
-                                            <p class="truncate">
-                                                {{ $transfer->getPreviousTransfer()->team->club->name }} ({{$transfer->getPreviousTransfer()->team->name}})
-                                            </p>
-                                        </div>
-
-                                    @else
-                                        <div style="width: 100%" class="center">
-                                            <img style="width: 30px;" src="{{ config('custom.default_emblem') }}" alt="">
-                                        </div>
-
-                                        <div class="center" style="width: 100%">
-
-                                            <p>
-                                                {{ trans('general.none')}}
-                                            </p>
-                                        </div>
-                                    @endif
-                                </div>
-
-                                <div class="col xs2 s2 m2 l2">
-                                    <div class="center" style="margin-top: 15px;">
-                                        <i class="material-icons">arrow_forward</i>
+                                    <div class="col s12">
+                                        <p class="flow-text truncate center">{{ $transfer->player->displayName() }}</p>
                                     </div>
                                 </div>
 
-                                <div class="col xs5 s5">
-                                    @if($transfer->team)
+                                <div class="row">
+                                    <div class="col s5 center">
 
-                                        <div style="width: 100%" class="center">
-                                            <img style="width: 30px;" src="{{ $transfer->team->club->emblem }}" alt="">
-                                        </div>
+                                        @if($transfer->getPreviousTransfer())
 
-                                        <div class="center" style="width: 100%">
-                                            <p class="truncate">
-                                                {{ $transfer->team->club->name }} ({{$transfer->team->name}})
-                                            </p>
-                                        </div>
+                                            <a class="tooltipped" data-position="top" data-delay="50" data-tooltip="{{ $transfer->getPreviousTransfer()->getClubName() }}">
+                                                <div style="width: 100%">
+                                                    <img style="width: 60px" src="{{ $transfer->getPreviousTransfer()->getClubEmblem() }}" alt="">
+                                                </div>
 
-                                    @else
-                                        <div style="width: 100%" class="center">
-                                            <img style="width: 30px;" src="{{ config('custom.default_emblem') }}" alt="">
-                                        </div>
+                                                <div style="width: 100%">
+                                                    <small>{{ $transfer->getPreviousTransfer()->getTeamName() }}</small>
+                                                </div>
+                                            </a>
 
-                                        <div class="center" style="width: 100%">
-                                            <p>
-                                                {{ trans('general.none')}}
-                                            </p>
-                                        </div>
-                                    @endif
+                                        @else
+                                            <a class="tooltipped" data-position="top" data-delay="50" data-tooltip="{{ trans('general.none') }}">
+                                                <div style="width: 100%">
+                                                    <img style="width: 60px" src="{{ config('custom.default_emblem') }}" alt="">
+                                                </div>
+
+                                                <div style="width: 100%">
+                                                    <small>{{ trans('general.none') }}</small>
+                                                </div>
+                                            </a>
+                                        @endif
+
+                                    </div>
+
+                                    <div class="col s2 center">
+                                            <i class="material-icons center" style="margin-top: 20px;">arrow_forward</i>
+                                    </div>
+
+                                    <div class="col s5 center">
+
+                                        <a class="tooltipped" data-position="top" data-delay="50" data-tooltip="{{ $transfer->getClubName() }}">
+                                            <div class="" style="width: 100%">
+                                                <img style="width: 60px" src="{{ $transfer->getClubEmblem() }}" alt="">
+                                            </div>
+
+                                            <div style="width: 100%">
+                                                <small>{{ $transfer->getTeamName() }}</small>
+                                            </div>
+                                        </a>
+
+                                    </div>
                                 </div>
 
-                            </div>
-
-                            <div class="row" style="margin-bottom: 0px;">
-                                <div class="col xs12 s12 m12 l12 center">
-                                    <p class="flow-text truncate">
-                                        {{ $transfer->player->name }}
-                                        @if($transfer->player->nickname)
-                                            ({{ $transfer->player->nickname }})
-                                        @endif
-                                    </p>
+                                <div class="row" style="margin-bottom: 0px;">
+                                    <div class="col s12">
+                                        <p class="truncate center">{{ \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $transfer->date)->format("d/m/Y") }}</p>
+                                    </div>
                                 </div>
                             </div>
 
                         </div>
-
                     </div>
-
                 </div>
 
             @endforeach

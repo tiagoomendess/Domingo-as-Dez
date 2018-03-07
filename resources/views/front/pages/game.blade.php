@@ -201,7 +201,7 @@
                     <div class="card">
                         <div class="card-content">
                             <span class="card-title center">{{ trans('front.referee_team') }}</span>
-
+                            <p class="center">{{ trans('front.to_be_announced') }}</p>
                         </div>
                     </div>
                 </div>
