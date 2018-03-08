@@ -146,3 +146,42 @@ p {
 .valign-middle {
     vertical-align: middle;
 }
+
+/* label focus color */
+.input-field input:focus + label {
+    color: rgba(30, 136, 229, 0.91) !important;
+}
+
+/* label underline focus color */
+.row .input-field input:focus {
+    border-bottom: 1px solid #1e88e5 !important;
+    box-shadow: 0 1px 0 0 #1e88e5 !important
+}
+
+.checkbox-blue[type="checkbox"].filled-in:checked + label:after{
+    border: 2px solid #1e88e5;
+    background-color: #1e88e5;
+}
+
+.no-margin-bottom {
+    margin-bottom: 0px;
+}
+
+.social-login-link {
+    position: relative;
+    opacity: 0.4;
+
+}
+
+.social-login-link:hover {
+    opacity: 1;
+}
+
+.social-login-link img {
+
+    position: relative;
+    width: 75%;
+    max-width: 40px;
+    height: auto;
+
+}

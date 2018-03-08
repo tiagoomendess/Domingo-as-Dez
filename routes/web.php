@@ -15,8 +15,8 @@ Auth::routes();
 Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
 Route::get('/register/verify', 'Auth\RegisterController@verifyEmailPage')->name('verifyEmailPage');
 Route::get('/register/verify/{email}/{token}', 'Auth\RegisterController@verifyEmail')->name('verifyEmail');
-Route::get('/login/{provider}','Auth\LoginController@redirectToProvider')->where('provider','twitter|facebook|google');
-Route::get('/login/{provider}/callback','Auth\LoginController@handleProviderCallback')->where('provider','twitter|facebook|google');
+Route::get('/login/{provider}','Auth\LoginController@redirectToProvider')->name('social.redirect')->where('provider','twitter|facebook|google');
+Route::get('/login/{provider}/callback','Auth\LoginController@handleProviderCallback')->name('social.callback')->where('provider','twitter|facebook|google');
 
 //Front
 Route::get('/', 'Front\HomePageController@index')->name('homePage');

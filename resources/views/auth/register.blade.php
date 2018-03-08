@@ -1,77 +1,102 @@
-@extends('front.layouts.default-page')
+@extends('front.layouts.no-container')
+
+@section('head-content')
+    <title>{{ trans('auth.register') }}</title>
+@endsection
 
 @section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Register</div>
+    <div class="valign-wrapper" style="height: 100%">
 
-                <div class="panel-body">
-                    <form class="form-horizontal" method="POST" action="{{ route('register') }}">
-                        {{ csrf_field() }}
+        <div style="width: 100%;">
 
-                        <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                            <label for="name" class="col-md-4 control-label">Name</label>
+            <div class="row" style="margin-bottom: 0px;">
+                <div class="col xs12 s12 m8 l6 xl4 offset-m2 offset-l3 offset-xl4">
 
-                            <div class="col-md-6">
-                                <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" required autofocus>
+                    <h1 class="center" style="margin-top: 5px;">{{ trans('auth.register') }}</h1>
 
-                                @if ($errors->has('name'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('name') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
+                    <div class="card">
+                        <div class="card-content">
+
+                            @if($errors)
+                                <div class="row no-margin-bottom">
+                                    <div class="col xs12 s12 no-margin-bottom">
+                                        @include('front.partial.form_errors')
+                                    </div>
+                                </div>
+
+                            @endif
+
+                            <form class="form-horizontal" method="POST" action="{{ route('login') }}">
+
+                                {{ csrf_field() }}
+
+                                <div class="row">
+                                    <div class="input-field col s12">
+                                        <i class="material-icons prefix">person_outline</i>
+                                        <input name="name" id="name" type="email" value="{{ old('name') }}" required>
+                                        <label for="name">{{ trans('auth.name') }}</label>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="input-field col s12">
+                                        <i class="material-icons prefix">mail_outline</i>
+                                        <input name="email" id="email" type="email" value="{{ old('email') }}" required>
+                                        <label for="email">{{ trans('auth.email') }}</label>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="input-field col s12">
+                                        <i class="material-icons prefix">vpn_key</i>
+                                        <input name="password" id="password" type="password" required autocomplete="off">
+                                        <label for="password">{{ trans('auth.password') }}</label>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="input-field col s12">
+                                        <i class="material-icons prefix">vpn_key</i>
+                                        <input name="password_confirmation" id="password_confirmation" type="password" required autocomplete="off">
+                                        <label for="password_confirmation">{{ trans('auth.confirm_password') }}</label>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+
+                                    <div class="col s12">
+                                        <p>
+                                            <input class="filled-in checkbox-blue" type="checkbox" id="remember" name="remember" {{ old('remember') ? 'checked' : '' }} required>
+                                            <label for="remember">{{ trans('auth.terms_and_conditions') }}</label>
+                                        </p>
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+
+                                    <div class="col s12">
+
+                                        <button class="btn waves-effect waves-light green darken-1 right" type="submit" name="action">{{ trans('auth.register') }}
+                                            <i class="material-icons right">send</i>
+                                        </button>
+
+                                    </div>
+
+                                </div>
+
+                            </form>
+
                         </div>
-
-                        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label for="email" class="col-md-4 control-label">E-Mail Address</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required>
-
-                                @if ($errors->has('email'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                            <label for="password" class="col-md-4 control-label">Password</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control" name="password" required>
-
-                                @if ($errors->has('password'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="password-confirm" class="col-md-4 control-label">Confirm Password</label>
-
-                            <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary">
-                                    Register
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+                    </div>
                 </div>
             </div>
+
+            @if(config('custom.social_logins') == true)
+                @include('auth.social')
+            @endif
+
         </div>
+
     </div>
-</div>
 @endsection

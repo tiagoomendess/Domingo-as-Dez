@@ -13,15 +13,25 @@ return [
     |
     */
 
-    'failed' => 'These credentials do not match our records.',
-    'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
+    'failed' => 'O email ou a palavra chave estão erradas',
+    'throttle' => 'Tentou entrar muitas vezes seguidas sem sucesso. Volte a tentar dentro de :seconds segundos.',
     'banned' => 'Este utilizador está banido do website',
     'already_verified' => 'Este utilizador já está verificado.',
     'verify_token_mismatch' => 'A token de verificação é inválida.',
     'not_verified' => 'Esta conta não tem o email verificado.',
     'logout' => 'Terminar Sessão',
     'remember_me' => 'Lembrar-me',
-    'login' => 'Login',
+    'login' => 'Entrar',
     'register' => 'Registar',
-    'permission_denied' => 'Permissão negada.'
+    'permission_denied' => 'Permissão negada.',
+    'email' => 'Email',
+    'password' => 'Palavra chave',
+    'forgot_password' => 'Esqueci-me da palavra chave',
+    'login_with_facebook' => 'Entrar com o facebook',
+    'login_with_google' => 'Entrar com o google',
+    'login_with_twitter' => 'Entrar com o twitter',
+    'create_account' => 'Criar uma conta',
+    'confirm_password' => 'Confirmar palavra chave',
+    'terms_and_conditions' => 'Li e aceito os Termos e Condições e Política de Privacidade',
+    'name' => 'Nome',
 ];
