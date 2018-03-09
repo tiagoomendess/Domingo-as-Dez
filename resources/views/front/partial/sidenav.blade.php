@@ -19,7 +19,7 @@
         @endif
     @else
         <li><a href="{{ route('login') }}">{{ trans('auth.login') }}</a></li>
-        <li><a href="{{ route('logout') }} }}">{{ trans('auth.register') }}</a></li>
+        <li><a href="{{ route('register') }}">{{ trans('auth.register') }}</a></li>
     @endif
 
     <li><div class="divider"></div></li>
