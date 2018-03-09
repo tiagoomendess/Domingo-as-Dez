@@ -13,6 +13,11 @@ return [
     |
     */
 
+    'reset_password' => 'Redefinir Palavra Chave',
+    'request_password_reset' => 'Recuperar Conta',
+    'request_password_reset_help' => 'Inisira o seu endereço de email na caixa abaixo, irá receber um email com as instruções para recuperar a sua conta.',
+    'new_password' => 'Nova Palavra Chave',
+    'confirm_new_password' => 'Confirmar Nova Palavra Chave',
     'failed' => 'O email ou a palavra chave estão erradas',
     'throttle' => 'Tentou entrar muitas vezes seguidas sem sucesso. Volte a tentar dentro de :seconds segundos.',
     'banned' => 'Este utilizador está banido do website',

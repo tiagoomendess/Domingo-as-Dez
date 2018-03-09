@@ -1,70 +1,82 @@
-@extends('layouts.app')
+@extends('front.layouts.no-container')
+
+@section('head-content')
+    <title>{{ trans('auth.reset_password') }}</title>
+@endsection
 
 @section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Reset Password</div>
+    <div class="valign-wrapper" style="height: 100%">
 
-                <div class="panel-body">
-                    <form class="form-horizontal" method="POST" action="{{ route('password.request') }}">
-                        {{ csrf_field() }}
+        <div style="width: 100%;">
 
-                        <input type="hidden" name="token" value="{{ $token }}">
+            <div class="row" style="margin-bottom: 0px;">
+                <div class="col xs12 s12 m8 l6 xl4 offset-m2 offset-l3 offset-xl4">
 
-                        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label for="email" class="col-md-4 control-label">E-Mail Address</label>
+                    <h1 class="center" style="margin-top: 5px;">{{ trans('auth.reset_password') }}</h1>
 
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" name="email" value="{{ $email or old('email') }}" required autofocus>
+                    <div class="card">
+                        <div class="card-content">
 
-                                @if ($errors->has('email'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
+                            @if($errors)
+
+                                <div class="row no-margin-bottom">
+                                    <div class="col xs12 s12 no-margin-bottom">
+                                        @include('front.partial.form_errors')
+                                    </div>
+                                </div>
+
+                            @endif
+
+                                <form class="form-horizontal" method="POST" action="{{ route('password.request') }}">
+
+                                    {{ csrf_field() }}
+
+                                    <input type="hidden" name="token" value="{{ $token }}">
+
+                                    <div class="row">
+                                        <div class="input-field col s12">
+                                            <i class="material-icons prefix">mail_outline</i>
+                                            <input name="email" id="email" type="email" value="{{ old('email') }}" required>
+                                            <label for="email">{{ trans('auth.email') }}</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="input-field col s12">
+                                            <i class="material-icons prefix">vpn_key</i>
+                                            <input name="password" id="password" type="password" required autocomplete="off">
+                                            <label for="password">{{ trans('auth.new_password') }}</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="input-field col s12">
+                                            <i class="material-icons prefix">vpn_key</i>
+                                            <input name="password_confirmation" id="password_confirmation" type="password" required autocomplete="off">
+                                            <label for="password_confirmation">{{ trans('auth.confirm_new_password') }}</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+
+                                        <div class="col s12">
+
+                                            <button class="btn waves-effect waves-light green darken-1 right" type="submit" name="action">{{ trans('auth.reset_password') }}
+                                                <i class="material-icons right">send</i>
+                                            </button>
+
+                                        </div>
+
+                                    </div>
+
+                                </form>
+
                         </div>
-
-                        <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                            <label for="password" class="col-md-4 control-label">Password</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control" name="password" required>
-
-                                @if ($errors->has('password'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('password_confirmation') ? ' has-error' : '' }}">
-                            <label for="password-confirm" class="col-md-4 control-label">Confirm Password</label>
-                            <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
-
-                                @if ($errors->has('password_confirmation'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('password_confirmation') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary">
-                                    Reset Password
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+                    </div>
                 </div>
             </div>
+
         </div>
+
     </div>
-</div>
 @endsection

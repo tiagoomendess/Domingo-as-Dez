@@ -26,14 +26,14 @@
 
                             @endif
 
-                            <form class="form-horizontal" method="POST" action="{{ route('login') }}">
+                            <form class="form-horizontal" method="POST" action="{{ route('register') }}">
 
                                 {{ csrf_field() }}
 
                                 <div class="row">
                                     <div class="input-field col s12">
                                         <i class="material-icons prefix">person_outline</i>
-                                        <input name="name" id="name" type="email" value="{{ old('name') }}" required>
+                                        <input name="name" id="name" type="text" value="{{ old('name') }}" required>
                                         <label for="name">{{ trans('auth.name') }}</label>
                                     </div>
                                 </div>
@@ -71,6 +71,12 @@
                                         </p>
                                     </div>
 
+                                </div>
+
+                                <div class="row">
+                                    <div class="col xs12 s12">
+                                        {!! Recaptcha::render() !!}
+                                    </div>
                                 </div>
 
                                 <div class="row">

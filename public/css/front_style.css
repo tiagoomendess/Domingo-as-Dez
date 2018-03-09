@@ -185,3 +185,7 @@ p {
     height: auto;
 
 }
+
+.row .input-field .active{
+    color: #1e88e5;
+}

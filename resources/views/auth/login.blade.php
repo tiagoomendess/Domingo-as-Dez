@@ -32,6 +32,7 @@
                                 {{ csrf_field() }}
                                 <div class="row">
                                     <div class="input-field col s12">
+                                        <i class="material-icons prefix">mail_outline</i>
                                         <input name="email" id="email" type="email" value="{{ old('email') }}" required>
                                         <label for="email">{{ trans('auth.email') }}</label>
                                     </div>
@@ -39,6 +40,7 @@
 
                                 <div class="row">
                                     <div class="input-field col s12">
+                                        <i class="material-icons prefix">vpn_key</i>
                                         <input name="password" id="password" type="password" required autocomplete="off">
                                         <label for="password">{{ trans('auth.password') }}</label>
                                     </div>
