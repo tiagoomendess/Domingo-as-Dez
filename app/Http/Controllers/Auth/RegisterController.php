@@ -7,6 +7,7 @@ use App\User;
 use App\Http\Controllers\Controller;
 use App\UserProfile;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
@@ -64,7 +65,7 @@ class RegisterController extends Controller
         event(new Registered($user = $this->create($request->all())));
 
         return $this->registered($request, $user)
-            ?: redirect($this->redirectTo);
+            ?: redirect($this->redirectTo . '?email=' . urlencode($request->input('email')));
     }
 
     /**
@@ -118,7 +119,17 @@ class RegisterController extends Controller
     }
 
     public function verifyEmailPage() {
-        return 'Verifica o teu email';
+
+        $email = Input::get('email', 'default');
+        $email = urldecode($email);
+
+        if(!$email || $email == 'default')
+            return abort(404);
+
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL))
+            return abort(404);
+
+        return view('auth.verify', ['email' => $email]);
     }
 
     public function verifyEmail($email, $token) {
@@ -149,6 +160,10 @@ class RegisterController extends Controller
         }
 
         return redirect()->route('login');
+    }
+
+    public function resendVerifyEmail(Request $request) {
+
     }
 
 }

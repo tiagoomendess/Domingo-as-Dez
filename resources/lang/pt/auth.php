@@ -39,4 +39,7 @@ return [
     'confirm_password' => 'Confirmar palavra chave',
     'terms_and_conditions' => 'Li e aceito os Termos e Condições e Política de Privacidade',
     'name' => 'Nome',
+    'verify_email' => 'Verifique o Email',
+    'verify_email_help' => 'Antes de poder aceder à sua conta, precisamos de ter a certeza que o email :email lhe 
+    pertence. Entre na sua caixa de correio e confirme e siga as instruções que lhe enviamos'
 ];
