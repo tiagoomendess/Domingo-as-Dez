@@ -118,6 +118,12 @@
         </div>
 
         <div class="row">
+
+            <div class="input-field col s6 m4 l3">
+                <input type="text" name="table_group">
+                <label for="table_group">{{ trans('models.group') }}</label>
+            </div>
+
             <div class="col s6 m4 l3">
                 <label>{{ trans('models.playground') }}</label>
                 <select id="playground_id" name="playground_id" class="browser-default" required>
@@ -126,6 +132,20 @@
                         <option value="{{ $playground->id }}">{{ $playground->name }}</option>
                     @endforeach
                 </select>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col s12">
+                <div class="switch">
+                    <label>
+                        {{ trans('models.tie') }}
+                        <input name="tie" type="hidden" value="false">
+                        <input name="tie" type="checkbox" value="true">
+                        <span class="lever"></span>
+                    </label>
+                </div>
             </div>
         </div>
 

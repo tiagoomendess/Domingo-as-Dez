@@ -29,4 +29,10 @@ class Club extends Model
         else
             return config('custom.default_emblem');
     }
+
+    public function getFirstPlayground() {
+
+        return $this->playgrounds->first();
+
+    }
 }

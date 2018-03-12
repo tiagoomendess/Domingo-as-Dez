@@ -11,6 +11,9 @@ return [
     'table_goal_difference' => 'DG',
     'table_points' => 'PTS',
     'table_played' => 'J',
+    'table_wins' => 'V',
+    'table_draws' => 'E',
+    'table_loses' => 'D',
     'table_position' => 'P',
     'league_round' => 'Jornada',
     'cup_round' => 'Eliminatória',
@@ -21,5 +24,6 @@ return [
     'to_be_announced' => 'A anunciar',
     'links' => 'Ligações',
     'contact' => 'Contactar',
+    'detailed_table' => 'Classificação Detalhada',
 
 ];

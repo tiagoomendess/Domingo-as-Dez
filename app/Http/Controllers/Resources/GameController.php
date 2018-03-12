@@ -2,7 +2,12 @@
 
 namespace App\Http\Controllers\Resources;
 
+use App\Club;
 use App\Game;
+use App\Goal;
+use App\Playground;
+use App\Season;
+use App\Team;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -50,6 +55,7 @@ class GameController extends Controller
         $request->validate([
             'visible' => 'required',
             'finished' => 'required',
+            'tie' => 'required',
             'home_team_id' => 'required|integer|exists:teams,id',
             'away_team_id' => 'required|integer|exists:teams,id',
             'season_id' => 'required|integer|exists:seasons,id',
@@ -58,7 +64,8 @@ class GameController extends Controller
             'round' => 'required|integer|min:0|max:9999',
             'home_goals' => 'nullable|integer|min:0|max:99',
             'away_goals' => 'nullable|integer|min:0|max:99',
-            'playground_id' => 'nullable|integer|exists:playgrounds,id'
+            'playground_id' => 'nullable|integer|exists:playgrounds,id',
+            'table_group' => 'nullable|string|max:155',
         ]);
 
         $carbon = new Carbon($request->input('date'));
@@ -77,6 +84,11 @@ class GameController extends Controller
         else
             $finished = false;
 
+        if($request->input('tie') == 'true')
+            $tie = true;
+        else
+            $tie = false;
+
         $home_team_id = $request->input('home_team_id');
         $away_team_id = $request->input('away_team_id');
         $goals_home = $request->input('goals_home');
@@ -84,6 +96,7 @@ class GameController extends Controller
         $season_id = $request->input('season_id');
         $round = $request->input('round');
         $playground_id = $request->input('playground_id');
+        $table_group = $request->input('table_group');
 
         $game = Game::create([
 
@@ -97,6 +110,8 @@ class GameController extends Controller
             'round' => $round,
             'date' => $carbon->format("Y-m-d H:i:s"),
             'playground_id' => $playground_id,
+            'tie' => $tie,
+            'table_group' => $table_group,
 
         ]);
 
@@ -141,6 +156,7 @@ class GameController extends Controller
         $request->validate([
             'visible' => 'required',
             'finished' => 'required',
+            'tie' => 'required',
             'home_team_id' => 'required|integer|exists:teams,id',
             'away_team_id' => 'required|integer|exists:teams,id',
             'season_id' => 'required|integer|exists:seasons,id',
@@ -149,7 +165,8 @@ class GameController extends Controller
             'round' => 'required|integer|min:0|max:9999',
             'home_goals' => 'nullable|integer|min:0|max:99',
             'away_goals' => 'nullable|integer|min:0|max:99',
-            'playground_id' => 'nullable|integer|exists:playgrounds,id'
+            'playground_id' => 'nullable|integer|exists:playgrounds,id',
+            'table_group' => 'nullable|string|max:155',
         ]);
 
         $game = Game::findOrFail($id);
@@ -170,6 +187,11 @@ class GameController extends Controller
         else
             $finished = false;
 
+        if($request->input('tie') == 'true')
+            $tie = true;
+        else
+            $tie = false;
+
         $home_team_id = $request->input('home_team_id');
         $away_team_id = $request->input('away_team_id');
         $goals_home = $request->input('goals_home');
@@ -177,6 +199,7 @@ class GameController extends Controller
         $season_id = $request->input('season_id');
         $round = $request->input('round');
         $playground_id = $request->input('playground_id');
+        $table_group = $request->input('table_group');
 
         $game->home_team_id = $home_team_id;
         $game->away_team_id = $away_team_id;
@@ -188,6 +211,8 @@ class GameController extends Controller
         $game->date = $carbon->format("Y-m-d H:i:s");
         $game->visible = $visible;
         $game->finished = $finished;
+        $game->tie = $tie;
+        $game->table_group = $table_group;
 
         $game->save();
 
@@ -225,6 +250,178 @@ class GameController extends Controller
         $teams[1] = $game->awayTeam;
 
         return response()->json($teams);
+
+    }
+
+    public function showImportPage() {
+        return view("backoffice.pages.import_games");
+    }
+
+    public function importGames(Request $request) {
+
+        $request->validate([
+            'import_file' => 'required|file|max:2000',
+            'team_name' => 'required|string|max:155|min:3',
+            'season_id' => 'required|integer|exists:seasons,id',
+        ]);
+
+        $season = Season::find($request->input('season_id'));
+        $team_name = $request->input('team_name');
+        $now = Carbon::now();
+        $nowMinus2H = $now->subHours(2);
+
+        $games_created = 0;
+        $goals_added = 0;
+        $clubs_created = 0;
+        $teams_created = 0;
+        $playgrounds_created = 0;
+        $lines = 0;
+
+        if (($handle = fopen ($request->file('import_file'), 'r' )) !== FALSE) {
+
+            while ( ($data = fgetcsv ( $handle, 1000, ';' )) !== FALSE ) {
+
+                $lines++;
+
+                $date = Carbon::createFromFormat("Y-m-d H:i:s", $data[1]);
+
+                $home_club = Club::where('name', 'like', '%' . $data[2] . '%')->first();
+
+                if ($home_club == null) {
+                    $home_club = Club::create([
+                        'name' => $data[2],
+                    ]);
+
+                    $clubs_created++;
+                }
+
+                $home_club_teams = $home_club->teams;
+                $home_team = null;
+
+                foreach ($home_club_teams as $team) {
+
+                    if ($team->name == $team_name) {
+                        $home_team = $team;
+                        break;
+                    }
+
+                }
+
+                if(!$home_team) {
+
+                    $home_team = Team::create([
+                        'club_id' => $home_club->id,
+                        'name' => $team_name,
+                    ]);
+
+                    $teams_created++;
+
+                }
+
+                $away_club = Club::where('name', 'like', '%' . $data[4] . '%')->first();
+
+                if ($away_club == null) {
+
+                    $away_club = Club::create([
+                        'name' => $data[4],
+                    ]);
+
+                    $clubs_created++;
+                }
+
+                $away_club_teams = $away_club->teams;
+                $away_team = null;
+
+                foreach ($away_club_teams as $team) {
+
+                    if ($team->name == $team_name) {
+                        $away_team = $team;
+                        break;
+                    }
+
+                }
+
+                if(!$away_team) {
+
+                    $away_team = Team::create([
+                        'club_id' => $away_club->id,
+                        'name' => $team_name,
+                    ]);
+
+                    $teams_created++;
+
+                }
+
+                $playground = $home_club->getFirstPlayground();
+
+                if(!$playground) {
+
+                    $playgrounds_created++;
+
+                    $playground = Playground::create([
+                        'club_id' => $home_club->id,
+                        'name' => 'Campo de ' . $home_club->name,
+                        'surface' => 'Pelado',
+                    ]);
+                }
+
+                $round = $data[0];
+
+                $game = Game::where('season_id', $season->id)->where('home_team_id', $home_team->id)->where('away_team_id', $away_team->id)->first();
+
+                if (!$game) {
+
+                    $games_created++;
+
+                    if($nowMinus2H->timestamp > $date->timestamp)
+                        $finished = true;
+                    else
+                        $finished = false;
+
+                    $game = Game::create([
+                        'home_team_id' => $home_team->id,
+                        'away_team_id' => $away_team->id,
+                        'season_id' => $season->id,
+                        'round' => $round,
+                        'date' => $data[1],
+                        'playground_id' => $playground->id,
+                        'finished' => $finished,
+                        'tie' => $data[6],
+                        'table_group' => $data[7],
+                        'visible' => true,
+                    ]);
+                }
+
+                if (!$game->goals_home && !$game->goals_away) {
+
+                    for ($i = $game->getTotalHomeGoals(); $i < $data[3]; $i++) {
+                        Goal::create([
+                            'team_id' => $home_team->id,
+                            'game_id' => $game->id,
+                            'minute' => rand(1, 90),
+                        ]);
+                        $goals_added++;
+                    }
+
+                    for ($i = $game->getTotalAwayGoals(); $i < $data[5]; $i++) {
+                        Goal::create([
+                            'team_id' => $away_team->id,
+                            'game_id' => $game->id,
+                            'minute' => rand(1, 90),
+                        ]);
+                        $goals_added++;
+                    }
+                }
+
+            }
+
+            fclose ( $handle );
+        }
+
+        $messages = new MessageBag();
+
+        $messages->add('success', 'Foram lidas ' . $lines . ' linhas, criados ' . $clubs_created . ' clubes,' . $teams_created . ' equipas, ' . $games_created . ' jogos e adicionados ' . $goals_added . ' golos.');
+        return redirect()->route('games.show_import_page')->with(['popup_message' => $messages]);
 
     }
 }

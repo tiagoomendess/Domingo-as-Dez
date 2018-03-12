@@ -106,6 +106,12 @@
     </div>
 
     <div class="row">
+
+        <div class="input-field col s6 m4 l3">
+            <input type="text" name="table_group" value="{{ $game->table_group }}" disabled>
+            <label for="table_group">{{ trans('models.group') }}</label>
+        </div>
+
         <div class="col s6 m4 l3">
             <label>{{ trans('models.playground') }}</label>
             <select id="playground_id" name="playground_id" class="browser-default" disabled>
@@ -116,6 +122,23 @@
                 @endif
 
             </select>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col s12">
+            <div class="switch">
+                <label>
+                    {{ trans('models.tie') }}
+                    <input name="finished" type="hidden" value="false">
+                    @if($game->tie)
+                        <input disabled name="visible" type="checkbox" value="true" checked>
+                    @else
+                        <input disabled name="visible" type="checkbox" value="true">
+                    @endif
+                    <span class="lever"></span>
+                </label>
+            </div>
         </div>
     </div>
 

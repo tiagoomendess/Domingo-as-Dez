@@ -86,5 +86,8 @@ return [
     'referee' => 'Árbitro',
     'referees' => 'Árbitros',
     'no_referees' => 'Não há árbitros',
+    'tie' => 'Eliminatória',
+    'group' => 'Grupo',
+    'team_name' => 'Nome das equipas',
 
 ];

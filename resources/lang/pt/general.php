@@ -80,5 +80,7 @@ return [
     'more' => 'Mais',
     'details' => 'Detalhes',
     'unknown' => 'Desconhecido',
+    'import_games' => 'Importar Jogos',
+    'import' => 'Importar',
 
 ];

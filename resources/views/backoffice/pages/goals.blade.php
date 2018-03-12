@@ -35,7 +35,7 @@
                             <td>
 
                                 <a href="{{ route('goals.show', ['goal' => $goal]) }}">
-                                    {{ $goal->player->name }}
+                                    {{ $goal->getPlayerName() }}
                                 </a>
 
                             </td>

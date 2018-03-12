@@ -333,9 +333,12 @@ class Season extends Model
 
             $table[$i]['team'] = $team;
             $table[$i]['club_name'] = $team->club->name;
-            $table[$i]['v'] = self::getWins($team, $games);
-            $table[$i]['d'] = self::getDraws($team, $games);
-            $table[$i]['points'] = ($table[$i]['v'] * 3) + $table[$i]['d'];
+            $table[$i]['club_emblem'] = $team->club->getEmblem();
+            $table[$i]['played'] = self::getPlayed($team, $games);
+            $table[$i]['wins'] = self::getWins($team, $games);
+            $table[$i]['draws'] = self::getDraws($team, $games);
+            $table[$i]['loses'] = self::getLoses($team, $games);
+            $table[$i]['points'] = ($table[$i]['wins'] * 3) + $table[$i]['draws'];
             $table[$i]['gf'] = self::getGoalsForTeam($team, $games);
             $table[$i]['ga'] = self::getGoalsAgainstTeam($team, $games);
             $table[$i]['gd'] = $table[$i]['gf'] - $table[$i]['ga'];
@@ -445,13 +448,13 @@ class Season extends Model
                             } else if ($table[$i]['gd'] == $table[$j]['gd']) {
 
                                 //Rule 4
-                                if($table[$i]['v'] < $table[$j]['v']) {
+                                if($table[$i]['wins'] < $table[$j]['wins']) {
 
                                     $aux = $table[$i];
                                     $table[$i] = $table[$j];
                                     $table[$j] = $aux;
 
-                                } else if ($table[$i]['v'] == $table[$j]['v']){
+                                } else if ($table[$i]['wins'] == $table[$j]['wins']){
 
                                     //Rule 5
                                     if($table[$i]['gf'] < $table[$j]['gf']) {
@@ -503,6 +506,18 @@ class Season extends Model
         return $table;
     }
 
+    public static function getPlayed($team, $games) {
+
+        $played = 0;
+
+        foreach ($games as $game) {
+            if($game->homeTeam->id == $team->id || $game->awayTeam->id == $team->id)
+                $played++;
+        }
+
+        return $played;
+    }
+
     /**
      * Gets the total wins for the team in the games provided
      *
@@ -527,6 +542,35 @@ class Season extends Model
         }
 
         return $total_wins;
+    }
+
+    /**
+     * Gets the total loses for the team in the games provided
+     *
+     * @param $team Team
+     * @param $games Collection
+     *
+     * @return int
+     */
+    public static function getLoses($team, $games) {
+
+        $total_loses = 0;
+
+        foreach ($games as $game) {
+
+            if($game->homeTeam->id == $team->id || $game->awayTeam->id == $team->id) {
+
+                if($game->finished && !$game->isDraw()) {
+
+                    if($game->winner()->id != $team->id)
+                        $total_loses++;
+
+                }
+            }
+
+        }
+
+        return $total_loses;
     }
 
     /**

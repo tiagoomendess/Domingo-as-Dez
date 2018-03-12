@@ -27,6 +27,8 @@ class CreateGamesTable extends Migration
             $table->foreign('playground_id')->references('id')->on('playgrounds')->onDelete('cascade');
             $table->integer('goals_home')->nullable();
             $table->integer('goals_away')->nullable();
+            $table->boolean('tie')->default(false);
+            $table->string('table_group')->nullable();
             $table->boolean('finished')->default(false);
             $table->boolean('visible')->default(true);
             $table->timestamps();

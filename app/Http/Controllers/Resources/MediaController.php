@@ -306,7 +306,7 @@ class MediaController extends Controller
         }
 
         $filename = str_random(3) . time() . str_random(6) . '_' . $originalName;
-        $filename = self::removeLatin($filename);
+        $filename = $filename = str_slug($filename);
 
         $url = '/storage/media/images/' . $filename;
         $path = '/public/media/images/';
@@ -354,6 +354,7 @@ class MediaController extends Controller
 
         $filename = str_random(3) . time() . str_random(3) . '_' . $filename;
         $filename = str_replace(' ', '_', $filename);
+        $filename = str_slug($filename);
 
         //Fit the image to a squared image
         if ($upzise)
@@ -374,8 +375,8 @@ class MediaController extends Controller
     public static function removeLatin($string) {
 
         $replaced = str_replace(
-            ['ç', 'Ç', 'ã', 'Ã', 'õ', 'Õ', 'é', 'É', 'â', 'Â', 'ê', 'Ê', 'ó', 'Ó'],
-            ['c', 'C', 'a', 'A', 'o', 'O', 'e', 'E', 'A', 'A', 'e', 'E', 'o', 'O'],
+            ['ç', 'Ç', 'ã', 'Ã', 'õ', 'Õ', 'é', 'É', 'â', 'Â', 'ê', 'Ê', 'ó', 'Ó', 'Á', 'a'],
+            ['c', 'C', 'a', 'A', 'o', 'O', 'e', 'E', 'A', 'A', 'e', 'E', 'o', 'O', 'A'],
             $string
         );
 

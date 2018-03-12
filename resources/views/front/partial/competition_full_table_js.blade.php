@@ -175,6 +175,7 @@
         $.get("/api/competicao/" + competition_slug + "/season/" + season + "/round/" + round + "/table", function (data) {
 
             tbody.empty();
+            console.log(data);
 
             for (i = 0; i < data.length; i++) {
 
@@ -189,7 +190,15 @@
                 emblem.attr('src', data[i]['club_emblem']);
                 emblem.appendTo(td2);
 
-                var td3 = $("<td>" + data[i].team.club['name'] + "</td>");
+                var td3 = $("<td>" + data[i]['club_name'] + "</td>");
+
+                var td8 = $("<td>" + data[i]['played'] + "</td>");
+
+                var td9 = $("<td>" + data[i]['wins'] + "</td>");
+
+                var td10 = $("<td>" + data[i]['draws'] + "</td>");
+
+                var td11 = $("<td>" + data[i]['loses'] + "</td>");
 
                 var td4 = $("<td>" + data[i]['gf'] + "</td>");
 
@@ -204,10 +213,15 @@
                 td1.appendTo(tr);
                 td2.appendTo(tr);
                 td3.appendTo(tr);
+                td8.appendTo(tr);
+                td9.appendTo(tr);
+                td10.appendTo(tr);
+                td11.appendTo(tr);
                 td4.appendTo(tr);
                 td5.appendTo(tr);
                 td6.appendTo(tr);
                 td7.appendTo(tr);
+
 
             }
 
@@ -216,7 +230,7 @@
         });
 
     }
-    
+
 
 
 </script>

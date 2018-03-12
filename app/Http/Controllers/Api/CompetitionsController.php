@@ -44,10 +44,10 @@ class CompetitionsController extends Controller
             $matches[$i]['url'] = $game->getPublicUrl();
 
             $matches[$i]['home_club_name'] = $game->homeTeam->club->name;
-            $matches[$i]['home_club_emblem'] = $game->homeTeam->club->emblem;
+            $matches[$i]['home_club_emblem'] = $game->homeTeam->club->getEmblem();
 
             $matches[$i]['away_club_name'] = $game->awayTeam->club->name;
-            $matches[$i]['away_club_emblem'] = $game->awayTeam->club->emblem;
+            $matches[$i]['away_club_emblem'] = $game->awayTeam->club->getEmblem();
 
             if ((!is_null($game->goals_home)) && (!is_null($game->goals_away))) {
 

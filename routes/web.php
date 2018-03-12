@@ -26,6 +26,12 @@ Route::get('/home', 'Front\HomePageController@home')->name('home');
 //Backoffice
 Route::get('/dashboard', 'Backoffice\DashboardController@index')->name('dashboard');
 Route::get('settings', 'SettingsController@index')->name('settings.index');
+Route::get('/games/import', 'Resources\GameController@showImportPage')->name('games.show_import_page');
+Route::post('/games/import', 'Resources\GameController@importGames')->name('games.import_games');
+
+Route::get('teste', function() {
+    dd(\App\Club::find(2)->getFirstPlayground());
+});
 
 //Resources ---------------------
 Route::resources([
@@ -65,6 +71,7 @@ Route::get('games/{id}/teams', 'Resources\GameController@getTeams')->name('getGa
 Route::get('/noticias', 'Front\ArticlesController@index')->name('news.index');
 Route::get('/noticia/{year}/{month}/{day}/{slug}', 'Front\ArticlesController@show')->name('news.show');
 Route::get('/competicao/{slug}', 'Front\CompetitionsController@show')->name('competition');
+Route::get('/competicao/{slug}/classificacao-detalhada/', 'Front\CompetitionsController@showDetailedTable')->name('competition.detailed_table');
 Route::get('/transferencias', 'Front\TransfersController@index')->name('transfers');
 Route::get('/jogo/{home_club}/{away_club}/{competition_slug}/{season_start_year}/{season_end_year?}', 'Front\GamesController@show')
     ->name('front.games.show')
