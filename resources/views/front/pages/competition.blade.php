@@ -134,7 +134,19 @@
                     </table>
                 </div>
 
-                <small>Nota: Esta tabela está ordenada pelos criterios de desempate.</small>
+                <div class="row">
+
+                    <div class="col s12 m12 l8">
+                        <small>Nota: Esta tabela está ordenada pelos criterios de desempate.</small>
+                    </div>
+
+                    <div class="col s12 m12 l4">
+                        <a class="right" href="{{ route('competition.detailed_table', ['slug' => str_slug($competition->name)]) }}">{{ trans('front.detailed_table') }}</a>
+                    </div>
+
+                </div>
+
+
             </div>
         </div>
 
