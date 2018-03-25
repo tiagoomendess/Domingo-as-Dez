@@ -4,6 +4,7 @@ namespace App;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\App;
 
 class Game extends Model
 {
@@ -39,6 +40,10 @@ class Game extends Model
 
     public function away_team() {
         return $this->awayTeam();
+    }
+
+    public function referees() {
+        return $this->belongsToMany(Referee::class, 'game_referees');
     }
 
     /**

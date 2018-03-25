@@ -57,6 +57,10 @@
         <li><a class="waves-effect" href="{{ route('playgrounds.index') }}">{{ trans('models.playgrounds') }}</a></li>
     @endif
 
+    @if(Auth::user()->hasPermission('referees'))
+        <li><a class="waves-effect" href="{{ route('referees.index') }}">{{ trans('models.referees') }}</a></li>
+    @endif
+
     @if(Auth::user()->hasPermission('permissions'))
         <li><a class="waves-effect" href="{{ route('permissions.index') }}">{{ trans('models.permissions') }}</a></li>
     @endif

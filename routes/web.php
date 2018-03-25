@@ -51,6 +51,7 @@ Route::resources([
     'playgrounds' => 'Resources\PlaygroundController',
     'games' => 'Resources\GameController',
     'goals' => 'Resources\GoalController',
+    'referees' => 'Resources\RefereeController',
 ]);
 
 //Routes to javascript in backend

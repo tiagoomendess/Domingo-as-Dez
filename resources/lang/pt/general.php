@@ -82,5 +82,6 @@ return [
     'unknown' => 'Desconhecido',
     'import_games' => 'Importar Jogos',
     'import' => 'Importar',
+    'association' => 'Associação',
 
 ];

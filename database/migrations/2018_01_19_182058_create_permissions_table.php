@@ -50,7 +50,8 @@ class CreatePermissionsTable extends Migration
             ['name' => 'goals.edit'],
             ['name' => 'permissions'],
             ['name' => 'permissions.edit'],
-
+            ['name' => 'referees'],
+            ['name' => 'referees.edit'],
 
         ]);
 

@@ -172,6 +172,11 @@
 
                                     @if($goal->team->id == $game->homeTeam->id)
                                         <li class="collection-item avatar">
+
+                                            @if(\App\Common::hasPermission('goals.edit'))
+                                                <a href="{{ route('goals.show', ['goal' => $goal]) }}" class="edit-goal-btn"><i class="material-icons">mode_edit</i></a>
+                                            @endif
+
                                             <img src="{{ $goal->getPlayerPicture() }}" alt="" class="circle">
                                             <span class="title">
                                                 @if($goal->getPlayerNickname())
@@ -216,6 +221,11 @@
 
                                     @if($goal->team->id == $game->awayTeam->id)
                                         <li class="collection-item avatar">
+
+                                            @if(\App\Common::hasPermission('goals.edit'))
+                                                <a href="{{ route('goals.show', ['goal' => $goal]) }}" class="edit-goal-btn"><i class="material-icons">mode_edit</i></a>
+                                            @endif
+
                                             <img src="{{ $goal->getPlayerPicture() }}" alt="" class="circle">
                                             <span class="title">
                                                 @if($goal->getPlayerNickName())

@@ -74,7 +74,7 @@
 
                 <div class="row">
                     <div class="col s12">
-                        <input name="date" placeholder="{{ trans('general.date') }}" id="date" type="text" class="datepicker" value="{{ $article->date }}">
+                        <input name="date" placeholder="{{ trans('general.date') }}" id="date" type="text" class="datepicker" value="{{\Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $article->date)->format("Y-m-d")}}">
                     </div>
                 </div>
 

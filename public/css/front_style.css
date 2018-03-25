@@ -189,3 +189,12 @@ p {
 .row .input-field .active{
     color: #1e88e5;
 }
+
+.edit-goal-btn {
+
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    color: #545454;
+
+}
