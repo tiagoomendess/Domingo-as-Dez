@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Resources;
 
 use App\Club;
 use App\Game;
+use App\GameReferee;
 use App\Goal;
 use App\Playground;
 use App\Season;
@@ -66,6 +67,10 @@ class GameController extends Controller
             'away_goals' => 'nullable|integer|min:0|max:99',
             'playground_id' => 'nullable|integer|exists:playgrounds,id',
             'table_group' => 'nullable|string|max:155',
+            'referees_id' => 'nullable|array|min:1|max:8',
+            'referees_id.*' => 'required|integer|exists:referees,id',
+            'types_id' => 'nullable|array|min:1|max:8',
+            'types_id.*' => 'required|integer|exists:referee_types,id',
         ]);
 
         $carbon = new Carbon($request->input('date'));
@@ -114,6 +119,28 @@ class GameController extends Controller
             'table_group' => $table_group,
 
         ]);
+
+        //If there were referees set
+        if ($request->input('referees_id') && $request->input('types_id')) {
+
+            $referees_id = $request->input('referees_id');
+            $types_id = $request->input('types_id');
+
+            if (count($referees_id) != count($types_id))
+                return redirect(route('games.show', ['game' => $game]));
+
+            $total_refs = count($referees_id);
+
+            for ($i = 0; $i < $total_refs; $i++) {
+
+                GameReferee::create([
+                    'game_id' => $game->id,
+                    'referee_id' => $referees_id[$i],
+                    'referee_type_id' => $types_id[$i],
+                ]);
+            }
+
+        }
 
         return redirect(route('games.show', ['game' => $game]));
 
@@ -215,6 +242,69 @@ class GameController extends Controller
         $game->table_group = $table_group;
 
         $game->save();
+
+        $game_referees = $game->game_referees;
+
+        //If there were referees set
+        if ($request->input('referees_id') && $request->input('types_id')) {
+
+            $referees_id = $request->input('referees_id');
+            $types_id = $request->input('types_id');
+
+            if (count($referees_id) != count($types_id))
+                return redirect(route('games.show', ['game' => $game]));
+
+            $total_refs_form = count($referees_id);
+
+            foreach ($game_referees as $game_referee) {
+
+                $match = false;
+
+                for ($i = 0; $i < $total_refs_form; $i++) {
+
+                    if ($game_referee->id == $referees_id[$i] && $game_referee->referee_type->id == $types_id[$i]) {
+                        $match = true;
+                        break;
+                    }
+
+                }
+
+                if (!$match)
+                    $game_referee->delete();
+
+            }
+
+            for ($i = 0; $i < $total_refs_form; $i++) {
+
+                $match = false;
+
+                foreach ($game_referees as $game_referee) {
+
+                    if ($game_referee->id == $referees_id[$i] && $game_referee->referee_type->id == $types_id[$i]) {
+                        $match = true;
+                        break;
+                    }
+
+                }
+
+                if (!$match) {
+
+                    GameReferee::create([
+                        'game_id' => $game->id,
+                        'referee_id' => $referees_id[$i],
+                        'referee_type_id' => $types_id[$i],
+                    ]);
+
+                }
+
+            }
+
+        } else {
+
+            foreach ($game_referees as $game_referee)
+                $game_referee->delete();
+
+        }
 
         $messages = new MessageBag();
         $messages->add('success', trans('success.model_edited', ['model_name' => trans('models.game')]));

@@ -12,6 +12,10 @@ class GameReferee extends Model
 
     protected $hidden = [];
 
+    public function referee() {
+        return $this->belongsTo(Referee::class);
+    }
+
     public function referee_type() {
         return $this->belongsTo(RefereeType::class);
     }

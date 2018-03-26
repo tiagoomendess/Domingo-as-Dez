@@ -134,7 +134,60 @@ class RefereeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $referee = Referee::findorFail($id);
+
+        $request->validate([
+            'name' => 'required|string|max:155|min:3',
+            'picture' => 'nullable|image',
+            'picture_url' => 'nullable|string|max:280|url',
+            'association' => 'required|string|max:155',
+            'obs' => 'string|max:3000|min:6|nullable',
+            'visible' => 'required',
+        ]);
+
+        if($request->input('visible') == 'true')
+            $visible = true;
+        else
+            $visible = false;
+
+        $name = $request->input('name');
+        $association = $request->input('association');
+        $obs = $request->input('obs');
+
+        $image = null;
+
+        if ($request->hasFile('picture'))
+            $image = Image::make($request->file('picture'));
+        else if ($request->input('picture_url') != null)
+            $image = Image::make($request->input('picture_url'));
+
+        if ($image) {
+
+            $url = MediaController::storeSquareImage($image, $name);
+
+            $tags = trans('models.referee') . ',' . $name;
+
+            Media::create([
+                'user_id' => Auth::user()->id,
+                'url' => $url,
+                'media_type' => 'image',
+                'tags' => $tags,
+            ]);
+
+            $referee->picture = $url;
+        }
+
+        $referee->name = $name;
+        $referee->association = $association;
+        $referee->obs = $obs;
+        $referee->visible = $visible;
+        $referee->save();
+
+        $messages = new MessageBag();
+        $messages->add('success', trans('success.model_edited', ['model_name' => trans('models.referee')]));
+
+        return redirect(route('referees.show', ['referee' => $referee]))->with(['popup_message' => $messages]);
+
     }
 
     /**

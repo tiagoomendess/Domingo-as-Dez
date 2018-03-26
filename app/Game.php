@@ -46,6 +46,10 @@ class Game extends Model
         return $this->belongsToMany(Referee::class, 'game_referees');
     }
 
+    public function game_referees() {
+        return $this->hasMany(GameReferee::class);
+    }
+
     /**
      * Get total home goals of this game
     */

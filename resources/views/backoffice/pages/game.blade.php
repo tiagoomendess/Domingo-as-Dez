@@ -125,6 +125,44 @@
         </div>
     </div>
 
+    <div class="row no-margin-bottom">
+
+        <div id="game_referees">
+            @foreach($game->game_referees as $game_referee)
+                <div id="game_referee_hidden" class="row">
+
+                    <div class="col s6 m4 l3">
+                        <label>{{ trans('models.referee') }}</label>
+                        <select id="i_referee_id" class="browser-default" disabled>
+                            <option value="" disabled selected>{{ $game_referee->referee->name }}</option>
+                        </select>
+                    </div>
+
+                    <div class="col s5 m3 l2">
+                        <label>{{ trans('general.type') }}</label>
+                        <select id="i_type_id" class="browser-default" disabled>
+                            <option value="" disabled selected>{{ trans('general.' . $game_referee->referee_type->name) }}</option>
+                        </select>
+                    </div>
+
+                    <div class="col s1 m1 l1" style="min-height: 65px;">
+                        <div class="right" style="min-height: 30px; margin-top: 30px;">
+                            <a style="color: gray; cursor: default;"><i class="material-icons left">close</i></a>
+                        </div>
+                    </div>
+
+                </div>
+            @endforeach
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col s12 m8 l6">
+            <a disabled style="width: 100%;" class="waves-effect waves-light btn grey"><i class="material-icons left">add</i>{{ trans('general.add') }} {{ trans('models.referee') }}</a>
+        </div>
+    </div>
+
     <div class="row">
         <div class="col s12">
             <div class="switch">

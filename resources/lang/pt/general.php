@@ -83,5 +83,11 @@ return [
     'import_games' => 'Importar Jogos',
     'import' => 'Importar',
     'association' => 'Associação',
+    'main' => 'Principal',
+    'assistant' => 'Assistente',
+    'fourth_official' => 'Quarto Árbitro',
+    'goal_line' => 'Arbitro de Baliza',
+    'var' => 'VAR',
+    'var_assistant' => 'Assistente VAR',
 
 ];

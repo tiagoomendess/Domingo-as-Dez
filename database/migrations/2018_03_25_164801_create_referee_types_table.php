@@ -18,6 +18,15 @@ class CreateRefereeTypesTable extends Migration
             $table->string('name');
             $table->timestamps();
         });
+
+        DB::table('permissions')->insert([
+            ['name' => 'main'],
+            ['name' => 'assistant'],
+            ['name' => 'fourth_official'],
+            ['name' => 'goal_line'],
+            ['name' => 'var'],
+            ['name' => 'var_assistant'],
+        ]);
     }
 
     /**
