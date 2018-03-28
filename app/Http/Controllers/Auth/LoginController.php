@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Resources\MediaController;
 use App\UserProfile;
+use Intervention\Image\Facades\Image;
 use Socialite;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\MessageBag;
@@ -154,8 +156,16 @@ class LoginController extends Controller
                     'verified' => true,
                 ]);
 
+                $image = Image::make($socialUser->getAvatar());
+
+                try {
+                    $url = MediaController::storeSquareImage($image, str_random(9), 400, 'jpg', config('custom.user_avatars_path'));
+                } catch(Exception $e) {
+                    $url = null;
+                }
+
                 $userProfile = UserProfile::create([
-                    'picture' => $socialUser->getAvatar(),
+                    'picture' => $url,
                     'user_id' => $user->id,
                 ]);
             }

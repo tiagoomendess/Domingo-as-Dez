@@ -28,6 +28,7 @@ Route::get('/dashboard', 'Backoffice\DashboardController@index')->name('dashboar
 Route::get('settings', 'SettingsController@index')->name('settings.index');
 Route::get('/games/import', 'Resources\GameController@showImportPage')->name('games.show_import_page');
 Route::post('/games/import', 'Resources\GameController@importGames')->name('games.import_games');
+Route::post('/settings/change', 'SettingsController@changeSetting')->name('settings.change');
 
 Route::get('teste', function() {
     dd(\App\Club::find(2)->getFirstPlayground());
@@ -83,5 +84,9 @@ Route::get('/jogo/{home_club}/{away_club}/{competition_slug}/{season_start_year}
         'season_start_year' => '[0-9]+',
         'season_end_year' => '[0-9]+',
     ]);
+
+Route::get('/utilizador/perfil/editar', 'Front\UserProfileController@edit')->name('front.userprofile.edit');
+Route::post('/utilizador/perfil/editar', 'Front\UserProfileController@updateProfileInfo')->name('front.userprofile.update');
+Route::post('/utilizador/perfil/foto/alterar', 'Front\UserProfileController@updateProfilePicture')->name('front.userprofilephoto.update');
 
 

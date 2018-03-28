@@ -166,37 +166,42 @@
                         <div class="card-content">
                             <span class="card-title"><img style="width: 20px;" src="{{ $game->homeTeam->club->getEmblem() }}" alt=""> {{ trans('models.goals') }}</span>
 
-                            <ul class="collection">
+                            @if($game->getTotalHomeGoals() > 0)
 
-                                @foreach($game->goals as $goal)
+                                <ul class="collection">
 
-                                    @if($goal->team->id == $game->homeTeam->id)
-                                        <li class="collection-item avatar">
+                                    @foreach($game->goals as $goal)
 
-                                            @if(\App\Common::hasPermission('goals.edit'))
-                                                <a href="{{ route('goals.show', ['goal' => $goal]) }}" class="edit-goal-btn"><i class="material-icons">mode_edit</i></a>
-                                            @endif
+                                        @if($goal->team->id == $game->homeTeam->id)
+                                            <li class="collection-item avatar collection-just">
 
-                                            <img src="{{ $goal->getPlayerPicture() }}" alt="" class="circle">
-                                            <span class="title">
+                                                @if(\App\Common::hasPermission('goals.edit'))
+                                                    <a href="{{ route('goals.show', ['goal' => $goal]) }}" class="edit-goal-btn"><i class="material-icons">mode_edit</i></a>
+                                                @endif
+
+                                                <img src="{{ $goal->getPlayerPicture() }}" alt="" class="circle">
+                                                <span class="title">
                                                 @if($goal->getPlayerNickname())
-                                                    {{ $goal->getPlayerName() }} ({{ $goal->getPlayerNickname() }})
-                                                @else
-                                                    {{ $goal->getPlayerName() }}
-                                                @endif
+                                                        {{ $goal->getPlayerName() }} ({{ $goal->getPlayerNickname() }})
+                                                    @else
+                                                        {{ $goal->getPlayerName() }}
+                                                    @endif
                                             </span>
-                                            <p>{{ $goal->minute }}"
-                                                @if($goal->penalty)
-                                                    <br> {{ trans('models.penalty') }}
-                                                @elseif($goal->own_goal)
-                                                    <br> {{ trans('models.own_goal') }}
-                                                @endif
-                                            </p>
-                                        </li>
-                                    @endif
+                                                <p>{{ $goal->minute }}"
+                                                    @if($goal->penalty)
+                                                        <br> {{ trans('models.penalty') }}
+                                                    @elseif($goal->own_goal)
+                                                        <br> {{ trans('models.own_goal') }}
+                                                    @endif
+                                                </p>
+                                            </li>
+                                        @endif
 
-                                @endforeach
-                            </ul>
+                                    @endforeach
+                                    @else
+                                        <p class="center">{{ trans('models.no_goals') }}</p>
+                                    @endif
+                                </ul>
                         </div>
                     </div>
 
@@ -206,7 +211,23 @@
                     <div class="card">
                         <div class="card-content">
                             <span class="card-title center">{{ trans('front.referee_team') }}</span>
-                            <p class="center">{{ trans('front.to_be_announced') }}</p>
+
+                            @if(count($game->game_referees) > 0)
+                                <ul class="collection">
+                                    @foreach($game->game_referees as $game_referee)
+                                        @if ($game_referee->referee->visible)
+                                            <li class="collection-item avatar collection-just">
+                                                <img src="{{ $game_referee->referee->getPicture() }}" alt="" class="circle">
+                                                <span class="title">{{ $game_referee->referee->name }}</span>
+                                                <p>{{ trans('general.' . $game_referee->referee_type->name) }}</p>
+                                            </li>
+                                        @endif
+                                    @endforeach
+                                </ul>
+                            @else
+                                <p class="center">{{ trans('models.no_referees') }}</p>
+                            @endif
+
                         </div>
                     </div>
                 </div>
@@ -216,31 +237,35 @@
                         <div class="card-content">
                             <span class="card-title"><img style="width: 20px;" src="{{ $game->awayTeam->club->getEmblem() }}" alt=""> {{ trans('models.goals') }}</span>
 
-                            <ul class="collection">
-                                @foreach($game->goals as $goal)
+                            @if($game->getTotalAwayGoals() > 0)
+                                <ul class="collection">
+                                    @foreach($game->goals as $goal)
 
-                                    @if($goal->team->id == $game->awayTeam->id)
-                                        <li class="collection-item avatar">
+                                        @if($goal->team->id == $game->awayTeam->id)
+                                            <li class="collection-item avatar collection-just">
 
-                                            @if(\App\Common::hasPermission('goals.edit'))
-                                                <a href="{{ route('goals.show', ['goal' => $goal]) }}" class="edit-goal-btn"><i class="material-icons">mode_edit</i></a>
-                                            @endif
-
-                                            <img src="{{ $goal->getPlayerPicture() }}" alt="" class="circle">
-                                            <span class="title">
-                                                @if($goal->getPlayerNickName())
-                                                    {{ $goal->getPlayerName() }} ({{ $goal->getPlayerNickName() }})
-                                                @else
-                                                    {{ $goal->getPlayerName() }}
+                                                @if(\App\Common::hasPermission('goals.edit'))
+                                                    <a href="{{ route('goals.show', ['goal' => $goal]) }}" class="edit-goal-btn"><i class="material-icons">mode_edit</i></a>
                                                 @endif
-                                            </span>
-                                            <p>{{ $goal->minute }}"
-                                            </p>
-                                        </li>
-                                    @endif
 
-                                @endforeach
-                            </ul>
+                                                <img src="{{ $goal->getPlayerPicture() }}" alt="" class="circle">
+                                                <span class="title">
+                                                @if($goal->getPlayerNickName())
+                                                        {{ $goal->getPlayerName() }} ({{ $goal->getPlayerNickName() }})
+                                                    @else
+                                                        {{ $goal->getPlayerName() }}
+                                                    @endif
+                                            </span>
+                                                <p>{{ $goal->minute }}"
+                                                </p>
+                                            </li>
+                                        @endif
+
+                                    @endforeach
+                                    @else
+                                        <p class="center">{{ trans('models.no_goals') }}</p>
+                                    @endif
+                                </ul>
                         </div>
                     </div>
                 </div>
@@ -250,6 +275,13 @@
     </div>
 
 
+    @if(\App\Common::hasPermission('games.edit'))
+        <div class="fixed-action-btn">
+            <a href="{{ route('games.show', ['game' => $game]) }}" class="btn-floating btn-large green">
+                <i class="large material-icons">mode_edit</i>
+            </a>
+        </div>
+    @endif
 
 @endsection
 

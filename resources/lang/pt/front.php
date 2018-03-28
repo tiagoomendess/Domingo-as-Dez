@@ -25,5 +25,12 @@ return [
     'links' => 'Ligações',
     'contact' => 'Contactar',
     'detailed_table' => 'Classificação Detalhada',
+    'member_since' => 'Membro Desde',
+    'change' => 'Alterar',
+    'edit_profile_pic' => 'Alterar Fotografia de Perfil',
+    'edit_profile_pic_help' => 'Escolhe um fotografia da galeria ou tira uma agora mesmo se estiver num smartphone até 8MB.',
+    'choose_photo' => 'Escolher Foto',
+    'no_permissions' => 'Não possui qualquer permissão extra que lhe permita gerir conteúdo.',
+    'has_permissions' => 'Possui um conjunto de permissões que lhe permitirão:'
 
 ];

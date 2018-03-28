@@ -3,7 +3,6 @@
 @section('head')
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link type="text/css" rel="stylesheet" href="/materialize/css/materialize.min.css"  media="screen,projection"/>
-    <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
     <link type="text/css" rel="stylesheet" href="/css/front_style.css"  media="screen,projection"/>
     @yield('head-content')
 @endsection

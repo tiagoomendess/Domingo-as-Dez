@@ -112,7 +112,6 @@ class RegisterController extends Controller
 
         UserProfile::create([
             'user_id' => $user->id,
-            'picture' => config('custom.default_profile_pic'),
         ]);
 
         Auth::logout();

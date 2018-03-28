@@ -1,7 +1,6 @@
 <?php
 
 return [
-    'lang' => 'pt',
     'author' => 'Tiago Mendes',
     'author_website' => 'http://mendes.com.pt',
     'site_name' => 'Domingo às Dez',
@@ -20,4 +19,5 @@ return [
     'media_other_folder' => '/storage/media/files',
     'dashboard_sidenav_image' => '/images/sidenav_image.jpg',
     'site_sidenav_image' => '/images/sidenav_image_blur.jpg',
+    'user_avatars_path' => '/storage/uploads/users/avatars',
 ];

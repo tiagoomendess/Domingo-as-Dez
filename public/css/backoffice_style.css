@@ -71,3 +71,32 @@ body {
     bottom: 0px;
 
 }
+
+.setting td .row {
+    margin-bottom: 0;
+}
+
+.setting td .row .col span {
+
+    display: flex;
+    width: 100%;
+    text-align: left;
+    color: #131313;
+    font-size: 16px;
+}
+
+.setting td .row .col small {
+
+    display: flex;
+    width: 100%;
+    text-align: left;
+    color: #666666;
+}
+
+.setting-popup {
+    cursor: pointer;
+}
+
+.setting-popup:hover {
+    background-color: rgba(10,10,10, 0.1);
+}

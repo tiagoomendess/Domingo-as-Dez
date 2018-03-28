@@ -8,6 +8,10 @@
 
                         <a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">menu</i></a>
 
+                        <a href="{{ route('homePage') }}" class="brand-logo center hide-on-small-only">
+                            <img class="navbar-logo" src="{{ config('custom.site_logo') }}">
+                        </a>
+
                         <ul id="nav-mobile" class="left hide-on-med-and-down">
 
                             <li><a href="{{ route('homePage') }}">{{ trans('general.home_page') }}</a></li>
@@ -22,18 +26,17 @@
 
                         </ul>
 
-                        <a href="{{ route('homePage') }}" class="brand-logo center hide-on-small-only">
-                            <img class="navbar-logo" src="{{ config('custom.site_logo') }}">
-                        </a>
-
                         <ul id="nav-mobile" class="right hide-on-med-and-down">
+
 
                             <li><a href="{{ route('transfers') }}">{{ trans('models.transfers') }}</a></li>
 
                             @if(Auth::check())
 
+
                                 <li><a class="dropdown-button" href="#" data-activates="dropdown1">
 
+                                        <img class="circle navbar-profile-pic" src="{{ Auth::user()->profile->getPicture() }}" alt="">
                                         {{ Auth::user()->name }}
                                         <i class="material-icons right">arrow_drop_down</i></a></li>
 
@@ -44,7 +47,7 @@
                                     @endif
 
                                     <li>
-                                        <a href="#">{{ trans('models.profile') }}</a>
+                                        <a href="{{ route('front.userprofile.edit')}}">{{ trans('models.profile') }}</a>
                                     </li>
 
                                     <li>
