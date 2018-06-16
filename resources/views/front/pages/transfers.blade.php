@@ -6,7 +6,7 @@
 
 @section('content')
 
-    <div class="row">
+    <div class="row hide-on-med-and-down">
         <div class="col xs12 s12 m12 l12">
             <h1>{{ trans('models.transfers') }}</h1>
         </div>

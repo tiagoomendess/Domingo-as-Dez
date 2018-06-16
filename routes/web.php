@@ -53,6 +53,7 @@ Route::resources([
     'games' => 'Resources\GameController',
     'goals' => 'Resources\GoalController',
     'referees' => 'Resources\RefereeController',
+    'gamegroups' => 'Resources\GameGroupController',
 ]);
 
 //Routes to javascript in backend
@@ -67,6 +68,7 @@ Route::get('competitions/{id}/seasons', 'Resources\CompetitionController@getSeas
 Route::get('seasons/{id}/games', 'Resources\SeasonController@getGames')->name('getSeasonGames');
 Route::get('teams/{id}/current_players', 'Resources\TeamController@getCurrentPlayers')->name('getTeamCurrentPlayers');
 Route::get('games/{id}/teams', 'Resources\GameController@getTeams')->name('getGameTeams');
+Route::get('seasons/{id}/game_groups', 'Resources\SeasonController@getGameGroups')->name('getGameGroups');
 //-----
 
 //Front
@@ -75,7 +77,7 @@ Route::get('/noticia/{year}/{month}/{day}/{slug}', 'Front\ArticlesController@sho
 Route::get('/competicao/{slug}', 'Front\CompetitionsController@show')->name('competition');
 Route::get('/competicao/{slug}/classificacao-detalhada/', 'Front\CompetitionsController@showDetailedTable')->name('competition.detailed_table');
 Route::get('/transferencias', 'Front\TransfersController@index')->name('transfers');
-Route::get('/jogo/{home_club}/{away_club}/{competition_slug}/{season_start_year}/{season_end_year?}', 'Front\GamesController@show')
+Route::get('/jogo/{home_club}-vs-{away_club}/{competition_slug}/{season_start_year}-{season_end_year?}', 'Front\GamesController@show')
     ->name('front.games.show')
     ->where([
         'home_club' => '[a-z0-9\-]+',

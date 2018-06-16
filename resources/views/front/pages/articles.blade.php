@@ -7,18 +7,24 @@
 @section('content')
 
     <div class="row">
-        <div class="col s12 m12 l8 xl8">
-            @foreach($articles as $article)
-                <div class="card large hoverable">
+        @foreach($articles as $article)
+            <div class="col s12 m6 l4">
+
+                <div class="card medium hoverable">
                     <div class="card-image">
                         @if($article->media)
-                            <img src="{{ $article->media->url }}">
+                            @if($article->media->media_type == 'image')
+                                <img src="{{ $article->media->url }}" alt="{{ $article->media->tags }}">
+                            @elseif($article->media->media_type == 'youtube')
+                                <div class="embed-container">
+                                    <iframe id="media_youtube_video" style="width: 100%" src="{{ str_replace('watch?v=', 'embed/', $article->media->url . '&rel=0&amp;controls=0&amp;showinfo=0&amp;') }}" frameborder='0' allowfullscreen></iframe>
+                                </div>
+                            @else
+                                <img src="{{ \App\Media::getPlaceholder('16:9', $article->id) }}" alt="">
+                            @endif
+
                         @else
-                            <?php
-                            $str = (string) $article->id;
-                            $arr = str_split($str); // convert string to an array
-                            ?>
-                            <img src="{{ "/images/16_9_placeholder_" . end($arr) . ".jpg" }}" alt="">
+                            <img src="{{ \App\Media::getPlaceholder('16:9', $article->id) }}" alt="">
                         @endif
                         <span class="card-title" style="text-shadow: 1px 1px 3px #000000;">{{ $article->title }}</span>
                     </div>
@@ -34,37 +40,9 @@
                         ]) }}" class="right blue-text">{{ trans('front.read_more') }}</a>
                     </div>
                 </div>
-
-            @endforeach
-        </div>
-
-        <div class="col s12 m12 l4 xl4">
-
-            <div class="card">
-
-                <div class="card-image">
-                    <img src="http://placehold.it/500x500">
-                </div>
-
             </div>
 
-            <div class="card">
-
-                <div class="card-image">
-                    <img src="http://placehold.it/500x500">
-                </div>
-
-            </div>
-
-            <div class="card">
-
-                <div class="card-image">
-                    <img src="http://placehold.it/500x500">
-                </div>
-
-            </div>
-
-        </div>
+        @endforeach
     </div>
 
     <div class="row">

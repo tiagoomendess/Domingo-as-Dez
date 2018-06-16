@@ -8,11 +8,11 @@
 
     <div class="row">
 
-        <div class="col xs12 s12 m10 l10 xl10">
+        <div class="col xs12 s12 m10 l10 xl10 hide-on-med-and-down">
             <h1>{{ $competition->name }}</h1>
         </div>
 
-        <div class="col xs12 s12 m2 l2 xl2">
+        <div class="col xs12 s12 m12 l2 xl2">
 
             <div id="season_select_div">
                 <div class="input-field">

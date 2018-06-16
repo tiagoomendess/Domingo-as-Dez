@@ -31,6 +31,8 @@ return [
     'edit_profile_pic_help' => 'Escolhe um fotografia da galeria ou tira uma agora mesmo se estiver num smartphone até 8MB.',
     'choose_photo' => 'Escolher Foto',
     'no_permissions' => 'Não possui qualquer permissão extra que lhe permita gerir conteúdo.',
-    'has_permissions' => 'Possui um conjunto de permissões que lhe permitirão:'
+    'has_permissions' => 'Possui um conjunto de permissões que lhe permitirão:',
+    'news_singular' => 'Notícia',
+    'article_published' => 'Publicado por :name a :date',
 
 ];

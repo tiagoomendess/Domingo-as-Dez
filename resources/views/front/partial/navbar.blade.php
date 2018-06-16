@@ -8,9 +8,19 @@
 
                         <a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">menu</i></a>
 
-                        <a href="{{ route('homePage') }}" class="brand-logo center hide-on-small-only">
+                        <a href="{{ route('homePage') }}" class="brand-logo center hide-on-med-and-down">
                             <img class="navbar-logo" src="{{ config('custom.site_logo') }}">
                         </a>
+
+                        <div class="hide-on-large-only navbar-title">
+                            <h1 class="hide truncate">
+                                @if(isset($navbar_title))
+                                    {{ $navbar_title }}
+                                @else
+                                    {{ config('custom.site_name') }}
+                                @endif
+                            </h1>
+                        </div>
 
                         <ul id="nav-mobile" class="left hide-on-med-and-down">
 

@@ -253,4 +253,128 @@ p {
     margin-top: 2px;
 }
 
+nav .nav-wrapper .row .container .button-collapse {
+    margin-left: 0;
+}
+
+.navbar-title h1 {
+    font-weight: 200;
+    font-size: 24px;
+    margin: 0 5px;
+    line-height: 55px;
+}
+
+.article-title {
+
+    color: #FFFFFF;
+    text-shadow: 1px 1px 2px black;
+    bottom: 0px;
+    margin: 0 0 0 0;
+    font-size: 36px;
+}
+
+.article-title-video {
+    color: #000000;
+    margin: 7px 0;
+    font-size: 36px;
+}
+
+.article-parallax-container {
+    height: 100%;
+}
+
+.article-parallax-container .container {
+
+    position: relative;
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    height: 100%;
+    justify-content: flex-end;
+    bottom: 0;
+
+}
+
+.article-parallax-container .container .col:first-of-type {
+
+}
+
+.article-description {
+    color: black;
+}
+
+.article-description p {
+    text-align: justify;
+}
+
+.article-body {
+    color: rgb(54, 54, 54);
+}
+
+.article-body p {
+    text-align: justify;
+}
+
+article .parallax-container .parallax {
+    background-color: black;
+}
+
+article .parallax-container .parallax img {
+    opacity: 0.8;
+}
+
+.article-published-by {
+
+    color: #545454;
+    font-size: 14px;
+    font-weight: 200;
+}
+
+.video-wrapper {
+
+    position: relative;
+    height: 100%;
+    overflow: hidden;
+    width: 100%;
+
+}
+
+.video-wrapper iframe {
+
+    position: relative;
+    height: 100%;
+    max-width: 100%;
+    top: 0;
+    left: 0;
+
+}
+
+#video-wrapper {
+    margin-top: 10px;
+}
+
+.embed-container {
+
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
+    max-width: 100%;
+
+}
+.embed-container iframe, .embed-container object, .embed-container embed, .embed-container div {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+@media only screen and (min-width: 600px) {
+
+    .navbar-title h1 {
+        line-height: 63px;
+    }
+
+}
 

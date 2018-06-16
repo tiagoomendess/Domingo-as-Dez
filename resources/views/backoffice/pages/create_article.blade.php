@@ -50,7 +50,7 @@
                         </div>
 
                         <div class="input-field inline">
-                            <input id="selected_media_id" name="selected_media_id" type="number" class="validate" value="{{ old('selected_media_id') }}" disabled>
+                            <input id="selected_media_id" name="selected_media_id" type="number" class="validate" value="{{ old('selected_media_id') }}">
                             <label for="selected_media_id">{{ trans('models.media') }} {{ trans('general.id') }}</label>
                         </div>
                     </div>

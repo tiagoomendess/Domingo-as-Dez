@@ -14,8 +14,8 @@ class Game extends Model
 
     protected $hidden = [];
 
-    public function season() {
-        return $this->belongsTo(Season::class);
+    public function game_group() {
+        return $this->belongsTo(GameGroup::class);
     }
 
     public function goals() {

@@ -68,7 +68,7 @@
 
         <div class="row">
 
-            <div class="col s5 m3 l2">
+            <div class="col s6 m4 l3">
                 <label>{{ trans('models.competition') }}</label>
                 <select onchange="updateSeasonList('competition_id', 'season_id')" id="competition_id" name="competition_id" class="browser-default" required>
                     <option disabled value="0" selected>{{ trans('general.choose_option') }}</option>
@@ -78,18 +78,28 @@
                 </select>
             </div>
 
-            <div class="col s5 m3 l2">
+            <div class="col s6 m4 l3">
                 <label>{{ trans('models.season') }}</label>
                 <select id="season_id" name="season_id" class="browser-default" disabled required>
                     <option value="0" disabled selected>{{ trans('general.choose_first', ['name' => trans('models.competition')]) }}</option>
                 </select>
             </div>
 
-            <div class="input-field col s2 m2 l2">
+        </div>
+
+        <div class="row">
+
+            <div class="col s6 m4 l3">
+                <label>{{ trans('models.game_group') }}</label>
+                <select id="game_group_id" name="game_group_id" class="browser-default" disabled required>
+                    <option value="0" disabled selected>{{ trans('general.choose_first', ['name' => trans('models.season')]) }}</option>
+                </select>
+            </div>
+
+            <div class="input-field col s6 m4 l3">
                 <input type="number" name="round" id="round" required value="{{ old('round') }}">
                 <label for="round">{{ trans('general.round') }}</label>
             </div>
-
         </div>
 
         <div class="row">
@@ -103,6 +113,7 @@
                 <input id="hour" name="hour" type="text" class="timepicker" required>
                 <label for="hour">{{ trans('general.hour') }}</label>
             </div>
+
         </div>
 
         <div class="row">

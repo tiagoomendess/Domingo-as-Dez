@@ -12,7 +12,7 @@
             <div class="row" style="margin-bottom: 0px;">
                 <div class="col xs12 s12 m8 l6 xl4 offset-m2 offset-l3 offset-xl4">
 
-                    <h1 class="center" style="margin-top: 5px;">{{ trans('auth.register') }}</h1>
+                    <h1 class="center hide-on-med-and-down" style="margin-top: 5px;">{{ trans('auth.register') }}</h1>
 
                     <div class="card">
                         <div class="card-content">

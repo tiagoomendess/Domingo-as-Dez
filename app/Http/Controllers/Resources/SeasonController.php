@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Resources;
 
+use App\GameGroup;
 use App\Season;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -52,11 +53,8 @@ class SeasonController extends Controller
             'competition' => 'integer|required|exists:competitions,id',
             'start_year' => 'required|integer|min:1970|max:20000',
             'end_year' => 'required|integer|min:1970|max:20000',
-            'relegates' => 'required|integer|min:0|max:30',
-            'promotes' => 'required|integer|min:0|max:30',
             'obs' => 'nullable|string|max:60000',
             'visible' => 'required',
-            'table_rules' => 'nullable|string|in:none,points_only,afpb_league,afpb_cup,cup,fpf_league,fpf_cup,liga_portugal',
 
         ]);
 
@@ -80,20 +78,14 @@ class SeasonController extends Controller
         else
             $visible = false;
 
-        $relegates = $request->input('relegates');
-        $promotes =  $request->input('promotes');
         $obs = $request->input('obs');
-        $table_rules = $request->input('table_rules');
 
         $season = Season::create([
             'competition_id' => $competition_id,
             'start_year' => $start_year,
             'end_year' => $end_year,
-            'relegates' => $relegates,
-            'promotes' => $promotes,
             'obs' => $obs,
             'visible' => $visible,
-            'table_rules' => $table_rules,
         ]);
 
         return redirect(route('seasons.show', ['season' => $season]));
@@ -141,11 +133,8 @@ class SeasonController extends Controller
             'competition' => 'integer|required|exists:competitions,id',
             'start_year' => 'required|integer|min:1970|max:20000',
             'end_year' => 'required|integer|min:1970|max:20000',
-            'relegates' => 'required|integer|min:0|max:30',
-            'promotes' => 'required|integer|min:0|max:30',
             'obs' => 'nullable|string|max:60000',
             'visible' => 'required',
-            'table_rules' => 'nullable|string|in:none,points_only,afpb_league,afpb_cup,cup,fpf_league,fpf_cup,liga_portugal',
 
         ]);
 
@@ -171,19 +160,13 @@ class SeasonController extends Controller
         else
             $visible = false;
 
-        $relegates = $request->input('relegates');
-        $promotes =  $request->input('promotes');
         $obs = $request->input('obs');
-        $table_rules = $request->input('table_rules');
 
         $season->competition_id = $competition_id;
         $season->start_year = $start_year;
         $season->end_year = $end_year;
-        $season->promotes = $promotes;
-        $season->relegates = $relegates;
         $season->obs = $obs;
         $season->visible = $visible;
-        $season->table_rules = $table_rules;
         $season->save();
 
         $messages = new MessageBag();
@@ -226,5 +209,13 @@ class SeasonController extends Controller
         }
 
         return response()->json($games);
+    }
+
+    public function getGameGroups($id) {
+
+        $season = Season::findOrFail($id);
+
+        return response()->json($season->game_groups);
+
     }
 }

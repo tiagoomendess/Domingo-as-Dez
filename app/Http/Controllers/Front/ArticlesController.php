@@ -28,8 +28,6 @@ class ArticlesController extends Controller
 
         $carbon = Carbon::create($year, $month, $day);
 
-
-
         if (!$carbon)
             return abort(404);
 
@@ -53,7 +51,7 @@ class ArticlesController extends Controller
         if (!$found_article)
             return abort(404);
 
-        return view('front.pages.article', ['article' => Article::find($found_article->id)]);
+        return view('front.pages.article', ['article' => Article::find($found_article->id), 'navbar_title' => trans('front.news_singular')]);
 
 
     }

@@ -6,17 +6,19 @@
                 <div class="background">
                     <img src="{{ config('custom.site_sidenav_image') }}">
                 </div>
-                <a href="#"><img class="circle" src="{{ Auth::user()->profile->getPicture() }}"></a>
-                <a href="#"><span class="white-text name">{{ Auth::user()->name }}</span></a>
-                <a href="#"><span class="white-text email">{{ Auth::user()->email }}</span></a>
+                <a href="{{ route('front.userprofile.edit') }}"><img class="circle" src="{{ Auth::user()->profile->getPicture() }}"></a>
+                <a href="{{ route('front.userprofile.edit') }}"><span class="white-text name">{{ Auth::user()->name }}</span></a>
+                <a href="{{ route('front.userprofile.edit') }}"><span class="white-text email">{{ Auth::user()->email }}</span></a>
             </div>
         </li>
-
-        <li><a href="{{ route('logout') }}">{{ trans('auth.logout') }}</a></li>
 
         @if(Auth::user()->hasPermission('dashboard'))
             <li><a href="{{ route('dashboard') }}">{{ trans('backoffice.dashboard') }}</a></li>
         @endif
+
+        <li><a href="{{ route('front.userprofile.edit') }}">{{ trans('models.profile') }}</a></li>
+        <li><a href="{{ route('logout') }}">{{ trans('auth.logout') }}</a></li>
+
     @else
         <li><a href="{{ route('login') }}">{{ trans('auth.login') }}</a></li>
         <li><a href="{{ route('register') }}">{{ trans('auth.register') }}</a></li>

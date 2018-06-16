@@ -19,8 +19,8 @@ class CreateGamesTable extends Migration
             $table->foreign('home_team_id')->references('id')->on('teams')->onDelete('cascade');
             $table->integer('away_team_id')->unsigned();
             $table->foreign('away_team_id')->references('id')->on('teams')->onDelete('cascade');
-            $table->integer('season_id')->unsigned();
-            $table->foreign('season_id')->references('id')->on('seasons')->onDelete('cascade');
+            $table->integer('game_group_id')->unsigned();
+            $table->foreign('game_group_id')->references('id')->on('game_groups')->onDelete('cascade');
             $table->integer('round');
             $table->timestamp('date')->useCurrent();
             $table->integer('playground_id')->unsigned()->nullable();
