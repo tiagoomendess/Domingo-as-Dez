@@ -50,31 +50,35 @@
 
     <div class="row">
 
-        <div class="col s5 m3 l2">
+        <div class="col s6 m4 l3">
             <label>{{ trans('models.competition') }}</label>
             <select id="competition_id" name="competition_id" class="browser-default" disabled>
-                <option disabled value="0" selected>{{ $game->season->competition->name }}</option>
+                <option disabled value="0" selected>{{ $game->game_group->season->competition->name }}</option>
             </select>
         </div>
 
-        <div class="col s5 m3 l2">
+        <div class="col s6 m4 l3">
             <label>{{ trans('models.season') }}</label>
             <select id="season_id" name="season_id" class="browser-default" disabled>
-
-                @if($game->season->start_year != $game->season->end_year)
-                    <option value="0" disabled selected>{{ $game->season->start_year }}/{{ $game->season->end_year }}</option>
-                @else
-                    <option value="0" disabled selected>{{ $game->season->start_year }}</option>
-                @endif
-
+                <option value="0" disabled selected>{{ $game->game_group->season->getName() }}</option>
             </select>
         </div>
 
-        <div class="input-field col s2 m2 l2">
+    </div>
+
+    <div class="row">
+
+        <div class="col s6 m4 l3">
+            <label>{{ trans('models.game_group') }}</label>
+            <select disabled id="game_group_id" name="game_group_id" class="browser-default" required>
+                <option value="0" disabled selected>{{ $game->game_group->name }}</option>
+            </select>
+        </div>
+
+        <div class="input-field col s6 m4 l3">
             <input type="number" name="round" id="round" disabled value="{{ $game->round }}">
             <label for="round">{{ trans('general.round') }}</label>
         </div>
-
     </div>
 
     <div class="row">
@@ -107,12 +111,7 @@
 
     <div class="row">
 
-        <div class="input-field col s6 m4 l3">
-            <input type="text" name="table_group" value="{{ $game->table_group }}" disabled>
-            <label for="table_group">{{ trans('models.group') }}</label>
-        </div>
-
-        <div class="col s6 m4 l3">
+        <div class="col s12 m8 l6">
             <label>{{ trans('models.playground') }}</label>
             <select id="playground_id" name="playground_id" class="browser-default" disabled>
                 @if($game->playground)
@@ -160,23 +159,6 @@
     <div class="row">
         <div class="col s12 m8 l6">
             <a disabled style="width: 100%;" class="waves-effect waves-light btn grey"><i class="material-icons left">add</i>{{ trans('general.add') }} {{ trans('models.referee') }}</a>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col s12">
-            <div class="switch">
-                <label>
-                    {{ trans('models.tie') }}
-                    <input name="finished" type="hidden" value="false">
-                    @if($game->tie)
-                        <input disabled name="visible" type="checkbox" value="true" checked>
-                    @else
-                        <input disabled name="visible" type="checkbox" value="true">
-                    @endif
-                    <span class="lever"></span>
-                </label>
-            </div>
         </div>
     </div>
 

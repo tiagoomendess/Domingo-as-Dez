@@ -22,6 +22,8 @@ class CreateGameGroupsTable extends Migration
             $table->foreign('group_rules_id')->references('id')->on('group_rules')->onDelete('cascade');
             $table->timestamps();
         });
+
+        Schema::enableForeignKeyConstraints();
     }
 
     /**

@@ -40,14 +40,7 @@
 
                             </td>
 
-                            <td>
-                                @if($game->season->start_year != $game->season->end_year)
-                                    {{ $game->season->start_year }}/{{ $game->season->end_year }} ({{ $game->season->competition->name }})
-                                @else
-                                    {{ $game->season->start_year }} ({{ $game->season->competition->name }})
-                                @endif
-
-                            </td>
+                            <td> {{ $game->game_group->season->getName() }}</td>
 
                             <td>{{ $game->created_at }}</td>
                             <td>{{ $game->updated_at }}</td>

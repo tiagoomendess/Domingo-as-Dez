@@ -25,6 +25,8 @@ class CreateArticlesTable extends Migration
             $table->boolean('visible')->default(true);
             $table->timestamps();
         });
+
+        Schema::enableForeignKeyConstraints();
     }
 
     /**

@@ -285,24 +285,6 @@
             <div class="col s12">
                 <div class="switch">
                     <label>
-                        {{ trans('models.tie') }}
-                        <input name="tie" type="hidden" value="false">
-                        @if($game->tie)
-                            <input name="tie" type="checkbox" value="true" checked>
-                        @else
-                            <input name="tie" type="checkbox" value="true">
-                        @endif
-
-                        <span class="lever"></span>
-                    </label>
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col s12">
-                <div class="switch">
-                    <label>
                         {{ trans('general.finished') }}
                         <input name="finished" type="hidden" value="false">
                         @if($game->finished)

@@ -53,7 +53,6 @@ class CompetitionController extends Controller
     {
         $request->validate([
             'name' => 'string|max:155|required|unique:competitions,name',
-            'competition_type' => 'required|string|max:20',
             'file' => 'required|image|max:20000',
             'visible' => 'required',
         ]);
@@ -64,13 +63,12 @@ class CompetitionController extends Controller
             $visible = false;
 
         $name = $request->input('name');
-        $competition_type = $request->input('competition_type');
 
         if ($request->hasFile('file')) {
 
             $url = MediaController::storeImage(
                 $request->file('file'),
-                $name . ',' . trans('models.competition') . ',' . trans('models.' . $competition_type)
+                $name . ',' . trans('models.competition')
             );
 
         } else {
@@ -84,7 +82,6 @@ class CompetitionController extends Controller
 
         $competition = Competition::create([
             'name' => $name,
-            'competition_type' => $competition_type,
             'picture' => $url,
             'visible' => $visible
 

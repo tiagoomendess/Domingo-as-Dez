@@ -25,6 +25,10 @@
         <li><a class="waves-effect" href="{{ route('seasons.index') }}">{{ trans('models.seasons') }}</a></li>
     @endif
 
+    @if(Auth::user()->hasPermission('game_groups'))
+        <li><a class="waves-effect" href="{{ route('gamegroups.index') }}">{{ trans('models.game_groups') }}</a></li>
+    @endif
+
     @if(Auth::user()->hasPermission('clubs'))
         <li><a class="waves-effect" href="{{ route('clubs.index') }}">{{ trans('models.clubs') }}</a></li>
     @endif

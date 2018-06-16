@@ -37,7 +37,7 @@
         </div>
 
         <div class="row">
-            <div class="col s12 m4 l3">
+            <div class="col s12 m8 l6">
                 <label>{{ trans('models.competition') }}</label>
                 <select name="competition" class="browser-default" required>
                     <option value="none" disabled selected>{{ trans('general.choose_option') }}</option>

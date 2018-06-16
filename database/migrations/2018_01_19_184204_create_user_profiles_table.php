@@ -21,6 +21,8 @@ class CreateUserProfilesTable extends Migration
             $table->text('picture')->nullable();
             $table->timestamps();
         });
+
+        Schema::enableForeignKeyConstraints();
     }
 
     /**

@@ -32,19 +32,6 @@
         </div>
 
         <div class="row">
-            <div class="col s12 m8 l6">
-                <label>{{ trans('models.competition_type') }}</label>
-                <select name="competition_type" class="browser-default" required>
-                    <option value="none" disabled selected>{{ trans('general.choose_option') }}</option>
-                    <option value="friendly">{{ trans('models.friendly') }}</option>
-                    <option value="cup">{{ trans('models.cup') }}</option>
-                    <option value="league">{{ trans('models.league') }}</option>
-                    <option value="tournament">{{ trans('models.tournament') }}</option>
-                </select>
-            </div>
-        </div>
-
-        <div class="row">
             <div class="file-field input-field col s12 m8 l6">
                 <div class="btn">
                     <span>{{ trans('general.file') }}</span>

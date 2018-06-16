@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\App;
 
 class Game extends Model
 {
-    protected $fillable = ['home_team_id', 'away_team_id', 'season_id', 'round', 'date', 'playground_id', 'goals_home', 'goals_away', 'finished', 'visible'];
+    protected $fillable = ['home_team_id', 'away_team_id', 'season_id', 'round', 'date', 'playground_id', 'goals_home', 'goals_away', 'game_group_id', 'finished', 'visible'];
 
     protected $guarded = [];
 

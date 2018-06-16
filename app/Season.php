@@ -18,8 +18,16 @@ class Season extends Model
         return $this->belongsTo(Competition::class);
     }
 
-    public function game_group() {
+    public function game_groups() {
         return $this->hasMany(GameGroup::class);
+    }
+
+    public function getName() {
+
+        if ($this->start_year != $this->end_year)
+            return $this->start_year . '/' . $this->end_year;
+        else
+            return $this->start_year;
     }
 
 }

@@ -80,7 +80,7 @@
 
             <div class="col s6 m4 l3">
                 <label>{{ trans('models.season') }}</label>
-                <select id="season_id" name="season_id" class="browser-default" disabled required>
+                <select onchange="updateGameGroupsList('season_id', 'game_group_id')" id="season_id" name="season_id" class="browser-default" disabled required>
                     <option value="0" disabled selected>{{ trans('general.choose_first', ['name' => trans('models.competition')]) }}</option>
                 </select>
             </div>
@@ -130,14 +130,9 @@
 
         <div class="row">
 
-            <div class="input-field col s6 m4 l3">
-                <input type="text" name="table_group">
-                <label for="table_group">{{ trans('models.group') }}</label>
-            </div>
-
-            <div class="col s6 m4 l3">
+            <div class="col s12 m8 l6">
                 <label>{{ trans('models.playground') }}</label>
-                <select id="playground_id" name="playground_id" class="browser-default" required>
+                <select id="playground_id" name="playground_id" class="browser-default">
                     <option value="" selected>{{ trans('general.none') }}</option>
                     @foreach(App\Playground::all() as $playground)
                         <option value="{{ $playground->id }}">{{ $playground->name }}</option>
@@ -194,19 +189,6 @@
             <div class="col s12">
                 <div class="switch">
                     <label>
-                        {{ trans('models.tie') }}
-                        <input name="tie" type="hidden" value="false">
-                        <input name="tie" type="checkbox" value="true">
-                        <span class="lever"></span>
-                    </label>
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col s12">
-                <div class="switch">
-                    <label>
                         {{ trans('general.finished') }}
                         <input name="finished" type="hidden" value="false">
                         <input name="finished" type="checkbox" value="true">
@@ -242,6 +224,7 @@
     @include('backoffice.partial.manage_refs_js')
     @include('backoffice.partial.update_team_list_js')
     @include('backoffice.partial.update_seasons_list_js')
+    @include('backoffice.partial.update_game_groups_js')
     @include('backoffice.partial.pick_a_date_js')
     @include('backoffice.partial.pick_a_time_js')
 @endsection

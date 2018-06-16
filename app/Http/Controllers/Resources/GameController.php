@@ -56,7 +56,6 @@ class GameController extends Controller
         $request->validate([
             'visible' => 'required',
             'finished' => 'required',
-            'tie' => 'required',
             'home_team_id' => 'required|integer|exists:teams,id',
             'away_team_id' => 'required|integer|exists:teams,id',
             'game_group_id' => 'required|integer|exists:game_groups,id',
@@ -66,7 +65,6 @@ class GameController extends Controller
             'home_goals' => 'nullable|integer|min:0|max:99',
             'away_goals' => 'nullable|integer|min:0|max:99',
             'playground_id' => 'nullable|integer|exists:playgrounds,id',
-            'table_group' => 'nullable|string|max:155',
             'referees_id' => 'nullable|array|min:1|max:8',
             'referees_id.*' => 'required|integer|exists:referees,id',
             'types_id' => 'nullable|array|min:1|max:8',
@@ -89,11 +87,6 @@ class GameController extends Controller
         else
             $finished = false;
 
-        if($request->input('tie') == 'true')
-            $tie = true;
-        else
-            $tie = false;
-
         $home_team_id = $request->input('home_team_id');
         $away_team_id = $request->input('away_team_id');
         $goals_home = $request->input('goals_home');
@@ -101,7 +94,6 @@ class GameController extends Controller
         $game_group_id = $request->input('game_group_id');
         $round = $request->input('round');
         $playground_id = $request->input('playground_id');
-        $table_group = $request->input('table_group');
 
         $game = Game::create([
 
@@ -115,8 +107,6 @@ class GameController extends Controller
             'round' => $round,
             'date' => $carbon->format("Y-m-d H:i:s"),
             'playground_id' => $playground_id,
-            'tie' => $tie,
-            'table_group' => $table_group,
 
         ]);
 
@@ -183,7 +173,6 @@ class GameController extends Controller
         $request->validate([
             'visible' => 'required',
             'finished' => 'required',
-            'tie' => 'required',
             'home_team_id' => 'required|integer|exists:teams,id',
             'away_team_id' => 'required|integer|exists:teams,id',
             'season_id' => 'required|integer|exists:seasons,id',
@@ -193,7 +182,10 @@ class GameController extends Controller
             'home_goals' => 'nullable|integer|min:0|max:99',
             'away_goals' => 'nullable|integer|min:0|max:99',
             'playground_id' => 'nullable|integer|exists:playgrounds,id',
-            'table_group' => 'nullable|string|max:155',
+            'referees_id' => 'nullable|array|min:1|max:8',
+            'referees_id.*' => 'required|integer|exists:referees,id',
+            'types_id' => 'nullable|array|min:1|max:8',
+            'types_id.*' => 'required|integer|exists:referee_types,id',
         ]);
 
         $game = Game::findOrFail($id);
@@ -214,11 +206,6 @@ class GameController extends Controller
         else
             $finished = false;
 
-        if($request->input('tie') == 'true')
-            $tie = true;
-        else
-            $tie = false;
-
         $home_team_id = $request->input('home_team_id');
         $away_team_id = $request->input('away_team_id');
         $goals_home = $request->input('goals_home');
@@ -226,7 +213,6 @@ class GameController extends Controller
         $season_id = $request->input('season_id');
         $round = $request->input('round');
         $playground_id = $request->input('playground_id');
-        $table_group = $request->input('table_group');
 
         $game->home_team_id = $home_team_id;
         $game->away_team_id = $away_team_id;
@@ -238,8 +224,6 @@ class GameController extends Controller
         $game->date = $carbon->format("Y-m-d H:i:s");
         $game->visible = $visible;
         $game->finished = $finished;
-        $game->tie = $tie;
-        $game->table_group = $table_group;
 
         $game->save();
 

@@ -21,7 +21,6 @@
                     <tr>
                         <th>{{ trans('general.id') }}</th>
                         <th>{{ trans('general.name') }}</th>
-                        <th>{{ trans('general.type') }}</th>
                         <th>{{ trans('general.created_at') }}</th>
                         <th>{{ trans('general.updated_at') }}</th>
                     </tr>
@@ -32,7 +31,6 @@
                         <tr>
                             <td>{{ $competition->id }}</td>
                             <td><a href="{{ route('competitions.show', ['competition' => $competition]) }}">{{ $competition->name }}</a></td>
-                            <td>{{ trans('models.' . $competition->competition_type ) }}</td>
                             <td>{{ $competition->created_at }}</td>
                             <td>{{ $competition->updated_at }}</td>
                         </tr>

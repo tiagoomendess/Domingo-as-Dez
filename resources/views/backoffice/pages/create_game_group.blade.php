@@ -20,7 +20,7 @@
         </div>
     @endif
 
-    <form action="{{ route('seasons.store') }}" method="POST">
+    <form action="{{ route('gamegroups.store') }}" method="POST">
 
         {{ csrf_field() }}
 
@@ -55,7 +55,7 @@
         <div class="row">
             <div class="col s12 m4 l3">
                 <label>{{ trans('models.group_rules') }}</label>
-                <select name="competition" class="browser-default" required>
+                <select name="group_rules_id" class="browser-default" required>
                     <option value="none" disabled selected>{{ trans('general.choose_option') }}</option>
 
                     @foreach(\App\GroupRules::all() as $group_rules)

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class GameGroup extends Model
 {
-    protected $fillable = ['name', 'type'];
+    protected $fillable = ['name', 'season_id', 'group_rules_id'];
 
     protected $guarded = [];
 
@@ -20,7 +20,7 @@ class GameGroup extends Model
         return $this->hasMany(Game::class);
     }
 
-    public function  group_rules() {
+    public function group_rules() {
         return $this->belongsTo(GroupRules::class);
     }
 

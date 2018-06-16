@@ -38,12 +38,10 @@
 
             for (i = 0; i < data.length; i++) {
 
-
                 if (data[i].start_year != data[i].end_year)
                     var op = $("<option>" + data[i].start_year + "/" + data[i].end_year + "</option>");
                 else
                     var op = $("<option>" + data[i].start_year + "</option>");
-
 
                 op.attr('value', data[i].id);
                 op.appendTo(season_dropdown);

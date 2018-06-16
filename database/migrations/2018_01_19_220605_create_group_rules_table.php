@@ -21,6 +21,8 @@ class CreateGroupRulesTable extends Migration
             $table->enum('type', ['points', 'elimination', 'other']);
             $table->timestamps();
         });
+
+        Schema::enableForeignKeyConstraints();
     }
 
     /**

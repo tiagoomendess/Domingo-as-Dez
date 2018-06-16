@@ -30,10 +30,10 @@
 
                         <tr>
                             <td>{{ $game_group->id }}</td>
-                            <td><a href="{{ route('seasons.show', ['season' => $season]) }}">{{ $game_group->name }} ({{ $game_group->season->competition->name }})</a></td>
+                            <td><a href="{{ route('gamegroups.show', ['game_group' => $game_group]) }}">{{ $game_group->name }} ({{ $game_group->season->competition->name }} {{ $game_group->season->getName() }})</a></td>
 
-                            <td>{{ $season->created_at }}</td>
-                            <td>{{ $season->updated_at }}</td>
+                            <td>{{ $game_group->created_at }}</td>
+                            <td>{{ $game_group->updated_at }}</td>
 
                         </tr>
 

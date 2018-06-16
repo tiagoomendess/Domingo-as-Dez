@@ -34,15 +34,6 @@
         </div>
 
         <div class="row">
-            <div class="col s12 m8 l6">
-                <label>{{ trans('models.competition_type') }}</label>
-                <select name="competition_type" class="browser-default" disabled>
-                    <option value="none" disabled selected>{{ trans('models.' . $competition->competition_type) }}</option>
-                </select>
-            </div>
-        </div>
-
-        <div class="row">
             <div class="file-field input-field col s12 m8 l6">
                 <div class="btn">
                     <span>{{ trans('general.file') }}</span>
