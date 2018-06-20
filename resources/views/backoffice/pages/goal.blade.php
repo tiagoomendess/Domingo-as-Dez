@@ -18,7 +18,7 @@
                     <label>{{ trans('models.competition') }}</label>
                     <select disabled class="browser-default">
 
-                        <option selected>{{ $goal->game->season->competition->name }}</option>
+                        <option selected>{{ $goal->game->game_group->season->competition->name }}</option>
 
                     </select>
 
@@ -27,7 +27,7 @@
                 <div class="col s6 m4 l3">
                     <label>{{ trans('models.season') }}</label>
                     <select disabled name ="season_id" id="season_id" class="browser-default">
-                        <option selected>{{ $goal->game->season->start_year }}/{{ $goal->game->season->end_year }}</option>
+                        <option selected>{{ $goal->game->game_group->season->getName() }}</option>
                     </select>
                 </div>
 
@@ -35,7 +35,14 @@
 
             <div class="row">
 
-                <div class="col s12 m8 l6">
+                <div class="col s6 m4 l3">
+                    <label>{{ trans('models.game_group') }}</label>
+                    <select id="game_group_id" name="game_group_id" class="browser-default" disabled required>
+                        <option value="0" disabled selected>{{ $goal->game->game_group->name }}</option>
+                    </select>
+                </div>
+
+                <div class="col s6 m4 l3">
                     <label>{{ trans('models.game') }}</label>
                     <select disabled name ="game_id" id="game_id" class="browser-default">
                         <option selected>

@@ -20,6 +20,7 @@
                     <thead>
                     <tr>
                         <th>{{ trans('general.id') }}</th>
+                        <th>{{ trans('models.team') }}</th>
                         <th>{{ trans('models.player') }}</th>
                         <th>{{ trans('models.game') }}</th>
                         <th>{{ trans('general.created_at') }}</th>
@@ -30,24 +31,20 @@
                     @foreach($goals as $goal)
 
                         <tr>
+
                             <td>{{ $goal->id }}</td>
 
                             <td>
-
-                                <a href="{{ route('goals.show', ['goal' => $goal]) }}">
-                                    {{ $goal->getPlayerName() }}
-                                </a>
-
+                                <a href="{{ route('goals.show', ['goal' => $goal]) }}">{{ $goal->team->club->name }} ({{ $goal->team->name }})</a>
                             </td>
 
-                            <td>
-                                <a href="{{ route('games.show', ['game' => $goal->game]) }}">
-                                    {{ $goal->game->homeTeam->club->name }} vs {{ $goal->game->awayTeam->club->name }}
-                                </a>
-                            </td>
+                            <td>{{ $goal->getPlayerName() }}</td>
+
+                            <td>{{ $goal->game->homeTeam->club->name }} vs {{ $goal->game->awayTeam->club->name }}</td>
 
                             <td>{{ $goal->created_at }}</td>
                             <td>{{ $goal->updated_at }}</td>
+
 
                         </tr>
 

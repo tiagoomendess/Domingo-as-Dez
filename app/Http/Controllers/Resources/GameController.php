@@ -175,7 +175,7 @@ class GameController extends Controller
             'finished' => 'required',
             'home_team_id' => 'required|integer|exists:teams,id',
             'away_team_id' => 'required|integer|exists:teams,id',
-            'season_id' => 'required|integer|exists:seasons,id',
+            'game_group_id' => 'required|integer|exists:game_groups,id',
             'date' => 'required|date',
             'hour' => ["required", "string", "regex:/^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/"],
             'round' => 'required|integer|min:0|max:9999',
@@ -210,7 +210,7 @@ class GameController extends Controller
         $away_team_id = $request->input('away_team_id');
         $goals_home = $request->input('goals_home');
         $goals_away = $request->input('goals_away');
-        $season_id = $request->input('season_id');
+        $game_group_id = $request->input('game_group_id');
         $round = $request->input('round');
         $playground_id = $request->input('playground_id');
 
@@ -218,7 +218,7 @@ class GameController extends Controller
         $game->away_team_id = $away_team_id;
         $game->goals_home = $goals_home;
         $game->goals_away = $goals_away;
-        $game->season_id = $season_id;
+        $game->game_group_id = $game_group_id;
         $game->round = $round;
         $game->playground_id = $playground_id;
         $game->date = $carbon->format("Y-m-d H:i:s");

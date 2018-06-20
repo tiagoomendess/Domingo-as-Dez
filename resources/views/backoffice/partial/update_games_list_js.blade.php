@@ -21,7 +21,7 @@
 
         }
 
-        $.get("/seasons/" + id + "/games", function (data) {
+        $.get("/gamegroups/" + id + "/games", function (data) {
 
             if(data.length == 0) {
                 var op = $("<option>Nenhuma</option>");

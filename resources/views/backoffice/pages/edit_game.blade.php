@@ -91,12 +91,12 @@
 
         <div class="row">
 
-            <div class="col s5 m3 l2">
+            <div class="col s6 m4 l3">
                 <label>{{ trans('models.competition') }}</label>
                 <select onchange="updateSeasonList('competition_id', 'season_id')" id="competition_id" name="competition_id" class="browser-default" required>
-                    <option value="{{ $game->season->competition->id }}" selected>{{ $game->season->competition->name }}</option>
+                    <option value="{{ $game->game_group->season->competition->id }}" selected>{{ $game->game_group->season->competition->name }}</option>
                     @foreach(App\Competition::all() as $competition)
-                        @if ($competition->id != $game->season->competition->id)
+                        @if ($competition->id != $game->game_group->season->competition->id)
                             <option value="{{ $competition->id }}">{{ $competition->name }}</option>
                         @endif
 
@@ -104,32 +104,43 @@
                 </select>
             </div>
 
-            <div class="col s5 m3 l2">
+            <div class="col s6 m4 l3">
                 <label>{{ trans('models.season') }}</label>
-                <select id="season_id" name="season_id" class="browser-default" required>
-                    @if($game->season->start_year != $game->season->end_year)
-                        <option value="{{ $game->season_id }}" selected>{{ $game->season->start_year }}/{{ $game->season->end_year }}</option>
-                    @else
-                        <option value="{{ $game->season_id }}" selected>{{ $game->season->start_year }}</option>
-                    @endif
+                <select onchange="updateGameGroupsList('season_id', 'game_group_id')" id="season_id" name="season_id" class="browser-default" required>
 
-                    @foreach($game->season->competition->seasons as $season)
+                    <option value="{{ $game->game_group->season->id }}" selected>{{ $game->game_group->season->getName() }}</option>
 
-                        @if($season->id != $game->season->id)
 
-                            @if($season->start_year != $season->end_year)
-                                <option value="{{ $season->id }}">{{ $season->start_year }}/{{ $season->end_year }}</option>
-                            @else
-                                <option value="{{ $season->id }}">{{ $season->start_year }}</option>
-                            @endif
+                    @foreach($game->game_group->season->competition->seasons as $season)
 
+                        @if($season->id != $game->game_group->season->id)
+                            <option value="{{ $season->id }}">{{ $season->getName() }}</option>
                         @endif
 
                     @endforeach
                 </select>
             </div>
 
-            <div class="input-field col s2 m2 l2">
+        </div>
+
+        <div class="row">
+
+            <div class="col s6 m4 l3">
+                <label for="game_group_id">{{ trans('models.game_group') }}</label>
+                <select id="game_group_id" name="game_group_id" class="browser-default" required>
+
+                    @foreach($game->game_group->season->game_groups as $game_group)
+                        @if($game_group->id != $game->game_group->id)
+                            <option value="{{ $game_group->id }}">{{ $game_group->name }}</option>
+                        @endif
+                    @endforeach
+
+                    <option value="{{ $game->game_group->id }}" selected>{{ $game->game_group->name }}</option>
+
+                </select>
+            </div>
+
+            <div class="input-field col s6 m4 l3">
                 <input type="number" name="round" id="round" required value="{{ old('round', $game->round) }}">
                 <label for="round">{{ trans('general.round') }}</label>
             </div>
@@ -172,8 +183,8 @@
             </div>
 
             <div class="col s6 m4 l3">
-                <label>{{ trans('models.playground') }}</label>
-                <select id="playground_id" name="playground_id" class="browser-default" required>
+                <label for="playground_id">{{ trans('models.playground') }}</label>
+                <select id="playground_id" name="playground_id" class="browser-default">
                     @if ($game->playground)
 
                         <option value="{{ $game->playground->id }}" selected>{{ $game->playground->name }}</option>
@@ -329,6 +340,7 @@
     @include('backoffice.partial.manage_refs_js')
     @include('backoffice.partial.update_team_list_js')
     @include('backoffice.partial.update_seasons_list_js')
+    @include('backoffice.partial.update_game_groups_js')
     @include('backoffice.partial.pick_a_date_js')
     @include('backoffice.partial.pick_a_time_js')
 @endsection

@@ -65,7 +65,7 @@ Route::post('users/remove_permission', 'Resources\UserController@removePermissio
 
 Route::get('clubs/{id}/teams', 'Resources\ClubController@getTeams')->name('getClubTeams');
 Route::get('competitions/{id}/seasons', 'Resources\CompetitionController@getSeasons')->name('getCompetitionsSeasons');
-Route::get('seasons/{id}/games', 'Resources\SeasonController@getGames')->name('getSeasonGames');
+Route::get('gamegroups/{id}/games', 'Resources\GameGroupController@getGames')->name('getGameGroupGames');
 Route::get('teams/{id}/current_players', 'Resources\TeamController@getCurrentPlayers')->name('getTeamCurrentPlayers');
 Route::get('games/{id}/teams', 'Resources\GameController@getTeams')->name('getGameTeams');
 Route::get('seasons/{id}/game_groups', 'Resources\SeasonController@getGameGroups')->name('getGameGroups');

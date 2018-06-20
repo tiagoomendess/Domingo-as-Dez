@@ -30,12 +30,12 @@
                 <div class="col s6 m4 l3">
                     <label>{{ trans('models.competition') }}</label>
                     <select id="competition_id" onchange="updateSeasonList('competition_id', 'season_id')" class="browser-default">
-                        <option value="{{ $game->season->competition->id }}" selected>
-                            {{ $game->season->competition->name }}
+                        <option value="{{ $game->game_group->season->competition->id }}" selected>
+                            {{ $game->game_group->season->competition->name }}
                         </option>
 
                         @foreach(\App\Competition::all() as $competition)
-                            @if($competition->id != $game->season->competition->id)
+                            @if($competition->id != $game->game_group->season->competition->id)
                                 <option value="{{ $competition->id }}">
                                     {{ $competition->name }}
                                 </option>
@@ -46,15 +46,15 @@
 
                 <div class="col s6 m4 l3">
                     <label>{{ trans('models.season') }}</label>
-                    <select onchange="updateGamesList('season_id', 'game_id')" name ="season_id" id="season_id" class="browser-default">
-                        <option value="{{ $game->season->id }}" selected>
-                            {{ $game->season->start_year }}/{{ $game->season->end_year }}
+                    <select onchange="updateGameGroupsList('season_id', 'game_group_id')" name ="season_id" id="season_id" class="browser-default">
+                        <option value="{{ $game->game_group->season->id }}" selected>
+                            {{ $game->game_group->season->getName() }}
                         </option>
 
-                        @foreach($game->season->competition->seasons as $season)
-                            @if($season->id != $game->season->id)
+                        @foreach($game->game_group->season->competition->seasons as $season)
+                            @if($season->id != $game->game_group->season->id)
                                 <option value="{{ $season->id }}">
-                                    {{ $season->start_year }}/{{ $season->end_year }}
+                                    {{ $season->getName() }}
                                 </option>
                             @endif
                         @endforeach
@@ -65,14 +65,28 @@
 
             <div class="row">
 
-                <div class="col s12 m8 l6">
+                <div class="col s6 m4 l3">
+                    <label>{{ trans('models.game_group') }}</label>
+                    <select onchange="updateGamesList('game_group_id', 'game_id')" id="game_group_id" name="game_group_id" class="browser-default" required>
+                        <option value="{{ $game->game_group->id }}" selected>{{ $game->game_group->name }}</option>
+
+                        @foreach($game->game_Group->season->game_groups as $game_group)
+                            @if($game_group->id != $game->game_group->id)
+                                <option value="{{ $game_group->id }}">{{ $game_group->name }}</option>
+                            @endif
+                        @endforeach
+
+                    </select>
+                </div>
+
+                <div class="col s6 m4 l3">
                     <label>{{ trans('models.game') }}</label>
                     <select onchange="updateGameTeams('game_id', 'selected_team_id')" name ="game_id" id="game_id" class="browser-default">
                         <option value="{{ $game->id }}" selected>
                             {{ $game->homeTeam->club->name }} vs {{ $game->awayTeam->club->name }}
                         </option>
 
-                        @foreach($game->season->games as $other_game)
+                        @foreach($game->game_group->games as $other_game)
                             @if($other_game->id != $game->id)
                                 <option value="{{ $other_game->id }}">
                                     {{ $other_game->homeTeam->club->name }} vs {{ $other_game->awayTeam->club->name }}
@@ -136,7 +150,7 @@
 
                 <div class="col s6 m4 l3">
                     <label>{{ trans('models.season') }}</label>
-                    <select onchange="updateGamesList('season_id', 'game_id')" name ="season_id" id="season_id" class="browser-default" disabled>
+                    <select onchange="updateGameGroupsList('season_id', 'game_group_id')" name ="season_id" id="season_id" class="browser-default" disabled>
                         <option disabled
                                 value="" selected>
                             {{ trans('general.choose_first', ['name' => trans('models.competition')])}}
@@ -148,7 +162,14 @@
 
             <div class="row">
 
-                <div class="col s12 m8 l6">
+                <div class="col s6 m4 l3">
+                    <label>{{ trans('models.game_group') }}</label>
+                    <select onchange="updateGamesList('game_group_id', 'game_id')" id="game_group_id" name="game_group_id" class="browser-default" disabled required>
+                        <option value="0" disabled selected>{{ trans('general.choose_first', ['name' => trans('models.season')]) }}</option>
+                    </select>
+                </div>
+
+                <div class="col s6 m3 l3">
                     <label>{{ trans('models.game') }}</label>
                     <select onchange="updateGameTeams('game_id', 'selected_team_id')" name="game_id" id="game_id" class="browser-default" disabled>
                         <option disabled
@@ -244,6 +265,7 @@
     @include('backoffice.partial.update_seasons_list_js')
     @include('backoffice.partial.update_games_list_js')
     @include('backoffice.partial.update_game_teams_js')
+    @include('backoffice.partial.update_game_groups_js')
     @include('backoffice.partial.update_game_players_js')
 
 

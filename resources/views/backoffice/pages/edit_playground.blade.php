@@ -113,10 +113,10 @@
 
                     <div class="btn">
                         <span>{{ trans('general.upload') }}</span>
-                        <input name="picture" type="file" disabled>
+                        <input name="picture" type="file">
                     </div>
                     <div class="file-path-wrapper">
-                        <input class="file-path validate" type="text" disabled>
+                        <input class="file-path validate" type="text" value="{{ $playground->picture }}">
                     </div>
                 </div>
 

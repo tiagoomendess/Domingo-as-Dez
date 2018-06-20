@@ -135,4 +135,21 @@ class GameGroupController extends Controller
 
         return redirect(route('gamegroups.index'))->with(['popup_message' => $messages]);
     }
+
+    public function getGames($id) {
+
+        $game_group = GameGroup::findOrFail($id);
+
+        $games = $game_group->games;
+
+        foreach ($games as $game) {
+
+            $dummy = $game->homeTeam;
+            $dummy = $game->homeTeam->club;
+            $dummy = $game->awayTeam;
+            $dummy = $game->awayTeam->club;
+        }
+
+        return response()->json($games);
+    }
 }

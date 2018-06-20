@@ -194,23 +194,6 @@ class SeasonController extends Controller
         return redirect(route('seasons.index'))->with(['popup_message' => $messages]);
     }
 
-    public function getGames($id) {
-
-        $season = Season::findOrFail($id);
-
-        $games = $season->games;
-
-        foreach ($games as $game) {
-
-            $dummy = $game->homeTeam;
-            $dummy = $game->homeTeam->club;
-            $dummy = $game->awayTeam;
-            $dummy = $game->awayTeam->club;
-        }
-
-        return response()->json($games);
-    }
-
     public function getGameGroups($id) {
 
         $season = Season::findOrFail($id);

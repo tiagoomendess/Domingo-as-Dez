@@ -33,10 +33,10 @@
                 <label>{{ trans('models.competition') }}</label>
                 <select id="competition_id" class="browser-default" onchange="updateSeasonList('competition_id', 'season_id')">
 
-                    <option value="{{ $goal->game->season->competition->id }}" selected>{{ $goal->game->season->competition->name }}</option>
+                    <option value="{{ $goal->game->game_group->season->competition->id }}" selected>{{ $goal->game->game_group->season->competition->name }}</option>
 
                     @foreach(\App\Competition::all() as $competition)
-                        @if($competition->id != $goal->game->season->competition->id)
+                        @if($competition->id != $goal->game->game_group->season->competition->id)
                             <option value="{{ $competition->id }}">
                                 {{ $competition->name }}
                             </option>
@@ -47,16 +47,16 @@
 
             <div class="col s6 m4 l3">
                 <label>{{ trans('models.season') }}</label>
-                <select name="season_id" id="season_id" class="browser-default" onchange="updateGamesList('season_id', 'game_id')">
+                <select name="season_id" id="season_id" class="browser-default" onchange="updateGameGroupsList('season_id', 'game_group_id')">
 
-                    <option value="{{ $goal->game->season->id }}" selected>
-                        {{ $goal->game->season->start_year }}/{{ $goal->game->season->end_year }}
+                    <option value="{{ $goal->game->game_group->season->id }}" selected>
+                        {{ $goal->game->game_group->season->getName() }}
                     </option>
 
-                    @foreach($goal->game->season->competition->seasons as $season)
-                        @if($season->id != $goal->game->season->id)
+                    @foreach($goal->game->game_group->season->competition->seasons as $season)
+                        @if($season->id != $goal->game->game_group->season->id)
                             <option value="{{ $season->id }}">
-                                {{ $season->start_year }}/{{ $season->end_year }}
+                                {{ $season->getName() }}
                             </option>
                         @endif
                     @endforeach
@@ -67,14 +67,27 @@
 
         <div class="row">
 
-            <div class="col s12 m8 l6">
+            <div class="col s6 m4 l3">
+                <label>{{ trans('models.game_group') }}</label>
+                <select onchange="updateGamesList('game_group_id', 'game_id')" id="game_group_id" name="game_group_id" class="browser-default" required>
+                    <option value="{{ $goal->game->game_group->id }}" selected>{{ $goal->game->game_group->name }}</option>
+
+                    @foreach($goal->game->game_Group->season->game_groups as $game_group)
+                        @if($game_group->id != $goal->game->game_group->id)
+                            <option value="{{ $game_group->id }}">{{ $game_group->name }}</option>
+                        @endif
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="col s6 m4 l3">
                 <label>{{ trans('models.game') }}</label>
                 <select onchange="updateGameTeams('game_id', 'selected_team_id')" name="game_id" id="game_id" class="browser-default">
                     <option value="{{ $goal->game->id }}" selected>
                         {{ $goal->game->homeTeam->club->name }} vs {{ $goal->game->awayTeam->club->name }}
                     </option>
 
-                    @foreach($goal->game->season->games as $other_game)
+                    @foreach($goal->game->game_group->games as $other_game)
                         @if($other_game->id != $goal->game->id)
                             <option value="{{ $other_game->id }}">
                                 {{ $other_game->homeTeam->club->name }} vs {{ $other_game->awayTeam->club->name }}
@@ -132,7 +145,7 @@
                             @endif
                         </option>
                     @else
-                        <option selected>
+                        <option value="" selected>
                             {{ trans('general.unknown') }}
                         </option>
                     @endif
