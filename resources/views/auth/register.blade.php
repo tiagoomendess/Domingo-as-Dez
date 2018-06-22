@@ -1,7 +1,8 @@
-@extends('front.layouts.no-container')
+@extends('front.layouts.default-page')
 
 @section('head-content')
     <title>{{ trans('auth.register') }}</title>
+    <link type="text/css" rel="stylesheet" href="/css/front/auth-style.css"  media="screen,projection"/>
 @endsection
 
 @section('content')

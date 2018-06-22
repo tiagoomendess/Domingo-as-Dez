@@ -1,8 +1,8 @@
 <div class="row no-margin-bottom">
     <div class="col xs12 s12 m8 l6 xl4 offset-m2 offset-l3 offset-xl4">
-        <div class="card">
+        <div class="card social-login-card">
             <div class="card-content">
-                <div class="row no-margin-bottom">
+                <div class="row">
 
                     <div class="col xs4 s4 center">
                         <a href="{{ route('social.redirect', ['provider' => 'facebook']) }}" class="social-login-link">

@@ -1,0 +1,92 @@
+html {
+    height: 100%;
+    width: 100%;
+}
+
+body {
+    height: 100%;
+    width: 100%;
+    background-color: #f5f5f5;
+    margin: 0;
+
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+/*
+
+#107db7
+#0573a6
+
+#c89d68
+#be935e
+
+#3b814f
+
+*/
+
+main {
+    flex: 1 0 auto;
+}
+
+h1 {
+    font-size: 53px;
+    font-weight: 300;
+    line-height: 60px;
+}
+
+h2 {
+    font-size: 43px;
+    font-weight: 300;
+    line-height: 50px;
+}
+
+h3 {
+    font-size: 33px;
+    font-weight: 300;
+    line-height: 40px;
+}
+
+p {
+    font-size: 16px;
+    font-weight: 400;
+}
+
+/* -- Estilo Formulários ------------- */
+
+/* label focus color */
+.input-field input:focus + label {
+    color: #107db7 !important;
+}
+
+/* label underline focus color */
+.row .input-field input:focus {
+    border-bottom: 1px solid #107db7 !important;
+    box-shadow: 0 1px 0 0 #107db7 !important
+}
+
+/* label focus color */
+.input-field textarea:focus + label {
+    color: #107db7 !important;
+}
+
+/* label underline focus color */
+.row .input-field textarea:focus {
+    border-bottom: 1px solid #107db7 !important;
+    box-shadow: 0 1px 0 0 #107db7 !important
+}
+
+.checkbox-blue[type="checkbox"].filled-in:checked + label:after{
+    border: 2px solid #107db7;
+    background-color: #107db7;
+}
+
+.row .input-field .active{
+    color: #107db7;
+}
+
+/* ----------------------------------*/
+
+.no-margin-bottom {
+    margin-bottom: 0;
+}

@@ -34,5 +34,6 @@ return [
     'has_permissions' => 'Possui um conjunto de permissões que lhe permitirão:',
     'news_singular' => 'Notícia',
     'article_published' => 'Publicado por :name a :date',
+    'important_links' => 'Links Importantes'
 
 ];

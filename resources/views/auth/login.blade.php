@@ -1,19 +1,20 @@
-@extends('front.layouts.no-container')
+@extends('front.layouts.default-page')
 
 @section('head-content')
     <title>{{ trans('auth.login') }} {{ config('custom.site_name') }}</title>
+    <link type="text/css" rel="stylesheet" href="/css/front/auth-style.css"  media="screen,projection"/>
 @endsection
 
 @section('content')
 
-    <div class="valign-wrapper" style="height: 100%">
+    <div>
 
-        <div style="width: 100%;">
+        <div>
 
-            <div class="row" style="margin-bottom: 0px;">
+            <div class="row no-margin-bottom">
                 <div class="col xs12 s12 m8 l6 xl4 offset-m2 offset-l3 offset-xl4">
 
-                    <h1 class="center hide-on-med-and-down" style="margin-top: 5px;">{{ trans('auth.login') }}</h1>
+                    <h1 class="center hide-on-med-and-down">{{ trans('auth.login') }}</h1>
 
                     <div class="card">
                         <div class="card-content">

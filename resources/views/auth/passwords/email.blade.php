@@ -1,18 +1,19 @@
-@extends('front.layouts.no-container')
+@extends('front.layouts.default-page')
 
 @section('head-content')
     <title>{{ trans('auth.request_password_reset') }}</title>
+    <link type="text/css" rel="stylesheet" href="/css/front/auth-style.css"  media="screen,projection"/>
 @endsection
 
 @section('content')
-    <div class="valign-wrapper" style="height: 100%">
+    <div>
 
-        <div style="width: 100%;">
+        <div>
 
-            <div class="row" style="margin-bottom: 0px;">
+            <div class="row">
                 <div class="col xs12 s12 m8 l6 xl4 offset-m2 offset-l3 offset-xl4">
 
-                    <h1 class="center" style="margin-top: 5px;">{{ trans('auth.request_password_reset') }}</h1>
+                    <h1 class="center">{{ trans('auth.request_password_reset') }}</h1>
 
                     <div class="card">
                         <div class="card-content">
@@ -32,7 +33,7 @@
                                 <div class="row">
                                     <div class="col s12">
                                         <blockquote>
-                                            <ul style="color: #167700;">
+                                            <ul>
                                                 <li>{{ session('status') }}</li>
                                             </ul>
                                         </blockquote>
