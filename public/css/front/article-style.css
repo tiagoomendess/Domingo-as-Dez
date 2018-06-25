@@ -1,0 +1,43 @@
+.article-title {
+    color: white;
+    text-shadow: black 0px 2px 2px;
+    text-transform: capitalize;
+    text-align: center;
+
+}
+
+.article-title h1 {
+    font-size: 40px;
+    margin: 0;
+    padding: 10px;
+}
+
+.article-description p {
+    color: #202020;
+    font-weight: 400;
+}
+
+.article-body p {
+    color: #000;
+}
+
+.article-signature {
+    color: #555555;
+}
+
+article .parallax-container .parallax {
+    background-color: black;
+}
+
+article .parallax-container .parallax img{
+    opacity: 0.7;
+}
+
+.article-video-media {
+    background-color: black;
+}
+
+.article-video-media iframe {
+    width: 100%;
+    margin: 10px 0 0 0;
+}

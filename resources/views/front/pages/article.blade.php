@@ -1,7 +1,8 @@
-@extends('front.layouts.no-container')
+@extends('front.layouts.default-page')
 
 @section('head-content')
     <title>{{ $article->title }}</title>
+    <link rel="stylesheet" href="/css/front/article-style.css">
 @endsection
 
 @section('content')
@@ -12,41 +13,35 @@
             @if($article->media->media_type == 'image')
                 <div class="parallax-container">
                     <div class="parallax">
-                        <img class="" src="{{ $article->media->url }}">
+                        <img src="{{ $article->media->url }}">
                     </div>
 
-                    <div class="row article-parallax-container">
-                        <div class="container" style="height: 100%;">
-                            <div class="row">
-                                <div class="col s12">
-                                    <h1 class="article-title light" style="">{{ $article->title }}</h1>
-                                </div>
+                    <div class="article-parallax-container vertical-centered">
+                        <div class="container">
+                            <div class="col s12 article-title">
+                                <h1 class="light">{{ $article->title }}</h1>
                             </div>
-
                         </div>
                     </div>
                 </div>
-
             @elseif($article->media->media_type == 'youtube')
-                <div class="section black">
+                <div class="article-video-media">
                     <div class="container">
                         <div class="embed-container">
-                            <iframe id="media_youtube_video" style="width: 100%" src="{{ str_replace('watch?v=', 'embed/', $article->media->url) }}" frameborder='0' allowfullscreen></iframe>
+                            <iframe id="media_youtube_video" src="{{ str_replace('watch?v=', 'embed/', $article->media->url) }}" frameborder='0' allowfullscreen></iframe>
                         </div>
                     </div>
 
                     <div class="container">
-                        <div class="row" style="margin-bottom: 0">
-                            <div class="col s12">
-                                <h1 class="article-title light" style="">{{ $article->title }}</h1>
-                            </div>
+                        <div class="col s12 article-title">
+                            <h1 class="light">{{ $article->title }}</h1>
                         </div>
                     </div>
                 </div>
 
             @elseif($article->media->media_type == 'video')
 
-                <div class="section black">
+                <div class="">
                     <div class="container">
                         <video style="width: 100%" class="responsive-video" controls>
                             <source src="{{ $article->media->url }}" type="video/mp4">
@@ -54,10 +49,8 @@
                     </div>
 
                     <div class="container">
-                        <div class="row" style="margin-bottom: 0">
-                            <div class="col s12">
-                                <h1 class="article-title light" style="">{{ $article->title }}</h1>
-                            </div>
+                        <div class="col s12 article-title">
+                            <h1 class="light" style="">{{ $article->title }}</h1>
                         </div>
                     </div>
 
@@ -71,45 +64,37 @@
                     <img class="" src="{{ \App\Media::getPlaceholder('16:9', $article->id) }}">
                 </div>
 
-                <div class="row article-parallax-container">
-                    <div class="container" style="height: 100%;">
-                        <div class="row">
-                            <div class="col s12">
-                                <h1 class="article-title light" style="">{{ $article->title }}</h1>
-                            </div>
+                <div class="article-parallax-container vertical-centered">
+                    <div class="container">
+                        <div class="article-title col s12">
+                            <h1 class="light">{{ $article->title }}</h1>
                         </div>
-
                     </div>
                 </div>
             </div>
 
         @endif
 
-        <div class="section white">
+        <section class="section white">
             <div class="container">
-                <div class="row">
-                    <div class="col s12 article-description">
-                        <p class="flow-text">{{ $article->description }}</p>
-                    </div>
+                <div class="col s12 article-description">
+                    <p class="flow-text">{{ $article->description }}</p>
                 </div>
             </div>
-        </div>
+        </section>
 
         <div class="container">
-            <div class="row">
-                <div class="col s12 article-body">
-                    {!! $article->text !!}
-                </div>
 
-            </div>
+            <section class="col s12 article-body">
+                {!! $article->text !!}
+            </section>
 
-            <div class="row">
 
-                <div class="col s12">
-                    <p class="right article-published-by" style="">{{ trans('front.article_published', ['name' => $article->user->name, 'date' => \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $article->date)->format("d/m/Y")]) }}</p>
-                </div>
+            <section class="col s12 article-signature">
+                <p class="right">{{ trans('front.article_published', ['name' => $article->user->name, 'date' => \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $article->date)->format("d/m/Y")]) }}</p>
+            </section>
 
-            </div>
+
         </div>
 
     </article>
