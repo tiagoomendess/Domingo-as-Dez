@@ -1,5 +1,5 @@
 <div class="row no-margin-bottom">
-    <div class="col xs12 s12 m8 l6 xl4 offset-m2 offset-l3 offset-xl4">
+    <div class="col xs12 s12 m10 l8 xl6 offset-m1 offset-l2 offset-xl3">
         <div class="card social-login-card">
             <div class="card-content">
                 <div class="row">
