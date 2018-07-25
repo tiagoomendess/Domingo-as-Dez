@@ -1,0 +1,115 @@
+.col figure img {
+    width: 100%;
+}
+
+figure {
+    margin: .5rem 0 0 0;
+    position: relative;
+    width: 100%;
+}
+
+.player-info {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.player-info > .full-info {
+
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    justify-content: center;
+
+    margin: 0 0 0.5rem;
+
+}
+
+.player-info > .full-info > span:nth-child(n+1) {
+    font-weight: 300;
+    font-size: 1.5rem;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    vertical-align: middle;
+}
+
+.player-info > .full-info > span:nth-child(1) {
+    position: relative;
+    width: 100%;
+    font-weight: 600;
+    font-size: 1rem;
+    color: #0573a6;
+}
+
+.player-info > .half-info {
+
+    width: 50%;
+    margin: 0 0 0 .5rem;
+
+}
+
+.player-info > .half-info > span:nth-child(n+1) {
+    font-weight: 300;
+    font-size: 1.5rem;
+}
+
+.player-info > .full-info > span > img {
+    width: 1.5rem;
+    margin-right: .5rem;
+}
+
+.player-info > .half-info > span > img {
+    width: 0.5rem;
+}
+
+.player-clubs li img {
+    width: 10%;
+    margin-right: .5rem;
+}
+
+.player-clubs .item a {
+    padding: .5rem;
+    display: flex;
+    align-items: center;
+    position: relative;
+    border-bottom: 1px solid grey;
+}
+
+.player-clubs .item:nth-child(1) {
+    border-top: 1px solid grey;
+}
+
+.player-clubs .item:hover {
+    background-color: rgba(1,1,1, 0.1);
+}
+
+.player-clubs .item div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: left;
+    flex-wrap: wrap;
+    max-width: 60%;
+}
+
+.player-clubs .item div .team {
+    font-size: .8rem;
+}
+
+.player-clubs .item .dates {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: right;
+
+    position: absolute;
+    right: .5rem;
+}
+
+.item .dates span {
+    text-align: right;
+}
+

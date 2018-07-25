@@ -1,0 +1,184 @@
+.competition-season-selector {
+    margin: 10px 0 0 0;
+}
+
+#loading_spinner {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.game-group-title {
+    width: 100%;
+    font-size: 24px;
+    color: #3a3a3a;
+    font-weight: 400;
+    border-bottom: #3a3a3a solid 1px;
+    margin: 0;
+}
+
+.round-title {
+    border-bottom: #adadad solid 1px;
+    margin: 0;
+    padding-bottom: 10px;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.round-title .round-name {
+    font-weight: bold;
+    color: black;
+    font-size: 18px;
+}
+
+.button {
+    background: none;
+    font-size: 25px;
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    text-transform: none;
+    text-decoration: none;
+    color: black;
+    padding: 5px;
+    border-radius: 3px;
+}
+
+.button:hover {
+    background-color: #e8e8e8;
+}
+
+.overview {
+    border-bottom: #adadad solid 1px;
+}
+
+.overview:hover {
+    background-color: #ebebeb;
+    cursor: pointer;
+}
+
+.teams {
+    height: 4rem;
+
+}
+
+.teams img {
+    width: 30px;
+    resize: none;
+    min-width: 30px;
+}
+
+.home-team {
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+    align-items: center;
+    flex-wrap: wrap;
+    height: 100%;
+}
+
+.home-team > div {
+    margin: 0 0 0 auto;
+    display: flex;
+    align-items: center;
+}
+
+.away-team > div {
+    margin: 0 auto 0 0;
+    display: flex;
+    align-items: center;
+}
+
+.home-team span {
+    font-size: 1rem;
+    font-weight: 400;
+    color: #333333;
+    margin-right: 10px;
+    text-align: right;
+}
+
+.away-team {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    height: 100%;
+}
+
+.away-team span {
+    font-size: 1rem;
+    font-weight: 400;
+    color: #333333;
+    margin-left: 10px;
+}
+
+.teams .separator {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    padding: 0;
+}
+
+.separator time {
+    background-color: #989898;
+    font-weight: bold;
+    padding: 5px 10px;
+    color: #FFFFFF;
+}
+
+.overview .teams .col {
+    padding: 0 2px 0 0;
+}
+
+.tables .positions-table tbody td img {
+    width: 2rem;
+}
+
+.tables .positions-table tbody tr {
+    height: 2.5rem;
+
+}
+
+.tables .positions-table tbody tr:nth-child(2n+1) {
+    background-color: rgba(1,1,1,0.05);
+}
+
+.tables .positions-table tr .number {
+    text-align: right;
+}
+
+.tables .positions-table tbody tr td {
+    padding: 0 5px;
+    vertical-align: middle;
+    height: 100%;
+    font-size: 1rem;
+}
+
+.tables .table-club-emblem {
+    display: flex;
+    justify-content: right;
+    align-items: center;
+}
+
+.tables .positions-table thead tr th {
+    height: 2.5rem;
+    padding: 10px 5px;
+}
+
+.positions-table tbody tr td a{
+    color: black;
+    text-transform: none;
+    text-decoration: none;
+}
+
+.positions-table tbody tr td a:hover {
+    color: #107db7;
+}

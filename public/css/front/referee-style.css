@@ -1,0 +1,106 @@
+section figure {
+    position: relative;
+    width: 100%;
+    margin: .5rem 0 0 0;
+}
+
+section figure img {
+    width: 100%;
+}
+
+.game-referee {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.game-referee .game-info {
+    position: relative;
+    width: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: nowrap;
+    color: #333333;
+}
+
+.game-referee .game-info .home-club {
+    width: 40%;
+}
+
+.game-referee .game-info .home-club .right {
+    display: flex;
+    align-items: center;
+    text-align: right;
+}
+
+.game-referee .game-info .away-club {
+    width: 40%;
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    align-items: center;
+}
+
+.game-referee img {
+    width: 2rem;
+    margin: 0 .5rem;
+}
+
+.game-referee .game-info .separator {
+    width: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.game-referee .game-info .separator .score {
+    text-align: center;
+    vertical-align: middle;
+    background-color: #989898;
+    color: white;
+    font-weight: 600;
+    padding: .3rem .7rem;
+}
+
+.game-referee .competition-info {
+    width: 20%;
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+    align-items: center;
+}
+
+.game-referee .competition-info span {
+    padding: .5rem;
+    color: white;
+    background-color: #3b814f;
+    font-size: .8rem;
+    font-weight: 500;
+    margin: 0 0 0 auto;
+}
+
+@media screen and (max-width: 993px) {
+
+    .game-referee .game-info .separator {
+        width: 33%;
+    }
+
+    .game-referee .game-info .home-club {
+        width: 33%;
+    }
+
+    .game-referee .game-info .away-club {
+        width: 33%;
+    }
+
+    .game-referee .game-info {
+        width: 60%;
+    }
+
+    .game-referee .competition-info {
+        width: 40%;
+    }
+}

@@ -1,0 +1,219 @@
+figure {
+    margin: 0;
+}
+figure img {
+    width: 95%;
+}
+
+.game-header {
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.game-header .details {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    margin: 10px 0;
+    color: white;
+    text-shadow: 1px 1px 1px black;
+    font-weight: 300;
+    font-size: 1.3rem;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.details > * {
+    margin: 0 10px;
+    display: flex;
+    align-items: center;
+}
+
+.details > * img {
+    width: 1.3rem;
+}
+
+.game-header .container .row .col {
+    padding: 0;
+}
+
+.game-header .club-name {
+    color: #FFFFFF;
+    font-size: 2rem;
+    font-weight: 300;
+    text-shadow: 1px 1px 3px black;
+}
+
+.separator {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.separator > * {
+    width: 100%;
+}
+
+.separator #finished {
+    font-weight: 300;
+    font-size: 1.2rem;
+    color: #ffffff;
+    text-shadow: 1px 1px 1px black;
+    margin: 10px 0;
+}
+
+.separator #score {
+    font-size: 3.8rem;
+    line-height: 4rem;
+    color: #FFFFFF;
+    text-shadow: 1px 1px 3px black;
+    font-weight: 600;
+    vertical-align: middle;
+}
+
+.separator #penalties {
+    color: white;
+    text-shadow: 1px 1px 3px black;
+    font-weight: 600;
+}
+
+.game-header .container .row {
+    display: flex;
+    align-items: center;
+
+}
+
+.parallax {
+    background-color: black;
+}
+
+.parallax-container .parallax img {
+    opacity: 0.7;
+}
+
+#countdown > span {
+    font-size: 2rem;
+    font-weight: 200;
+    color: white;
+    padding: 5px 0;
+    width: 100%;
+    background-color: #2f60ff;
+}
+
+#countdown table {
+    color: #ffffff;
+    border: none;
+    background-color: rgba(1,1,1,0.3);
+    border-radius: 3px;
+}
+
+#countdown table td {
+    width: 25%;
+    padding: 0;
+    text-align: center;
+}
+
+#countdown table .time td {
+    text-align: center;
+    font-weight: 600;
+    font-size: 1.5rem;
+}
+
+#countdown table .description {
+    font-weight: 200;
+    font-size: 0.9rem;
+    text-align: center;
+    vertical-align: top;
+}
+
+#countdown table .header {
+    text-align: center;
+    font-size: 1rem;
+}
+
+.goal-overview {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    border-bottom: 1px solid #7b7b7b;
+}
+
+.goal-overview:nth-child(1) {
+    border-top: 1px solid #7b7b7b;
+}
+
+.goal-overview .player-name {
+    font-size: 1.15rem;
+}
+
+.goal-overview > * {
+    margin: 5px 10px;
+}
+
+.goal-overview figure {
+    width: 50px;
+}
+
+.goal-overview figure img {
+    border-radius: 2px;
+}
+
+.ref-overview {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: left;
+}
+
+.ref-overview .ref-info .ref-name {
+    font-size: 1.2rem;
+    width: 100%;
+}
+
+.ref-overview .ref-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0 0 0 .5rem;
+    color: #3a3a3a;
+}
+
+.ref-overview .ref-info .ref-type {
+    font-size: 0.7rem;
+    width: 100%;
+}
+
+.ref-overview figure img {
+    width: 50px;
+    border-radius: 3px;
+}
+
+.live-score-animation {
+    animation: live-score-animation-frames 2s linear infinite;
+    border-radius: 10px;
+}
+
+@keyframes live-score-animation-frames {
+    0% {
+        border: 2px solid white;
+        background-color: rgba(1,1,1,0.10);
+    }
+
+    50% {
+        border: 2px solid red;
+        background-color: rgba(1,1,1,0.25);
+    }
+
+    100% {
+        border: 2px solid white;
+        background-color: rgba(1,1,1,0.10);
+    }
+}

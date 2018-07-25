@@ -1,0 +1,145 @@
+#live_matches {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#live_matches img {
+    width: 2.5rem;
+}
+
+#live_matches .match-group {
+    width: 100%;
+    background-color: #3b814f;
+    margin-bottom: 10px;
+}
+
+#live_matches .match-group .header {
+    padding: 10px;
+    background-color: rgba(1,1,1,0.2);
+    height: 4rem;
+    color: white;
+}
+
+#live_matches .match-group .header > * {
+    display: flex;
+    align-items: center;
+}
+
+#live_matches .match-group .header > .right {
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+#live_matches .match-group .header > .left > * {
+    margin-right: 10px;
+}
+
+#live_matches .match-group .header > .right > a > i {
+    font-size: 40px;
+    color: white;
+}
+
+#live_matches .match-group .matches {
+    padding: 0 10px 10px 10px;
+}
+
+#live_matches .match-group .matches .match {
+    width: 100%;
+    height:4.5rem;
+    display: flex;
+    align-items: center;
+    background-color: #c89d68;
+    margin-top: 10px;
+    color: white;
+}
+
+#live_matches .match-group .matches .match:hover {
+    box-shadow: 1px 1px 5px #5d5d5d;
+}
+
+#live_matches .match-group .matches .match .state {
+    position: relative;
+    width: 1%;
+    height: 100%;
+}
+
+#live_matches .match-group .matches .match .home-club {
+    width: 40%;
+}
+
+#live_matches .match-group .matches .match .home-club > .right {
+    display: flex;
+    align-items: center;
+}
+
+#live_matches .match-group .matches .match .home-club > .right > * {
+    margin: 0 10px;
+}
+
+#live_matches .match-group .matches .match .separator {
+    position: relative;
+    width: 17%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #be935e;
+    height: 100%;
+}
+
+#live_matches .match-group .matches .match .separator span {
+    width: 100%;
+    text-align: center;
+    vertical-align: middle;
+}
+
+#live_matches .match-group .matches .match .separator .penalties {
+    font-weight: 400;
+    font-size: 0.8rem;
+}
+
+#live_matches .match-group .matches .match .away-club {
+    width: 40%;
+}
+
+#live_matches .match-group .matches .match .away-club > .left {
+    display: flex;
+    align-items: center;
+}
+#live_matches .match-group .matches .match .away-club > .left > * {
+    margin: 0 10px;
+}
+
+#live_matches_caption {
+    width: 100%;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin: 0 0 10px 0;
+}
+
+#live_matches_caption .item {
+    background-color: #c89d68;
+    height: 2rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    align-items: center;
+    color: white;
+    margin: 0 20px 0 0;
+}
+
+#live_matches_caption .item .color {
+    width: 0.6rem;
+    height: 100%;
+}
+
+#live_matches_caption .item span {
+    margin: 0 10px;
+}

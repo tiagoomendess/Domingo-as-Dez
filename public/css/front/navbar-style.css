@@ -1,0 +1,46 @@
+nav {
+    background-color: #107db7;
+    text-transform: uppercase;
+}
+
+#account_action a {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+#account_action a img {
+    width: 30px;
+    margin: 0 10px 0 0;
+}
+
+.navbar-dropdown {
+    margin-top: 64px;
+    background-color: #107db7;
+}
+
+.navbar-dropdown li:hover {
+    background-color: #107db7;
+}
+
+.navbar-dropdown li a {
+    color: white;
+}
+
+.navbar-items {
+    margin: 0 0 0 60px;
+}
+
+nav .brand-logo {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    align-items: center;
+    height: 64px;
+}
+
+.brand-logo img {
+    height: 50px;
+}

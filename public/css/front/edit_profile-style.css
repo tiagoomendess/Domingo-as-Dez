@@ -1,0 +1,34 @@
+#edit-profile-pic {
+    margin-bottom: 0;
+
+}
+
+#edit-profile-pic .card card-image {
+    position: relative;
+}
+
+#edit-profile-pic .hover-icon {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+}
+
+#edit-profile-pic .hover-icon i {
+    font-size: 6rem;
+}
+
+#edit-profile-pic .hover-icon:hover {
+    opacity: 1;
+    cursor: pointer;
+}
+
+#progress-bar {
+    margin: 0;
+}

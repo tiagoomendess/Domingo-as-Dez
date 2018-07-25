@@ -1,0 +1,97 @@
+
+.transfer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+.player-pic {
+    position: relative;
+    width: 30%;
+}
+
+.player-pic figure {
+    position: relative;
+    width: 100%;
+    margin: 0;
+}
+
+.player-pic figure img {
+    width: 100%;
+}
+
+.transfer .transfer-info {
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+}
+
+.transfer-info .clubs {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin: 20px 0;
+}
+
+.clubs .club {
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.club figure {
+    position: relative;
+    width: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.club figure img {
+    position: relative;
+    width: 40%;
+}
+
+.clubs .separator {
+    width: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.transfer-info .player-name {
+    width: 100%;
+    font-weight: 400;
+    font-size: 1.6rem;
+    text-align: center;
+}
+
+.transfer-info .transfer-date {
+    width: 100%;
+    font-weight: 300;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+.club .club-name {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    text-transform: none;
+    text-decoration: none;
+    font-weight: 400;
+    font-size: 0.8rem;
+    padding: 0 10px;
+    color: #323232;
+    text-align: center;
+}

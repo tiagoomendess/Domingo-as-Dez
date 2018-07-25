@@ -1,0 +1,35 @@
+.card-image {
+    height: 0;
+    padding-bottom: 56.25%;
+    overflow: hidden;
+}
+
+.card .card-image .card-title {
+    padding: 15px;
+}
+
+
+.article-thumb-fill {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: black;
+}
+
+.article-thumb-fill img {
+    flex-shrink: 0;
+    min-height: 100%;
+    max-width: 100%;
+    object-fit: cover;
+    opacity: 0.8;
+}
+
+.article-thumb-fill .card-title {
+    text-shadow: black 2px 2px 1px;
+}

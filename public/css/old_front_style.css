@@ -1,0 +1,380 @@
+body {
+    background-color: #F5F5F5;
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+main {
+    flex: 1 0 auto;
+}
+
+h1 {
+    font-size: 53px;
+    font-weight: 300;
+    line-height: 60px;
+}
+
+h2 {
+    font-size: 43px;
+    font-weight: 300;
+    line-height: 50px;
+}
+
+h3 {
+    font-size: 33px;
+    font-weight: 300;
+    line-height: 40px;
+}
+
+p {
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.navbar-logo {
+    position: relative;
+    margin-top: 3px;
+    max-height: 58px;
+}
+
+.dropdown-content-custom {
+    margin-top: 64px;
+    background-color: #1E88E5;
+    color: white;
+}
+
+.dropdown-content-custom a {
+    color: white;
+    font-weight: 300;
+    font-size: 16px;
+}
+
+.dropdown-content-custom li {
+
+}
+
+.dropdown-content-custom li:hover {
+    background-color: #1B7ACE;
+}
+
+.dropdown-content-custom li a {
+    color: white;
+
+}
+
+.dropdown-content-custom a:hover {
+    color: rgb(255, 255, 255);
+    background-color: #1B7ACE;
+}
+
+.dropdown-content-custom li:hover li.active li.selected{
+    background-color: #1B7ACE;
+}
+
+.dropdown-content-custom li.active.selected {
+    background-color: #1B7ACE;
+}
+
+/**--- CSS Placeholder */
+@keyframes placeHolderShimmer{
+    0%{
+        background-position: -468px 0
+    }
+    100%{
+        background-position: 468px 0
+    }
+}
+.linear-background {
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+    animation-name: placeHolderShimmer;
+    animation-timing-function: linear;
+    background: #f6f7f8;
+    background: linear-gradient(to right, #eeeeee 8%, #dddddd 18%, #eeeeee 33%);
+    background-size: 1000px 104px;
+    height: 338px;
+    position: relative;
+    overflow: hidden;
+}
+/**-------------------*/
+
+.table_emblem {
+
+    max-width: 100%;
+    min-width: 25px;
+    height: auto;
+    resize: none;
+}
+
+#season_select_div {
+
+    margin-top: 45px;
+    bottom: 0px;
+    position: relative;
+}
+
+.small-text-shaddow {
+    text-shadow: 1px 1px 1px #000000, 0 0 2px rgba(0, 0, 0, 0.88);
+}
+
+.game-emblem{
+
+    width: 75%;
+
+}
+
+.outer {
+    display: table;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+}
+
+.middle {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.inner {
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%; /*whatever width you want*/
+}
+
+.valign-middle {
+    vertical-align: middle;
+}
+
+/* label focus color */
+.input-field input:focus + label {
+    color: rgba(30, 136, 229, 0.91) !important;
+}
+
+/* label underline focus color */
+.row .input-field input:focus {
+    border-bottom: 1px solid #1e88e5 !important;
+    box-shadow: 0 1px 0 0 #1e88e5 !important
+}
+
+/* label focus color */
+.input-field textarea:focus + label {
+    color: rgba(30, 136, 229, 0.91) !important;
+}
+
+/* label underline focus color */
+.row .input-field textarea:focus {
+    border-bottom: 1px solid #1e88e5 !important;
+    box-shadow: 0 1px 0 0 #1e88e5 !important
+}
+
+.checkbox-blue[type="checkbox"].filled-in:checked + label:after{
+    border: 2px solid #1e88e5;
+    background-color: #1e88e5;
+}
+
+.no-margin-bottom {
+    margin-bottom: 0px;
+}
+
+.social-login-link {
+    position: relative;
+    opacity: 0.4;
+
+}
+
+.social-login-link:hover {
+    opacity: 1;
+}
+
+.social-login-link img {
+
+    position: relative;
+    width: 75%;
+    max-width: 40px;
+    height: auto;
+
+}
+
+.row .input-field .active{
+    color: #1e88e5;
+}
+
+.edit-goal-btn {
+
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    color: #545454;
+
+}
+
+.card-content ul .collection-just {
+    min-height: 50px!important;
+}
+
+.navbar-profile-pic {
+    width: 25px;
+    vertical-align: middle;
+    margin: 0 5px 0 0;
+}
+
+#edit-profile-pic {
+    cursor: pointer;
+}
+
+#edit-profile-pic .card-image div {
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(20,20,20, 0.5);
+    margin: 0;
+    padding: 0;
+    z-index: 10;
+    opacity: 0;
+    border-radius: 2px;
+}
+
+#edit-profile-pic .card-image div i {
+    color: white;
+    font-size: 5rem;
+}
+
+#edit-profile-pic:hover .card-image div {
+    opacity: 1;
+}
+
+#progress-bar {
+    margin-top: 2px;
+}
+
+nav .nav-wrapper .row .container .button-collapse {
+    margin-left: 0;
+}
+
+.navbar-title h1 {
+    font-weight: 200;
+    font-size: 24px;
+    margin: 0 5px;
+    line-height: 55px;
+}
+
+.article-title {
+
+    color: #FFFFFF;
+    text-shadow: 1px 1px 2px black;
+    bottom: 0px;
+    margin: 0 0 0 0;
+    font-size: 36px;
+}
+
+.article-title-video {
+    color: #000000;
+    margin: 7px 0;
+    font-size: 36px;
+}
+
+.article-parallax-container {
+    height: 100%;
+}
+
+.article-parallax-container .container {
+
+    position: relative;
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    height: 100%;
+    justify-content: flex-end;
+    bottom: 0;
+
+}
+
+.article-parallax-container .container .col:first-of-type {
+
+}
+
+.article-description {
+    color: black;
+}
+
+.article-description p {
+    text-align: justify;
+}
+
+.article-body {
+    color: rgb(54, 54, 54);
+}
+
+.article-body p {
+    text-align: justify;
+}
+
+article .parallax-container .parallax {
+    background-color: black;
+}
+
+article .parallax-container .parallax img {
+    opacity: 0.8;
+}
+
+.article-published-by {
+
+    color: #545454;
+    font-size: 14px;
+    font-weight: 200;
+}
+
+.video-wrapper {
+
+    position: relative;
+    height: 100%;
+    overflow: hidden;
+    width: 100%;
+
+}
+
+.video-wrapper iframe {
+
+    position: relative;
+    height: 100%;
+    max-width: 100%;
+    top: 0;
+    left: 0;
+
+}
+
+#video-wrapper {
+    margin-top: 10px;
+}
+
+.embed-container {
+
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
+    max-width: 100%;
+
+}
+.embed-container iframe, .embed-container object, .embed-container embed, .embed-container div {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+@media only screen and (min-width: 600px) {
+
+    .navbar-title h1 {
+        line-height: 63px;
+    }
+
+}
+

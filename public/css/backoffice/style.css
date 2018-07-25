@@ -1,0 +1,102 @@
+body {
+    background-color: #F2F2F2;
+}
+.content-wrapper {
+
+    margin-left: 0px;
+
+}
+
+.custom-container {
+    width: 100%;
+    padding-top: 1vw;
+    padding-left: 2vw;
+    padding-right: 2vw;
+    padding-bottom: 1vw;
+}
+
+@media only screen and (min-width: 993px) {
+
+    .content-wrapper {
+        margin-left: 300px;
+    }
+
+}
+
+.media_square_box {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    border-width: 2px;
+    border-color: #111111;
+    border-radius: 4px;
+    margin-bottom: 1vw;
+
+}
+
+.media_square_box:after {
+    content: "";
+    display: block;
+    padding-bottom: 100%;
+}
+
+.media_square_box_content {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.media_square_box_content img {
+
+    position: absolute;
+    left: -1000%;
+    right: -1000%;
+    top: -1000%;
+    bottom: -1000%;
+    margin: auto;
+    min-height: 100%;
+    min-width: 100%;
+    object-fit: cover;
+
+}
+
+.media_square_box_content p {
+    position: absolute;
+    text-shadow: 1px 1px 2px #000000;
+    color: #ffffff;
+    padding-left: 5px;
+    padding-right: 5px;
+    width: 100%;
+    z-index: 1000;
+    bottom: 0px;
+
+}
+
+.setting td .row {
+    margin-bottom: 0;
+}
+
+.setting td .row .col span {
+
+    display: flex;
+    width: 100%;
+    text-align: left;
+    color: #131313;
+    font-size: 16px;
+}
+
+.setting td .row .col small {
+
+    display: flex;
+    width: 100%;
+    text-align: left;
+    color: #666666;
+}
+
+.setting-popup {
+    cursor: pointer;
+}
+
+.setting-popup:hover {
+    background-color: rgba(10,10,10, 0.1);
+}

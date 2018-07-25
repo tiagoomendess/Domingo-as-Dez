@@ -1,0 +1,1 @@
+{"user":{"name":"Tiago Mendes","email":"tiagoomendess@gmail.com","email_token":null,"remember_token":"3aYY17rIBE5j3zWk5h26AnVDovLVSOe2jq3jECH60vRpUzmhyg4RcC9l6dEA"},"profile":{"bio":null,"phone":null,"picture":"\/storage\/uploads\/users\/avatars\/anq1532364363suf-5zhhyjfin.jpg"},"other":[]}
