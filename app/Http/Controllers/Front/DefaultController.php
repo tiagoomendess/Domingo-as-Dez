@@ -71,7 +71,7 @@ class DefaultController extends Controller
 
         $name = str_random(rand(3,5)) . time() . str_random(rand(3,5)) . '-data.zip';
         $archiveFile = $public_dir . $name;
-        $archive = new ZipArchive();
+        $archive = new ZipArchive;
 
         // check if the archive could be created.
         if ($archive->open($archiveFile, ZipArchive::CREATE | ZipArchive::OVERWRITE)) {
