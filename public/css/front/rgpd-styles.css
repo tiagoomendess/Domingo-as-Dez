@@ -1,0 +1,13 @@
+.consents-submit-btn {
+    width: 100%;
+    position: relative;
+    margin-top: 1rem;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+}
+
+.consents-submit-btn > button {
+    margin: 0 0 0 auto;
+}

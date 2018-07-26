@@ -21,64 +21,29 @@
 
         <ul class="collapsible" data-collapsible="accordion">
             <li>
-                <div class="collapsible-header"><i class="material-icons">assignment_turned_in</i>{{ trans('front.rgpd_info_concent') }}</div>
+                <div class="collapsible-header"><i class="material-icons">assignment_turned_in</i>{{ trans('front.rgpd_info_consent') }}</div>
                 <div class="collapsible-body">
 
-                    <ul class="list-normal">
-                        <li>
-                            <div class="settings-item">
-                                <div class="info">
-                                    <span class="name">{{ trans('front.rgpd_analytics_cookies') }}</span>
-                                    <span class="desc">{{ trans('front.rgpd_analytics_cookies_desc') }}</span>
-                                </div>
-
-                                <div class="value">
-                                    <div class="switch">
-                                        <label>
-                                            Off
-                                            <input type="checkbox">
-                                            <span class="lever"></span>
-                                            On
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </li>
-
-                        @if(\Illuminate\Support\Facades\Auth::check())
+                    <form action="{{ route('rgpd_info.settings') }}" method="POST">
+                        {{ csrf_field() }}
+                        <ul class="list-normal">
                             <li>
                                 <div class="settings-item">
                                     <div class="info">
-                                        <span class="name">{{ trans('front.rgpd_user_data_collect') }}</span>
-                                        <span class="desc">{{ trans('front.rgpd_user_data_collect_desc') }}</span>
+                                        <span class="name">{{ trans('front.rgpd_analytics_cookies') }}</span>
+                                        <span class="desc">{{ trans('front.rgpd_analytics_cookies_desc') }}</span>
                                     </div>
 
-                                    <div class="value">
+                                    <div class="value" id="rgpd_analytics_cookies_switch">
                                         <div class="switch">
                                             <label>
                                                 Off
-                                                <input type="checkbox" checked>
-                                                <span class="lever"></span>
-                                                On
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-
-                            <li>
-                                <div class="settings-item">
-                                    <div class="info">
-                                        <span class="name">{{ trans('front.rgpd_all_data_collect') }}</span>
-                                        <span class="desc">{{ trans('front.rgpd_all_data_collect_desc') }}</span>
-                                    </div>
-
-                                    <div class="value">
-                                        <div class="switch">
-                                            <label>
-                                                Off
-                                                <input type="checkbox">
+                                                <input name="rgpd_analytics_cookies_switch" type="hidden" value="false">
+                                                @if ($rgpd_analytics_cookies)
+                                                    <input name="rgpd_analytics_cookies_switch" type="checkbox" value="true" checked>
+                                                @else
+                                                    <input name="rgpd_analytics_cookies_switch" type="checkbox" value="true">
+                                                @endif
                                                 <span class="lever"></span>
                                                 On
                                             </label>
@@ -87,8 +52,63 @@
                                 </div>
 
                             </li>
-                        @endif
-                    </ul>
+
+                            @if(Auth::check())
+                                <li>
+                                    <div class="settings-item">
+                                        <div class="info">
+                                            <span class="name">{{ trans('front.rgpd_user_data_collect') }}</span>
+                                            <span class="desc">{{ trans('front.rgpd_user_data_collect_desc') }}</span>
+                                        </div>
+
+                                        <div class="value" id="rgpd_user_data_collect_switch">
+                                            <div class="switch">
+                                                <label>
+                                                    Off
+                                                    <input type="checkbox" checked>
+                                                    <span class="lever"></span>
+                                                    On
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+
+                                <li>
+                                    <div class="settings-item">
+                                        <div class="info">
+                                            <span class="name">{{ trans('front.rgpd_all_data_collect') }}</span>
+                                            <span class="desc">{{ trans('front.rgpd_all_data_collect_desc') }} {{ Auth::user()->profile->all_data_consent }}</span>
+                                        </div>
+
+                                        <div class="value" id="rgpd_all_data_collect_switch">
+                                            <div class="switch">
+                                                <label>
+                                                    Off
+                                                    <input name="rgpd_all_data_collect_switch" type="hidden" value="false">
+                                                    @if ($rgpd_all_data_collect)
+                                                        <input name="rgpd_all_data_collect_switch" type="checkbox" value="true" checked>
+                                                    @else
+                                                        <input name="rgpd_all_data_collect_switch" type="checkbox" value="true">
+                                                    @endif
+
+                                                    <span class="lever"></span>
+                                                    On
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </li>
+
+                            @endif
+                        </ul>
+
+                        <div class="consents-submit-btn hide">
+                            <button type="submit" class="btn green darken-2">{{ trans('general.save') }}</button>
+                        </div>
+                    </form>
+
                 </div>
             </li>
 

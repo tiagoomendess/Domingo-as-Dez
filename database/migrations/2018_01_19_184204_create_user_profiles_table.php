@@ -19,6 +19,9 @@ class CreateUserProfilesTable extends Migration
             $table->text('bio')->nullable();
             $table->integer('user_id')->unique();
             $table->text('picture')->nullable();
+            $table->timestamp('account_data_consent')->nullable();
+            $table->timestamp('analytics_cookies_consent')->nullable();
+            $table->timestamp('all_data_consent')->nullable();
             $table->timestamps();
         });
 

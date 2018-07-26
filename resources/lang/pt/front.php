@@ -76,13 +76,13 @@ return [
     'rgpd_info_p3' => 'O Domingo às Dez é abrangido por esta lei, e pretende com esta página informar e cumprir as suas 
     obrigações para com os seus utilizadores. Para mais informações sobre este regulamento consulte o portal relativo a esta
     nova legislação em https://www.eugdpr.org',
-    'rgpd_info_concent' => 'Concentimento',
+    'rgpd_info_consent' => 'Consentimento',
     'rgpd_no_info_stored' => 'Neste momento não temos nenhuma informação pessoal sua armazenada nos nossos servidores',
     'rgpd_info_right_access' => 'Direito ao Acesso',
     'rgpd_info_portability' => 'Direito à Portabilidade',
     'rgpd_info_right_edit' => 'Direito de Retificação',
     'rgpd_info_right_erasure' => 'Direito ao Esquecimento',
-    'rgpd_analytics_cookies' => 'Coockies de Análise',
+    'rgpd_analytics_cookies' => 'Cookies de Análise',
     'rgpd_analytics_cookies_desc' => 'Estas cookies permitem-nos analizar o trafego e identificar um utilizador',
     'rgpd_user_data_collect' => 'Dados de Utilizador',
     'rgpd_user_data_collect_desc' => 'Recolha, tratamento e transmissão de dados pessoais relacionados com a conta de utilizador',

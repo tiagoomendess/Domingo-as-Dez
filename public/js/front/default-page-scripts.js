@@ -37,3 +37,17 @@ function makeGetRequest(url, data, callback) {
     });
 
 }
+
+function makeRequest(url, data, method, callback) {
+
+    $.ajax({
+        url: url,
+        data: data,
+        type: method,
+        crossDomain: true,
+        dataType: 'JSON',
+        success: function(response) { callback(response); },
+        error: function() { console.log('failed get request to ' + url) }
+    });
+
+}

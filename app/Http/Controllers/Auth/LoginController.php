@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Resources\MediaController;
 use App\UserProfile;
+use Illuminate\Support\Facades\Cookie;
 use Intervention\Image\Facades\Image;
 use Socialite;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -51,6 +52,7 @@ class LoginController extends Controller
 
     public function logout(Request $request)
     {
+        Cookie::queue('rgpd_all_data_collect', 'false');
         Auth::logout();
         return redirect()->route('home');
     }

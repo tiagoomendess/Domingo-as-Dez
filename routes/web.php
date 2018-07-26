@@ -99,5 +99,6 @@ Route::get('/arbitros/{id}/{name_slug}', 'Front\RefereesController@show')->name(
 Route::get('/politica-de-privacidade', 'Front\DefaultController@showPrivacyPolicyPage')->name('privacy_policy');
 Route::get('/termos-e-condicoes', 'Front\DefaultController@showTermsPage')->name('terms_and_conditions');
 Route::get('/rgpd', 'Front\DefaultController@showRGPDInfoPage')->name('rgpd_info');
+Route::post('/rgpd', 'Front\DefaultController@setRGPDSettings')->name('rgpd_info.settings');
 
 

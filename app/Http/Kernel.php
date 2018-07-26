@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\SyncUserCookies;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -37,6 +38,7 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             \App\Http\Middleware\CheckBan::class,
+            \App\Http\Middleware\SyncUserCookies::class,
         ],
 
         'api' => [
