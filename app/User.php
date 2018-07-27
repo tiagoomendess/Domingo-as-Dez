@@ -45,6 +45,10 @@ class User extends Authenticatable
         return $this->hasMany(Article::class);
     }
 
+    public function delete_requests() {
+        return $this->hasMany(DeleteRequest::class);
+    }
+
     public function profile() {
         return $this->hasOne(UserProfile::class);
     }
