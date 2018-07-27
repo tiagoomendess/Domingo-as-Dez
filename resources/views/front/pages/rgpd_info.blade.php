@@ -37,7 +37,6 @@
                                     <div class="value" id="rgpd_analytics_cookies_switch">
                                         <div class="switch">
                                             <label>
-                                                Off
                                                 <input name="rgpd_analytics_cookies_switch" type="hidden" value="false">
                                                 @if ($rgpd_analytics_cookies)
                                                     <input name="rgpd_analytics_cookies_switch" type="checkbox" value="true" checked>
@@ -45,7 +44,6 @@
                                                     <input name="rgpd_analytics_cookies_switch" type="checkbox" value="true">
                                                 @endif
                                                 <span class="lever"></span>
-                                                On
                                             </label>
                                         </div>
                                     </div>
@@ -64,10 +62,8 @@
                                         <div class="value" id="rgpd_user_data_collect_switch">
                                             <div class="switch">
                                                 <label>
-                                                    Off
                                                     <input type="checkbox" checked>
                                                     <span class="lever"></span>
-                                                    On
                                                 </label>
                                             </div>
                                         </div>
@@ -84,7 +80,7 @@
                                         <div class="value" id="rgpd_all_data_collect_switch">
                                             <div class="switch">
                                                 <label>
-                                                    Off
+
                                                     <input name="rgpd_all_data_collect_switch" type="hidden" value="false">
                                                     @if ($rgpd_all_data_collect)
                                                         <input name="rgpd_all_data_collect_switch" type="checkbox" value="true" checked>
@@ -93,7 +89,7 @@
                                                     @endif
 
                                                     <span class="lever"></span>
-                                                    On
+
                                                 </label>
                                             </div>
                                         </div>
@@ -186,7 +182,7 @@
                 <div class="collapsible-body">
                     @if(Auth::check())
                         <div class="all-centered">
-                            <a href="{{ route('front.userprofile.edit') }}" class="waves-effect waves-light btn red darken-2"><i class="material-icons right">delete_forever</i>{{ trans('front.delete_account') }}</a>
+                            <a href="{{ route('front.userprofile.delete.create') }}" class="waves-effect waves-light btn red darken-2"><i class="material-icons right">delete_forever</i>{{ trans('front.delete_account') }}</a>
                         </div>
                     @else
                         <span>Não aplicável.</span>

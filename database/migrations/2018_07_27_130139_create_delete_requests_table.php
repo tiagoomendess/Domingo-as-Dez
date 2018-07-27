@@ -20,7 +20,7 @@ class CreateDeleteRequestsTable extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('verification_code');
             $table->boolean('verified')->default(false);
-            $table->boolean('canceled')->default(false);
+            $table->boolean('cancelled')->default(false);
             $table->text('motive')->nullable();
             $table->timestamps();
 

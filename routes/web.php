@@ -88,9 +88,9 @@ Route::get('/competicoes/{competition_slug}/{season_slug}/{group_slug}/{round}/{
         'clubs_slug' => '[a-z0-9\-]+-vs-[a-z0-9\-]+',
     ]);
 
-Route::get('/utilizador/perfil/editar', 'Front\UserProfileController@edit')->name('front.userprofile.edit');
-Route::post('/utilizador/perfil/editar', 'Front\UserProfileController@updateProfileInfo')->name('front.userprofile.update');
-Route::post('/utilizador/perfil/foto/alterar', 'Front\UserProfileController@updateProfilePicture')->name('front.userprofilephoto.update');
+Route::get('/perfil/editar', 'Front\UserProfileController@edit')->name('front.userprofile.edit');
+Route::post('/perfil/editar', 'Front\UserProfileController@updateProfileInfo')->name('front.userprofile.update');
+Route::post('/perfil/foto/alterar', 'Front\UserProfileController@updateProfilePicture')->name('front.userprofilephoto.update');
 Route::get('/utilizador/perfil/download', 'Front\DefaultController@downloadUserInfo')->name('front.userprofile.download');
 Route::get('/clubes/{club_slug}', 'Front\ClubController@show')->name('front.club.show');
 Route::get('/jogadores/{id}/{name_slug}', 'Front\PlayersController@show')->name('front.player.show');
@@ -100,5 +100,17 @@ Route::get('/politica-de-privacidade', 'Front\DefaultController@showPrivacyPolic
 Route::get('/termos-e-condicoes', 'Front\DefaultController@showTermsPage')->name('terms_and_conditions');
 Route::get('/rgpd', 'Front\DefaultController@showRGPDInfoPage')->name('rgpd_info');
 Route::post('/rgpd', 'Front\DefaultController@setRGPDSettings')->name('rgpd_info.settings');
+
+// RGPD DELETE REQUEST !!! IMPORTANTE !!!
+Route::get('/perfil/apagar', 'Resources\DeleteRequestsController@showDeletePage')->name('front.userprofile.delete.create');
+Route::post('/perfil/apagar', 'Resources\DeleteRequestsController@storeDeleteRequest')->name('front.userprofile.delete.store');
+
+Route::get('/perfil/apagar/verificar', 'Resources\DeleteRequestsController@showVerificationPage')->name('front.userprofile.delete.verify.show');
+Route::post('/perfil/apagar/verificar', 'Resources\DeleteRequestsController@verifyCode')->name('front.userprofile.delete.verify.store');
+
+Route::get('/perfil/apagar/cancelar', 'Resources\DeleteRequestsController@cancellationPage')->name('front.userprofile.delete.cancel.show');
+Route::post('/perfil/apagar/cancelar', 'Resources\DeleteRequestsController@cancelDeleteRequest')->name('front.userprofile.delete.cancel.store');
+
+// END --------------
 
 

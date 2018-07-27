@@ -92,5 +92,13 @@ return [
     'other_identifiable_data' => 'Outros dados que o possam identificar',
     'click_here' => 'Clique aqui',
     'download' => 'Descarregar',
-    'delete_account' => 'Apagar Conta'
+    'delete_account' => 'Apagar Conta',
+    'delete_account_warning_1' => 'Depois de a conta estar apagada não será possível, de forma alguma, reaver a informação 
+    ou utilizar as funcionalidades interativas do website. Se deseja mesmo apagar a sua conta preencha o formulário abaixo.',
+    'delete_account_understand' => 'Entendo que a minha conta será apagada para sempre',
+    'motive_palceholder' => 'Não introduza nenhuma informação pessoal neste campo. Apenas indique vagamente o Motivo. Exemplo: Descontente com o Serviço',
+    'verify_delete_code_intro' => 'Introduza o código que enviamos por email. Depois deste passo a sua conta será colocada em espera para ser eliminada permanentemente.',
+    'verify_delete_code_title' => 'Verificar Código',
+    'cancel_delete_request' => 'Cancelar Eliminação',
+    'cancel_delete_request_intro' => 'A sua conta está pendente para eliminação, iremos faze-lo logo que os recursos necessários estejam disponíveis. Para cancelar o seu pedido de eliminação clique no botão abaixo.',
 ];

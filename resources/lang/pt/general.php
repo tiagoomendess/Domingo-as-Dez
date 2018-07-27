@@ -93,4 +93,6 @@ return [
     'var' => 'VAR',
     'var_assistant' => 'Assistente VAR',
     'birth_date' => 'Data de Nascimento',
+    'motive' => 'Motivo',
+    'code' => 'Código',
 ];
