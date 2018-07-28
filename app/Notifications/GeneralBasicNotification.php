@@ -7,18 +7,21 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class DeleteQueuedNotification extends Notification
+class GeneralBasicNotification extends Notification
 {
     use Queueable;
 
+    protected $subject;
+    protected $message;
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($subject, $message)
     {
-
+        $this->subject = $subject;
+        $this->message = $message;
     }
 
     /**
@@ -40,15 +43,11 @@ class DeleteQueuedNotification extends Notification
      */
     public function toMail($notifiable)
     {
-
         return (new MailMessage)
             ->from(config('custom.site_email'), config('custom.site_name'))
-            ->subject(trans('emails.delete_queued_subject', ['site_name' => config('custom.site_name')]))
+            ->subject($this->subject)
             ->greeting(trans('emails.general_greeting', ['name' => $notifiable->name]))
-            ->line(trans('emails.delete_queued_p1'))
-            ->action(trans('general.cancel'), route('front.userprofile.delete.cancel.show'))
-            ->line(trans('emails.delete_queued_p2'));
-
+            ->line($this->message);
     }
 
     /**

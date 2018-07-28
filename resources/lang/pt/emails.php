@@ -31,4 +31,12 @@ return [
     'delete_queued_p2' => 'Se este é o seu objetivo, apenas tem de aguardar, a conta será apagada logo que possível.',
 
     'general_greeting' => 'Olá :name',
+
+    'delete_request_cancelled_subject' => 'Pedido de eliminação cancelado.',
+    'delete_request_cancelled_p1' => 'Escrevemos este email para informar que o seu pedido de eliminação de conta foi cancelado. A sua conta não será eliminada.',
+
+    'account_deleted_subject' => 'A sua conta foi eliminada.',
+    'account_deleted_p1' => 'Este será o último email que receberá da nossa parte. Logo após termos enviado este email a 
+    sua conta foi eliminada permanentemente da nossa base de dados. A partir de agora não conseguirá autenticar-se com 
+    as credenciais. Se tiver sessão iniciada, esta será terminada assim que recarregar a página.'
 ];

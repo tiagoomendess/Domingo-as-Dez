@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Resources;
 
 use App\DeleteRequest;
+use App\Jobs\ProcessDeleteRequest;
+use App\Notifications\DeleteQueuedNotification;
 use App\Notifications\VerifyDeleteRequestNotification;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\MessageBag;
 
 class DeleteRequestsController extends Controller
@@ -87,8 +90,14 @@ class DeleteRequestsController extends Controller
 
         if ($delete_request->verification_code == $code ) {
 
+            $delete_request->user->notify(new DeleteQueuedNotification());
+
+            Log::info('Delete Request verification code correct, queueing account for removal.');
+            ProcessDeleteRequest::dispatch($delete_request, $request->session())->delay(now()->addMinutes(5));
+
             $delete_request->verified = true;
             $delete_request->save();
+
             return response()->redirectTo(route('front.userprofile.delete.cancel.show'));
 
         } else {

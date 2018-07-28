@@ -6,6 +6,7 @@ use App\Notifications\VerifyEmailNotification;
 use App\User;
 use App\Http\Controllers\Controller;
 use App\UserProfile;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Validator;
@@ -65,7 +66,7 @@ class RegisterController extends Controller
         event(new Registered($user = $this->create($request->all())));
 
         return $this->registered($request, $user)
-            ?: redirect($this->redirectTo . '?email=' . urlencode($request->input('email')));
+            ?: redirect(route('verifyEmailPage', ['email' => urlencode($user->email)]));
     }
 
     /**
@@ -80,6 +81,8 @@ class RegisterController extends Controller
             'name' => 'required|string|max:155',
             'email' => 'required|string|email|max:155|unique:users',
             'password' => 'required|string|min:6|confirmed',
+            'rgpd_disclaimer' => 'required',
+            'terms_and_conditions' => 'required'
         ]);
     }
 
@@ -112,20 +115,17 @@ class RegisterController extends Controller
 
         UserProfile::create([
             'user_id' => $user->id,
+            'account_data_consent' => Carbon::now()->format("Y-m-d H:i:s"),
         ]);
 
         Auth::logout();
     }
 
-    public function verifyEmailPage() {
+    public function verifyEmailPage($email = null) {
 
-        $email = Input::get('email', 'default');
         $email = urldecode($email);
 
-        if(!$email || $email == 'default')
-            return abort(404);
-
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL))
+        if(!$email)
             return abort(404);
 
         return view('auth.verify', ['email' => $email]);

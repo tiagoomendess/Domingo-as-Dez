@@ -28,24 +28,25 @@ class SyncUserCookies
 
                 if ($user->profile->consents_analytics_cookies())
                     Cookie::queue('rgpd_analytics_cookies', 'true');
-                else
-                    Cookie::queue('rgpd_analytics_cookies', 'false');
+
             } else {
 
-                if (!$user->profile->consents_analytics_cookies() && $request->cookie('rgpd_analytics_cookies') == "true")
-                    $user->profile->analytics_cookies_consent = Carbon::now()->format("Y-m-d H:i:s");
+                if (!$user->profile->consents_analytics_cookies())
+                    setcookie('rgpd_analytics_cookies', 'false', time() - 3400, "/");
             }
 
             if (!$request->cookies->has('rgpd_all_data_collect')) {
 
                 if ($user->profile->consents_all_data())
                     Cookie::queue('rgpd_all_data_collect', 'true');
-                else
-                    Cookie::queue('rgpd_all_data_collect', 'false');
+
+            } else {
+
+                if (!$user->profile->consents_all_data())
+                    setcookie('rgpd_all_data_collect', 'false', time() - 3400, "/");
 
             }
 
-            $user->profile->save();
         }
 
         return $next($request);

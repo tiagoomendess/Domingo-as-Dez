@@ -124,8 +124,6 @@ class DefaultController extends Controller
             return response()->json($request->all());
         }
 
-        $data = new \stdClass();
-
         if (Auth::check()) {
 
             $user = Auth::user();
@@ -149,9 +147,9 @@ class DefaultController extends Controller
                 } else {
                     if (!is_null($user->profile->all_data_consent)) {
                         $user->profile->all_data_consent = null;
-                        Cookie::queue('rgpd_all_data_collect', 'false');
-                        //setcookie('rgpd_all_data_collect', 'false', time() + (10 * 365 * 24 * 60 * 60), "/");
                     }
+
+                    setcookie('rgpd_all_data_collect', 'false', time() - 3400, "/");
                 }
             }
 
@@ -173,9 +171,10 @@ class DefaultController extends Controller
                 } else {
                     if (!is_null($user->profile->analytics_cookies_consent)) {
                         $user->profile->analytics_cookies_consent = null;
-                        //setcookie('rgpd_analytics_cookies', 'false', time() + (10 * 365 * 24 * 60 * 60), "/");
-                        Cookie::queue('rgpd_analytics_cookies', 'false');
+
                     }
+
+                    setcookie('rgpd_analytics_cookies', 'false', time() - 3400, "/");
                 }
             }
 
@@ -195,14 +194,11 @@ class DefaultController extends Controller
                     Cookie::queue('rgpd_analytics_cookies', 'true');
                     //setcookie('rgpd_analytics_cookies', 'true', time() + (10 * 365 * 24 * 60 * 60), "/");
                 } else {
-                    Cookie::queue('rgpd_analytics_cookies', 'false');
-                    //setcookie('rgpd_analytics_cookies', 'false', time() + (10 * 365 * 24 * 60 * 60), "/");
+                    setcookie('rgpd_analytics_cookies', 'false', time() - 3400, "/");
                 }
             }
 
         }
-
-        $data->success = true;
 
         return response()->redirectTo(route('rgpd_info'));
     }

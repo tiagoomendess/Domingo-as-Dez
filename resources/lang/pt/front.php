@@ -100,5 +100,7 @@ return [
     'verify_delete_code_intro' => 'Introduza o código que enviamos por email. Depois deste passo a sua conta será colocada em espera para ser eliminada permanentemente.',
     'verify_delete_code_title' => 'Verificar Código',
     'cancel_delete_request' => 'Cancelar Eliminação',
-    'cancel_delete_request_intro' => 'A sua conta está pendente para eliminação, iremos faze-lo logo que os recursos necessários estejam disponíveis. Para cancelar o seu pedido de eliminação clique no botão abaixo.',
+    'cancel_delete_request_intro' => 'A sua conta está pendente para eliminação, iremos faze-lo logo que os recursos 
+    necessários estejam disponíveis. Para cancelar o seu pedido de eliminação clique no botão abaixo.',
+    'rgpd_account_data_disclaimer' => 'Autorizo o armazenamento e o processamento dos meus dados pessoais para efeitos de gestão de conta.'
 ];

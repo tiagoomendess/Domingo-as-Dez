@@ -67,6 +67,10 @@ class User extends Authenticatable
         return $this->hasMany('App\SocialProvider');
     }
 
+    public function article_comments() {
+        return $this->hasMany(ArticleComment::class);
+    }
+
     public function hasPermission($permission) {
 
         $permissions = $this->permissions;

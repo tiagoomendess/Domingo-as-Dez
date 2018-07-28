@@ -52,7 +52,7 @@ class LoginController extends Controller
 
     public function logout(Request $request)
     {
-        Cookie::queue('rgpd_all_data_collect', 'false');
+        setcookie('rgpd_all_data_collect', 'false', time() - 3400, "/");
         Auth::logout();
         return redirect()->route('home');
     }

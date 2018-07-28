@@ -66,11 +66,20 @@
 
                                     <div class="col s12">
                                         <p>
-                                            <input class="filled-in checkbox-blue" type="checkbox" id="remember" name="remember" {{ old('remember') ? 'checked' : '' }} required>
-                                            <label for="remember">{{ trans('auth.terms_and_conditions') }}</label>
+                                            <input class="filled-in checkbox-blue" type="checkbox" id="terms_and_conditions" name="terms_and_conditions" {{ old('terms_and_conditions') ? 'checked' : '' }} required>
+                                            <label for="terms_and_conditions">{{ trans('auth.terms_and_conditions') }}</label>
                                         </p>
                                     </div>
 
+                                </div>
+
+                                <div class="row">
+                                    <div class="col s12">
+                                        <p>
+                                            <input class="filled-in checkbox-blue" type="checkbox" id="rgpd_disclaimer" name="rgpd_disclaimer" {{ old('rgpd_disclaimer') ? 'checked' : '' }} required>
+                                            <label for="rgpd_disclaimer">{{ trans('front.rgpd_account_data_disclaimer') }}</label>
+                                        </p>
+                                    </div>
                                 </div>
 
                                 <div class="row">
