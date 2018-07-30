@@ -86,6 +86,7 @@ class DeleteRequestsController extends Controller
         if (count($user->delete_requests->where('cancelled', false)) != 1)
             abort(404);
 
+        //asd
         $delete_request = $user->delete_requests->where('cancelled', false)->first();
 
         if ($delete_request->verification_code == $code ) {
