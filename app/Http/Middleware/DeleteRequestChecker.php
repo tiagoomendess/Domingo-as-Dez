@@ -21,14 +21,17 @@ class DeleteRequestChecker
 
             $user = Auth::user();
 
-            $active_delete_requests = $user->delete_requests->where('cancelled', false);
+            $active_delete_requests = $user->delete_requests->where('cancelled', false)->where('verified', true);
 
             foreach ($active_delete_requests as $delete_request) {
 
                 if (!$delete_request->processed) {
-                    return view('front.pages.cancel_delete_request', ['user' => $user, 'delete_request' => $delete_request]);
+
+                    if ($request->getUri() != route('front.userprofile.delete.cancel.show'))
+                        return redirect(route('front.userprofile.delete.cancel.show'));
+
                 } else {
-                    return redirect()->route('logout');
+                    return redirect(route('logout'));
                 }
 
             }
