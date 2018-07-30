@@ -55,7 +55,11 @@ class DefaultController extends Controller
             $user_info->profile = new \stdClass();
             $user_info->profile->bio = $profile->bio;
             $user_info->profile->phone = $profile->phone;
-            $user_info->profile->picture = url($profile->getPicture());
+
+            if (!is_null($profile->picture))
+                $user_info->profile->picture = url($profile->getPicture());
+            else
+                $user_info->profile->picture = null;
 
         }else{
             $user_info = null;
@@ -66,7 +70,7 @@ class DefaultController extends Controller
 
     public function downloadUserInfo() {
 
-        $user = Auth::user();
+
         $files = array();
         $public_dir = public_path('/storage/user_profile_downloads/');
 
@@ -79,7 +83,12 @@ class DefaultController extends Controller
         $files[] = $json_file_name;
 
         if (Auth::check()) {
-            $files[] = public_path($user->profile->picture);
+
+            $user = Auth::user();
+
+            if (!is_null($user->picture))
+                $files[] = public_path($user->profile->picture);
+
         }
 
         $name = str_random(rand(3,5)) . time() . str_random(rand(3,5)) . '-data.zip';
