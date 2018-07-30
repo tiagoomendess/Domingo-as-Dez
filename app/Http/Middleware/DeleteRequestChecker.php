@@ -29,7 +29,7 @@ class DeleteRequestChecker
                     return redirect()->route('front.userprofile.delete.cancel.show');
                 } else {
 
-                    return redirect()->route('logout');
+                    return view('front.pages.cancel_delete_request', ['user' => $user, 'delete_request' => $delete_request]);
                 }
 
             }
