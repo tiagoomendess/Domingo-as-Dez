@@ -94,7 +94,6 @@ class DeleteRequestsController extends Controller
             $delete_request->user->notify(new DeleteQueuedNotification());
 
             Log::info('Delete Request verification code correct, queueing account for removal.');
-            ProcessDeleteRequest::dispatch($delete_request, $request->session())->delay(now()->addMinutes(5));
 
             $delete_request->verified = true;
             $delete_request->save();

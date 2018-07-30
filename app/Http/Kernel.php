@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\DeleteRequestChecker;
 use App\Http\Middleware\SyncUserCookies;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
@@ -39,6 +40,7 @@ class Kernel extends HttpKernel
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             \App\Http\Middleware\CheckBan::class,
             \App\Http\Middleware\SyncUserCookies::class,
+            DeleteRequestChecker::class,
         ],
 
         'api' => [
