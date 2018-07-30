@@ -38,6 +38,8 @@ class ProcessDeleteRequest implements ShouldQueue
     public function handle()
     {
 
+        Log::info('Processing Account Delete Requests');
+
         $delete_requests = DeleteRequest::where('processed', false);
 
         foreach ($delete_requests as $delete_request) {
