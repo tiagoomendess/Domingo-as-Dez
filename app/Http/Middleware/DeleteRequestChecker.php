@@ -26,10 +26,9 @@ class DeleteRequestChecker
             foreach ($active_delete_requests as $delete_request) {
 
                 if (!$delete_request->processed) {
-                    return redirect()->route('front.userprofile.delete.cancel.show');
-                } else {
-
                     return view('front.pages.cancel_delete_request', ['user' => $user, 'delete_request' => $delete_request]);
+                } else {
+                    return redirect()->route('logout');
                 }
 
             }
