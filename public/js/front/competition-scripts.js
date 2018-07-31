@@ -316,13 +316,13 @@ function buildPointsTable(group, round) {
         var position = $('<td class="number">' + (k + 1) + '</td>');
         var club_emblem = $('<td class="table-club-emblem"><img src="' + table[k].club_emblem + '"/></td>');
         var club_name = $('<td><a href="' + table[k].club_url + '">' + table[k].club_name + '</a></td>');
-        var matches_played = $('<td class="number">' + table[k].matches_played + '</td>');
-        var wins = $('<td class="number">' + table[k].wins + '</td>');
-        var draws = $('<td class="number">' + table[k].draws + '</td>');
-        var loses = $('<td class="number">' + table[k].loses + '</td>');
-        var gf = $('<td class="number">' + table[k].gf + '</td>');
-        var ga = $('<td class="number">' + table[k].ga + '</td>');
-        var gd = $('<td class="number">' + '0' + '</td>');
+        var matches_played = $('<td class="number hide-on-small-and-down">' + table[k].matches_played + '</td>');
+        var wins = $('<td class="number hide-on-med-and-down">' + table[k].wins + '</td>');
+        var draws = $('<td class="number hide-on-med-and-down">' + table[k].draws + '</td>');
+        var loses = $('<td class="number hide-on-med-and-down">' + table[k].loses + '</td>');
+        var gf = $('<td class="number hide-on-med-and-down">' + table[k].gf + '</td>');
+        var ga = $('<td class="number hide-on-med-and-down">' + table[k].ga + '</td>');
+        var gd = $('<td class="number hide-on-small-and-down">' + (parseInt(table[k].gf) - parseInt(table[k].ga)) + '</td>');
         var points = $('<td class="number">' + table[k].points + '</td>');
 
         position.appendTo(line);

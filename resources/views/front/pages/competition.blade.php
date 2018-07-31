@@ -45,21 +45,21 @@
                                 <div class="overview hide" id="overview">
                                     <a href="">
                                         <div class="teams">
-                                            <div class="col s5 home-team">
+                                            <div class="col s4 m5 home-team">
                                                 <div>
-                                                    <span></span>
+                                                    <span class="hide-on-small-only"></span>
                                                     <img src="" alt="">
                                                 </div>
                                             </div>
 
-                                            <div class="separator col s2">
+                                            <div class="separator col s4 m2">
                                                 <time></time>
                                             </div>
 
-                                            <div class="away-team col s5">
+                                            <div class="away-team col s4 m5">
                                                 <div>
                                                     <img src="" alt="">
-                                                    <span></span>
+                                                    <span class="hide-on-small-only"></span>
                                                 </div>
                                             </div>
 
@@ -98,13 +98,13 @@
                                         <th class="number">#</th>
                                         <th> </th>
                                         <th>{{ trans('front.table_club') }}</th>
-                                        <th class="number">{{ trans('front.table_played') }}</th>
-                                        <th class="number">{{ trans('front.table_wins') }}</th>
-                                        <th class="number">{{ trans('front.table_draws') }}</th>
-                                        <th class="number">{{ trans('front.table_loses') }}</th>
-                                        <th class="number">{{ trans('front.table_goals_favor') }}</th>
-                                        <th class="number">{{ trans('front.table_goals_against') }}</th>
-                                        <th class="number">{{ trans('front.table_goal_difference') }}</th>
+                                        <th class="number hide-on-small-and-down">{{ trans('front.table_played') }}</th>
+                                        <th class="number hide-on-med-and-down">{{ trans('front.table_wins') }}</th>
+                                        <th class="number hide-on-med-and-down">{{ trans('front.table_draws') }}</th>
+                                        <th class="number hide-on-med-and-down">{{ trans('front.table_loses') }}</th>
+                                        <th class="number hide-on-med-and-down">{{ trans('front.table_goals_favor') }}</th>
+                                        <th class="number hide-on-med-and-down">{{ trans('front.table_goals_against') }}</th>
+                                        <th class="number hide-on-small-and-down">{{ trans('front.table_goal_difference') }}</th>
                                         <th class="number">{{ trans('front.table_points') }}</th>
                                     </tr>
                                     </thead>

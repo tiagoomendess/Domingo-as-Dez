@@ -130,7 +130,7 @@
 .separator time {
     background-color: #989898;
     font-weight: bold;
-    padding: 5px 10px;
+    padding: 0.2rem 0.5rem;
     color: #FFFFFF;
 }
 
@@ -142,8 +142,9 @@
     width: 2rem;
 }
 
-.tables .positions-table tbody tr {
-    height: 2.5rem;
+.tables > .positions-table > tbody > tr {
+    position: relative;
+    height: 2.9rem;!important;
 
 }
 
@@ -156,7 +157,7 @@
 }
 
 .tables .positions-table tbody tr td {
-    padding: 0 5px;
+    padding: 0 .2rem;
     vertical-align: middle;
     height: 100%;
     font-size: 1rem;
