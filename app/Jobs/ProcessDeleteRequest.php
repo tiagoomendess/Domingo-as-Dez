@@ -38,19 +38,23 @@ class ProcessDeleteRequest implements ShouldQueue
     public function handle()
     {
 
-        Log::info('Processing Account Delete Requests');
+        $deleted = 0;
+        $canceled = 0;
 
-        $delete_requests = DeleteRequest::where('processed', false);
+        $delete_requests = DeleteRequest::where('processed', false)->get();
+        $total_requests = count($delete_requests);
+        Log::info('Processing ' . $total_requests . ' Account Delete Requests');
 
         foreach ($delete_requests as $delete_request) {
 
-            Log::info('Processing delete request id ' . $this->delete_request->id);
+            Log::info('Processing delete request id ' . $delete_request->id);
             $user = $delete_request->user;
 
             if ($delete_request->cancelled) {
                 $delete_request->processed = true;
                 $delete_request->save();
                 Log::info('Not deleting account ' . $user->id . ' because user cancelled the request (' . $delete_request->id . ').');
+                $canceled++;
                 continue;
             }
 
@@ -84,9 +88,15 @@ class ProcessDeleteRequest implements ShouldQueue
 
             DB::table('social_providers')->where('user_id', $user->id)->delete();
 
-            Log::info('Delete request id ' . $this->delete_request->id . ' finished!');
+            $delete_request->processed = true;
+            $delete_request->save();
+
+            Log::info('Delete request id ' . $delete_request->id . ' finished!');
+            $deleted++;
 
         }
+
+        Log::info('Finished. ' . $total_requests . ' requests processed, ' . $deleted . ' deleted and ' . $canceled . ' cancelled!');
 
     }
 }
