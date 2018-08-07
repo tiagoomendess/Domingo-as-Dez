@@ -57,6 +57,12 @@
                                             </div>
                                         @endforeach
                                     </div>
+                                    @if(has_permission('teams.edit.' . $team->id))
+                                        <div class="row">
+                                                <a href="{{ route('teams.show', ['team' => $team]) }}" class="btn-floating btn-large waves-effect waves-light blue right"><i class="material-icons">edit</i></a>
+                                        </div>
+                                    @endif
+
                                 </div>
                             @endforeach
                         </div>
@@ -106,6 +112,15 @@
             </div>
         </div>
     </div>
+
+    @if(has_permission('clubs.edit.' . $club->id))
+        <div class="row">
+            <div class="container">
+                <a href="{{ route('clubs.show', ['club' => $club]) }}" class="btn-floating btn-large waves-effect waves-light blue right"><i class="material-icons">edit</i></a>
+            </div>
+        </div>
+    @endif
+
 @endsection
 
 @section('scripts')

@@ -118,11 +118,21 @@
                         <div id="home_goals">
                             @foreach($game->getHomeGoals()->sortBy('minute') as $goal)
                                 <div class="goal-overview">
-                                    <figure>
-                                        <img src="{{ $goal->getPlayerPicture() }}" alt="{{ $goal->getPlayerName() }}">
-                                    </figure>
-                                    <span class="player-name">{{ $goal->getPlayerName() }}</span>
-                                    <span class="minute right">{{ $goal->minute }}"</span>
+                                    <a href="
+                                        @if(has_permission('goals.edit.' . $goal->id))
+                                            {{ route('goals.show', ['goal' => $goal]) }}
+                                        @elseif(!is_null($goal->player))
+                                            {{ route('front.player.show', ['id' => $goal->player->id, 'name_slug' => str_slug($goal->player->name)]) }}
+                                        @else
+                                            #
+                                        @endif">
+
+                                        <figure>
+                                            <img src="{{ $goal->getPlayerPicture() }}" alt="{{ $goal->getPlayerName() }}">
+                                        </figure>
+                                        <span class="player-name">{{ $goal->getPlayerName() }}</span>
+                                        <span class="minute right">{{ $goal->minute }}"</span>
+                                    </a>
                                 </div>
                             @endforeach
 
@@ -174,11 +184,22 @@
                         <div id="away_goals">
                             @foreach($game->getAwayGoals()->sortBy('minute') as $goal)
                                 <div class="goal-overview">
-                                    <figure>
-                                        <img src="{{ $goal->getPlayerPicture() }}" alt="{{ $goal->getPlayerName() }}">
-                                    </figure>
-                                    <span class="player-name">{{ $goal->getPlayerName() }}</span>
-                                    <span class="minute right">{{ $goal->minute }}"</span>
+                                    <a href="
+                                        @if(has_permission('goals.edit.' . $goal->id))
+                                            {{ route('goals.show', ['goal' => $goal]) }}
+                                        @elseif(!is_null($goal->player))
+                                            {{ route('front.player.show', ['id' => $goal->player->id, 'name_slug' => str_slug($goal->player->name)]) }}
+                                        @else
+                                            #
+                                        @endif">
+
+                                        <figure>
+                                            <img src="{{ $goal->getPlayerPicture() }}" alt="{{ $goal->getPlayerName() }}">
+                                        </figure>
+                                        <span class="player-name">{{ $goal->getPlayerName() }}</span>
+                                        <span class="minute right">{{ $goal->minute }}"</span>
+                                    </a>
+
                                 </div>
                             @endforeach
 
@@ -193,6 +214,15 @@
 
         </div>
     </div>
+
+    @if(has_permission('games.edit.' . $game->id))
+        <div class="row">
+            <div class="container">
+                <a href="{{ route('games.show', ['game' => $game]) }}" class="btn-floating btn-large waves-effect waves-light blue right"><i class="material-icons">edit</i></a>
+            </div>
+        </div>
+    @endif
+
 @endsection
 
 @section ('scripts')
