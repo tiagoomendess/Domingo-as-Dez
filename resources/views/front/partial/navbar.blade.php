@@ -3,21 +3,22 @@
         <nav>
             <div class="nav-wrapper darken-1">
                 <div class="row">
-                    <div class="container">
 
-                        <a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">menu</i></a>
+                    <a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">menu</i></a>
 
-                        <a href="{{ route('homePage') }}" class="brand-logo hide-on-med-and-down left">
-                            <img class="navbar-logo" src="{{ config('custom.site_logo') }}">
-                        </a>
-
-                        <div class="hide-on-large-only">
+                    <div class="hide-on-large-only">
                             <span id="navbar_title" class="hide truncate">
                                 @if(isset($navbar_title))
                                     {{ $navbar_title }}
                                 @endif
                             </span>
-                        </div>
+                    </div>
+
+                    <div class="container">
+
+                        <a href="{{ route('homePage') }}" class="brand-logo hide-on-med-and-down left">
+                            <img class="navbar-logo" src="{{ config('custom.site_logo') }}">
+                        </a>
 
                         <ul id="nav-mobile" class="hide-on-med-and-down navbar-items">
                             <li>

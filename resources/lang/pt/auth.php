@@ -41,5 +41,6 @@ return [
     'name' => 'Nome',
     'verify_email' => 'Verifique o Email',
     'verify_email_help' => 'Antes de poder aceder à sua conta, precisamos de ter a certeza que o email :email lhe 
-    pertence. Entre na sua caixa de correio e siga as instruções que lhe enviamos'
+    pertence. Entre na sua caixa de correio e siga as instruções que lhe enviamos',
+    'you_need_permission' => 'Se acredita que isto é um erro, contacte o administrador do website. Você precisa da permissão :permission',
 ];

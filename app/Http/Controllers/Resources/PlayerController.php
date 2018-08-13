@@ -18,8 +18,9 @@ class PlayerController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('permission:players');
-        $this->middleware('permission:players.edit')->except(['index', 'show']);
+        $this->middleware('permission:players')->only(['index', 'show']);
+        $this->middleware('permission:players.edit')->only(['edit', 'update']);
+        $this->middleware('permission:players.create')->only(['create', 'store', 'destroy']);
     }
 
     /**

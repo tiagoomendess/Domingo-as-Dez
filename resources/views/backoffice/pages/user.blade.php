@@ -44,7 +44,7 @@
             @else
                 <ul class="flow-text">
                     @foreach($permissions as $perm)
-                        <li>{{ trans('permissions.' . $perm->name) }}</li>
+                        <li>{{ $perm->name }}</li>
                     @endforeach
                 </ul>
             @endif

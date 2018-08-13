@@ -21,7 +21,6 @@
                     <tr>
                         <th>{{ trans('general.id') }}</th>
                         <th>{{ trans('general.name') }}</th>
-                        <th>{{ trans('general.description') }}</th>
                     </tr>
                     </thead>
 
@@ -30,7 +29,6 @@
                         <tr>
                             <td>{{ $permission->id }}</td>
                             <td><a href="{{ route('permissions.show', ['permission' => $permission]) }}">{{ $permission->name }}</a></td>
-                            <td>{{ trans('permissions.' . $permission->name) }}</td>
                         </tr>
 
                     @endforeach

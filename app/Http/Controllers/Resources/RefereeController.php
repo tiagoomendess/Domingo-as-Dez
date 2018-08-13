@@ -16,8 +16,9 @@ class RefereeController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('permission:referees.edit')->only(['edit', 'update']);
+        $this->middleware('permission:referees.create')->only(['create', 'store', 'destroy']);
         $this->middleware('permission:referees');
-        $this->middleware('permission:referees.edit')->except(['index', 'show']);
     }
 
     /**

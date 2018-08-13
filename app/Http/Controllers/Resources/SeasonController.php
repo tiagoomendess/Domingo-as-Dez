@@ -14,8 +14,9 @@ class SeasonController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('permission:seasons.edit')->only(['edit', 'update']);
+        $this->middleware('permission:seasons.create')->only(['create', 'store', 'destroy']);
         $this->middleware('permission:seasons');
-        $this->middleware('permission:seasons.edit')->except(['index', 'show']);
     }
 
     /**

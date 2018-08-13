@@ -16,8 +16,9 @@ class ArticleController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('permission:articles');
-        $this->middleware('permission:articles.edit')->except(['index', 'show']);
+        $this->middleware('permission:articles')->only(['index', 'show']);
+        $this->middleware('permission:articles.edit')->only(['edit', 'update']);
+        $this->middleware('permission:articles.create')->only(['create', 'store', 'destroy']);
     }
 
     /**

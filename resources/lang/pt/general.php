@@ -95,4 +95,5 @@ return [
     'birth_date' => 'Data de Nascimento',
     'motive' => 'Motivo',
     'code' => 'Código',
+    'go_back' => 'Voltar atrás',
 ];

@@ -21,8 +21,10 @@ class MediaController extends Controller
     {
 
         $this->middleware('auth');
+        $this->middleware('permission:media.edit')->only(['edit', 'update']);
+        $this->middleware('permission:articles.create')->only(['mediaQuery']);
+        $this->middleware('permission:media.create')->only(['create', 'store', 'destroy']);
         $this->middleware('permission:media');
-        $this->middleware('permission:media.edit')->except(['index', 'show']);
     }
 
     /**

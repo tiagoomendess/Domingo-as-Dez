@@ -16,8 +16,9 @@ class ClubController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('permission:clubs');
-        $this->middleware('permission:clubs.edit')->except(['index', 'show']);
+        $this->middleware('permission:clubs')->only(['index', 'show', 'getTeams']);
+        $this->middleware('permission:clubs.edit')->only(['edit', 'update']);
+        $this->middleware('permission:clubs.create')->only(['create', 'store', 'destroy']);
     }
 
     /**

@@ -12,16 +12,17 @@ if (!function_exists('has_permission')) {
         if (!$user)
             return false;
 
+        if (is_null($permission_name))
+            return true;
+
         $permissions = $user->permissions;
 
         foreach ($permissions as $perm) {
 
             if ($perm->name == 'admin')
                 return true;
-            else if (str_contains($permission_name, $perm->name))
+            else if ($permission_name == $perm->name)
                 return true;
-            else
-                    return true;
 
         }
 

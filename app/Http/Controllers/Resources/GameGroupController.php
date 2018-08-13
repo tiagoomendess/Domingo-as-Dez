@@ -13,8 +13,9 @@ class GameGroupController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('permission:game_groups.edit')->only(['edit', 'update']);
+        $this->middleware('permission:game_groups.create')->only(['create', 'store', 'destroy']);
         $this->middleware('permission:game_groups');
-        $this->middleware('permission:game_groups.edit')->except(['index', 'show']);
     }
 
     /**

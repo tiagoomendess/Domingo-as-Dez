@@ -13,8 +13,9 @@ class PermissionController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('permission:permissions.edit')->only(['edit', 'update']);
+        $this->middleware('permission:permissions.create')->only(['create', 'store', 'destroy']);
         $this->middleware('permission:permissions');
-        $this->middleware('permission:permissions.edit')->except(['index', 'show']);
     }
 
     /**

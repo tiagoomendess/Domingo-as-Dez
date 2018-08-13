@@ -16,8 +16,9 @@ class CompetitionController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('permission:competitions');
-        $this->middleware('permission:competitions.edit')->except(['index', 'show']);
+        $this->middleware('permission:competitions')->only(['index', 'show', 'getSeasons']);
+        $this->middleware('permission:competitions.edit')->only(['edit', 'update']);
+        $this->middleware('permission:competitions.create')->only(['create', 'store', 'destroy']);
     }
 
     /**

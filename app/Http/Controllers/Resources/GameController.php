@@ -20,8 +20,9 @@ class GameController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('permission:games');
-        $this->middleware('permission:games.edit')->except(['index', 'show']);
+        $this->middleware('permission:games')->only(['index', 'show', 'getTeams']);
+        $this->middleware('permission:games.edit')->only(['edit', 'update']);
+        $this->middleware('permission:games.create')->only(['create', 'store', 'destroy', 'showImportPage', 'importGames']);
     }
 
     /**

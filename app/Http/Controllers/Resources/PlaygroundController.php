@@ -13,8 +13,9 @@ class PlaygroundController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('permission:playgrounds.edit')->only(['edit', 'update']);
+        $this->middleware('permission:playgrounds.create')->only(['create', 'store', 'destroy']);
         $this->middleware('permission:playgrounds');
-        $this->middleware('permission:playgrounds.edit')->except(['index', 'show']);
     }
 
     /**

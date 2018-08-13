@@ -16,20 +16,16 @@ class CheckPermission
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure  $next
+     * @param String $permission
      * @return mixed
      */
     public function handle($request, Closure $next, $permission = null)
     {
 
-        $user = Auth::user();
+        if (has_permission($permission))
+            return $next($request);
+        else
+            return abort(403, trans('auth.you_need_permission', ['permission' => $permission]));
 
-        $permissions = $user->permissions;
-
-        foreach ($permissions as $perm) {
-            if ($perm->name == $permission || $perm->name == 'admin')
-                return $next($request);
-        }
-
-        return abort(404, trans('auth.permission_denied'));
     }
 }

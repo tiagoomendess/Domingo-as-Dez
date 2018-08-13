@@ -13,8 +13,9 @@ class TeamController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('permission:teams.edit')->only(['edit', 'update']);
+        $this->middleware('permission:teams.create')->only(['create', 'store', 'destroy']);
         $this->middleware('permission:teams');
-        $this->middleware('permission:teams.edit')->except(['index', 'show']);
     }
 
     /**

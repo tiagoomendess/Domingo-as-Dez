@@ -16,8 +16,9 @@ class GoalController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('permission:goals.edit')->only(['edit', 'update']);
+        $this->middleware('permission:goals.create')->only(['create', 'store', 'destroy']);
         $this->middleware('permission:goals');
-        $this->middleware('permission:goals.edit')->except(['index', 'show']);
     }
 
     /**
