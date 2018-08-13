@@ -9,9 +9,8 @@
     <div class="container">
         <h1>{{ trans('front.live_matches') }}</h1>
 
-        <div id="live_matches"> </div>
+        <div id="live_matches"></div>
         @include('front.partial.live_matches_template')
-
 
     </div>
 @endsection
