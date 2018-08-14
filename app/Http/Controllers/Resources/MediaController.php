@@ -33,7 +33,7 @@ class MediaController extends Controller
      */
     public function index()
     {
-        $medias = Media::paginate(config('custom.results_per_page'));
+        $medias = Media::where('id', '>', 0)->orderBy('id', 'desc')->paginate(config('custom.results_per_page'));
         return view('backoffice.pages.medias')->with(['medias' => $medias]);
     }
 
@@ -86,7 +86,7 @@ class MediaController extends Controller
 
         $request->validate([
             'tags' => 'required|max:255|String',
-            'url' => 'required_without:file|max:255|url|nullable',
+            'url' => 'required_without:file|max:255|url|nullable|unique:media,url',
             'file' => 'nullable|required_without:url|file|max:200000',
             'visible' => 'required',
         ]);
@@ -163,6 +163,11 @@ class MediaController extends Controller
                 //melhorar depois
                 return redirect()->back();
             }
+        }
+
+        if (!$media->generateThumbnail()) {
+            $errors->add('thumbnail_error', 'Erro ao gerar a thumbnail');
+            return redirect()->back()->withErrors($errors);
         }
 
         $message = new MessageBag();
@@ -269,9 +274,12 @@ class MediaController extends Controller
         if (!str_contains($media->url, 'http')){
 
             $path = str_replace('storage', 'public', $media->url);
+            $path_thumbnail = str_replace('storage', 'public', $media->thumbnail_url);
 
             try {
                 Storage::delete($path);
+                Storage::delete($path_thumbnail);
+
             } catch (Exception $e) {
                 $errors = new MessageBag();
                 $errors->add('error_deleting', trans('errors.deleting_file'));

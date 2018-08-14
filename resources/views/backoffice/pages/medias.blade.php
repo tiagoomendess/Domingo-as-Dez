@@ -23,13 +23,7 @@
                         <div class="col xs12 s12 m6 l3">
                             <div class="card small">
                                 <div class="card-image">
-
-                                    @if($media->media_type == 'image')
-                                        <img src="{{ $media->url }}">
-                                    @else
-                                        <img src="http://placehold.it/1280x720">
-                                    @endif
-
+                                    <img src="{{ $media->thumbnail_url ? $media->thumbnail_url : 'http://placehold.it/350x200' }}">
                                 </div>
                                 <div class="card-content">
                                     <p>{{ $media->tags }}</p>

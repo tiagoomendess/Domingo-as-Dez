@@ -3,10 +3,11 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Intervention\Image\Facades\Image;
 
 class Media extends Model
 {
-    protected $fillable = ['user_id', 'url', 'media_type', 'tags', 'visible'];
+    protected $fillable = ['user_id', 'url', 'thumbnail_url', 'media_type', 'tags', 'visible'];
 
     protected $guarded = [];
 
@@ -72,5 +73,60 @@ class Media extends Model
         }
 
         return $url;
+    }
+
+    public function generateThumbnail() {
+
+        if (!is_null($this->thumbnail_url))
+            return false;
+
+        switch ($this->media_type) {
+            case "image":
+                $img = Image::make(public_path($this->url));
+                break;
+            case "youtube":
+                $play_btn = Image::make(public_path('/images/play_button.png'));
+
+                preg_match("/watch\?v\=[a-zA-z0-9\-\_]+/", $this->url,$matches);
+
+                if (count($matches) < 1)
+                    return false;
+
+                $video_id = str_replace("watch?v=", "", $matches[0]);
+                $img = Image::make("https://img.youtube.com/vi/" . $video_id ."/maxresdefault.jpg");
+                $img->insert($play_btn, 'center');
+
+                break;
+
+            default:
+
+                $img = Image::canvas(800,800, "#107db7");
+
+                preg_match('/[a-zA-z0-9]{3}$/', $this->url, $matches);
+                $name = count($matches) > 0 ? $matches[0] : str_random(3);
+
+                $img = $img->text(strtoupper($name), 400, 400, function($font) {
+                    $font->file(public_path('/Roboto-Black.ttf'));
+                    $font->size(400);
+                    $font->color('#ffffff');
+                    $font->align('center');
+                    $font->valign('center');
+                });
+
+                break;
+        }
+
+        $img->resize(800, null, function ($constraint) {
+            $constraint->aspectRatio();
+            $constraint->upsize();
+        });
+
+        $path = config('custom.media_thumbnails') . '/' . $this->id . '.jpg';
+        $img->save(public_path($path));
+        $this->thumbnail_url = $path;
+        $this->save();
+
+        return true;
+
     }
 }

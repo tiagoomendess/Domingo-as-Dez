@@ -17,6 +17,7 @@ return [
     'media_images_folder' => '/storage/media/images',
     'media_videos_folder' => '/storage/media/videos',
     'media_other_folder' => '/storage/media/files',
+    'media_thumbnails' => '/storage/media/thumbnails',
     'dashboard_sidenav_image' => '/images/sidenav_image.jpg',
     'site_sidenav_image' => '/images/sidenav_image_blur.jpg',
     'user_avatars_path' => '/storage/uploads/users/avatars',

@@ -97,10 +97,10 @@
             m4.appendTo(m3);
 
 
-            if (response[i].media_type == 'image') {
+            if (response[i].thumbnail_url !== null) {
                 var m5 = $('<img/>');
                 m5.attr('id', 'm_5_' + i);
-                m5.attr('src', response[i].url);
+                m5.attr('src', response[i].thumbnail_url);
                 m5.appendTo(m4);
             } else {
                 var m5 = $('<img style="min-height: min-height: 100%"/>');

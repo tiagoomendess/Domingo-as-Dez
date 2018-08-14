@@ -17,6 +17,7 @@ class CreateMediaTable extends Migration
             $table->increments('id');
             $table->integer('user_id');
             $table->text('url');
+            $table->text('thumbnail_url')->nullable();
             $table->enum('media_type', ['none', 'image', 'video', 'youtube', 'download', 'other']);
             $table->text('tags')->nullable();
             $table->boolean('visible')->default(true);
