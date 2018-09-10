@@ -15,10 +15,12 @@ class CreateUserBansTable extends Migration
     {
         Schema::create('user_bans', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('banned_user_id')->unique();
+            $table->integer('banned_user_id')->unsigned();
+            $table->foreign('banned_user_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('reason');
-            $table->integer('banned_by_user_id');
-            $table->boolean('pardoned');
+            $table->integer('banned_by_user_id')->unsigned();
+            $table->foreign('banned_by_user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->boolean('pardoned')->default(false);
             $table->timestamps();
         });
     }

@@ -19,7 +19,7 @@ class CreatePlaygroundsTable extends Migration
             $table->foreign('club_id')->references('id')->on('clubs')->onDelete('cascade');
             $table->string('name');
             $table->string('surface');
-            $table->integer('width')->nullable(); //In meters
+            $table->integer('width')->nullable(); //pitch In meters
             $table->integer('height')->nullable();
             $table->integer('capacity')->nullable();
             $table->text('picture')->nullable(); //Url to picture

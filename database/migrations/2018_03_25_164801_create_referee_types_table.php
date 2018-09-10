@@ -19,7 +19,7 @@ class CreateRefereeTypesTable extends Migration
             $table->timestamps();
         });
 
-        DB::table('permissions')->insert([
+        DB::table('referee_types')->insert([
             ['name' => 'main'],
             ['name' => 'assistant'],
             ['name' => 'fourth_official'],

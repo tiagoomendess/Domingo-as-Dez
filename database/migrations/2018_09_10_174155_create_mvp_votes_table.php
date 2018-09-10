@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateArticleCommentsTable extends Migration
+class CreateMvpVotesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,18 @@ class CreateArticleCommentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('article_comments', function (Blueprint $table) {
+        Schema::create('mvp_votes', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('article_id')->unsigned();
-            $table->foreign('article_id')->references('id')->on('artiScles')->onDelete('cascade');
-            $table->integer('article_comment_id')->unsigned()->nullable();
-            $table->foreign('article_comment_Sid')->references('id')->on('article_comments')->onDelete('cascade');
-            $table->text('content')->nullable();
+
+            $table->integer('game_id')->unsigned();
+            $table->foreign('game_id')->references('id')->on('games')->onDelete('cascade');
+
+            $table->integer('player_id')->unsigned();
+            $table->foreign('player_id')->references('id')->on('players')->onDelete('cascade');
+
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+
             $table->timestamps();
         });
     }
@@ -33,6 +36,6 @@ class CreateArticleCommentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('article_comments');
+        Schema::dropIfExists('mvp_votes');
     }
 }

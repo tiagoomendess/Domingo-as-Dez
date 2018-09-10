@@ -15,7 +15,8 @@ class CreateMediaTable extends Migration
     {
         Schema::create('media', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id');
+            $table->integer('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->text('url');
             $table->text('thumbnail_url')->nullable();
             $table->enum('media_type', ['none', 'image', 'video', 'youtube', 'download', 'other']);
@@ -23,6 +24,8 @@ class CreateMediaTable extends Migration
             $table->boolean('visible')->default(true);
             $table->timestamps();
         });
+
+        Schema::enableForeignKeyConstraints();
     }
 
     /**

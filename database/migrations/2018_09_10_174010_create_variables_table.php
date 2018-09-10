@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateMessageCommentsTable extends Migration
+class CreateVariablesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,9 @@ class CreateMessageCommentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('message_comments', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('user_id');
-            $table->integer('message_id');
-            $table->text('content');
-            $table->integer('visible')->default(true);
+        Schema::create('variables', function (Blueprint $table) {
+            $table->string('name', 20);
+            $table->text('value');
             $table->timestamps();
         });
     }
@@ -30,6 +27,6 @@ class CreateMessageCommentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('message_comments');
+        Schema::dropIfExists('variables');
     }
 }
