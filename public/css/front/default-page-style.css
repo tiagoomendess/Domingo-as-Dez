@@ -299,3 +299,15 @@ p {
     width: 100%;
     height: 100%;
 }
+
+.vertical-spacer {
+    width: 100%;
+    height: 1rem;
+}
+
+.horizontal-divider {
+    width: 100%;
+    height: .1rem;
+    background-color: #878787;
+    box-shadow: 0 0 3px #858585;
+}

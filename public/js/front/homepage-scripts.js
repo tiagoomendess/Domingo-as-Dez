@@ -19,7 +19,6 @@ function changeNewsTile() {
 
     current_news.attr('class', 'hide');
     next.attr('class', 'active');
-    //initializeProgressBar();
 
 }
 

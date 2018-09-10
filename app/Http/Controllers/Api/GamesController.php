@@ -114,4 +114,17 @@ class GamesController extends Controller
 
         return response()->json($return_object);
     }
+
+    public function isLive() {
+
+        $data = new \stdClass();
+
+        if (count(Game::getLiveGames()) > 0)
+            $data->is_live = true;
+        else
+            $data->is_live = false;
+
+        return response()->json($data);
+
+    }
 }

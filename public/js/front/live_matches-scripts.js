@@ -1,14 +1,16 @@
 $(document).ready(function(){
-    start();
+    console.log('Live Matches scripts loaded!');
 });
 
 function start() {
+    console.log('Start live matches');
     makeGetRequest('/api/games/live', {}, updateMatches);
     liveMatches();
 }
 
 function updateMatches(response) {
 
+    console.log('Updating Matches...');
     var live_matches_element = $('#live_matches');
     live_matches_element.empty();
 
@@ -75,3 +77,5 @@ function liveMatches() {
     }, 5000);
 
 }
+
+start();

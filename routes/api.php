@@ -23,3 +23,4 @@ Route::get('/seasons/{season}', 'Api\SeasonsController@show')->name('api.seasons
 Route::get('/seasons/{season}/games', 'Api\SeasonsController@getGames')->name('api.seasons.games')->where(['season' => '[0-9]+']);
 Route::get('/games/{game}', 'Api\GamesController@show')->name('api.games.show')->where(['game' => '[0-9]+']);
 Route::get('/games/live', 'Api\GamesController@getLiveMatches')->name('api.games.live');
+Route::get('/games/is_live', 'Api\GamesController@isLive')->name('api.games.is_live');
