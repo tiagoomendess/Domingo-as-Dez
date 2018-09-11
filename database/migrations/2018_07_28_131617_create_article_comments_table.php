@@ -16,7 +16,7 @@ class CreateArticleCommentsTable extends Migration
         Schema::create('article_comments', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('article_id')->unsigned();
-            $table->foreign('article_id')->references('id')->on('artiScles')->onDelete('cascade');
+            $table->foreign('article_id')->references('id')->on('articles')->onDelete('cascade');
             $table->integer('article_comment_id')->unsigned()->nullable();
             $table->foreign('article_comment_Sid')->references('id')->on('article_comments')->onDelete('cascade');
             $table->text('content')->nullable();
