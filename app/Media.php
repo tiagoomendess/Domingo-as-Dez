@@ -100,7 +100,7 @@ class Media extends Model
 
             default:
 
-                $img = Image::canvas(800,800, "#107db7");
+                $img = Image::canvas(900,900, "#107db7");
 
                 preg_match('/[a-zA-z0-9]{3}$/', $this->url, $matches);
                 $name = count($matches) > 0 ? $matches[0] : str_random(3);
@@ -116,7 +116,7 @@ class Media extends Model
                 break;
         }
 
-        $img->resize(800, null, function ($constraint) {
+        $img->resize(900, null, function ($constraint) {
             $constraint->aspectRatio();
             $constraint->upsize();
         });

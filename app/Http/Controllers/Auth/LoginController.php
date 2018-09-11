@@ -140,37 +140,38 @@ class LoginController extends Controller
         //If the user don't allow us to see the email
         if (!$socialUser->getEmail()) {
             $errors = new MessageBag();
-            $errors->add('login', trans('auth.failed'));
+            $errors->add('login', trans('auth.we_need_email_access'));
             return redirect()->route('login')->withErrors($errors);
         }
 
         //If there is not a social provider
         if (!$socialProvider) {
 
-            $user = User::where('email', $socialUser->getEmail())->first();
-
-            //if there is no user, create one
-            if (!$user) {
-
-                $user = User::create([
-                    'name' => $socialUser->getName(),
-                    'email' => $socialUser->getEmail(),
-                    'verified' => true,
-                ]);
-
-                $image = Image::make($socialUser->getAvatar());
-
-                try {
-                    $url = MediaController::storeSquareImage($image, str_random(9), 400, 'jpg', config('custom.user_avatars_path'));
-                } catch(Exception $e) {
-                    $url = null;
-                }
-
-                $userProfile = UserProfile::create([
-                    'picture' => $url,
-                    'user_id' => $user->id,
-                ]);
+            if (count(User::where('email', $socialUser->getEmail())->get()) > 0) {
+                $errors = new MessageBag();
+                $errors->add('login', trans('auth.email_already_exists'));
+                return redirect()->route('login')->withErrors($errors);
             }
+
+            $user = User::create([
+                'name' => $socialUser->getName(),
+                'email' => $socialUser->getEmail(),
+                'verified' => true,
+            ]);
+
+            $image = Image::make($socialUser->getAvatar());
+
+            try {
+                $url = MediaController::storeSquareImage($image, str_random(9), 400, 'jpg', config('custom.user_avatars_path'));
+            } catch(Exception $e) {
+                $url = null;
+            }
+
+            UserProfile::create([
+                'picture' => $url,
+                'user_id' => $user->id,
+            ]);
+
 
             //Create the socialProvider
             $user->socialProviders()->create([

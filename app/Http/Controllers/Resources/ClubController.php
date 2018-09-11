@@ -76,12 +76,14 @@ class ClubController extends Controller
 
             $url = MediaController::storeSquareImage($image, $filename);
 
-            Media::create([
+            $media = Media::create([
                 'user_id' => Auth::user()->id,
                 'url' => $url,
                 'media_type' => 'image',
                 'tags' => trans('models.emblem') . ',' . trans('models.club') . ',' . $name,
             ]);
+
+            $media->generateThumbnail();
 
         } else {
 
