@@ -18,7 +18,7 @@ class CreateArticleCommentsTable extends Migration
             $table->integer('article_id')->unsigned();
             $table->foreign('article_id')->references('id')->on('articles')->onDelete('cascade');
             $table->integer('article_comment_id')->unsigned()->nullable();
-            $table->foreign('article_comment_Sid')->references('id')->on('article_comments')->onDelete('cascade');
+            $table->foreign('article_comment_id')->references('id')->on('article_comments')->onDelete('cascade');
             $table->text('content')->nullable();
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
