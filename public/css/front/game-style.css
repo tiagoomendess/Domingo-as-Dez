@@ -113,15 +113,14 @@ figure img {
 }
 
 #countdown table td {
-    width: 25%;
-    padding: 0;
+    padding: 0 .5rem;
     text-align: center;
 }
 
 #countdown table .time td {
     text-align: center;
     font-weight: 600;
-    font-size: 1.5rem;
+    font-size: 1.0rem;
 }
 
 #countdown table .description {
@@ -129,11 +128,6 @@ figure img {
     font-size: 0.9rem;
     text-align: center;
     vertical-align: top;
-}
-
-#countdown table .header {
-    text-align: center;
-    font-size: 1rem;
 }
 
 .goal-overview {

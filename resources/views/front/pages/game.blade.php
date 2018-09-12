@@ -49,7 +49,6 @@
                                 <span id="score">{{ $game->getHomeScore() }} - {{ $game->getAwayScore() }}</span>
                                 <div class="hide" id="countdown">
                                     <table>
-                                        <tr class="header"><td class="center">{{ trans('front.missing') }}</td></tr>
                                         <tr class="time"><td>0</td><td>0</td><td>0</td><td>0</td></tr>
                                         <tr class="description">
                                             <td>{{ trans('front.days_small') }}</td>
@@ -62,7 +61,6 @@
                             @else
                                 <div id="countdown">
                                     <table>
-                                        <tr class="header"><td>{{ trans('front.missing') }}</td></tr>
                                         <tr class="time"><td>0</td><td>0</td><td>0</td><td>0</td></tr>
                                         <tr class="description">
                                             <td>{{ trans('front.days_small') }}</td>

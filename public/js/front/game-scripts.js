@@ -8,8 +8,9 @@ var started;
 
 function start() {
 
-    var start_date = new Date($('#exact_time').text().trim()).getTime();
-    var now = new Date().getTime();
+    var start_date = new Date(Date.parse($('#exact_time').text().trim()));
+    start_date.setUTCHours(start_date.getHours(), start_date.getMinutes());
+    var now = new Date();
 
     if (start_date > now)
         started = false;
@@ -20,8 +21,6 @@ function start() {
         finished = false;
     else
         finished = true;
-
-    console.log(finished);
 
     if (!started) {
         countdown(start_date);
@@ -49,10 +48,10 @@ function countdown(countDownDate) {
         var countdown = $('#countdown');
         var table = countdown.find('table');
 
-        table.find('.time td').eq(0).text(days);
-        table.find('.time td').eq(1).text(hours);
-        table.find('.time td').eq(2).text(minutes);
-        table.find('.time td').eq(3).text(seconds);
+        table.find('.time td').eq(0).text(days > 9 ? days : '0' + days);
+        table.find('.time td').eq(1).text(hours > 9 ? hours : '0' + hours);
+        table.find('.time td').eq(2).text(minutes > 9 ? minutes : '0' + minutes);
+        table.find('.time td').eq(3).text(seconds > 9 ? seconds : '0' + seconds);
 
         if (distance < 0) {
             clearInterval(x);

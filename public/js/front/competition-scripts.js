@@ -210,8 +210,6 @@ function handleGetGamesRequest(response) {
 
                 startGame.setUTCHours(startGame.getHours(), startGame.getMinutes());
 
-                console.log(startGame.getHours() + " - " + startGame.getUTCHours());
-
                 overview.find('.teams .home-team div span').text(response.data.groups[i].rounds[j].games[k].home_club_name);
                 overview.find('.teams .home-team div img').attr('src', response.data.groups[i].rounds[j].games[k].home_club_emblem);
 
