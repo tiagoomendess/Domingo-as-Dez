@@ -38,13 +38,13 @@ class SeasonsController extends Controller
         $game_groups = $season->game_groups;
         $i = 0;
 
-        foreach ($game_groups as $game_group) {
+        $data_object->data = new \stdClass();
+        $data_object->data->competition_id = $season->competition->id;
+        $data_object->data->competition_name = $season->competition->name;
+        $data_object->data->season_id = $season->id;
+        $data_object->data->season_name = $season->getName();
 
-            $data_object->data = new \stdClass();
-            $data_object->data->competition_id = $season->competition->id;
-            $data_object->data->competition_name = $season->competition->name;
-            $data_object->data->season_id = $season->id;
-            $data_object->data->season_name = $season->getName();
+        foreach ($game_groups as $game_group) {
 
             $data_object->data->groups[$i] = new \stdClass();
             $data_object->data->groups[$i]->name = $game_group->name;
