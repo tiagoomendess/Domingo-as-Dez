@@ -206,7 +206,11 @@ function handleGetGamesRequest(response) {
                 overview.find('a').attr('href', response.data.groups[i].rounds[j].games[k].game_link);
 
                 var now = Date.now();
-                var startGame = Date.parse(response.data.groups[i].rounds[j].games[k].date);
+                var startGame = new Date(response.data.groups[i].rounds[j].games[k].date);
+
+                startGame.setUTCHours(startGame.getHours(), startGame.getMinutes());
+
+                console.log(startGame.getHours() + " - " + startGame.getUTCHours());
 
                 overview.find('.teams .home-team div span').text(response.data.groups[i].rounds[j].games[k].home_club_name);
                 overview.find('.teams .home-team div img').attr('src', response.data.groups[i].rounds[j].games[k].home_club_emblem);
@@ -215,9 +219,8 @@ function handleGetGamesRequest(response) {
                 overview.find('.teams .away-team div img').attr('src', response.data.groups[i].rounds[j].games[k].away_club_emblem);
 
                 if (startGame > now) {
-                    var tmp = new Date(startGame);
-                    var hours = tmp.getHours() > 9 ? tmp.getHours() : '0' + tmp.getHours();
-                    var minutes = tmp.getMinutes() > 9 ? tmp.getMinutes() : '0' + tmp.getMinutes();
+                    var hours = startGame.getHours() > 9 ? startGame.getHours() : '0' + startGame.getHours();
+                    var minutes = startGame.getMinutes() > 9 ? startGame.getMinutes() : '0' + startGame.getMinutes();
                     overview.find('.teams .separator time').text(hours + ':' + minutes);
                 } else {
                     overview.find('.teams .separator time').text(
@@ -288,7 +291,8 @@ function showTable(group, round) {
         }
 
     } else if (data.groups[group].type === 'elimination') {
-
+        group_element.find('.table-loading').addClass('hide');
+        group_element.find('.group-table').append($('<p class="center">Não existe tabela para competições a eliminar.</p>'));
     } else {
 
     }
