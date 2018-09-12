@@ -157,6 +157,13 @@ function handleGetGamesRequest(response) {
 
     var groups = $('#groups');
 
+    //Se não houver grupos
+    if (!response.data) {
+        groups.append($('<p class="center">Ainda nada foi adicionado a esta época.</p>'));
+        $('#main_loading').addClass('hide');
+        return;
+    }
+
     for (var i = 0; i < response.data.groups.length; i++) {
 
         var round_chosen = undefined;
@@ -164,6 +171,15 @@ function handleGetGamesRequest(response) {
         group.attr('id', 'group_' + i);
         group.attr('group', i);
         group.find('.game-group-title').text(response.data.groups[i].name);
+
+        //Se não houver jogos, continua para o próximo
+        if (response.data.groups[i].rounds.length < 1) {
+            group.find('.row').empty();
+            group.append($('<p class="center">Não existem jogos neste grupo.</p>'));
+            group.appendTo(groups);
+            group.removeClass('hide');
+            continue;
+        }
 
         var group_games = group.find('.group-games');
         var left_btn = group_games.find('.button-left');
@@ -217,6 +233,10 @@ function handleGetGamesRequest(response) {
 
             games.appendTo(group_games);
 
+        }
+
+        if (!round_chosen) {
+            round_chosen = response.data.groups[i].rounds[0].number
         }
 
         group.find('#group_' + i + '_round_' + round_chosen + '').removeClass('hide');
