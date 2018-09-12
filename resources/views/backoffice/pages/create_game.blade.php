@@ -104,14 +104,18 @@
 
         <div class="row">
 
-            <div class="input-field col s6 m4 l3">
+            <div class="input-field col s4 m3 l2">
                 <input id="date" name="date" type="text" class="datepicker" required>
                 <label for="date">{{ trans('general.day') }}</label>
             </div>
 
-            <div class="input-field col s6 m4 l3">
+            <div class="input-field col s4 m2 l2">
                 <input id="hour" name="hour" type="text" class="timepicker" required>
                 <label for="hour">{{ trans('general.hour') }}</label>
+            </div>
+
+            <div class="col s4 m3 l2">
+                @include('backoffice.partial.select_timezone', ['timezone_name' => $user->profile->timezone, 'timezone_value' => $user->profile->timezone])
             </div>
 
         </div>

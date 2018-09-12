@@ -96,4 +96,6 @@ return [
     'motive' => 'Motivo',
     'code' => 'Código',
     'go_back' => 'Voltar atrás',
+    'timezone' => 'Timezone',
+    'selec_timezone' => 'Escolha uma timezone',
 ];

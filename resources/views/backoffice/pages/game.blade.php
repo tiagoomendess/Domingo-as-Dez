@@ -85,15 +85,25 @@
 
         <?php
         $carbon = \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $game->date);
+        $user = \Illuminate\Support\Facades\Auth::user();
+        $carbon->timezone = $user->profile->timezone;
         ?>
-        <div class="input-field col s6 m4 l3">
+
+        <div class="input-field col s4 m3 l2">
             <input id="date" name="date" type="text" class="datepicker" disabled value="{{$carbon->format("Y-m-d")}}">
             <label for="date">{{ trans('general.day') }}</label>
         </div>
 
-        <div class="input-field col s6 m4 l3">
+        <div class="input-field col s4 m2 l2">
             <input id="hour" name="hour" type="text" class="timepicker" disabled value="{{ $carbon->format("H:i") }}">
             <label for="hour">{{ trans('general.hour') }}</label>
+        </div>
+
+        <div class="col s4 m3 l2">
+            <label>{{ trans('general.timezone') }}</label>
+            <select disabled id="timezone" name="timezone" class="browser-default" required>
+                <option disabled value="0" selected>{{ $user->profile->timezone }}</option>
+            </select>
         </div>
     </div>
 

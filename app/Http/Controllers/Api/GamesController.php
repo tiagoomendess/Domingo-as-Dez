@@ -63,8 +63,8 @@ class GamesController extends Controller
         $return_object = new \stdClass();
         $return_object->data = [];
 
-        $now = Carbon::now()->addHours(1);//Now retorna em UTC, +1 para GMT
-        $warmup_date = Carbon::now()->addHours(1)->subMinutes(30);
+        $now = Carbon::now();
+        $warmup_date = Carbon::now()->subMinutes(30);
 
         $games = Game::getLiveGames();
 
@@ -95,7 +95,7 @@ class GamesController extends Controller
                 $new_game->home_score = $game->getHomeScore();
 
                 $new_game->away_club_name = $game->away_team->club->name;
-                $new_game->away_club_emblem = $game->home_team->club->getEmblem();
+                $new_game->away_club_emblem = $game->away_team->club->getEmblem();
                 $new_game->away_team_name = $game->away_team->name;
                 $new_game->away_score = $game->getAwayScore();
 

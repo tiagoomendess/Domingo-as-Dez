@@ -23,6 +23,7 @@ class CreateUserProfilesTable extends Migration
             $table->timestamp('account_data_consent')->nullable();
             $table->timestamp('analytics_cookies_consent')->nullable();
             $table->timestamp('all_data_consent')->nullable();
+            $table->string('timezone', 20)->default('Europe/Lisbon');
             $table->timestamps();
         });
 

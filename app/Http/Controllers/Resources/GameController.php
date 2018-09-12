@@ -13,6 +13,7 @@ use App\Team;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\MessageBag;
 
 class GameController extends Controller
@@ -44,7 +45,7 @@ class GameController extends Controller
      */
     public function create()
     {
-        return view('backoffice.pages.create_game');
+        return view('backoffice.pages.create_game', ['user' => Auth::user()]);
     }
 
     /**
@@ -73,9 +74,12 @@ class GameController extends Controller
             'referees_id.*' => 'required|integer|exists:referees,id',
             'types_id' => 'nullable|array|min:1|max:8',
             'types_id.*' => 'required|integer|exists:referee_types,id',
+            'timezone' => 'required|string|max:20'
         ]);
 
-        $carbon = new Carbon($request->input('date'));
+        //dd($request->input('timezone'));
+
+        $carbon = new Carbon($request->input('date'), $request->input('timezone'));
         $splited = explode(':', $request->input('hour'));
 
         $carbon->addHours($splited[0]);
@@ -113,7 +117,7 @@ class GameController extends Controller
             'penalties_home' => $penalties_home,
             'penalties_away' => $penalties_away,
             'round' => $round,
-            'date' => $carbon->format("Y-m-d H:i:s"),
+            'date' => Carbon::createFromTimestamp($carbon->timestamp)->format("Y-m-d H:i:s"),
             'playground_id' => $playground_id,
 
         ]);
@@ -196,11 +200,12 @@ class GameController extends Controller
             'referees_id.*' => 'required|integer|exists:referees,id',
             'types_id' => 'nullable|array|min:1|max:8',
             'types_id.*' => 'required|integer|exists:referee_types,id',
+            'timezone' => 'required|string|max:20',
         ]);
 
         $game = Game::findOrFail($id);
 
-        $carbon = new Carbon($request->input('date'));
+        $carbon = new Carbon($request->input('date'), $request->input('timezone'));
         $splited = explode(':', $request->input('hour'));
 
         $carbon->addHours($splited[0]);
@@ -235,7 +240,7 @@ class GameController extends Controller
         $game->game_group_id = $game_group_id;
         $game->round = $round;
         $game->playground_id = $playground_id;
-        $game->date = $carbon->format("Y-m-d H:i:s");
+        $game->date = Carbon::createFromTimestamp($carbon->timestamp)->format("Y-m-d H:i:s");
         $game->visible = $visible;
         $game->finished = $finished;
 

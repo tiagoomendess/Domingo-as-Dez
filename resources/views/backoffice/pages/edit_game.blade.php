@@ -150,17 +150,25 @@
         <div class="row">
 
             <?php
-                $carbon = \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $game->date);
+            $carbon = \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $game->date);
+            $user = \Illuminate\Support\Facades\Auth::user();
+            $carbon->timezone = $user->profile->timezone;
             ?>
-            <div class="input-field col s6 m4 l3">
+
+            <div class="input-field col s4 m3 l2">
                 <input id="date" name="date" type="text" class="datepicker" required value="{{$carbon->format("Y-m-d")}}">
                 <label for="date">{{ trans('general.day') }}</label>
             </div>
 
-            <div class="input-field col s6 m4 l3">
+            <div class="input-field col s4 m2 l2">
                 <input id="hour" name="hour" type="text" class="timepicker" required value="{{ $carbon->format("H:i") }}">
                 <label for="hour">{{ trans('general.hour') }}</label>
             </div>
+
+            <div class="col s4 m3 l2">
+                @include('backoffice.partial.select_timezone', ['timezone_name' => $user->profile->timezone, 'timezone_value' => $user->profile->timezone])
+            </div>
+
         </div>
 
         <div class="row">
@@ -189,12 +197,7 @@
 
         <div class="row">
 
-            <div class="input-field col s6 m4 l3">
-                <input type="text" name="table_group" value="{{ old('table_group', $game->table_group) }}">
-                <label for="table_group">{{ trans('models.group') }}</label>
-            </div>
-
-            <div class="col s6 m4 l3">
+            <div class="col s12 m8 l6">
                 <label for="playground_id">{{ trans('models.playground') }}</label>
                 <select id="playground_id" name="playground_id" class="browser-default">
                     @if ($game->playground)

@@ -168,7 +168,6 @@ class Game extends Model
 
         $start = Carbon::createFromFormat("Y-m-d H:i:s", $this->date);
         $now = Carbon::now();
-        $now->addHours(1);
 
         if ($now->timestamp > $start->timestamp)
             return true;
@@ -222,7 +221,7 @@ class Game extends Model
 
     public static function getLiveGames() {
 
-        $now = Carbon::now()->addHours(1);
+        $now = Carbon::now();
         $begin_today = Carbon::create($now->year, $now->month, $now->day, 0,0,0);
         $end_today = Carbon::create($now->year, $now->month, $now->day, 23,59,59);
 
