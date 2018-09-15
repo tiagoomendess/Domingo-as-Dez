@@ -54,7 +54,8 @@ class Article extends Model
             if (!is_null($this->thumbnail_url))
                 return $this->thumbnail_url;
             else
-                return Media::getPlaceholder('16:9', $this->id);
+                $this->media->generateThumbnail();
+                return $this->thumbnail_url;
         } else
             return Media::getPlaceholder('16:9', $this->id);
     }
