@@ -20,7 +20,7 @@
             return;
 
         var op = $("<option>Desconhecido</option>");
-        op.attr('value', 0);
+        op.attr('value', '');
         op.prop('selected', true);
         op.appendTo(players_drop);
 
