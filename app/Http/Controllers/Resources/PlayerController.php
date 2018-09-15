@@ -100,12 +100,14 @@ class PlayerController extends Controller
             if ($nickname)
                 $tags = $tags . ',' . $nickname;
 
-            Media::create([
+            $media = Media::create([
                 'user_id' => Auth::user()->id,
                 'url' => $url,
                 'media_type' => 'image',
                 'tags' => $tags,
             ]);
+
+            $media->generateThumbnail();
         }
 
         $player = Player::create([
