@@ -13,8 +13,14 @@
                             'day' => \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $article->date)->day,
                             'slug' => str_slug($article->title)
                         ]) }}" />
-    <meta property="og:image" content="{{ $article->getThumbnail() }}" />
+    <meta itemprop="image" content="{{ $article->getThumbnail() }}">
     <meta property="og:description" content="{{ $article->description }}" />
+    <meta property="og:site_name" content="{{ config('app.name') }}" />
+
+    <!-- Schema.org markup for Google+ -->
+    <meta itemprop="name" content="{{ $article->title }}">
+    <meta itemprop="description" content="{{ $article->description }}">
+    <meta itemprop="image" content="{{ $article->getThumbnail() }}">
 @endsection
 
 @section('content')
