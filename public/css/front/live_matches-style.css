@@ -67,6 +67,11 @@
     height: 100%;
 }
 
+@media only screen and (max-width: 719px) {
+    #live_matches .match-group .matches .match .state {
+        width: 2%;
+    }
+}
 #live_matches .match-group .matches .match .home-club {
     width: 40%;
 }
@@ -121,7 +126,6 @@
     align-items: center;
     flex-direction: row;
     flex-wrap: wrap;
-    margin: 0 0 10px 0;
 }
 
 #live_matches_caption .item {
@@ -132,7 +136,7 @@
     justify-content: left;
     align-items: center;
     color: white;
-    margin: 0 20px 0 0;
+    margin: 0 .5rem .5rem 0;
 }
 
 #live_matches_caption .item .color {

@@ -83,7 +83,6 @@ class PlayerController extends Controller
         $obs = $request->input('obs');
         $position = $request->input('position');
         $birth_date = $request->input('birth_date');
-
         $image = null;
         $url = null;
 
@@ -122,10 +121,9 @@ class PlayerController extends Controller
             'obs' => $obs,
             'position' => $position,
             'visible' => $visible,
-            'birth_date' => $birth_date
+            'birth_date' => $birth_date,
 
         ]);
-
 
         //create new transfer if user defined a club to that player
         if ($request->input('team_id')) {
