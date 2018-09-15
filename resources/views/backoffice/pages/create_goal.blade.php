@@ -103,10 +103,24 @@
                 <div class="col s6 m4 l3">
                     <label>{{ trans('models.team') }}</label>
                     <select onchange="updateGamePlayers('selected_team_id', 'player_id', 'game_id')" name ="selected_team_id" id="selected_team_id" class="browser-default">
-                        <option disabled
-                                value="" selected>
-                            {{ trans('general.choose_option')}}
-                        </option>
+                        @if ($team)
+                            <option value="{{ $team->id }}" selected>
+                                {{ $team->club->name }}
+                            </option>
+
+                            <script>
+                                setTimeout(function(){
+                                    var element = document.getElementById('selected_team_id');
+                                    var event = new Event('change');
+                                    element.dispatchEvent(event);
+                                }, 100);
+                            </script>
+                        @else
+                            <option disabled
+                                    value="" selected>
+                                {{ trans('general.choose_option')}}
+                            </option>
+                        @endif
 
                         <option value="{{ $game->homeTeam->id }}">
                             {{ $game->homeTeam->club->name }}
@@ -116,7 +130,6 @@
                             {{ $game->awayTeam->club->name }}
                         </option>
                     </select>
-
 
                 </div>
 

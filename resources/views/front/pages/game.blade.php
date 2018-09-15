@@ -118,10 +118,10 @@
                                 <div class="goal-overview">
                                     <a href="
                                         @if(has_permission('goals.edit.' . $goal->id))
-                                            {{ route('goals.show', ['goal' => $goal]) }}
-                                        @elseif(!is_null($goal->player))
-                                            {{ route('front.player.show', ['id' => $goal->player->id, 'name_slug' => str_slug($goal->player->name)]) }}
-                                        @else
+                                    {{ route('goals.show', ['goal' => $goal]) }}
+                                    @elseif(!is_null($goal->player))
+                                    {{ route('front.player.show', ['id' => $goal->player->id, 'name_slug' => str_slug($goal->player->name)]) }}
+                                    @else
                                             #
                                         @endif">
 
@@ -135,8 +135,15 @@
                             @endforeach
 
                             @if (count($game->getHomeGoals()) < 1)
-                                <span class="zero-count">{{ trans('models.no_goals') }}</span>
+                                <span class="center">{{ trans('models.no_goals') }}</span>
                             @endif
+
+                            @if(has_permission('goals.create'))
+                                <div class="add-goal-btn">
+                                    <a href="{{ route('goals.create', ['game_id' => $game->id, 'team_id' => $game->home_team->id])}}" class="waves-effect waves-light btn-flat"><i class="material-icons left">add</i> {{trans('general.add')}}</a>
+                                </div>
+                            @endif
+
                         </div>
                     </div>
                 </div>
@@ -184,10 +191,10 @@
                                 <div class="goal-overview">
                                     <a href="
                                         @if(has_permission('goals.edit.' . $goal->id))
-                                            {{ route('goals.show', ['goal' => $goal]) }}
-                                        @elseif(!is_null($goal->player))
-                                            {{ route('front.player.show', ['id' => $goal->player->id, 'name_slug' => str_slug($goal->player->name)]) }}
-                                        @else
+                                    {{ route('goals.show', ['goal' => $goal]) }}
+                                    @elseif(!is_null($goal->player))
+                                    {{ route('front.player.show', ['id' => $goal->player->id, 'name_slug' => str_slug($goal->player->name)]) }}
+                                    @else
                                             #
                                         @endif">
 
@@ -202,7 +209,13 @@
                             @endforeach
 
                             @if (count($game->getAwayGoals()) < 1)
-                                <span class="zero-count">{{ trans('models.no_goals') }}</span>
+                                <span class="center">{{ trans('models.no_goals') }}</span>
+                            @endif
+
+                            @if(has_permission('goals.create'))
+                                <div class="add-goal-btn">
+                                    <a href="{{ route('goals.create', ['game_id' => $game->id, 'team_id' => $game->away_team->id])}}" class="waves-effect waves-light btn-flat"><i class="material-icons left">add</i> {{trans('general.add')}}</a>
+                                </div>
                             @endif
 
                         </div>

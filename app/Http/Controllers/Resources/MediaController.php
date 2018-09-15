@@ -322,13 +322,15 @@ class MediaController extends Controller
                 $path, $file, $filename
             );
 
-            Media::create([
+            $media = Media::create([
                 'url' => $url,
                 'media_type' => 'image',
                 'tags' => $tags,
                 'user_id' => Auth::user()->id,
                 'visible' => true,
             ]);
+
+            $media->generateThumbnail();
 
         } catch (\Exception $e) {
             return null;

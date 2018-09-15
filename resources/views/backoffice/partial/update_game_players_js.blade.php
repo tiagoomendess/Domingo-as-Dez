@@ -19,13 +19,9 @@
         if(game_id == null || selected_team_id == null)
             return;
 
-        var op = $("<option> Escolha uma opção</option>");
+        var op = $("<option>Desconhecido</option>");
         op.attr('value', 0);
-        op.prop('disabled', true);
         op.prop('selected', true);
-        op.appendTo(players_drop);
-
-        op = $('<option value="">Desconhecido</option>');
         op.appendTo(players_drop);
 
         $.get("/teams/" + selected_team_id + "/current_players", function (players) {

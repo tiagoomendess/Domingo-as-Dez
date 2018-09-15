@@ -221,3 +221,12 @@ figure img {
         background-color: rgba(1,1,1,0.10);
     }
 }
+
+.add-goal-btn {
+    margin: 1rem 0 0 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+}

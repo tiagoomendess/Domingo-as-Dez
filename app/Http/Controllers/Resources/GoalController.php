@@ -41,16 +41,29 @@ class GoalController extends Controller
     public function create(Request $request)
     {
 
+        $game = null;
+        $team = null;
+
         if ($request->query('game_id')) {
 
             $game = Game::find($request->query('game_id'));
 
-        }
-        else {
-            $game = null;
+            if(is_null($game))
+                return view('backoffice.pages.create_goal', ['game' => null]);
+
+            if($request->query('team_id')) {
+
+                $team = Team::find($request->query('team_id'));
+
+                if ($team->id == $game->home_team->id || $team->id == $game->away_team->id)
+                    return view('backoffice.pages.create_goal', ['game' => $game, 'team' => $team]);
+                else
+                    return view('backoffice.pages.create_goal', ['game' => $game, 'team' => null]);
+            }
+
         }
 
-        return view('backoffice.pages.create_goal', ['game' => $game]);
+        return view('backoffice.pages.create_goal', ['game' => null, 'team' => null]);
     }
 
     /**
