@@ -55,6 +55,7 @@ return [
     'no_referees' => 'Os árbitros para este jogo não são conhecidos',
     'after_penalties' => ':penalties_home - :penalties_away g.p',
     'live_matches' => 'Jogos em Direto',
+    'live_matches_desc' => 'Não é necessário recarregar a página, quando um resultado se alterar a página altera-se sozinha',
     'warmup' => 'Em aquecimento',
     'on_going' => 'A decorrer',
     'finished' => 'Terminado',
