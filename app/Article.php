@@ -47,4 +47,15 @@ class Article extends Model
             'slug' => $slug,
         ]);
     }
+
+    public function getThumbnail() {
+
+        if ($this->media) {
+            if ($this->thumbnail_url)
+                return $this->thumbnail_url;
+            else
+                return Media::getPlaceholder('16:9', $this->id);
+        } else
+            return Media::getPlaceholder('16:9', $this->id);
+    }
 }

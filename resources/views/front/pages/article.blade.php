@@ -3,6 +3,18 @@
 @section('head-content')
     <title>{{ $article->title }}</title>
     <link rel="stylesheet" href="/css/front/article-style.css">
+
+    <!-- Open Graph data -->
+    <meta property="og:title" content="{{ $article->title }}" />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="{{ route('news.show', [
+                            'year' => \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $article->date)->year,
+                            'month' => \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $article->date)->month,
+                            'day' => \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $article->date)->day,
+                            'slug' => str_slug($article->title)
+                        ]) }}" />
+    <meta property="og:image" content="{{ $article->getThumbnail }}" />
+    <meta property="og:description" content="{{ $article->description }}" />
 @endsection
 
 @section('content')
