@@ -13,7 +13,7 @@
                             'day' => \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $article->date)->day,
                             'slug' => str_slug($article->title)
                         ]) }}" />
-    <meta property="og:image" content="{{ $article->getThumbnail }}" />
+    <meta property="og:image" content="{{ $article->getThumbnail() }}" />
     <meta property="og:description" content="{{ $article->description }}" />
 @endsection
 
