@@ -147,7 +147,7 @@
                 <a href="{{ route('competition', ['slug' => str_slug($competition->name)]) }}">
                     <div class="homepage-competition-box">
                         <img src="{{ $competition->picture }}" alt="">
-                        <span>{{ $competition->name }}</span>
+                        <span class="truncate">{{ $competition->name }}</span>
                     </div>
                 </a>
 
