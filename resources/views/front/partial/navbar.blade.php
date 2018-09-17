@@ -50,7 +50,7 @@
                                 <li id="account_action">
                                     <a class="dropdown-button" href="#" data-activates="account_dropdown">
                                         <img class="circle" src="{{ Auth::user()->profile->getPicture() }}" alt="">
-                                        {{ str_limit(preg_match('/^[a-zA-z]+/', Auth::user()->name, $out), 10) ? $out[0] : trans('general.unknown') }}
+                                        {{ str_replace("...", "", str_limit( Auth::user()->name, 13))}}
                                         <i class="material-icons right">arrow_drop_down</i>
                                     </a>
                                 </li>
