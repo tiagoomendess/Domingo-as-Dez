@@ -6,7 +6,7 @@
     <!-- Open Graph data -->
     <meta property="og:title" content="{{ trans('front.live_matches') }}" />
     <meta property="og:type" content="website" />
-    <meta itemprop="image" content="/images/live_games_thumb.jpg">
+    <meta property="og:image" content="/images/live_games_thumb.jpg">
     <meta property="og:description" content="{{ trans('front.live_matches_desc') }}" />
     <meta property="og:site_name" content="{{ config('app.name') }}" />
 @endsection
