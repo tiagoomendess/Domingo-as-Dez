@@ -10,7 +10,7 @@
             <a href="#" id="match_template" class="hide">
                 <div class="match">
                     <div class="state"></div>
-                    <div class="home-club flow-text">
+                    <div class="home-club flow-text truncate">
                         <div class="right">
                             <span></span>
                             <img src="" alt="">
@@ -20,7 +20,7 @@
                         <span class="flow-text"></span>
                         <span class="penalties hide"></span>
                     </div>
-                    <div class="away-club flow-text">
+                    <div class="away-club flow-text truncate">
                         <div class="left">
                             <img src="" alt="">
                             <span></span>
