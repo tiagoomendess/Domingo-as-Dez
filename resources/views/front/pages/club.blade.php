@@ -7,7 +7,7 @@
     <meta property="og:title" content="{{ $club->name . ' - ' . config('app.name') }}" />
     <meta property="og:type" content="website" />
     <meta property="og:description" content="{{ trans('front.footer_desc') }}" />
-    <meta property="og:image" content="{{ $club->getEmblem() }}">
+    <meta property="og:image" content="{{ url($club->getEmblem()) }}">
 
 @endsection
 

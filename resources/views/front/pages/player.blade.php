@@ -7,7 +7,7 @@
     <meta property="og:title" content="{{ $player->name . ' - ' . config('app.name') }}" />
     <meta property="og:type" content="website" />
     <meta property="og:description" content="{{ trans('front.footer_desc') }}" />
-    <meta property="og:image" content="{{ $player->getPicture() }}">
+    <meta property="og:image" content="{{ url($player->getPicture()) }}">
 
 @endsection
 

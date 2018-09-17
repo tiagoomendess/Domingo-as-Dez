@@ -3,6 +3,11 @@
 @section('head-content')
     <link rel="stylesheet" href="/css/front/referee-style.css">
     <title>{{ $referee->name }}</title>
+
+    <meta property="og:title" content="{{ $referee->name . ' - ' . config('app.name') }}" />
+    <meta property="og:type" content="website" />
+    <meta property="og:description" content="{{ trans('front.footer_desc') }}" />
+
 @endsection
 
 @section('content')
