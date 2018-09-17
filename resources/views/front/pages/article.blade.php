@@ -15,7 +15,6 @@
                         ]) }}" />
     <meta property="og:image" content="{{ $article->getThumbnail() }}">
     <meta property="og:description" content="{{ $article->description }}" />
-    <meta property="og:site_name" content="{{ config('app.name') }}" />
 
     <!-- Schema.org markup for Google+ -->
     <meta itemprop="name" content="{{ $article->title }}">

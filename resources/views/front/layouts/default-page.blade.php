@@ -17,6 +17,7 @@
     <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
     <meta name="msapplication-TileColor" content="#00aba9">
     <meta name="theme-color" content="#ffffff">
+    <meta property="og:site_name" content="{{ config('app.name') }}" />
 
     @yield('head-content')
 @endsection
