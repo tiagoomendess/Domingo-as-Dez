@@ -18,6 +18,8 @@
     <meta name="msapplication-TileColor" content="#00aba9">
     <meta name="theme-color" content="#ffffff">
     <meta property="og:site_name" content="{{ config('app.name') }}" />
+    <meta property="og:title" content="{{ config('app.name') }}" />
+    <meta property="og:type" content="website" />
 
     @yield('head-content')
 @endsection

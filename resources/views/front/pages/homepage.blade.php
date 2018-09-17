@@ -3,7 +3,8 @@
 @section('head-content')
     <title>{{ config('custom.site_name') }}</title>
     <link rel="stylesheet" href="/css/front/homepage-style.css">
-
+    <meta property="og:title" content="{{ config('app.name') }}" />
+    <meta property="og:type" content="website" />
 @endsection
 @section('content')
 
