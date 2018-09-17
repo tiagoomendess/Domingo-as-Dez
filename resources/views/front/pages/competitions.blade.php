@@ -3,6 +3,11 @@
 @section('head-content')
     <title>{{ trans('models.competitions') }}</title>
     <link rel="stylesheet" href="/css/front/competitions-styles.css">
+
+    <meta property="og:title" content="{{ trans('models.competitions') . ' - ' . config('app.name') }}" />
+    <meta property="og:type" content="website" />
+    <meta property="og:description" content="{{ trans('front.footer_desc') }}" />
+
 @endsection
 
 @section('content')

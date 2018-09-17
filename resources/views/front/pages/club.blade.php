@@ -3,6 +3,12 @@
 @section('head-content')
     <title>{{ $club->name }}</title>
     <link rel="stylesheet" href="/css/front/club-page-style.css">
+
+    <meta property="og:title" content="{{ $club->name . ' - ' . config('app.name') }}" />
+    <meta property="og:type" content="website" />
+    <meta property="og:description" content="{{ trans('front.footer_desc') }}" />
+    <meta property="og:image" content="{{ $club->getEmblem() }}">
+
 @endsection
 
 @section('content')

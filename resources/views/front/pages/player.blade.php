@@ -3,6 +3,12 @@
 @section('head-content')
     <title>{{ $player->name }}</title>
     <link rel="stylesheet" href="/css/front/player-style.css">
+
+    <meta property="og:title" content="{{ $player->name . ' - ' . config('app.name') }}" />
+    <meta property="og:type" content="website" />
+    <meta property="og:description" content="{{ trans('front.footer_desc') }}" />
+    <meta property="og:image" content="{{ $player->getPicture() }}">
+
 @endsection
 
 @section('content')

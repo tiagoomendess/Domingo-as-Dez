@@ -3,6 +3,12 @@
 @section('head-content')
     <title>{{ $competition->name }}</title>
     <link rel="stylesheet" href="/css/front/competition-style.css">
+
+    <meta property="og:title" content="{{ $competition->name . ' - ' . config('app.name') }}" />
+    <meta property="og:type" content="website" />
+    <meta property="og:description" content="{{ trans('front.footer_desc') }}" />
+    <meta property="og:image" content="{{ $competition->picture }}">
+
 @endsection
 
 @section('content')

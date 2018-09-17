@@ -5,6 +5,11 @@
         {{ $game->homeTeam->club->name }} vs {{ $game->awayTeam->club->name }}
     </title>
     <link rel="stylesheet" href="/css/front/game-style.css">
+
+    <meta property="og:title" content="{{ $game->homeTeam->club->name }} vs {{ $game->awayTeam->club->name }}" />
+    <meta property="og:type" content="website" />
+    <meta property="og:description" content="{{ trans('front.footer_desc') }}" />
+
 @endsection
 
 @section('content')

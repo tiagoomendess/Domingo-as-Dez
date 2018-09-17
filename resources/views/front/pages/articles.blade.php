@@ -3,6 +3,11 @@
 @section('head-content')
     <title>{{ trans('general.news') }}</title>
     <link rel="stylesheet" href="/css/front/articles-style.css">
+
+    <meta property="og:title" content="{{ trans('general.news') . ' ' . config('app.name') }}" />
+    <meta property="og:type" content="website" />
+    <meta property="og:description" content="{{ trans('front.footer_desc') }}" />
+
 @endsection
 
 @section('content')
