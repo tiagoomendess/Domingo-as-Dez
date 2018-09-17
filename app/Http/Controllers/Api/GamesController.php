@@ -83,6 +83,22 @@ class GamesController extends Controller
             foreach ($group as $game) {
 
                 $new_game = new \stdClass();
+
+                preg_match("/[A-Z\Á][a-z\ç\ã\õ\á]+$/", $game->home_team->club->name,$small_name_match);
+                if (count($small_name_match) > 0)
+                    $new_game->home_club_name_small = str_replace("...", "", str_limit($small_name_match[0], 3));
+                else
+                    $new_game->home_club_name_small = str_replace("...", "", str_limit($game->home_team->club->name, 3));
+
+                preg_match("/[A-Z\Á][a-z\ç\ã\õ\á]+$/", $game->away_team->club->name,$small_name_match);
+                if (count($small_name_match) > 0)
+                    $new_game->away_club_name_small = str_replace("...", "", str_limit($small_name_match[0], 3));
+                else
+                    $new_game->away_club_name_small = str_replace("...", "", str_limit($game->away_team->club->name, 3));
+
+                $new_game->home_club_name_small = strtoupper($new_game->home_club_name_small);
+                $new_game->away_club_name_small = strtoupper($new_game->away_club_name_small);
+
                 $new_game->id = $game->id;
                 $new_game->game_link = $game->getPublicUrl();
                 $new_game->date = $game->date;

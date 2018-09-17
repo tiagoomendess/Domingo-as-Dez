@@ -33,12 +33,14 @@ function updateMatches(response) {
             var new_game = new_group.find('#match_template').clone();
 
             new_game.attr('href', response.data[i].games[j].game_link);
-            new_game.find('.home-club .right span').text(response.data[i].games[j].home_club_name);
+            new_game.find('.home-club .right span:eq(0)').text(response.data[i].games[j].home_club_name);
+            new_game.find('.home-club .right span:eq(1)').text(response.data[i].games[j].home_club_name_small);
             new_game.find('.home-club .right img').attr('src', response.data[i].games[j].home_club_emblem);
 
             new_game.find('.separator .flow-text').text(response.data[i].games[j].home_score + ' - ' + response.data[i].games[j].away_score);
 
-            new_game.find('.away-club .left span').text(response.data[i].games[j].away_club_name);
+            new_game.find('.away-club .left span:eq(0)').text(response.data[i].games[j].away_club_name);
+            new_game.find('.away-club .left span:eq(1)').text(response.data[i].games[j].away_club_name_small);
             new_game.find('.away-club .left img').attr('src', response.data[i].games[j].away_club_emblem);
 
             if (response.data[i].games[j].penalties) {

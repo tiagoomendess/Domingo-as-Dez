@@ -10,9 +10,10 @@
             <a href="#" id="match_template" class="hide">
                 <div class="match">
                     <div class="state"></div>
-                    <div class="home-club flow-text truncate">
+                    <div class="home-club flow-text">
                         <div class="right">
-                            <span></span>
+                            <span class="hide-on-med-and-down"></span>
+                            <span class="hide-on-large-only"></span>
                             <img src="" alt="">
                         </div>
                     </div>
@@ -20,10 +21,11 @@
                         <span class="flow-text"></span>
                         <span class="penalties hide"></span>
                     </div>
-                    <div class="away-club flow-text truncate">
+                    <div class="away-club flow-text">
                         <div class="left">
                             <img src="" alt="">
-                            <span></span>
+                            <span class="hide-on-med-and-down"></span>
+                            <span class="hide-on-large-only"></span>
                         </div>
                     </div>
                 </div>
