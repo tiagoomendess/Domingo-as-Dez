@@ -4,7 +4,7 @@
     <title>{{ trans('models.transfers') }}</title>
     <link rel="stylesheet" href="/css/front/transfers-style.css">
 
-    <meta property="og:title" content="{{ trans('transfers') . ' - ' . config('app.name') }}" />
+    <meta property="og:title" content="{{ trans('models.transfers') . ' - ' . config('app.name') }}" />
     <meta property="og:type" content="website" />
     <meta property="og:description" content="{{ trans('front.footer_desc') }}" />
 
