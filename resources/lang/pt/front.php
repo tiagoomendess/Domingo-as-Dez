@@ -107,4 +107,6 @@ return [
     'player_of_the_week' => 'Jogador da Semana',
     'is_live' => 'Existem jogos a decorrer',
     'is_live_desc' => 'Clique aqui para acompanhar os resultados em direto',
+    'see_all_competitions' => 'Ver Todas',
+    'hello_user' => 'Olá :name!',
 ];

@@ -75,6 +75,7 @@ Route::get('seasons/{id}/game_groups', 'Resources\SeasonController@getGameGroups
 Route::get('/direto', 'Front\GamesController@liveMatches')->name('games.live');
 Route::get('/noticias', 'Front\ArticlesController@index')->name('news.index');
 Route::get('/noticias/{year}/{month}/{day}/{slug}', 'Front\ArticlesController@show')->name('news.show');
+Route::get('/competicoes', 'Front\CompetitionsController@showAll')->name('competitions');
 Route::get('/competicoes/{slug}', 'Front\CompetitionsController@show')->name('competition');
 Route::get('/competicoes/{slug}/classificacao-detalhada/', 'Front\CompetitionsController@showDetailedTable')->name('competition.detailed_table');
 Route::get('/transferencias', 'Front\TransfersController@index')->name('transfers');

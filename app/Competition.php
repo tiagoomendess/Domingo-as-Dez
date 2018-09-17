@@ -65,4 +65,9 @@ class Competition extends Model
 
         return $season;
     }
+
+
+    public function getPublicUrl() {
+        return route('competition', ['slug' => str_slug($this->name)]);
+    }
 }

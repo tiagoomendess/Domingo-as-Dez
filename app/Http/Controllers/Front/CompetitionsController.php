@@ -15,9 +15,6 @@ use Illuminate\Validation\Validator;
 
 class CompetitionsController extends Controller
 {
-    public function index() {
-
-    }
 
     public function show($slug) {
 
@@ -30,10 +27,11 @@ class CompetitionsController extends Controller
 
     }
 
-    public function showDetailedTable($slug) {
+    public function showAll() {
 
-        return view('front.pages.detailed_table');
+        $competitions = Competition::where('visible', true)->get();
 
+        return view('front.pages.competitions', ['competitions' => $competitions]);
     }
 
 }

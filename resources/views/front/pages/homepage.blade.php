@@ -78,18 +78,32 @@
             </div>
         </div>
 
+        @if (!Auth::check())
         <div class="row hide-on-large-only no-margin-bottom">
             <div class="col s12">
                 <div class="vertical-spacer"></div>
                 <div class="divider"></div>
                 <div class="auth-buttons">
-                    <a class="waves-effect waves-light btn btn-large blue">{{ trans('auth.login') }}</a>
-                    <a class="waves-effect waves-light btn btn-large blue">{{ trans('auth.register') }}</a>
+                    <a href="{{ route('login') }}" class="waves-effect waves-light btn btn-large blue">{{ trans('auth.login') }}</a>
+                    <a href="{{ route('register') }}" class="waves-effect waves-light btn btn-large blue">{{ trans('auth.register') }}</a>
 
                 </div>
                 <div class="divider"></div>
             </div>
         </div>
+        @else
+            <div class="row hide-on-large-only no-margin-bottom">
+                <div class="col s12">
+                    <div class="vertical-spacer"></div>
+                    <div class="divider"></div>
+                    <div class="account-greeting">
+                        <img class="circle" src="{{ \Illuminate\Support\Facades\Auth::user()->profile->getPicture() }}" alt="">
+                        <span class="flow-text">{{ trans('front.hello_user', ['name' => \Illuminate\Support\Facades\Auth::user()->name]) }}</span>
+                    </div>
+                    <div class="divider"></div>
+                </div>
+            </div>
+        @endif
 
         <div class="row no-margin-bottom">
 
@@ -139,6 +153,16 @@
 
             </div>
             @endforeach
+
+            <div class="col s6 m6 l3">
+                <a href="{{ route('competitions') }}">
+                    <div class="homepage-competition-box">
+                        <img src="/images/3-dot-white.png" alt="">
+                        <span>{{ trans('front.see_all_competitions') }}</span>
+                    </div>
+                </a>
+
+            </div>
 
         </div>
 

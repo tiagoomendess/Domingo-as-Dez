@@ -188,6 +188,10 @@
     background-color: #3f915b;
 }
 
+.homepage-competition-box > i {
+    font-size: 12rem;
+}
+
 .homepage-competition-box:hover {
 
 }
@@ -205,4 +209,19 @@
     padding: .2rem .5rem;
     background-color: rgba(1,1,1,0.2);
     text-align: center;
+}
+
+.account-greeting {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: 1rem;
+}
+
+.account-greeting > img{
+    width: 20%;
+    margin: 0 2rem 0 0;
 }

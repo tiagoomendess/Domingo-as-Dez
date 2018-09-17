@@ -14,17 +14,21 @@
 
         @if(Auth::user()->hasPermission('dashboard'))
             <li><a href="{{ route('dashboard') }}">{{ trans('backoffice.dashboard') }}</a></li>
+            <li><div class="divider"></div></li>
         @endif
 
-        <li><a href="{{ route('front.userprofile.edit') }}">{{ trans('models.profile') }}</a></li>
-        <li><a href="{{ route('logout') }}">{{ trans('auth.logout') }}</a></li>
-
     @else
-        <li><a href="{{ route('login') }}">{{ trans('auth.login') }}</a></li>
-        <li><a href="{{ route('register') }}">{{ trans('auth.register') }}</a></li>
+        <li>
+            <div class="user-view">
+                <div class="background">
+                    <img src="{{ config('custom.site_sidenav_image_no_login') }}">
+                </div>
+                <br>
+                <br>
+                <a href="{{ route('login') }}"><span class="white-text">{{ trans('auth.login') }}</span></a>
+            </div>
+        </li>
     @endif
-
-    <li><div class="divider"></div></li>
 
     <li><a class="waves-effect" href="{{ route('homePage') }}">{{ trans('general.home_page') }}</a></li>
     <li><a class="waves-effect" href="{{ route('news.index') }}">{{ trans('general.news') }}</a></li>
@@ -45,5 +49,9 @@
     </li>
 
     <li><a class="waves-effect" href="{{ route('transfers') }}">{{ trans('models.transfers') }}</a></li>
+
+    @if(\Illuminate\Support\Facades\Auth::check())
+        <li><a href="{{ route('logout') }}">{{ trans('auth.logout') }}</a></li>
+    @endif
 
 </ul>
