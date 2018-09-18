@@ -87,6 +87,7 @@ class ArticleController extends Controller
             'date' => $date,
             'tags' => $tags,
             'user_id' => $user->id,
+            'visible' => $visible,
         ]);
 
         return redirect(route('articles.show', ['article' => $article]));
@@ -171,6 +172,7 @@ class ArticleController extends Controller
         $article->media_id = $media_id;
         $article->text = $request->input('editor1');
         $article->date = $request->input('date');
+        $article->visible = $visible;
         $article->tags = str_replace(', ', ',', $request->input('tags'));
         $article->save();
 

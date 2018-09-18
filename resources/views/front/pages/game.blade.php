@@ -9,6 +9,7 @@
     <meta property="og:title" content="{{ $game->homeTeam->club->name }} vs {{ $game->awayTeam->club->name }}" />
     <meta property="og:type" content="website" />
     <meta property="og:description" content="{{ trans('front.footer_desc') }}" />
+    <meta property="og:image" content="{{ url($game->game_group->season->competition->picture) }}">
 
 @endsection
 
