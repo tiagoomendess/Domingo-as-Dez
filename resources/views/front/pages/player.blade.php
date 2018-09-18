@@ -88,30 +88,14 @@
                                             <span>{{ $transfer->displayTeamAndClub() }}</span>
                                         @endif
 
-                                        @if($index == (count($transfers) - 1))
-                                            <div class="dates right">
-                                                <span>...</span>
-                                                <span class="green-text">
-                                                {{ \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $transfer->date)->format("m-Y") }}
-                                            </span>
-                                            </div>
-
-                                        @else
-                                            <div class="dates right">
-                                            <span class="red-text">
+                                        <div class="dates right">
+                                            <span class="green-text">
                                                 {{
-                                            \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $transfers[$index + 1]->date)->format("m-Y")
-                                            }}
+                                                \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $transfer->date)->format("m-Y")
+                                                }}
                                             </span>
+                                        </div>
 
-                                                <span class="green-text">
-                                                {{
-                                            \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $transfer->date)->format("m-Y")
-                                            }}
-                                            </span>
-
-                                            </div>
-                                        @endif
 
                                     </a>
                                 </li>
