@@ -11,6 +11,10 @@
 |
 */
 
+if (env('APP_ENV') === 'production') {
+    URL::forceSchema('https');
+}
+
 Auth::routes();
 Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
 Route::get('/register/verify/{email}', 'Auth\RegisterController@verifyEmailPage')->name('verifyEmailPage');
