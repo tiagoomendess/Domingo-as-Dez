@@ -18,6 +18,7 @@
     <meta name="msapplication-TileColor" content="#00aba9">
     <meta name="theme-color" content="#ffffff">
     <meta property="og:site_name" content="{{ config('app.name') }}" />
+    <meta property="fb:app_id" content="153482715435840" />
 
     @yield('head-content')
 @endsection
