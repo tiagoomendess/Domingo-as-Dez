@@ -118,4 +118,9 @@ Route::post('/perfil/apagar/cancelar', 'Resources\DeleteRequestsController@cance
 
 // END --------------
 
+//TEMPORARY ROUTES ------------
+Route::get('/uma-pre-eliminatoria-sem-tomba-gigantes', function () {
+    return redirect('/noticias/2018/9/18/uma-pre-eliminatoria-sem-tomba-gigantes');
+});
+
 

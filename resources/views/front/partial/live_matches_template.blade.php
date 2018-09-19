@@ -2,7 +2,7 @@
     <div id="group_template" class="match-group hide">
         <div class="header">
             <div class="left">
-                <img src="http://via.placeholder.com/50x50" alt="">
+                <img src="https://via.placeholder.com/50x50" alt="">
                 <span class="flow-text text-darken-1">1ª Divisão AFPB</span>
             </div>
         </div>
