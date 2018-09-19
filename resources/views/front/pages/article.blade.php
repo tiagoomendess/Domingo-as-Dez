@@ -2,6 +2,8 @@
 
 @section('head-content')
     <title>{{ $article->title }}</title>
+    <meta name="description" content="{{ $article->description }}">
+    <meta name="keywords" content="Notícia, News, Notícias, {{ $article->tags }}">
     <link rel="stylesheet" href="/css/front/article-style.css">
 
     <!-- Open Graph data -->
@@ -30,7 +32,7 @@
             @if($article->media->media_type == 'image')
                 <div class="parallax-container">
                     <div class="parallax">
-                        <img src="{{ $article->media->url }}">
+                        <img src="{{ $article->media->url }}" alt="{{ $article->media->tags }}">
                     </div>
 
                     <div class="article-parallax-container vertical-centered">
@@ -78,7 +80,7 @@
 
             <div class="parallax-container">
                 <div class="parallax">
-                    <img class="" src="{{ \App\Media::getPlaceholder('16:9', $article->id) }}">
+                    <img class="" src="{{ \App\Media::getPlaceholder('16:9', $article->id) }}" alt="">
                 </div>
 
                 <div class="article-parallax-container vertical-centered">

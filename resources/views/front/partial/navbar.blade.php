@@ -17,7 +17,7 @@
                     <div class="container">
 
                         <a href="{{ route('homePage') }}" class="brand-logo hide-on-med-and-down left">
-                            <img class="navbar-logo" src="{{ config('custom.site_logo') }}">
+                            <img class="navbar-logo" src="{{ config('custom.site_logo') }}" alt="{{ config('app.name') }}">
                         </a>
 
                         <ul id="nav-mobile" class="hide-on-med-and-down navbar-items">
@@ -49,7 +49,7 @@
                             @if(Auth::check())
                                 <li id="account_action">
                                     <a class="dropdown-button" href="#" data-activates="account_dropdown">
-                                        <img class="circle" src="{{ Auth::user()->profile->getPicture() }}" alt="">
+                                        <img class="circle" src="{{ Auth::user()->profile->getPicture() }}" alt="{{ $user->name }}">
                                         {{ str_replace("...", "", str_limit( Auth::user()->name, 13))}}
                                         <i class="material-icons right">arrow_drop_down</i>
                                     </a>
