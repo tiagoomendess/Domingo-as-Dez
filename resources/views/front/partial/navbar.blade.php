@@ -49,7 +49,7 @@
                             @if(Auth::check())
                                 <li id="account_action">
                                     <a class="dropdown-button" href="#" data-activates="account_dropdown">
-                                        <img class="circle" src="{{ Auth::user()->profile->getPicture() }}" alt="{{ $user->name }}">
+                                        <img class="circle" src="{{ Auth::user()->profile->getPicture() }}" alt="{{ Auth::user()->name }}">
                                         {{ str_replace("...", "", str_limit( Auth::user()->name, 13))}}
                                         <i class="material-icons right">arrow_drop_down</i>
                                     </a>
