@@ -21,7 +21,7 @@
     <!-- Schema.org markup for Google+ -->
     <meta itemprop="name" content="{{ $article->title }}">
     <meta itemprop="description" content="{{ $article->description }}">
-    <meta itemprop="image" content="{{ $article->getThumbnail() }}">
+    <meta itemprop="image" content="{{ url($article->getThumbnail()) }}">
 @endsection
 
 @section('content')
