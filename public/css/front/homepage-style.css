@@ -64,45 +64,65 @@
     margin: .4rem;
 }
 
-.player-of-week {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    border: solid .4rem #3b814f;
-    background-color: #3b814f;
+.player-of-the-week {
     position: relative;
+    height: 0;
+    width: 100%;
+    padding-bottom: 100%;
 }
 
-.player-of-week > figure {
-    margin: 0;
-    width: 100%;
-    position: relative;
-}
-
-.player-of-week > figure > img {
-    width: 100%;
-    z-index: 1;
-}
-.player-of-week > figure > figcaption {
-    z-index: 2;
+.player-of-the-week > div {
     position: absolute;
-    bottom: 0;
-    margin: 1rem 1rem;
-    padding: .2rem .6rem;
-    background-color: rgba(1,1,1,0.5);
-
-    color: white;
-    font-weight: 300;
-    font-size: 1.2rem;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 115.1%;
+    overflow: hidden;
+    border: .4rem solid #3f915b;
+    background-color: #3f915b;
 }
 
-.player-of-week > span {
+.player-of-the-week > div > img {
+    width: 100%;
+}
+
+.player-of-the-week > div > .player-of-the-week-desc {
+    position: absolute;
+    width: 100%;
     color: white;
-    font-weight: 600;
-    font-size: 1.5rem;
-    margin: .3rem 0;
+    bottom: 0;
+    left: 0;
+    height: 12%;
+    font-size: 1.3rem;
+    background-color: #3f915b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.player-of-the-week > div > .player-of-the-week-name {
+    background-color: rgba(1,1,1,0.4);
+    color: white;
+    position: absolute;
+    padding: .2rem;
+    font-size: 1.3rem;
+    bottom: 15%;
+    left: .5rem;
+}
+
+@media only screen and (max-width: 992px) {
+
+    .player-of-the-week > div {
+        height: 100%;
+    }
+}
+
+.pub {
+    width: 100%;
+}
+
+.pub > img {
+    width: 100%;
 }
 
 .is_live_outer {
@@ -126,8 +146,6 @@
 
 .is_live_outer > div > p {
     margin: 0;
-    font-size: 3rem;
-    font-weight: 600;
     line-height: 3rem;
 }
 

@@ -90,11 +90,14 @@
             </div>
 
             <div class="col s12 m12 l4 xl4">
-                <div class="card">
-                    <div class="card-image">
-                        <img src="http://placehold.it/500x500">
+                <a href="https://www.facebook.com/domingoasdez.popular">
+                    <div class="card">
+                        <div class="card-image">
+                            <img src="/images/anuncie-aqui-1by1.jpg">
+                        </div>
                     </div>
-                </div>
+                </a>
+
             </div>
         </div>
 

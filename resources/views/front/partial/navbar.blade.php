@@ -70,7 +70,7 @@
                                 </ul>
                             @else
                                 <li><a href="{{ route('login') }}">{{ trans('auth.login') }}</a></li>
-                                <li><a href="{{ route('register') }}">{{ trans('auth.register') }}</a></li>
+                                <li class="hide-on-smaller-large"><a href="{{ route('register') }}">{{ trans('auth.register') }}</a></li>
                             @endif
                         </ul>
 

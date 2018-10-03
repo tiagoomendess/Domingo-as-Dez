@@ -10,7 +10,7 @@ class TransfersController extends Controller
 {
     public function index() {
 
-        $transfers = Transfer::where('visible', true)->orderBy('date', 'desc')->paginate(config('custom.results_per_page'));
+        $transfers = Transfer::where('visible', true)->orderBy('date', 'desc')->paginate(6);
 
         return view('front.pages.transfers', ['transfers' => $transfers]);
     }

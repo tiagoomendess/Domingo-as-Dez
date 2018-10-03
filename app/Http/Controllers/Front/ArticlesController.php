@@ -7,12 +7,13 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
+use Intervention\Image\Facades\Image;
 
 class ArticlesController extends Controller
 {
     public function index() {
 
-        $articles = Article::where('visible', true)->orderBy('date', 'desc')->paginate(config('custom.results_per_page'));
+        $articles = Article::where('visible', true)->orderBy('date', 'desc')->paginate(9);
 
         return view('front.pages.articles', ['articles' => $articles]);
     }
@@ -51,7 +52,11 @@ class ArticlesController extends Controller
         if (!$found_article)
             return abort(404);
 
-        return view('front.pages.article', ['article' => Article::find($found_article->id), 'navbar_title' => trans('front.news_singular')]);
+        $article = Article::find($found_article->id);
+
+        $img = Image::make(public_path($article->getThumbnail()));
+
+        return view('front.pages.article', ['article' => $article, 'navbar_title' => trans('front.news_singular'), 'img_width' => $img->width(), 'img_height' => $img->height()]);
 
 
     }

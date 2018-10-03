@@ -15,7 +15,7 @@ figure img {
     position: absolute;
     bottom: 0;
     width: 100%;
-    margin: 10px 0;
+    margin: 0;
     color: white;
     text-shadow: 1px 1px 1px black;
     font-weight: 300;
@@ -24,10 +24,11 @@ figure img {
     display: flex;
     flex-direction: row;
     justify-content: center;
+    flex-wrap: wrap;
 }
 
 .details > * {
-    margin: 0 10px;
+    margin: .3rem 1rem;
     display: flex;
     align-items: center;
 }
@@ -68,11 +69,10 @@ figure img {
 }
 
 .separator #score {
-    font-size: 3.8rem;
-    line-height: 4rem;
+    font-weight: 600;
+    font-size: 2.7rem;
     color: #FFFFFF;
     text-shadow: 1px 1px 3px black;
-    font-weight: 600;
     vertical-align: middle;
 }
 

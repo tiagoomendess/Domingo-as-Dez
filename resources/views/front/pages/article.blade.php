@@ -16,6 +16,8 @@
                             'slug' => str_slug($article->title)
                         ]) }}" />
     <meta property="og:image" content="{{ url($article->getThumbnail()) }}">
+    <meta property="og:image:width" content="{{ $img_width }}">
+    <meta property="og:image:height" content="{{ $img_height }}">
     <meta property="og:description" content="{{ $article->description }}" />
 
     <!-- Schema.org markup for Google+ -->
@@ -35,9 +37,10 @@
                         <img src="{{ $article->media->url }}" alt="{{ $article->media->tags }}">
                     </div>
 
-                    <div class="article-parallax-container vertical-centered">
-                        <div class="container">
-                            <div class="col s12 article-title">
+                    <div class="article-parallax-container">
+
+                        <div class="col s12 article-title">
+                            <div class="container">
                                 <h1 class="light">{{ $article->title }}</h1>
                             </div>
                         </div>
@@ -51,8 +54,8 @@
                         </div>
                     </div>
 
-                    <div class="container">
-                        <div class="col s12 article-title">
+                    <div class="col s12 article-title-video">
+                        <div class="container">
                             <h1 class="light">{{ $article->title }}</h1>
                         </div>
                     </div>
@@ -67,11 +70,12 @@
                         </video>
                     </div>
 
-                    <div class="container">
-                        <div class="col s12 article-title">
+                    <div class="col s12 article-title-video">
+                        <div class="container">
                             <h1 class="light" style="">{{ $article->title }}</h1>
                         </div>
                     </div>
+
 
                 </div>
             @endif
@@ -83,9 +87,10 @@
                     <img class="" src="{{ \App\Media::getPlaceholder('16:9', $article->id) }}" alt="">
                 </div>
 
-                <div class="article-parallax-container vertical-centered">
-                    <div class="container">
-                        <div class="article-title col s12">
+                <div class="article-parallax-container">
+
+                    <div class="article-title col s12">
+                        <div class="container">
                             <h1 class="light">{{ $article->title }}</h1>
                         </div>
                     </div>
@@ -128,6 +133,14 @@
             $('.materialboxed').materialbox();
 
             $('.article-body p').each(function () {
+                $(this).addClass('flow-text');
+            });
+
+            $('.article-body ul').each(function () {
+                $(this).addClass('flow-text');
+            });
+
+            $('.article-body ol').each(function () {
                 $(this).addClass('flow-text');
             });
 

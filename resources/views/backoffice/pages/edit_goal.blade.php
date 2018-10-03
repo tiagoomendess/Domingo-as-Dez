@@ -136,18 +136,32 @@
                 <label>{{ trans('models.player') }}</label>
                 <select name="player_id" id="player_id" class="browser-default">
 
+
                     @if($goal->player)
-                        <option value="{{ $goal->player->id }}" selected>
-                            @if($goal->player->nickname)
-                                {{ $goal->player->name }} ({{ $goal->player->nickname }})
-                            @else
-                                {{ $goal->player->name }}
+
+                        @foreach($goal->team->getCurrentPlayers() as $player)
+
+                            @if($player->id != $goal->player->id)
+                                <option value="{{ $player->id }}"> {{ $player->displayName() }}</option>
                             @endif
+
+                        @endforeach
+
+                        <option value="{{ $goal->player->id }}" selected>{{  $goal->player->displayName() }}</option>
+
+                        <option value="">
+                            {{ trans('general.unknown') }}
                         </option>
+
                     @else
                         <option value="" selected>
                             {{ trans('general.unknown') }}
                         </option>
+
+                        @foreach($goal->team->getCurrentPlayers() as $player)
+                            <option value="{{ $player->id }}"> {{ $player->displayName() }}</option>
+                        @endforeach
+
                     @endif
                 </select>
             </div>

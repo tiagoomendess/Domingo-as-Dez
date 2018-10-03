@@ -15,7 +15,7 @@
                 <a href="{{ route('games.live') }}">
                     <div class="is_live_outer">
                         <div>
-                            <p>{{ trans('front.is_live') }}</p>
+                            <p class="flow-text text-bold white-text">{{ trans('front.is_live') }}</p>
                             <span>{{ trans('front.is_live_desc') }}</span>
                         </div>
 
@@ -62,36 +62,59 @@
                 </div>
             </div>
 
-            <div class="col s12 m12 l4">
+            <div class="col s6 m6 l4">
                 <div class="vertical-spacer"></div>
-                <a href="">
-                    <div class="player-of-week">
-                        <figure>
+
+                <a class="modal-trigger" href="#modal-pof">
+                    <div class="player-of-the-week">
+
+                        <div>
+                            <span class="player-of-the-week-name">João Bita</span>
+                            <span class="player-of-the-week-desc">{{ trans('front.player_of_the_week') }}</span>
                             <img src="{{ config('custom.default_profile_pic') }}" alt="">
-                            <figcaption>João Bita</figcaption>
-                        </figure>
-                        <span>
-                        {{ trans('front.player_of_the_week') }}
-                    </span>
+                        </div>
+
                     </div>
                 </a>
 
+                <div id="modal-pof" class="modal">
+                    <div class="modal-content">
+                        <h4>Informação</h4>
+                        <p class="flow-text">O João Bita não é o jogador da Semana. Apenas está aqui enquanto o sistema de escolha automático
+                            não está pronto. Primeiro estamos a recolher dados, analisar e verificar quais os melhores fatores a ter em consideração.
+                            Assim que estiver pronto será anunciado. Apenas terão hipotese de ser jogador da semana aqueles registados neste website.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="#" class="modal-action modal-close waves-effect waves-green btn-flat">Ok</a>
+                    </div>
+                </div>
+
             </div>
+
+            <div class="col s6 m6 hide-on-large-only">
+                <div class="vertical-spacer"></div>
+                <a href="https://www.facebook.com/domingoasdez.popular">
+                    <div class="pub">
+                        <img src="/images/anuncie-aqui-1by1.jpg" alt="">
+                    </div>
+                </a>
+            </div>
+
         </div>
 
         @if (!Auth::check())
-        <div class="row hide-on-large-only no-margin-bottom">
-            <div class="col s12">
-                <div class="vertical-spacer"></div>
-                <div class="divider"></div>
-                <div class="auth-buttons">
-                    <a href="{{ route('login') }}" class="waves-effect waves-light btn btn-large blue">{{ trans('auth.login') }}</a>
-                    <a href="{{ route('register') }}" class="waves-effect waves-light btn btn-large blue">{{ trans('auth.register') }}</a>
+            <div class="row hide-on-large-only no-margin-bottom">
+                <div class="col s12">
+                    <div class="vertical-spacer"></div>
+                    <div class="divider"></div>
+                    <div class="auth-buttons">
+                        <a href="{{ route('login') }}" class="waves-effect waves-light btn btn-large blue">{{ trans('auth.login') }}</a>
+                        <a href="{{ route('register') }}" class="waves-effect waves-light btn btn-large blue">{{ trans('auth.register') }}</a>
 
+                    </div>
+                    <div class="divider"></div>
                 </div>
-                <div class="divider"></div>
             </div>
-        </div>
         @else
             <div class="row hide-on-large-only no-margin-bottom">
                 <div class="col s12">
@@ -144,15 +167,15 @@
             </div>
 
             @foreach($competitions as $competition)
-            <div class="col s6 m6 l3">
-                <a href="{{ route('competition', ['slug' => str_slug($competition->name)]) }}">
-                    <div class="homepage-competition-box">
-                        <img src="{{ $competition->picture }}" alt="">
-                        <span class="truncate">{{ $competition->name }}</span>
-                    </div>
-                </a>
+                <div class="col s6 m6 l3">
+                    <a href="{{ route('competition', ['slug' => str_slug($competition->name)]) }}">
+                        <div class="homepage-competition-box">
+                            <img src="{{ $competition->picture }}" alt="">
+                            <span class="truncate">{{ $competition->name }}</span>
+                        </div>
+                    </a>
 
-            </div>
+                </div>
             @endforeach
 
             <div class="col s6 m6 l3">
@@ -173,4 +196,10 @@
 
 @section("scripts")
     <script src="/js/front/homepage-scripts.js"></script>
+    <script>
+        $(document).ready(function(){
+            // the "href" attribute of the modal trigger must specify the modal ID that wants to be triggered
+            $('.modal').modal();
+        });
+    </script>
 @endsection

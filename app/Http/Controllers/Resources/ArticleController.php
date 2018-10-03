@@ -28,7 +28,7 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        $articles = Article::paginate(config('custom.results_per_page'));
+        $articles = Article::orderBy('id', 'desc')->paginate(config('custom.results_per_page'));
         return view('backoffice.pages.articles')->with(['articles' => $articles]);
     }
 
