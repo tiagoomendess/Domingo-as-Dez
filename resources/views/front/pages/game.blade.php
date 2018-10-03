@@ -232,7 +232,7 @@
         </div>
     </div>
 
-    @if(has_permission('games.edit))
+    @if(has_permission('games.edit'))
         <div class="row">
             <div class="container">
                 <a href="{{ route('games.show', ['game' => $game]) }}" class="btn-floating btn-large waves-effect waves-light blue right"><i class="material-icons">edit</i></a>
