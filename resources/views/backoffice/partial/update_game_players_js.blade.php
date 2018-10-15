@@ -65,6 +65,7 @@
 
     function addOtherTeamPlayers(team_id, players_drop) {
 
+        return; //Remendo, alterar mais tarde
         console.log("addOtherTeamPlayers");
 
         $.get("/teams/" + team_id + "/current_players", function (players) {
