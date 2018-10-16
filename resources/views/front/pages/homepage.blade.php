@@ -196,7 +196,7 @@
     <div class="container">
         <div class="row">
             <div class="col s6 m4 l3">
-                <a href="http://www.prediol.pt">
+                <a href="http://www.prediol.com">
                     <img style="width: 100%" src="/images/prediol_card_pub.jpeg" alt="">
                 </a>
             </div>
