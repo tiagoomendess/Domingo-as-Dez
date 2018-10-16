@@ -69,7 +69,7 @@
                 <select id="club_id" name="club_id" class="browser-default" onchange="updateTeamList('club_id', 'team_id')">
                     <option disabled value="0" selected>{{ trans('general.choose_option') }}</option>
                     <option value="0">{{ trans('general.none') }}</option>
-                    @foreach(App\Club::all() as $club)
+                    @foreach(App\Club::all()->sortBy('name') as $club)
                         <option value="{{ $club->id }}">{{ $club->name }}</option>
                     @endforeach
                 </select>

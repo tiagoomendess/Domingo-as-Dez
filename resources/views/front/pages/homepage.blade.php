@@ -93,9 +93,9 @@
 
             <div class="col s6 m6 hide-on-large-only">
                 <div class="vertical-spacer"></div>
-                <a href="https://www.facebook.com/domingoasdez.popular">
+                <a href="http://www.slc.pt">
                     <div class="pub">
-                        <img src="/images/anuncie-aqui-1by1.jpg" alt="">
+                        <img src="/images/slc_pub_1by1.jpg" alt="">
                     </div>
                 </a>
             </div>
@@ -188,6 +188,24 @@
 
             </div>
 
+        </div>
+
+    </div>
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col s6 m4 l3">
+                <a href="http://www.prediol.pt">
+                    <img style="width: 100%" src="/images/prediol_card_pub.jpeg" alt="">
+                </a>
+            </div>
+
+            <div class="col s6 m4 l3">
+                <a href="http://www.slc.pt">
+                    <img style="width: 100%" src="/images/slc_pub_1by1.jpg" alt="">
+                </a>
+            </div>
         </div>
 
     </div>

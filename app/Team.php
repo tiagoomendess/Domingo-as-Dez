@@ -56,6 +56,8 @@ class Team extends Model
 
         }
 
+        $current_players->sortBy('name');
+
         //I really want a index 0 array ----------------
         $i = 0;
         $array = array();

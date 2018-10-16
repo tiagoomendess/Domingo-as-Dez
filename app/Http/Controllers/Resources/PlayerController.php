@@ -132,7 +132,7 @@ class PlayerController extends Controller
                 'player_id' => $player->id,
                 'team_id' => $request->input('team_id'),
                 'date' => Carbon::now()->format("Y-m-d"),
-                'visible' => false,
+                'visible' => true,
             ]);
 
         }

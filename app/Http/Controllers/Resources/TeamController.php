@@ -152,7 +152,8 @@ class TeamController extends Controller
     public function getCurrentPlayers($id) {
 
         $team = Team::findOrFail($id);
+        $players = $team->getCurrentPlayers();
 
-        return response()->json($team->getCurrentPlayers());
+        return response()->json($players);
     }
 }
