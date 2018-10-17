@@ -134,8 +134,17 @@
                                         <figure>
                                             <img src="{{ $goal->getPlayerPicture() }}" alt="{{ $goal->getPlayerName() }}">
                                         </figure>
-                                        <span class="player-name">{{ $goal->getPlayerName() }}</span>
-                                        <span class="minute right">{{ $goal->minute }}"</span>
+                                        <span class="player-name">
+                                            {{ $goal->getPlayerName() }}
+                                            @if ($goal->own_goal)
+                                                <small>{{ trans('models.own_goal') }}</small>
+                                            @elseif($goal->penalty)
+                                                <small>{{ trans('models.penalty') }}</small>
+                                            @endif
+                                        </span>
+                                        @if ($goal->minute)
+                                            <span class="minute right">{{ $goal->minute }}"</span>
+                                        @endif
                                     </a>
                                 </div>
                             @endforeach
@@ -207,8 +216,19 @@
                                         <figure>
                                             <img src="{{ $goal->getPlayerPicture() }}" alt="{{ $goal->getPlayerName() }}">
                                         </figure>
-                                        <span class="player-name">{{ $goal->getPlayerName() }}</span>
-                                        <span class="minute right">{{ $goal->minute }}"</span>
+                                        <span class="player-name">
+                                            {{ $goal->getPlayerName() }}
+                                            @if ($goal->own_goal)
+                                                <small>{{ trans('models.own_goal') }}</small>
+                                            @elseif($goal->penalty)
+                                                <small>{{ trans('models.penalty') }}</small>
+                                            @endif
+                                        </span>
+
+                                        @if ($goal->minute)
+                                            <span class="minute right">{{ $goal->minute }}"</span>
+                                        @endif
+
                                     </a>
 
                                 </div>

@@ -152,6 +152,9 @@ figure img {
 
 .goal-overview .player-name {
     font-size: 1.15rem;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
 }
 
 .goal-overview > a > * {

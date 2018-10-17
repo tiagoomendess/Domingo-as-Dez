@@ -234,12 +234,11 @@ class Game extends Model
             $game_warmup_date = Carbon::createFromTimestamp($game_date->timestamp);
             $game_warmup_date->subMinutes(30);
             $game_end_date = Carbon::createFromTimestamp($game_date->timestamp);
-            $game_end_date->addHours(2);
+            $game_end_date->addHours(2)->addMinutes(30);
 
             if ($now->timestamp > $game_warmup_date->timestamp && $now->timestamp < $game_end_date->timestamp)
                 $games->push($game);
 
-            //dd($game_warmup_date . ' - ' . $now . ' - ' . $game_end_date);
         }
 
         return $games;
