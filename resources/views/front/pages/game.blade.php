@@ -26,7 +26,8 @@
         <div class="game-header">
             <div class="details">
                 <span class="hide" id="exact_time">{{ $game->date }}</span>
-                <time><i class="material-icons">date_range</i> {{ \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $game->date)->toDateString() }}</time>
+                <time><i class="material-icons">date_range</i> {{ \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $game->date)->timezone('Europe/Lisbon')->format("d/m/Y") }}</time>
+                <time><i class="material-icons">access_time</i> {{ \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $game->date)->timezone('Europe/Lisbon')->format("H:i") }}</time>
                 @if ($game->playground)<span><i class="material-icons">location_on</i> {{ $game->playground->name }}</span>@endif
                 <span>
                     <img src="{{$game->game_group->season->competition->picture}}" alt="{{ $game->game_group->season->competition->name }}">
