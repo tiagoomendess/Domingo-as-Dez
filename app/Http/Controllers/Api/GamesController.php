@@ -176,11 +176,12 @@ class GamesController extends Controller
             similar_text(strtolower($game->home_team->club->name), $home_club,$percent1);
             similar_text(strtolower($game->away_team->club->name), $away_club,$percent2);
 
-            if ($percent1 > 85 && $percent2 > 85) {
+            if ($percent1 > 80 && $percent2 > 80) {
                 $game->goals_home = $home_score;
                 $game->goals_away = $away_score;
                 $game->save();
                 $out->success = true;
+                $out->message = $game->home_team->club->name . ' vs ' . $game->away_team->club->name . ' alterado! ID: ' . $game->id;
                 break;
             }
 
