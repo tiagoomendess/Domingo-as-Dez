@@ -158,14 +158,7 @@ class GamesController extends Controller
             return response()->json($out);
         }
 
-        $data = json_encode(Input::all());
-
-        $home_club = $data->home_club;
-        $home_score = $data->home_score;
-        $away_club = $data->away_club;
-        $away_score = $data->away_score;
-
-        dd($home_club);
+        dd($request->json('token'));
 
         $games = Game::getLiveGames();
 
