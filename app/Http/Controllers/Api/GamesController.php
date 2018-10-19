@@ -143,4 +143,14 @@ class GamesController extends Controller
         return response()->json($data);
 
     }
+
+    public function updateScoreLiveMatch(Request $request) {
+
+        $token = 'inuVeIZB5IjoxXiMDdnf';
+
+        $json = json_decode($request->getContent(), true);
+
+        dd($json);
+
+    }
 }
