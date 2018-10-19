@@ -7,6 +7,7 @@ use App\GameGroup;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Input;
 
 class GamesController extends Controller
 {
@@ -162,7 +163,7 @@ class GamesController extends Controller
         $away_club = $request->input('away_club');
         $away_score = $request->input('away_score');
 
-        dd($home_club);
+        dd(Input::all());
 
         $games = Game::getLiveGames();
 
