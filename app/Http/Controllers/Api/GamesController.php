@@ -164,6 +164,11 @@ class GamesController extends Controller
         $away_club = $request->json('away_club_name');
         $away_score = $request->json('away_club_score');
 
+        if (!is_int($home_score) || !is_int($away_score)) {
+            $out->error_message = 'Score must be integer!';
+            return response()->json($out);
+        }
+
         $games = Game::getLiveGames();
 
         if (count($games) == 0) {
