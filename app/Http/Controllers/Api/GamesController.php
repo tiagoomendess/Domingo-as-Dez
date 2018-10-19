@@ -146,11 +146,41 @@ class GamesController extends Controller
 
     public function updateScoreLiveMatch(Request $request) {
 
-        $token = 'inuVeIZB5IjoxXiMDdnf';
+        $local_token = 'inuVeIZB5IjoxXiMDdnf';
+        $out = new \stdClass();
+        $out->success = false;
 
-        $json = json_decode($request->getContent(), true);
+        $token = $request->json('token');
+        $home_club = $request->json('home_club');
+        $home_score = $request->json('home_score');
+        $away_club = $request->json('away_club');
+        $away_score = $request->json('away_score');
 
-        dd($json);
+        $games = Game::getLiveGames();
+
+        if (count($games) == 0) {
+            return response()->json($out);
+        }
+
+        $percent1 = null;
+        $percent2 = null;
+        foreach ($games as $game) {
+
+            similar_text(strtolower($game->home_team->club->name), $home_club,$percent1);
+            similar_text(strtolower($game->away_team->club->name), $away_club,$percent2);
+
+            if ($percent1 > 85 && $percent2 > 85) {
+                $game->goals_home = $home_score;
+                $game->goals_away = $away_score;
+                $game->save();
+                $out->success = true;
+                break;
+            }
+
+        }
+
+        return response()->json($out);
+
 
     }
 }
