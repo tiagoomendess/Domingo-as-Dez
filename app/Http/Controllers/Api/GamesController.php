@@ -151,6 +151,12 @@ class GamesController extends Controller
         $out->success = false;
 
         $token = $request->json('token');
+
+        if ($token != $local_token) {
+            $out->error_message = 'Token inválido!';
+            return response()->json($out);
+        }
+
         $home_club = $request->json('home_club');
         $home_score = $request->json('home_score');
         $away_club = $request->json('away_club');
