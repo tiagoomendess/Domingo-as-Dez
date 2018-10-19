@@ -164,6 +164,8 @@ class GamesController extends Controller
         $away_club = $request->json('away_club');
         $away_score = $request->json('away_score');
 
+        dd($home_club . ' - ' . $away_club);
+
         $games = Game::getLiveGames();
 
         if (count($games) == 0) {
