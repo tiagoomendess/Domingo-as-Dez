@@ -153,7 +153,7 @@ class GamesController extends Controller
         $token = $request->json('token');
 
         if ($token != $local_token) {
-            $out->error_message = 'Token inválido!';
+            $out->error_message = 'Invalid Token!';
             return response()->json($out);
         }
 
@@ -165,6 +165,7 @@ class GamesController extends Controller
         $games = Game::getLiveGames();
 
         if (count($games) == 0) {
+            $out->error_message = 'No live matches!';
             return response()->json($out);
         }
 
