@@ -157,10 +157,10 @@ class GamesController extends Controller
             return response()->json($out);
         }
 
-        $home_club = $request->json('home_club');
-        $home_score = $request->json('home_score');
-        $away_club = $request->json('away_club');
-        $away_score = $request->json('away_score');
+        $home_club = $request->input('home_club');
+        $home_score = $request->input('home_score');
+        $away_club = $request->input('away_club');
+        $away_score = $request->input('away_score');
 
         $games = Game::getLiveGames();
 
@@ -169,8 +169,6 @@ class GamesController extends Controller
             return response()->json($out);
         }
 
-        $percent1 = null;
-        $percent2 = null;
         foreach ($games as $game) {
 
             similar_text(strtolower($game->home_team->club->name), $home_club,$percent1);
