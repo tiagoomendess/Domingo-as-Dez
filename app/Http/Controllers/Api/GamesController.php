@@ -178,7 +178,7 @@ class GamesController extends Controller
 
             $out->percents = $percent1 . ' - ' . $percent2;
 
-            if ($percent1 > 80 && $percent2 > 80) {
+            if ($percent1 > 71 && $percent2 > 71) {
                 $game->goals_home = $home_score;
                 $game->goals_away = $away_score;
                 $game->save();
