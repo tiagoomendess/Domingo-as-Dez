@@ -158,10 +158,12 @@ class GamesController extends Controller
             return response()->json($out);
         }
 
-        $home_club = $request->input('home_club');
-        $home_score = $request->input('home_score');
-        $away_club = $request->input('away_club');
-        $away_score = $request->input('away_score');
+        $data = json_encode(Input::all());
+
+        $home_club = $data->home_club;
+        $home_score = $data->home_score;
+        $away_club = $data->away_club;
+        $away_score = $data->away_score;
 
         dd($home_club);
 
