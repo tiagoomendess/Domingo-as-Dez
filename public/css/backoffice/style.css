@@ -100,3 +100,10 @@ body {
 .setting-popup:hover {
     background-color: rgba(10,10,10, 0.1);
 }
+
+#article_preview {
+    width: 100%;
+    margin-top: 10px;
+    border: 2px solid black;
+}
+

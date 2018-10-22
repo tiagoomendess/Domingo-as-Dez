@@ -54,6 +54,9 @@ class ArticlesController extends Controller
 
         $article = Article::find($found_article->id);
 
+        if (!$article->visible && !has_permission('articles'))
+            return abort(404);
+
         $img = Image::make(public_path($article->getThumbnail()));
 
         return view('front.pages.article', ['article' => $article, 'navbar_title' => trans('front.news_singular'), 'img_width' => $img->width(), 'img_height' => $img->height()]);

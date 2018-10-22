@@ -66,7 +66,7 @@
 
                 <div class="row">
                     <div class="col s12">
-                    <textarea name="editor1" id="editor1" rows="5">
+                    <textarea name="editor1" id="editor1">
                         {{ $article->text }}
                     </textarea>
                     </div>
