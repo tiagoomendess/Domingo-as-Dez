@@ -108,6 +108,15 @@
 
         </div>
     </div>
+
+    @if(has_permission('players.edit'))
+        <div class="row">
+            <div class="container">
+                <a href="{{ route('players.show', ['player' => $player]) }}" class="btn-floating btn-large waves-effect waves-light blue right"><i class="material-icons">edit</i></a>
+            </div>
+        </div>
+    @endif
+
 @endsection
 
 @section('scripts')
