@@ -190,6 +190,10 @@ function handleGetGamesRequest(response) {
         right_btn.attr('id', 'right_' + i);
         right_btn.attr('onclick', "rightBtnClicked(event)");
 
+        response.data.groups[i].rounds.sort(function (a, b) {
+            return a.number - b.number;
+        });
+
         for (var j = 0; j < response.data.groups[i].rounds.length; j++) {
 
             var games = $('#games').clone();
@@ -256,8 +260,6 @@ function handleGetGamesRequest(response) {
 
 function showTable(group, round) {
 
-    console.log(group + " - " + round);
-
     if (group === undefined || round === undefined)
         return;
 
@@ -299,7 +301,6 @@ function showTable(group, round) {
 
 function buildPointsTable(group, round) {
 
-    console.log('Table did not exist so building it!');
     var table = [];
 
     for (var i = 0; i < data.groups[group].rounds.length; i++) {

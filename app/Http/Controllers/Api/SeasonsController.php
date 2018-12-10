@@ -71,6 +71,7 @@ class SeasonsController extends Controller
             $data_object->data->groups[$i]->rounds = [];
 
             $game_rounds = $game_group->games->groupBy('round');
+
             $data_object->data->groups[$i]->rounds = [];
 
             foreach ($game_rounds as $round) {
