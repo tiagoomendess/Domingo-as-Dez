@@ -76,7 +76,7 @@ function liveMatches() {
         console.log('Updating matches...');
         makeGetRequest('/api/games/live', {}, updateMatches);
 
-    }, 5000);
+    }, 15000);
 
 }
 
