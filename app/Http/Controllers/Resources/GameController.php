@@ -460,7 +460,7 @@ class GameController extends Controller
 
                 $round = $data[0];
 
-                $game = Game::where('game_group_id', $game_group->id)->where('home_team_id', $home_team->id)->where('away_team_id', $away_team->id)->first();
+                $game = Game::where('game_group_id', $game_group->id)->where('home_team_id', $home_team->id)->where('away_team_id', $away_team->id)->where('round', $round)->first();
 
                 if (!$game) {
 
