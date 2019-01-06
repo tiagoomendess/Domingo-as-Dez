@@ -149,4 +149,5 @@
 
 @section('scripts')
     <script src="/js/front/competition-scripts.js"></script>
+    <script src="/js/front/points-tie-breakers-scripts.js"></script>
 @endsection

@@ -323,7 +323,7 @@ function buildPointsTable(group, round) {
             break;
     }
 
-    table = orderTable(table, group.rules_name);
+    table = orderTable(table, data.groups[group].rules_name, group, round);
 
     var group_element = $('#group_' + group);
 
@@ -456,13 +456,18 @@ function processGameResult(table, game) {
     return table;
 }
 
-function orderTable(table, rules_name) {
+function orderTable(table, rules_name, group, round) {
 
     table = orderTableByPoints(table);
 
     switch (rules_name) {
         case 'Default Points':
             console.log('Default Points, nothind to do!');
+            break;
+        case 'afpb_pontos_2018_div1':
+        case 'afpb_pontos_2018_div2':
+            console.log('AFPB Points in 2018!');
+            table = afpb_points_2018(table, group, round);
             break;
         default:
             console.log('Rules unknown!');
