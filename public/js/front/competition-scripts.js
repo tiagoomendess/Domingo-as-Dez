@@ -292,6 +292,7 @@ function showTable(group, round) {
 
     } else if (data.groups[group].type === 'elimination') {
         group_element.find('.table-loading').addClass('hide');
+        group_element.find('.group-table').empty();
         group_element.find('.group-table').append($('<p class="center">Não existe tabela para competições a eliminar.</p>'));
     } else {
 
