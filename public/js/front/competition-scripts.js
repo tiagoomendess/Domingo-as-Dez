@@ -325,50 +325,6 @@ function buildPointsTable(group, round) {
     }
 
     orderTable(table, data.groups[group].rules_name, group, round);
-
-    // var group_element = $('#group_' + group);
-    //
-    // var tables = group_element.find('.tables');
-    // var table_element = tables.find('#table').clone();
-    // table_element.attr('id', 'group_' + group +'_table_' + round);
-    // table_element.attr('round', round);
-    // table_element.append('<tbody></tbody>');
-    //
-    // for (var k = 0; k < table.length; k++) {
-    //     var line = $('<tr></tr>');
-    //
-    //     var position = $('<td class="number">' + (k + 1) + '</td>');
-    //     var club_emblem = $('<td class="table-club-emblem"><img src="' + table[k].club_emblem + '"/></td>');
-    //     var club_name = $('<td><a href="' + table[k].club_url + '">' + table[k].club_name + '</a></td>');
-    //     var matches_played = $('<td class="number hide-on-small-and-down">' + table[k].matches_played + '</td>');
-    //     var wins = $('<td class="number hide-on-med-and-down">' + table[k].wins + '</td>');
-    //     var draws = $('<td class="number hide-on-med-and-down">' + table[k].draws + '</td>');
-    //     var loses = $('<td class="number hide-on-med-and-down">' + table[k].loses + '</td>');
-    //     var gf = $('<td class="number hide-on-med-and-down">' + table[k].gf + '</td>');
-    //     var ga = $('<td class="number hide-on-med-and-down">' + table[k].ga + '</td>');
-    //     var gd = $('<td class="number hide-on-small-and-down">' + (parseInt(table[k].gf) - parseInt(table[k].ga)) + '</td>');
-    //     var points = $('<td class="number">' + table[k].points + '</td>');
-    //
-    //     position.appendTo(line);
-    //     club_emblem.appendTo(line);
-    //     club_name.appendTo(line);
-    //     matches_played.appendTo(line);
-    //     wins.appendTo(line);
-    //     draws.appendTo(line);
-    //     loses.appendTo(line);
-    //     gf.appendTo(line);
-    //     ga.appendTo(line);
-    //     gd.appendTo(line);
-    //     points.appendTo(line);
-    //
-    //     line.appendTo(table_element.find('tbody'));
-    // }
-    //
-    // group_element.find('.table-loading').addClass('hide');
-    // table_element.appendTo(tables);
-    // table_element.addClass('active');
-    // table_element.removeClass('hide');
-
 }
 
 function buildTableDOM(table, group, round) {
@@ -383,6 +339,17 @@ function buildTableDOM(table, group, round) {
 
     for (var k = 0; k < table.length; k++) {
         var line = $('<tr></tr>');
+
+        if (k === 0)
+            line.attr("id", "champion");
+
+        if (k > 0 && k < data.groups[group].promotes) {
+            line.addClass("promotion");
+        }
+
+        if (k > 0 && k >= (table.length - data.groups[group].relegates)) {
+            line.addClass("relegate");
+        }
 
         var position = $('<td class="number">' + (k + 1) + '</td>');
         var club_emblem = $('<td class="table-club-emblem"><img src="' + table[k].club_emblem + '"/></td>');

@@ -5,11 +5,6 @@ function afpb_points_2018(table, group, round) {
 
     local_group = data.groups[group];
     max_round = round;
-    console.log("ROUND: " + round);
-    // console.log(local_group);
-    console.log(table);
-    console.log(data.groups[group]);
-    console.log("--------------------");
 
     for (var i = 0; i < table.length; i++) {
 
@@ -23,7 +18,6 @@ function afpb_points_2018(table, group, round) {
                 break;
 
             if (table[i].points === table[j].points) {
-                console.log("Breaking tie in points!" + "(" + (i) + " " + table[(i)].club_name + " e " + (j) + " " + table[j].club_name + ")");
 
                 //a) Número de pontos alcançados pelos clubes nos jogos disputados entre si;
                 var diffInPoints = getPointDiffFromMatchesBetweenTeams(table[i].club_name, table[j].club_name);
@@ -65,13 +59,10 @@ function afpb_points_2018(table, group, round) {
         }
     }
 
-    console.log(table);
-
     buildTableDOM(table, group, round);
 }
 
 function switchPlacesWithNext(table, positionA, positionB) {
-    console.log("Switched " + (positionA) + " (" + table[positionA].club_name + ") for " + (positionA + 1) + " (" + table[positionA + 1].club_name + ")");
     var aux;
     aux = table[positionA];
     table[positionA] = table[positionB];
@@ -157,6 +148,5 @@ function getGoalDiffFromMatchesBetweenTeams(club_1_name, club_2_name) {
 
     }
 
-    //console.log("GOALS DIFF: " + goals_diff_team_1 + " | " + goals_diff_team_2);
     return goals_diff_team_1 - goals_diff_team_2;
 }

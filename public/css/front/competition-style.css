@@ -157,7 +157,7 @@ body {
 
 }
 
-.tables .positions-table tbody tr:nth-child(2n+1) {
+.positions-table tbody tr:nth-child(2n+1) {
     background-color: rgba(1,1,1,0.05);
 }
 
@@ -191,4 +191,16 @@ body {
 
 .positions-table tbody tr td a:hover {
     color: #107db7;
+}
+
+#champion {
+    background-color: rgba(133, 201, 117, 0.65);
+}
+
+.tables .positions-table tbody .relegate {
+    background-color: rgba(255, 0, 0, 0.23);
+}
+
+.tables .positions-table tbody .promotion {
+    background-color: rgba(187, 220, 177, 0.65);
 }
