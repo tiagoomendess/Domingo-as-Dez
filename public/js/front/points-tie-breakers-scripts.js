@@ -8,7 +8,7 @@ function afpb_points_2018(table, group, round) {
     console.log("ROUND: " + round);
     // console.log(local_group);
     console.log(table);
-    console.log(group);
+    console.log(data.groups[group]);
     console.log("--------------------");
 
     for (var i = 0; i < table.length; i++) {
