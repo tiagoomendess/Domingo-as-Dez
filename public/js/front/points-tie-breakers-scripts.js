@@ -61,6 +61,8 @@ function afpb_points_2018(table, group, round) {
         }
     }
 
+    console.log(table);
+
     return table;
 }
 
