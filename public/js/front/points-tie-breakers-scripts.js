@@ -18,6 +18,10 @@ function afpb_points_2018(table, group, round) {
             break;
 
         for (var j = i + 1; j < table.length; j++) {
+
+            if (table[i].points > table[j].points)
+                break;
+
             if (table[i].points === table[j].points) {
                 console.log("Breaking tie in points!" + "(" + (i) + " " + table[(i)].club_name + " e " + (j) + " " + table[j].club_name + ")");
 
