@@ -65,7 +65,7 @@ function afpb_points_2018(table, group, round) {
 }
 
 function switchPlacesWithNext(table, position) {
-    console.log("Switched " + (position + 1) + "º for " + (position + 2));
+    console.log("Switched " + (position + 1) + " (" + table[position].club_name + ") for " + (position + 2) + " (" + table[position + 1].club_name + ")");
     var aux;
     aux = table[position];
     table[position] = table[position + 1];
