@@ -17,47 +17,35 @@ function afpb_points_2018(table, group, round) {
 
         for (var j = i + 1; j < table.length; j++) {
             if (table[i].points === table[j].points) {
-                console.log("Breaking tie in points!" + "(" + table[(i + 1)].club_name + " e " + table[(i + 2)].club_name + ")");
+                console.log("Breaking tie in points!" + "(" + (i + 1) + "º " + table[(i + 1)].club_name + " e " + (i + 2) + "º " + table[(i + 2)].club_name + ")");
 
                 //a) Número de pontos alcançados pelos clubes nos jogos disputados entre si;
-                console.log("Entering rule a...");
                 var diffInPoints = getPointDiffFromMatchesBetweenTeams(table[i].club_name, table[j].club_name);
 
                 if (diffInPoints < 0) {
                     table = switchPlacesWithNext(table, i);
-                    console.log("Switched " + (i + 1) + " for " + (i + 2) + " because of rule a");
                 } else if (diffInPoints === 0) {
-                    console.log("Entering rule b...");
                     //b) Maior diferença entre o número de golos marcados e sofridos nos jogos disputados entre os clubes empatados;
                     var diffInGoals = getGoalDiffFromMatchesBetweenTeams(table[i].club_name, table[j].club_name);
 
                     if (diffInGoals < 0) {
                         table = switchPlacesWithNext(table, i);
-                        console.log("Switched " + (i + 1) + " for " + (i + 2) + " because of rule b");
                     } else if (diffInGoals === 0) {
-                        console.log("Entering rule c...");
                         //c) Maior diferença entre os golos marcados e sofridos, durante toda a competição
                         if ((table[i].gf - table[i].ga) < (table[j].gf - table[j].ga)) {
                             table = switchPlacesWithNext(table, i);
-                            console.log("Switched " + (i + 1) + " for " + (i + 2) + " because of rule c");
                         } else if ((table[i].gf - table[i].ga) === (table[j].gf - table[j].ga)) {
-                            console.log("Entering rule d...");
                             //d) Maior número de vitórias na competição
                             if (table[i].wins < table[j].wins) {
                                 table = switchPlacesWithNext(table, i);
-                                console.log("Switched " + (i + 1) + " for " + (i + 2) + " because of rule d");
                             } else if (table[i].wins === table[j].wins) {
-                                console.log("Entering rule e...");
                                 //e) Maior número de golos marcados na competição
                                 if (table[i].gf < table[j].gf) {
                                     table = switchPlacesWithNext(table, i);
-                                    console.log("Switched " + (i + 1) + " for " + (i + 2) + " because of rule e");
                                 } else if (table[i].gf === table[j].gf) {
-                                    console.log("Entering rule f...");
                                     //f) Menor número de golos sofridos na competição
                                     if (table[i].ga > table[j].ga) {
                                         table = switchPlacesWithNext(table, i);
-                                        console.log("Switched " + (i + 1) + " for " + (i + 2) + " because of rule f");
                                     } else if (table[i].ga === table[j].ga) {
                                         //End of rules, maybe alphabetically next?
                                         console.log("End of rule list. Cannot resolve conflict!");
