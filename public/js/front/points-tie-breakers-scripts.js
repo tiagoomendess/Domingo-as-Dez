@@ -29,29 +29,29 @@ function afpb_points_2018(table, group, round) {
                 var diffInPoints = getPointDiffFromMatchesBetweenTeams(table[i].club_name, table[j].club_name);
 
                 if (diffInPoints < 0) {
-                    table = switchPlacesWithNext(table, i);
+                    table = switchPlacesWithNext(table, i, j);
                 } else if (diffInPoints === 0) {
                     //b) Maior diferença entre o número de golos marcados e sofridos nos jogos disputados entre os clubes empatados;
                     var diffInGoals = getGoalDiffFromMatchesBetweenTeams(table[i].club_name, table[j].club_name);
 
                     if (diffInGoals < 0) {
-                        table = switchPlacesWithNext(table, i);
+                        table = switchPlacesWithNext(table, i, j);
                     } else if (diffInGoals === 0) {
                         //c) Maior diferença entre os golos marcados e sofridos, durante toda a competição
                         if ((table[i].gf - table[i].ga) < (table[j].gf - table[j].ga)) {
-                            table = switchPlacesWithNext(table, i);
+                            table = switchPlacesWithNext(table, i, j);
                         } else if ((table[i].gf - table[i].ga) === (table[j].gf - table[j].ga)) {
                             //d) Maior número de vitórias na competição
                             if (table[i].wins < table[j].wins) {
-                                table = switchPlacesWithNext(table, i);
+                                table = switchPlacesWithNext(table, i, j);
                             } else if (table[i].wins === table[j].wins) {
                                 //e) Maior número de golos marcados na competição
                                 if (table[i].gf < table[j].gf) {
-                                    table = switchPlacesWithNext(table, i);
+                                    table = switchPlacesWithNext(table, i, j);
                                 } else if (table[i].gf === table[j].gf) {
                                     //f) Menor número de golos sofridos na competição
                                     if (table[i].ga > table[j].ga) {
-                                        table = switchPlacesWithNext(table, i);
+                                        table = switchPlacesWithNext(table, i, j);
                                     } else if (table[i].ga === table[j].ga) {
                                         //End of rules, maybe alphabetically next?
                                         console.log("End of rule list. Cannot resolve conflict!");
@@ -70,12 +70,12 @@ function afpb_points_2018(table, group, round) {
     buildTableDOM(table, group, round);
 }
 
-function switchPlacesWithNext(table, position) {
-    console.log("Switched " + (position) + " (" + table[position].club_name + ") for " + (position + 1) + " (" + table[position + 1].club_name + ")");
+function switchPlacesWithNext(table, positionA, positionB) {
+    console.log("Switched " + (positionA) + " (" + table[positionA].club_name + ") for " + (positionA + 1) + " (" + table[positionA + 1].club_name + ")");
     var aux;
-    aux = table[position];
-    table[position] = table[position + 1];
-    table[position + 1] = aux;
+    aux = table[positionA];
+    table[positionA] = table[positionB];
+    table[positionB] = aux;
     return table;
 }
 
