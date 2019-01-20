@@ -17,7 +17,7 @@ function afpb_points_2018(table, group, round) {
 
         for (var j = i + 1; j < table.length; j++) {
             if (table[i].points === table[j].points) {
-                console.log("Breaking tie in points!" + "(" + (i + 1) + "º e " + (i + 2) + "º)");
+                console.log("Breaking tie in points!" + "(" + table[(i + 1)].club_name + " e " + table[(i + 2)].club_name + ")");
 
                 //a) Número de pontos alcançados pelos clubes nos jogos disputados entre si;
                 console.log("Entering rule a...");
