@@ -1,54 +1,54 @@
 var local_group;
 var max_round;
 
-function afpb_points_2018(table, group, round) {
+function afpb_points_2018(table1, group, round) {
 
     local_group = data.groups[group];
     max_round = round;
     console.log("ROUND: " + round);
     // console.log(local_group);
-    console.log(table);
+    console.log(table1);
     console.log(data.groups[group]);
     console.log("--------------------");
 
-    for (var i = 0; i < table.length; i++) {
+    for (var i = 0; i < table1.length; i++) {
 
         //Check if it is in last position
-        if (i + 1 >= table.length)
+        if (i + 1 >= table1.length)
             break;
 
-        for (var j = i + 1; j < table.length; j++) {
-            if (table[i].points === table[j].points) {
-                console.log("Breaking tie in points!" + "(" + (i + 1) + "º " + table[(i)].club_name + " e " + (i + 2) + "º " + table[j].club_name + ")");
+        for (var j = i + 1; j < table1.length; j++) {
+            if (table1[i].points === table1[j].points) {
+                console.log("Breaking tie in points!" + "(" + (i + 1) + "º " + table1[(i)].club_name + " e " + (i + 2) + "º " + table1[j].club_name + ")");
 
                 //a) Número de pontos alcançados pelos clubes nos jogos disputados entre si;
-                var diffInPoints = getPointDiffFromMatchesBetweenTeams(table[i].club_name, table[j].club_name);
+                var diffInPoints = getPointDiffFromMatchesBetweenTeams(table1[i].club_name, table1[j].club_name);
 
                 if (diffInPoints < 0) {
-                    table = switchPlacesWithNext(table, i);
+                    table1 = switchPlacesWithNext(table1, i);
                 } else if (diffInPoints === 0) {
                     //b) Maior diferença entre o número de golos marcados e sofridos nos jogos disputados entre os clubes empatados;
-                    var diffInGoals = getGoalDiffFromMatchesBetweenTeams(table[i].club_name, table[j].club_name);
+                    var diffInGoals = getGoalDiffFromMatchesBetweenTeams(table1[i].club_name, table1[j].club_name);
 
                     if (diffInGoals < 0) {
-                        table = switchPlacesWithNext(table, i);
+                        table1 = switchPlacesWithNext(table1, i);
                     } else if (diffInGoals === 0) {
                         //c) Maior diferença entre os golos marcados e sofridos, durante toda a competição
-                        if ((table[i].gf - table[i].ga) < (table[j].gf - table[j].ga)) {
-                            table = switchPlacesWithNext(table, i);
-                        } else if ((table[i].gf - table[i].ga) === (table[j].gf - table[j].ga)) {
+                        if ((table1[i].gf - table1[i].ga) < (table1[j].gf - table1[j].ga)) {
+                            table1 = switchPlacesWithNext(table1, i);
+                        } else if ((table1[i].gf - table1[i].ga) === (table1[j].gf - table1[j].ga)) {
                             //d) Maior número de vitórias na competição
-                            if (table[i].wins < table[j].wins) {
-                                table = switchPlacesWithNext(table, i);
-                            } else if (table[i].wins === table[j].wins) {
+                            if (table1[i].wins < table1[j].wins) {
+                                table1 = switchPlacesWithNext(table1, i);
+                            } else if (table1[i].wins === table1[j].wins) {
                                 //e) Maior número de golos marcados na competição
-                                if (table[i].gf < table[j].gf) {
-                                    table = switchPlacesWithNext(table, i);
-                                } else if (table[i].gf === table[j].gf) {
+                                if (table1[i].gf < table1[j].gf) {
+                                    table1 = switchPlacesWithNext(table1, i);
+                                } else if (table1[i].gf === table1[j].gf) {
                                     //f) Menor número de golos sofridos na competição
-                                    if (table[i].ga > table[j].ga) {
-                                        table = switchPlacesWithNext(table, i);
-                                    } else if (table[i].ga === table[j].ga) {
+                                    if (table1[i].ga > table1[j].ga) {
+                                        table1 = switchPlacesWithNext(table1, i);
+                                    } else if (table1[i].ga === table1[j].ga) {
                                         //End of rules, maybe alphabetically next?
                                         console.log("End of rule list. Cannot resolve conflict!");
                                     }
@@ -61,9 +61,9 @@ function afpb_points_2018(table, group, round) {
         }
     }
 
-    console.log(table);
+    console.log(table1);
 
-    return table;
+    return table1;
 }
 
 function switchPlacesWithNext(table, position) {
