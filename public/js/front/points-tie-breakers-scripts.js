@@ -19,7 +19,7 @@ function afpb_points_2018(table, group, round) {
 
         for (var j = i + 1; j < table.length; j++) {
             if (table[i].points === table[j].points) {
-                console.log("Breaking tie in points!" + "(" + (i + 1) + "º " + table[(i)].club_name + " e " + (i + 2) + "º " + table[j].club_name + ")");
+                console.log("Breaking tie in points!" + "(" + (i) + " " + table[(i)].club_name + " e " + (j) + " " + table[j].club_name + ")");
 
                 //a) Número de pontos alcançados pelos clubes nos jogos disputados entre si;
                 var diffInPoints = getPointDiffFromMatchesBetweenTeams(table[i].club_name, table[j].club_name);
@@ -67,7 +67,7 @@ function afpb_points_2018(table, group, round) {
 }
 
 function switchPlacesWithNext(table, position) {
-    console.log("Switched " + (position + 1) + " (" + table[position].club_name + ") for " + (position + 2) + " (" + table[position + 1].club_name + ")");
+    console.log("Switched " + (position) + " (" + table[position].club_name + ") for " + (position + 1) + " (" + table[position + 1].club_name + ")");
     var aux;
     aux = table[position];
     table[position] = table[position + 1];
