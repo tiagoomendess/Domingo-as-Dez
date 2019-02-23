@@ -28,8 +28,7 @@
                 <div class="collection">
                     @foreach($usersWithPermissions as $user)
                         <a class="collection-item"
-                           href="{{ route('users.show', ['user' => $user->id]) }}">{{ $user->id }}
-                            : {{ $user->name }}</a>
+                           href="{{ route('users.show', ['user' => $user->id]) }}">{{ $user->name }}</a>
                     @endforeach
                 </div>
             </div>
