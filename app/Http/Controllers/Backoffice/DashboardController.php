@@ -14,9 +14,9 @@ class DashboardController extends Controller
         $this->middleware('permission:dashboard');
     }
 
-    public function index() {
-
-        $usersWithPermissions = DB::table('user_permissions')->join('users', 'user_permissions.id', '=', 'users.id')->distinct('user_permissions.user_id', 'users.name')->get();
+    public function index()
+    {
+        $usersWithPermissions = DB::table('user_permissions')->selectRaw('DISTINCT users.id, users.name')->join('users', 'user_permissions.id', '=', 'users.id')->get();
         return view('backoffice.pages.dashboard')->with(['usersWithPermissions' => $usersWithPermissions]);
     }
 }
