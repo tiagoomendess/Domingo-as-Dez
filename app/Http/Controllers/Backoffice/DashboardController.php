@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Backoffice;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
+use App\User;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
@@ -16,6 +16,8 @@ class DashboardController extends Controller
 
     public function index() {
 
-        return view('backoffice.pages.dashboard');
+        $usersWithPermissions = DB::table('user_permissions')->join('users', 'user_permissions.id', '=', 'users.id')->select('users.id', 'users.name')->distinct('user_permissions.user_id')->get();
+        //dd($usersWithPermissions);
+        return view('backoffice.pages.dashboard')->with(['usersWithPermissions' => $usersWithPermissions]);
     }
 }
