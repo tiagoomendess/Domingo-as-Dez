@@ -1,13 +1,6 @@
 @extends('front.layouts.default-page')
 
 @section('head-content')
-    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-    <script>
-        (adsbygoogle = window.adsbygoogle || []).push({
-            google_ad_client: "ca-pub-2937345687433041",
-            enable_page_level_ads: true
-        });
-    </script>
     <title>{{ config('custom.site_name') }}</title>
     <link rel="stylesheet" href="/css/front/homepage-style.css">
     <meta property="og:title" content="{{ config('app.name') }}" />
