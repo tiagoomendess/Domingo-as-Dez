@@ -98,4 +98,6 @@ return [
     'go_back' => 'Voltar atrás',
     'timezone' => 'Timezone',
     'selec_timezone' => 'Escolha uma timezone',
+    'best' => 'Melhor',
+    'worst' => 'Pior'
 ];
