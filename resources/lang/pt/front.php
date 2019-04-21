@@ -109,4 +109,14 @@ return [
     'is_live_desc' => 'Clique aqui para acompanhar os resultados em direto',
     'see_all_competitions' => 'Ver Todas',
     'hello_user' => 'Olá :name!',
+    'competition_stats' => ':competition > Estatísticas',
+    'best_scorers' => 'Melhores Marcadores',
+    'best_attack' => 'Melhor Ataque',
+    'worst_attack' => 'Pior Ataque',
+    'best_defense' => 'Melhor Defesa',
+    'worst_defense' => 'Pior Defesa',
+    'stats_unavailable' => 'Não existem informações suficientes para calcular esta estatística',
+    'amount_goals_scored' => '{0} 0 Golos Marcados|{1} 1 Golo Marcado|[2,*] :count Golos Marcados',
+    'amount_goals_against' => '{0} 0 Golos Sofridos|{1} 1 Golo Sofrido|[2,*] :count Golos Sofridos',
+    'statistics' => 'Estatísticas'
 ];
