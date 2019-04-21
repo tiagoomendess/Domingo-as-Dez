@@ -118,5 +118,7 @@ return [
     'stats_unavailable' => 'Não existem informações suficientes para calcular esta estatística',
     'amount_goals_scored' => '{0} 0 Golos Marcados|{1} 1 Golo Marcado|[2,*] :count Golos Marcados',
     'amount_goals_against' => '{0} 0 Golos Sofridos|{1} 1 Golo Sofrido|[2,*] :count Golos Sofridos',
-    'statistics' => 'Estatísticas'
+    'statistics' => 'Estatísticas',
+    'attack' => 'Ataque',
+    'defense' => 'Defesa'
 ];

@@ -53,3 +53,13 @@
 .club-stats > .club-goal-count {
     font-size: 1rem;
 }
+
+.desc-best {
+    font-size: 1.5rem;
+    color: #449a5d;
+}
+
+.desc-worst {
+    font-size: 1.5rem;
+    color: rgba(255, 0, 0, 0.61);
+}
