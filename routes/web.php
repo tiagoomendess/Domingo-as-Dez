@@ -81,7 +81,12 @@ Route::get('/noticias', 'Front\ArticlesController@index')->name('news.index');
 Route::get('/noticias/{year}/{month}/{day}/{slug}', 'Front\ArticlesController@show')->name('news.show');
 Route::get('/competicoes', 'Front\CompetitionsController@showAll')->name('competitions');
 Route::get('/competicoes/{slug}', 'Front\CompetitionsController@show')->name('competition');
-Route::get('/competicoes/{slug}/classificacao-detalhada/', 'Front\CompetitionsController@showDetailedTable')->name('competition.detailed_table');
+Route::get('/competicoes/{competition_slug}/{season_slug}/estatisticas', 'Front\CompetitionStatsController@show')
+    ->name('competition.stats')
+    ->where([
+        'competition_slug' => '[a-z0-9\-]+',
+        'season_slug' => '[0-9]{4}\-[0-9]{4}|[0-9]{4}'
+    ]);
 Route::get('/transferencias', 'Front\TransfersController@index')->name('transfers');
 Route::get('/competicoes/{competition_slug}/{season_slug}/{group_slug}/{round}/{clubs_slug}', 'Front\GamesController@show')
     ->name('front.games.show')

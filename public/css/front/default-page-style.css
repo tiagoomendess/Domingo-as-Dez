@@ -319,3 +319,12 @@ p {
         display: none;
     }
 }
+
+.navigation-bar {
+    height: auto;
+    background-color: #1086c3;
+}
+
+.navigation-bar a {
+    font-size: 1rem;
+}
