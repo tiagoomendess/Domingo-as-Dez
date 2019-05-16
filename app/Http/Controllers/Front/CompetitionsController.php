@@ -16,22 +16,24 @@ use Illuminate\Validation\Validator;
 class CompetitionsController extends Controller
 {
 
-    public function show($slug) {
-
+    public function show($slug)
+    {
         $competition = Competition::getCompetitionBySlug($slug);
 
-        if(!$competition || !$competition->visible)
+        if (!$competition || !$competition->visible)
             abort(404);
 
-        return view('front.pages.competition', ['competition' => $competition]);
+        $mostRecentSeason = $competition->seasons()->where('visible', true)->orderByDesc('id')->limit(1)->first();
+        $seasonSlug = $mostRecentSeason->start_year . '-' . $mostRecentSeason->end_year;
 
+        return view('front.pages.competition', ['competition' => $competition, 'season_slug' => $seasonSlug]);
     }
 
-    public function showAll() {
+    public function showAll()
+    {
 
         $competitions = Competition::where('visible', true)->get();
 
         return view('front.pages.competitions', ['competitions' => $competitions]);
     }
-
 }

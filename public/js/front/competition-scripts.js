@@ -297,7 +297,7 @@ function showTable(group, round) {
     } else {
 
     }
-
+    $('#stats_button').removeClass('hide');
 }
 
 function buildPointsTable(group, round) {
@@ -382,7 +382,6 @@ function buildTableDOM(table, group, round) {
     table_element.appendTo(tables);
     table_element.addClass('active');
     table_element.removeClass('hide');
-
 }
 
 function addLine(table, club_name, club_emblem, club_url) {
