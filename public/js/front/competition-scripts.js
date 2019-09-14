@@ -481,6 +481,7 @@ function orderTable(table, rules_name, group, round) {
         case 'afpb_pontos_2018_div1':
         case 'afpb_pontos_2018_div2':
         case 'afpb_pontos_basico':
+        case 'afpb_pontos_2019_div1':
             console.log('AFPB Points in 2018!');
             afpb_points_2018(table, group, round);
             break;

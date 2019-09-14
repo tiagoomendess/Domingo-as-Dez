@@ -77,7 +77,6 @@
                     </div>
                 </div>
             </div>
-            <!-- ------------------------------------- -->
             <div class="col s12 m12 l12 xl6">
                 <h2 class="over-card-title">
                     {{ trans('front.attack') }}
@@ -88,13 +87,17 @@
                             <div class="card-content">
                                 <div class="club-stats">
                                     <span class="desc-best">{{ trans('general.best') }}</span>
-                                    <figure>
-                                        <img src="{{ $attack['best']['team']->club->getEmblem() }}" alt=""/>
-                                    </figure>
-                                    <span class="club-name">{{ $attack['best']['team']->club->name }}</span>
-                                    <span class="club-goal-count">
+                                    @if(!empty($attack['best']['team']))
+                                        <figure>
+                                            <img src="{{ $attack['best']['team']->club->getEmblem() }}" alt=""/>
+                                        </figure>
+                                        <span class="club-name">{{ $attack['best']['team']->club->name }}</span>
+                                        <span class="club-goal-count">
                                         {{ trans_choice('front.amount_goals_scored', $attack['best']['goal_count']) }}
                                     </span>
+                                    @else
+                                        <p class="center flow-text">{{ trans('front.stats_unavailable') }}</p>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -105,13 +108,17 @@
                             <div class="card-content">
                                 <div class="club-stats">
                                     <span class="desc-worst">{{ trans('general.worst') }}</span>
-                                    <figure>
-                                        <img src="{{ $attack['worst']['team']->club->getEmblem() }}" alt=""/>
-                                    </figure>
-                                    <span class="club-name">{{ $attack['worst']['team']->club->name }}</span>
-                                    <span class="club-goal-count">
+                                    @if(!empty($attack['worst']['team']))
+                                        <figure>
+                                            <img src="{{ $attack['worst']['team']->club->getEmblem() }}" alt=""/>
+                                        </figure>
+                                        <span class="club-name">{{ $attack['worst']['team']->club->name }}</span>
+                                        <span class="club-goal-count">
                                         {{ trans_choice('front.amount_goals_scored', $attack['worst']['goal_count']) }}
                                     </span>
+                                    @else
+                                        <p class="center flow-text">{{ trans('front.stats_unavailable') }}</p>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -127,13 +134,17 @@
                             <div class="card-content">
                                 <div class="club-stats">
                                     <span class="desc-best">{{ trans('general.best') }}</span>
-                                    <figure>
-                                        <img src="{{ $defense['best']['team']->club->getEmblem() }}" alt=""/>
-                                    </figure>
-                                    <span class="club-name">{{ $defense['best']['team']->club->name }}</span>
-                                    <span class="club-goal-count">
+                                    @if(!empty($defense['best']['team']))
+                                        <figure>
+                                            <img src="{{ $defense['best']['team']->club->getEmblem() }}" alt=""/>
+                                        </figure>
+                                        <span class="club-name">{{ $defense['best']['team']->club->name }}</span>
+                                        <span class="club-goal-count">
                                         {{ trans_choice('front.amount_goals_against', $defense['best']['goal_count']) }}
                                     </span>
+                                    @else
+                                        <p class="center flow-text">{{ trans('front.stats_unavailable') }}</p>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -143,13 +154,17 @@
                             <div class="card-content">
                                 <div class="club-stats">
                                     <span class="desc-worst">{{ trans('general.worst') }}</span>
-                                    <figure>
-                                        <img src="{{ $defense['worst']['team']->club->getEmblem() }}" alt=""/>
-                                    </figure>
-                                    <span class="club-name">{{ $defense['worst']['team']->club->name }}</span>
-                                    <span class="club-goal-count">
+                                    @if(!empty($defense['worst']['team']))
+                                        <figure>
+                                            <img src="{{ $defense['worst']['team']->club->getEmblem() }}" alt=""/>
+                                        </figure>
+                                        <span class="club-name">{{ $defense['worst']['team']->club->name }}</span>
+                                        <span class="club-goal-count">
                                         {{ trans_choice('front.amount_goals_against', $defense['worst']['goal_count']) }}
                                     </span>
+                                    @else
+                                        <p class="center flow-text">{{ trans('front.stats_unavailable') }}</p>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -157,7 +172,6 @@
                 </div>
 
             </div>
-            <!-- ------------------------------------- -->
         </div>
     </div>
 @endsection
