@@ -31,7 +31,7 @@ class MatchImageGeneratorController extends Controller
             $backgroundImg = public_path(Media::getPlaceholder('1:1', $game->id));
         }
 
-        $gameDate = Carbon::createFromFormat('Y-m-d H:i:s', $game->date, 'Europe/Lisbon');
+        $gameDate = Carbon::createFromFormat('Y-m-d H:i:s', $game->date);
 
         $data = [
             'home_club_emblem' => public_path($game->home_team->club->getEmblem()),
@@ -39,9 +39,9 @@ class MatchImageGeneratorController extends Controller
             'away_club_emblem' => public_path($game->away_team->club->getEmblem()),
             'away_club_name' => $game->away_team->club->name,
             'playground_name' => $game->playground ? $game->playground->name : '',
-            'day' => $gameDate->format('d'),
+            'day' => $gameDate->timezone('Europe/Lisbon')->format('d'),
             'month' => $this->translateMonth($gameDate->month),
-            'time' => $gameDate->format('H\Hi'),
+            'time' => $gameDate->timezone('Europe/Lisbon')->format('H\Hi'),
             'competition' => $game->game_group->season->competition->name,
             'competition_logo' => public_path($game->game_group->season->competition->picture)
         ];
