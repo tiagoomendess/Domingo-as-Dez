@@ -50,4 +50,8 @@
 
     @yield('scripts')
 
+    @if(Session::has('popup_message'))
+        @include('backoffice.partial.popup_message')
+    @endif
+
 @endsection

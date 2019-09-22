@@ -55,8 +55,8 @@
                                             <div class="col s6 m6 l4 xl3">
                                                 <a href="{{ $player->getPublicURL() }}">
                                                     <div class="player">
-                                                        <img src="{{ $player->getPicture() }}" alt="{{ $player->name }}" class="circle">
-                                                        <span class="">{{ $player->displayName() }}</span>
+                                                        <img src="{{ $player->getPicture() }}" alt="{{ $player->name }}">
+                                                        <span>{{ $player->displayName() }}</span>
                                                     </div>
                                                 </a>
 
@@ -93,11 +93,11 @@
                                 <div class="transfer">
                                     <a href="{{ $transfer->player->getPublicURL() }}">
                                         <figure>
-                                            <img class="circle" src="{{ $transfer->player->getPicture() }}" alt="{{ $transfer->player->displayName() }}">
+                                            <img src="{{ $transfer->player->getPicture() }}" alt="{{ $transfer->player->displayName() }}">
                                         </figure>
 
                                         <div class="info">
-                                            <span class="player-name">{{ $transfer->player->displayName() }}</span>
+                                            <span style="line-height: 20px">{{ $transfer->player->displayName() }}<br/><small style="color: grey">{{ $transfer->team->name }}</small></span>
 
                                             @if ($transfer->team && $transfer->team->club->id == $club->id)
                                                 <i class="material-icons green-text flow-text">arrow_back</i>

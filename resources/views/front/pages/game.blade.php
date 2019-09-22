@@ -6,9 +6,9 @@
     </title>
     <link rel="stylesheet" href="/css/front/game-style.css">
 
-    <meta property="og:title" content="{{ $game->homeTeam->club->name }} vs {{ $game->awayTeam->club->name }}" />
-    <meta property="og:type" content="website" />
-    <meta property="og:description" content="{{ trans('front.footer_desc') }}" />
+    <meta property="og:title" content="{{ $game->homeTeam->club->name }} vs {{ $game->awayTeam->club->name }}"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:description" content="{{ trans('front.footer_desc') }}"/>
     <meta property="og:image" content="{{ url($game->game_group->season->competition->picture) }}">
 
 @endsection
@@ -26,16 +26,23 @@
         <div class="game-header">
             <div class="details">
                 <span class="hide" id="exact_time">{{ $game->date }}</span>
-                <time><i class="material-icons">date_range</i> {{ \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $game->date)->timezone('Europe/Lisbon')->format("d/m/Y") }}</time>
-                <time><i class="material-icons">access_time</i> {{ \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $game->date)->timezone('Europe/Lisbon')->format("H:i") }}</time>
-                @if ($game->playground)<span><i class="material-icons">location_on</i> {{ $game->playground->name }}</span>@endif
+                <time>
+                    <i class="material-icons">date_range</i> {{ \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $game->date)->timezone('Europe/Lisbon')->format("d/m/Y") }}
+                </time>
+                <time>
+                    <i class="material-icons">access_time</i> {{ \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $game->date)->timezone('Europe/Lisbon')->format("H:i") }}
+                </time>
+                @if ($game->playground)<span><i
+                            class="material-icons">location_on</i> {{ $game->playground->name }}</span>@endif
                 <span>
-                    <img src="{{$game->game_group->season->competition->picture}}" alt="{{ $game->game_group->season->competition->name }}">
+                    <img src="{{$game->game_group->season->competition->picture}}"
+                         alt="{{ $game->game_group->season->competition->name }}">
                     {{ $game->game_group->season->competition->name }}
                 </span>
             </div>
 
             <div class="container">
+
                 <div class="row no-margin-bottom">
 
                     <div class="col l3 xl3 hide-on-med-and-down">
@@ -45,7 +52,8 @@
                     <div class="col xs4 s4 m4 l2 xl2 center">
                         <a href="{{ $game->home_team->club->getPublicURL() }}">
                             <figure>
-                                <img src="{{ $game->home_team->club->getEmblem() }}" alt="{{ $game->home_team->club->name }}">
+                                <img src="{{ $game->home_team->club->getEmblem() }}"
+                                     alt="{{ $game->home_team->club->name }}">
                             </figure>
                         </a>
                     </div>
@@ -56,7 +64,12 @@
                                 <span id="score">{{ $game->getHomeScore() }} - {{ $game->getAwayScore() }}</span>
                                 <div class="hide" id="countdown">
                                     <table>
-                                        <tr class="time"><td>00</td><td>00</td><td>00</td><td>00</td></tr>
+                                        <tr class="time">
+                                            <td>00</td>
+                                            <td>00</td>
+                                            <td>00</td>
+                                            <td>00</td>
+                                        </tr>
                                         <tr class="description">
                                             <td>{{ trans('front.days_small') }}</td>
                                             <td>{{ trans('front.hours_small') }}</td>
@@ -68,7 +81,12 @@
                             @else
                                 <div id="countdown">
                                     <table>
-                                        <tr class="time"><td>00</td><td>00</td><td>00</td><td>00</td></tr>
+                                        <tr class="time">
+                                            <td>00</td>
+                                            <td>00</td>
+                                            <td>00</td>
+                                            <td>00</td>
+                                        </tr>
                                         <tr class="description">
                                             <td>{{ trans('front.days_small') }}</td>
                                             <td>{{ trans('front.hours_small') }}</td>
@@ -77,12 +95,14 @@
                                         </tr>
                                     </table>
                                 </div>
-                                <span class="hide" id="score">{{ $game->getHomeScore() }} - {{ $game->getAwayScore() }}</span>
+                                <span class="hide" id="score">{{ $game->getHomeScore() }}
+                                    - {{ $game->getAwayScore() }}</span>
                             @endif
 
                             @if($game->finished)
                                 @if($game->decidedByPenalties())
-                                    <span id="penalties">({{ trans('front.after_penalties', ['penalties_home' => $game->penalties_home, 'penalties_away' => $game->penalties_away]) }})</span>
+                                    <span id="penalties">({{ trans('front.after_penalties', ['penalties_home' => $game->penalties_home, 'penalties_away' => $game->penalties_away]) }}
+                                        )</span>
                                 @else
                                     <span id="penalties" class="hide"></span>
                                 @endif
@@ -98,7 +118,8 @@
                     <div class="col xs4 s4 m4 l2 xl2 center">
                         <a href="{{ $game->away_team->club->getPublicURL() }}">
                             <figure>
-                                <img src="{{ $game->away_team->club->getEmblem() }}" alt="{{ $game->home_team->club->name }}">
+                                <img src="{{ $game->away_team->club->getEmblem() }}"
+                                     alt="{{ $game->home_team->club->name }}">
                             </figure>
                         </a>
                     </div>
@@ -108,12 +129,48 @@
                     </div>
 
                 </div>
+
+                <div class="row no-margin-bottom">
+                    <div id="man_of_the_match">
+                        @if($game->finished && !$game->isMvpVoteOpen() && $mvp && $mvp->amount > 1)
+                            <span>Homem do Jogo:</span>
+                            <div class="chip">
+                                <img src="{{ $mvp->player->getPicture() }}" alt="Contact Person">
+                                {{ $mvp->player->displayName() }}
+                            </div>
+                        @endif
+                    </div>
+                </div>
             </div>
         </div>
 
     </div>
 
     <div class="container">
+        <div class="row no-margin-bottom center">
+            @if($game->isMvpVoteOpen())
+                @if($mvp_vote)
+                    <div style="margin-top: 20px">
+                        Votou em
+                        <div class="chip">
+                            <img src="{{ $mvp_vote->player->getPicture() }}" alt="Contact Person">
+                            {{ $mvp_vote->player->name }}
+                        </div>
+                        para homem do Jogo!
+                    </div>
+
+                @else
+                    @if(\Illuminate\Support\Facades\Auth::user())
+                        <a class="btn green darken-2 waves-effect waves-light modal-trigger" href="#mvp_vote_modal"
+                           style="margin-top: 15px">Votar no Homem do Jogo</a>
+                    @else
+                        <a class="btn green darken-2 waves-effect waves-light modal-trigger" href="/login"
+                           style="margin-top: 15px">Votar no Homem do Jogo (Faça Login)</a>
+                    @endif
+                @endif
+            @endif
+        </div>
+
         <div class="row">
 
             <section class="col xs12 s12 m12 l4 xl4">
@@ -133,7 +190,8 @@
                                         @endif">
 
                                         <figure>
-                                            <img src="{{ $goal->getPlayerPicture() }}" alt="{{ $goal->getPlayerName() }}">
+                                            <img src="{{ $goal->getPlayerPicture() }}"
+                                                 alt="{{ $goal->getPlayerName() }}">
                                         </figure>
                                         <span class="player-name">
                                             {{ $goal->getPlayerName() }}
@@ -156,7 +214,9 @@
 
                             @if(has_permission('goals.create'))
                                 <div class="add-goal-btn">
-                                    <a href="{{ route('goals.create', ['game_id' => $game->id, 'team_id' => $game->home_team->id])}}" class="waves-effect waves-light btn-flat"><i class="material-icons left">add</i> {{trans('general.add')}}</a>
+                                    <a href="{{ route('goals.create', ['game_id' => $game->id, 'team_id' => $game->home_team->id])}}"
+                                       class="waves-effect waves-light btn-flat"><i
+                                                class="material-icons left">add</i> {{trans('general.add')}}</a>
                                 </div>
                             @endif
 
@@ -176,7 +236,8 @@
                                     <a href="{{ $game_referee->referee->getPublicURL() }}">
                                         <div class="ref-overview">
                                             <figure>
-                                                <img src="{{ $game_referee->referee->getPicture() }}" alt="{{ $game_referee->referee->name }}">
+                                                <img src="{{ $game_referee->referee->getPicture() }}"
+                                                     alt="{{ $game_referee->referee->name }}">
                                             </figure>
 
                                             <div class="ref-info">
@@ -215,7 +276,8 @@
                                         @endif">
 
                                         <figure>
-                                            <img src="{{ $goal->getPlayerPicture() }}" alt="{{ $goal->getPlayerName() }}">
+                                            <img src="{{ $goal->getPlayerPicture() }}"
+                                                 alt="{{ $goal->getPlayerName() }}">
                                         </figure>
                                         <span class="player-name">
                                             {{ $goal->getPlayerName() }}
@@ -241,7 +303,9 @@
 
                             @if(has_permission('goals.create'))
                                 <div class="add-goal-btn">
-                                    <a href="{{ route('goals.create', ['game_id' => $game->id, 'team_id' => $game->away_team->id])}}" class="waves-effect waves-light btn-flat"><i class="material-icons left">add</i> {{trans('general.add')}}</a>
+                                    <a href="{{ route('goals.create', ['game_id' => $game->id, 'team_id' => $game->away_team->id])}}"
+                                       class="waves-effect waves-light btn-flat"><i
+                                                class="material-icons left">add</i> {{trans('general.add')}}</a>
                                 </div>
                             @endif
 
@@ -253,10 +317,65 @@
         </div>
     </div>
 
+    <!-- MVP Vote Modal -->
+    <div id="mvp_vote_modal" class="modal bottom-sheet modal-fixed-footer">
+        <div class="modal-content">
+            <div class="container">
+                <div class="row">
+                    <div class="col s12">
+                        <h4 class="center">Escolha o Homem do Jogo</h4>
+                    </div>
+                    <div class="col s12 m12 l6">
+                        <h5>{{ $game->home_team->club->name }}</h5>
+                        <ul class="list-a mvp-list">
+                            @foreach($game->home_team->players as $player)
+                                <li>
+                                    <a href="#" class="mvp_player" data-content="{{ $player->id }}">
+                                        <img src="{{ $player->getPicture() }}" alt="">
+                                        <span>{{ $player->displayName() }}</span>
+                                    </a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                    <div class="col s12 m12 l6">
+                        <h5>{{ $game->away_team->club->name }}</h5>
+                        <ul class="list-a mvp-list">
+                            @foreach($game->away_team->players as $player)
+                                <li>
+                                    <a href="#" class="mvp_player" data-content="{{ $player->id }}">
+                                        <img src="{{ $player->getPicture() }}" alt="">
+                                        <span>{{ $player->displayName() }}</span>
+                                    </a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a href="#" class="modal-action modal-close waves-effect waves-green btn-flat">Cancelar</a>
+            <a href="#" id="mvp_submit_btn" class="modal-action waves-effect waves-green btn-flat disabled">Votar</a>
+        </div>
+
+        <form id="mvp_form" action="{{ route('mvp_vote') }}" method="POST">
+            {{ csrf_field() }}
+            <input type="hidden" name="game" value="{{ $game->id }}">
+            <input type="hidden" id="mpv_player_id" name="player" value="">
+        </form>
+    </div>
+
     @if(has_permission('games.edit'))
         <div class="row">
             <div class="container">
-                <a href="{{ route('games.show', ['game' => $game]) }}" class="btn-floating btn-large waves-effect waves-light blue right"><i class="material-icons">edit</i></a>
+                <a href="{{ route('games.show', ['game' => $game]) }}"
+                   class="btn-floating btn-large waves-effect waves-light blue right"><i class="material-icons">edit</i></a>
+
+                <form action="{{ route('generate_game_image', ['game' => $game->id]) }}" method="POST" target="_blank">
+                    {{ csrf_field() }}
+                    <button class="btn waves-effect waves-light green darken-3" type="submit" name="action"><i class="material-icons right">cloud_download</i>Download Imagem</button>
+                </form>
             </div>
         </div>
     @endif
@@ -265,4 +384,5 @@
 
 @section ('scripts')
     <script src="/js/front/game-scripts.js"></script>
+    <script src="/js/front/mvp_votes-scripts.js"></script>
 @endsection
