@@ -97,7 +97,7 @@
                                         </figure>
 
                                         <div class="info">
-                                            <span style="line-height: 20px">{{ $transfer->player->displayName() }}<br/><small style="color: grey">{{ $transfer->team->name }}</small></span>
+                                            <span style="line-height: 20px">{{ $transfer->player->displayName() }}<br/><small style="color: grey">{{ $transfer->team ? $transfer->team->name : '' }}</small></span>
 
                                             @if ($transfer->team && $transfer->team->club->id == $club->id)
                                                 <i class="material-icons green-text flow-text">arrow_back</i>
