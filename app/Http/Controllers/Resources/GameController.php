@@ -376,7 +376,7 @@ class GameController extends Controller
 
                 $lines++;
 
-                $date = Carbon::createFromFormat("Y-m-d H:i:s", $data[1]);
+                $date = Carbon::createFromFormat("Y-m-d H:i:s", $data[1], 'Europe/Lisbon');
 
                 $home_club = Club::where('name', 'like', '%' . $data[2] . '%')->first();
 
@@ -476,7 +476,7 @@ class GameController extends Controller
                         'away_team_id' => $away_team->id,
                         'game_group_id' => $game_group->id,
                         'round' => $round,
-                        'date' => $data[1],
+                        'date' => Carbon::createFromTimestamp($date->timestamp)->format("Y-m-d H:i:s"),
                         'playground_id' => $playground->id,
                         'finished' => $finished,
                         'tie' => $data[6],

@@ -6,7 +6,12 @@
 @endsection
 
 @section('content')
-
+<?php
+if(!session()->has('url.intended'))
+{
+    session(['url.intended' => url()->previous()]);
+}
+?>
     <div class="vertical-centered">
         <div class="container">
             <div class="row no-margin-bottom">

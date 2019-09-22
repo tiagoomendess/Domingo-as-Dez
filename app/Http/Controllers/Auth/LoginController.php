@@ -196,8 +196,26 @@ class LoginController extends Controller
 
         }
 
-        return redirect()->route('home');
+        return redirect()->intended($this->redirectTo());
 
     }
 
+    public function redirectTo() {
+        return route('homePage');
+    }
+
+    /**
+     * Send the response after the user was authenticated.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    protected function sendLoginResponse(Request $request)
+    {
+        $request->session()->regenerate();
+
+        $this->clearLoginAttempts($request);
+
+        return redirect()->intended($this->redirectTo());
+    }
 }

@@ -245,4 +245,18 @@ class Game extends Model
 
 
     }
+
+    public function isMvpVoteOpen(): bool
+    {
+        $now = new Carbon();
+        $gameSecondHalf = new Carbon($this->date);
+        $gameSecondHalf->addMinutes(65);
+        $endTime = new Carbon($this->date);
+        $endTime->addMinutes(120);
+
+        if ($now->timestamp > $gameSecondHalf->timestamp && $now->timestamp < $endTime->timestamp)
+            return true;
+        else
+            return false;
+    }
 }

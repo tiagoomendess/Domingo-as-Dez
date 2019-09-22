@@ -14,15 +14,15 @@ class CreateMvpVotesTable extends Migration
     public function up()
     {
         Schema::create('mvp_votes', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
 
-            $table->integer('game_id')->unsigned();
+            $table->unsignedInteger('game_id');
             $table->foreign('game_id')->references('id')->on('games')->onDelete('cascade');
 
-            $table->integer('player_id')->unsigned();
+            $table->unsignedInteger('player_id');
             $table->foreign('player_id')->references('id')->on('players')->onDelete('cascade');
 
-            $table->integer('user_id')->unsigned();
+            $table->unsignedInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
             $table->timestamps();
