@@ -3,9 +3,8 @@
 namespace App;
 
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Model;
 
-class Article extends Model
+class Article extends SearchableModel
 {
 
     /**
@@ -21,6 +20,51 @@ class Article extends Model
     protected $guarded = [];
 
     protected $hidden = [];
+
+    public const SEARCH_FIELDS = [
+        'title' => [
+            'name' => 'title',
+            'type' => 'string',
+            'trans' => 'Titulo',
+            'allowSearch' => true,
+            'compare' => 'like',
+            'validation' => 'nullable|min:3|max:128|string'
+        ],
+        'tags' => [
+            'name' => 'tags',
+            'type' => 'string',
+            'trans' => 'Tags',
+            'allowSearch' => true,
+            'compare' => 'like',
+            'validation' => 'nullable|min:3|max:30|string'
+        ],
+        'id' => [
+            'name' => 'id',
+            'type' => 'integer',
+            'trans' => 'Id',
+            'allowSearch' => true,
+            'compare' => '=',
+            'validation' => 'nullable|integer'
+        ],
+        'date' => [
+            'name' => 'date',
+            'type' => 'date',
+            'trans' => 'Data de Publicação',
+            'allowSearch' => false
+        ],
+        'created_at' => [
+            'name' => 'created_at',
+            'type' => 'date',
+            'trans' => 'Data de Criação',
+            'allowSearch' => false
+        ],
+        'updated_at' => [
+            'name' => 'updated_at',
+            'type' => 'date',
+            'trans' => 'Ultima Atualização',
+            'allowSearch' => false
+        ]
+    ];
 
     public function user() {
         return $this->belongsTo('App\User');

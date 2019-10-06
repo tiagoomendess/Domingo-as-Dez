@@ -28,10 +28,19 @@ class PlayerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $players = Player::orderBy('id', 'desc')->paginate(config('custom.results_per_page'));
-        return view('backoffice.pages.players', ['players' => $players]);
+        if ($request->query->get('search')) {
+            $players = Player::search($request->query->all());
+        } else {
+            $players = Player::orderBy('id', 'desc')->paginate(config('custom.results_per_page'));
+        }
+
+        return view('backoffice.pages.players', [
+            'players' => $players,
+            'searchFields' => Player::SEARCH_FIELDS,
+            'queryParams' => $request->query->all()
+        ]);
     }
 
     /**

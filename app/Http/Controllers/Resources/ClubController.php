@@ -26,11 +26,19 @@ class ClubController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $clubs = Club::orderBy('id', 'desc')->paginate(config('custom.results_per_page'));
+        if ($request->query->get('search')) {
+            $clubs = Club::search($request->query->all());
+        } else {
+            $clubs = Club::orderBy('id', 'desc')->paginate(config('custom.results_per_page'));
+        }
 
-        return view('backoffice.pages.clubs', ['clubs' => $clubs]);
+        return view('backoffice.pages.clubs', [
+            'clubs' => $clubs,
+            'searchFields' => Club::SEARCH_FIELDS,
+            'queryParams' => $request->query->all()
+        ]);
     }
 
     /**

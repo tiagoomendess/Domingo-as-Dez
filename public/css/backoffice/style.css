@@ -107,3 +107,12 @@ body {
     border: 2px solid black;
 }
 
+h1 {
+    font-size: 20pt;
+    margin: 20px 0 10px 0;
+}
+
+
+.no-margin-bottom {
+    margin-bottom: 0;
+}
