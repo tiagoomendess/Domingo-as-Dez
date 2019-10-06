@@ -328,7 +328,7 @@
                     <div class="col s12 m12 l6">
                         <h5>{{ $game->home_team->club->name }}</h5>
                         <ul class="list-a mvp-list">
-                            @foreach($game->home_team->players as $player)
+                            @foreach($game->home_team->getCurrentPlayers() as $player)
                                 <li>
                                     <a href="#" class="mvp_player" data-content="{{ $player->id }}">
                                         <img src="{{ $player->getPicture() }}" alt="">
@@ -341,7 +341,7 @@
                     <div class="col s12 m12 l6">
                         <h5>{{ $game->away_team->club->name }}</h5>
                         <ul class="list-a mvp-list">
-                            @foreach($game->away_team->players as $player)
+                            @foreach($game->away_team->getCurrentPlayers() as $player)
                                 <li>
                                     <a href="#" class="mvp_player" data-content="{{ $player->id }}">
                                         <img src="{{ $player->getPicture() }}" alt="">

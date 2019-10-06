@@ -26,10 +26,19 @@ class RefereeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $referees = Referee::orderBy('id', 'desc')->paginate(config('custom.results_per_page'));
-        return view('backoffice.pages.referees', ['referees' => $referees]);
+        if ($request->query->get('search')) {
+            $referees = Referee::search($request->query->all());
+        } else {
+            $referees = Referee::orderBy('id', 'desc')->paginate(config('custom.results_per_page'));
+        }
+
+        return view('backoffice.pages.referees', [
+            'referees' => $referees,
+            'searchFields' => Referee::SEARCH_FIELDS,
+            'queryParams' => $request->query->all()
+        ]);
     }
 
     /**

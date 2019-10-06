@@ -26,10 +26,19 @@ class ArticleController extends Controller
      *
      *
      */
-    public function index()
+    public function index(Request $request)
     {
-        $articles = Article::orderBy('id', 'desc')->paginate(config('custom.results_per_page'));
-        return view('backoffice.pages.articles')->with(['articles' => $articles]);
+        if ($request->query->get('search')) {
+            $articles = Article::search($request->query->all());
+        } else {
+            $articles = Article::orderBy('id', 'desc')->paginate(config('custom.results_per_page'));
+        }
+
+        return view('backoffice.pages.articles', [
+            'articles' => $articles,
+            'searchFields' => Article::SEARCH_FIELDS,
+            'queryParams' => $request->query->all()
+        ]);
     }
 
     /**

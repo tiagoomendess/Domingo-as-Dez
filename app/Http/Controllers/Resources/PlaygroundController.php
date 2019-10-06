@@ -23,10 +23,19 @@ class PlaygroundController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $playgrounds = Playground::orderBy('id', 'desc')->paginate(config('custom.results_per_page'));
-        return view('backoffice.pages.playgrounds', ['playgrounds' => $playgrounds]);
+        if ($request->query->get('search')) {
+            $playgrounds = Playground::search($request->query->all());
+        } else {
+            $playgrounds = Playground::orderBy('id', 'desc')->paginate(config('custom.results_per_page'));
+        }
+
+        return view('backoffice.pages.playgrounds', [
+            'playgrounds' => $playgrounds,
+            'searchFields' => Playground::SEARCH_FIELDS,
+            'queryParams' => $request->query->all()
+        ]);
     }
 
     /**

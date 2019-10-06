@@ -3,9 +3,8 @@
 namespace App;
 
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Model;
 
-class Player extends Model
+class Player extends SearchableModel
 {
     protected $fillable = ['name', 'picture', 'association_id', 'nickname', 'phone', 'email', 'facebook_profile', 'birth_date', 'obs', 'position', 'visible'];
 
@@ -13,19 +12,100 @@ class Player extends Model
 
     protected $hidden = [];
 
-    public function goals() {
+    public const SEARCH_FIELDS = [
+        'name' => [
+            'name' => 'name',
+            'type' => 'string',
+            'trans' => 'Nome',
+            'allowSearch' => true,
+            'compare' => 'like',
+            'validation' => 'nullable|min:3|max:30|string'
+        ],
+        'association_id' => [
+            'name' => 'association_id',
+            'type' => 'string',
+            'trans' => 'Nº Associação',
+            'allowSearch' => true,
+            'compare' => 'like',
+            'validation' => 'nullable|min:3|max:30|string'
+        ],
+        'nickname' => [
+            'name' => 'nickname',
+            'type' => 'string',
+            'trans' => 'Alcunha',
+            'allowSearch' => true,
+            'compare' => 'like',
+            'validation' => 'nullable|min:3|max:30|string'
+        ],
+        'id' => [
+            'name' => 'id',
+            'type' => 'integer',
+            'trans' => 'Id',
+            'allowSearch' => true,
+            'compare' => '=',
+            'validation' => 'nullable|integer'
+        ],
+        'position' => [
+            'name' => 'position',
+            'type' => 'enum',
+            'trans' => 'Posição',
+            'allowSearch' => true,
+            'compare' => '=',
+            'validation' => 'nullable|in:none,striker,midfielder,defender,goalkeeper',
+            'enumItems' => [
+                [
+                    'name' => 'Nenhuma',
+                    'value' => 'none'
+                ],
+                [
+                    'name' => 'Avançado',
+                    'value' => 'striker'
+                ],
+                [
+                    'name' => 'Médio',
+                    'value' => 'midfielder'
+                ],
+                [
+                    'name' => 'Defesa',
+                    'value' => 'defender'
+                ],
+                [
+                    'name' => 'Guarda Redes',
+                    'value' => 'goalkeeper'
+                ]
+            ]
+        ],
+        'created_at' => [
+            'name' => 'created_at',
+            'type' => 'date',
+            'trans' => 'Data de Criação',
+            'allowSearch' => false
+        ],
+        'updated_at' => [
+            'name' => 'updated_at',
+            'type' => 'date',
+            'trans' => 'Ultima Atualização',
+            'allowSearch' => false
+        ]
+    ];
+
+    public function goals()
+    {
         return $this->hasMany('App\Goal');
     }
 
-    public function teams() {
+    public function teams()
+    {
         return $this->belongsToMany('App\Team', 'transfers');
     }
 
-    public function transfers() {
+    public function transfers()
+    {
         return $this->hasMany(Transfer::class);
     }
 
-    public function getTeam() {
+    public function getTeam()
+    {
 
         $last_transfer = $this->getLastTransfer();
 
@@ -35,30 +115,33 @@ class Player extends Model
             return null;
     }
 
-    public function getClub() {
+    public function getClub()
+    {
 
         $team = $this->getTeam();
 
-        if($team)
+        if ($team)
             return $team->club;
         else
             return null;
 
     }
 
-    public function getLastTransfer() {
+    public function getLastTransfer()
+    {
 
         return Transfer::where('player_id', $this->id)->orderBy('date', 'desc')->first();
     }
 
-    public function getPreviousTeam() {
+    public function getPreviousTeam()
+    {
 
         $transfers = Transfer::where('player_id', $this->id)->orderBy('date', 'desc')->limit(2)->get();
 
-        if($transfers->count() < 2)
+        if ($transfers->count() < 2)
             return null;
 
-        if($transfers->last()->team)
+        if ($transfers->last()->team)
             return $transfers->last()->team;
         else
             return null;
@@ -68,8 +151,9 @@ class Player extends Model
     /**
      * Gets the emblem of the club if it has one, or the default icon
      */
-    public function getPicture() {
-        if($this->picture)
+    public function getPicture()
+    {
+        if ($this->picture)
             return $this->picture;
         else
             return config('custom.default_profile_pic');
@@ -77,19 +161,22 @@ class Player extends Model
 
     /**
      * Gets the name and nickname if exists
-    */
-    public function displayName() {
-        if($this->nickname)
+     */
+    public function displayName()
+    {
+        if ($this->nickname)
             return $this->name . ' (' . $this->nickname . ')';
         else
             return $this->name;
     }
 
-    public function getPublicURL() {
+    public function getPublicURL()
+    {
         return route('front.player.show', ['id' => $this->id, 'name_slug' => str_slug($this->name)]);
     }
 
-    public function getAge() {
+    public function getAge()
+    {
 
         if (!$this->birth_date)
             return null;
@@ -101,7 +188,7 @@ class Player extends Model
 
         if ($now->month < $birth->month) {
             $age--;
-        } else if ($now->month == $birth->month){
+        } else if ($now->month == $birth->month) {
             if ($now->day < $birth->day)
                 $age--;
         }

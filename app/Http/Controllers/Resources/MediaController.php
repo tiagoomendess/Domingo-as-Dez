@@ -31,10 +31,19 @@ class MediaController extends Controller
      * Display a listing of the resource.
      *
      */
-    public function index()
+    public function index(Request $request)
     {
-        $medias = Media::where('id', '>', 0)->orderBy('id', 'desc')->paginate(config('custom.results_per_page'));
-        return view('backoffice.pages.medias')->with(['medias' => $medias]);
+        if ($request->query->get('search')) {
+            $medias = Media::search($request->query->all());
+        } else {
+            $medias = Media::orderBy('id', 'desc')->paginate(config('custom.results_per_page'));
+        }
+
+        return view('backoffice.pages.medias', [
+            'medias' => $medias,
+            'searchFields' => Media::SEARCH_FIELDS,
+            'queryParams' => $request->query->all()
+        ]);
     }
 
     public function mediaQuery(Request $request) {

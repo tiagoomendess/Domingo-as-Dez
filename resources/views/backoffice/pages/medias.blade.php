@@ -6,10 +6,17 @@
 
 @section('content')
 
-    <div class="row">
-        <div class="col s12">
+    <div class="row no-margin-bottom">
+        <div class="col s8">
             <h1>{{ trans('models.media') }}</h1>
         </div>
+        <div class="col s4">
+            @include('backoffice.partial.search_box_btn')
+        </div>
+    </div>
+
+    <div class="row no-margin-bottom">
+        @include('backoffice.partial.search_box')
     </div>
 
     <div class="row">

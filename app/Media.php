@@ -2,10 +2,9 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
 use Intervention\Image\Facades\Image;
 
-class Media extends Model
+class Media extends SearchableModel
 {
     protected $fillable = ['user_id', 'url', 'thumbnail_url', 'media_type', 'tags', 'visible'];
 
@@ -13,26 +12,94 @@ class Media extends Model
 
     protected $hidden = [];
 
-    public function  user() {
+    public const SEARCH_FIELDS = [
+        'id' => [
+            'name' => 'id',
+            'type' => 'integer',
+            'trans' => 'Id',
+            'allowSearch' => true,
+            'compare' => '=',
+            'validation' => 'nullable|integer'
+        ],
+        'tags' => [
+            'name' => 'tags',
+            'type' => 'string',
+            'trans' => 'Tags',
+            'allowSearch' => true,
+            'compare' => 'like',
+            'validation' => 'nullable|min:3|max:30|string'
+        ],
+        'media_type' => [
+            'name' => 'media_type',
+            'type' => 'enum',
+            'trans' => 'Tipo de Multimedia',
+            'allowSearch' => true,
+            'compare' => '=',//'none','image','video','youtube','download','other'
+            'validation' => 'nullable|in:none,image,video,youtube,download,other',
+            'enumItems' => [
+                [
+                    'name' => 'Nenhuma',
+                    'value' => 'none'
+                ],
+                [
+                    'name' => 'Imagem',
+                    'value' => 'image'
+                ],
+                [
+                    'name' => 'Video',
+                    'value' => 'video'
+                ],
+                [
+                    'name' => 'Video do Youtube',
+                    'value' => 'youtube'
+                ],
+                [
+                    'name' => 'Download',
+                    'value' => 'download'
+                ],
+                [
+                    'name' => 'Outro',
+                    'value' => 'other'
+                ]
+            ]
+        ],
+        'created_at' => [
+            'name' => 'created_at',
+            'type' => 'date',
+            'trans' => 'Data de Criação',
+            'allowSearch' => false
+        ],
+        'updated_at' => [
+            'name' => 'updated_at',
+            'type' => 'date',
+            'trans' => 'Ultima Atualização',
+            'allowSearch' => false
+        ]
+    ];
+
+    public function user()
+    {
         return $this->belongsTo('App\User');
     }
 
-    public function  articles() {
+    public function articles()
+    {
         return $this->hasMany(Article::class);
     }
 
-    public function publicUrl() {
+    public function publicUrl()
+    {
         return str_replace('media', 'app_media', $this->url);
     }
 
     /**
      *
-    <?php
-    $str = (string) $article->id;
-    $arr = str_split($str); // convert string to an array
-    ?>
-    <img src="{{ "/images/16_9_placeholder_" . end($arr) . ".jpg" }}" alt="">
-    */
+     * <?php
+     * $str = (string) $article->id;
+     * $arr = str_split($str); // convert string to an array
+     * ?>
+     * <img src="{{ "/images/16_9_placeholder_" . end($arr) . ".jpg" }}" alt="">
+     */
 
     /**
      * Gets a random image placeholder
@@ -41,15 +108,16 @@ class Media extends Model
      * @param $id int
      *
      * @return string
-    */
-    public static function getPlaceholder($ratio, $id = null) {
+     */
+    public static function getPlaceholder($ratio, $id = null)
+    {
 
-        if(!$id)
-            $img_id = (string) random_int(0, 9);
+        if (!$id)
+            $img_id = (string)random_int(0, 9);
         else {
-            $str = (string) $id;
+            $str = (string)$id;
             $arr = str_split($str); // convert string to an array
-            $img_id = (string) end($arr);
+            $img_id = (string)end($arr);
         }
 
         $url = null;
@@ -75,7 +143,8 @@ class Media extends Model
         return $url;
     }
 
-    public function generateThumbnail() {
+    public function generateThumbnail()
+    {
 
         if (!is_null($this->thumbnail_url))
             return false;
@@ -87,25 +156,25 @@ class Media extends Model
             case "youtube":
                 $play_btn = Image::make(public_path('/images/play_button.png'));
 
-                preg_match("/watch\?v\=[a-zA-z0-9\-\_]+/", $this->url,$matches);
+                preg_match("/watch\?v\=[a-zA-z0-9\-\_]+/", $this->url, $matches);
 
                 if (count($matches) < 1)
                     return false;
 
                 $video_id = str_replace("watch?v=", "", $matches[0]);
-                $img = Image::make("https://img.youtube.com/vi/" . $video_id ."/maxresdefault.jpg");
+                $img = Image::make("https://img.youtube.com/vi/" . $video_id . "/maxresdefault.jpg");
                 $img->insert($play_btn, 'center');
 
                 break;
 
             default:
 
-                $img = Image::canvas(900,900, "#107db7");
+                $img = Image::canvas(900, 900, "#107db7");
 
                 preg_match('/[a-zA-z0-9]{3}$/', $this->url, $matches);
                 $name = count($matches) > 0 ? $matches[0] : str_random(3);
 
-                $img = $img->text(strtoupper($name), 400, 400, function($font) {
+                $img = $img->text(strtoupper($name), 400, 400, function ($font) {
                     $font->file(public_path('/Roboto-Black.ttf'));
                     $font->size(400);
                     $font->color('#ffffff');
