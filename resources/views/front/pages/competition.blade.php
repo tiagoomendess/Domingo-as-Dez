@@ -155,7 +155,7 @@
 
     <div class="row hide" id="stats_button">
         <div class="container center">
-            <a class="waves-effect waves-light btn-large green darken-3" href="{{ route('competition.stats', [str_slug($competition->name), $season_slug]) }}"><i class="material-icons left">insert_chart</i>{{ trans('front.statistics') }}</a></div>
+            <a id="stats_link" class="waves-effect waves-light btn-large green darken-3" href=""><i class="material-icons left">insert_chart</i>{{ trans('front.statistics') }}</a></div>
     </div>
 @endsection
 

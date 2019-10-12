@@ -65,6 +65,7 @@ function start() {
 
 function seasonChanged() {
     console.log('SeasonChanged');
+    $('#stats_button').addClass('hide');
     var season_selector = $('#season_selector');
     var season_id = parseInt(season_selector.val());
     $('#groups').empty();
@@ -251,6 +252,10 @@ function handleGetGamesRequest(response) {
         group.removeClass('hide');
 
         showTable(i, round_chosen);
+
+        //stats button
+        $('#stats_link').attr('href', data.stats_link);
+        $('#stats_button').removeClass('hide');
     }
 
     var spinner = $('#main_loading');
@@ -297,7 +302,6 @@ function showTable(group, round) {
     } else {
 
     }
-    $('#stats_button').removeClass('hide');
 }
 
 function buildPointsTable(group, round) {

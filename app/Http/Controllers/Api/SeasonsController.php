@@ -28,6 +28,7 @@ class SeasonsController extends Controller
 
     public function getGames($season_id) {
 
+        /** @var Season $season */
         $season = Season::findOrFail($season_id);
 
         if (!$season || !$season->visible)
@@ -38,11 +39,14 @@ class SeasonsController extends Controller
         $game_groups = $season->game_groups;
         $i = 0;
 
+        $season_slug = $season->getNameSlug();
+
         $data_object->data = new \stdClass();
         $data_object->data->competition_id = $season->competition->id;
         $data_object->data->competition_name = $season->competition->name;
         $data_object->data->season_id = $season->id;
         $data_object->data->season_name = $season->getName();
+        $data_object->data->stats_link = route('competition.stats', [str_slug($season->competition->name), $season_slug]);
 
         foreach ($game_groups as $game_group) {
 
