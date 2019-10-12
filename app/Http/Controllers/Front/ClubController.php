@@ -42,7 +42,7 @@ class ClubController extends Controller
         $transfers = $transfers_in->concat($transfers_out);
 
         $transfers = $transfers->sortByDesc('date');
-        $transfers->slice(0, 5);
+        $transfers = $transfers->slice(0, 18);
 
         if (count($club->playgrounds) > 0)
             $playground = $club->getFirstPlayground();

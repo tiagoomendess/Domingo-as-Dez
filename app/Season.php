@@ -46,4 +46,8 @@ class Season extends Model
         return $group;
     }
 
+    public function getNameSlug(): string
+    {
+        return $this->start_year !== $this->end_year ? $this->start_year . '-' . $this->end_year : $this->start_year;
+    }
 }
