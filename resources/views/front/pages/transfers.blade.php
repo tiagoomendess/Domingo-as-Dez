@@ -38,10 +38,10 @@
                                 </div>
 
                                 <div class="transfer-info">
-                                    <span class="player-name">{{ $transfer->player->displayName() }}</span>
+                                    <a style="color: #000000" class="player-name" href="{{ route('front.player.show', ['id' => $transfer->player->id, 'name_slug' => str_slug($transfer->player->name) ]) }}">{{ $transfer->player->displayName() }}</a>
                                     <div class="clubs">
                                         <div class="club">
-                                            @if ($transfer->getPreviousTransfer())
+                                            @if ($transfer->getPreviousTransfer() && !empty($transfer->getPreviousTransfer()->team))
                                                 <a href="{{ $transfer->getPreviousTransfer()->team->club->getPublicURL() }}">
                                                     <figure>
                                                         <img src="{{ $transfer->getPreviousTransfer()->getClubEmblem() }}" alt="{{ $transfer->getPreviousTransfer()->getClubName() }}">
@@ -80,7 +80,12 @@
                                             @endif
                                         </div>
                                     </div>
-                                    <span class="transfer-date">{{ Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $transfer->date)->format("d/m/Y") }}</span>
+                                    @if(has_permission('transfers.edit'))
+                                        <span class="transfer-date"><a href="{{ route('transfers.show', ['id' => $transfer->id]) }}">{{ Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $transfer->date)->format("d/m/Y") }}</a></span>
+                                    @else
+                                        <span class="transfer-date">{{ Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $transfer->date)->format("d/m/Y") }}</span>
+                                    @endif
+
                                 </div>
                             </div>
                         </div>
