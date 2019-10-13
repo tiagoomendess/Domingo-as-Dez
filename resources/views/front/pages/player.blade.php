@@ -75,7 +75,7 @@
                             @foreach($transfers as $index => $transfer)
 
                                 <li class="item">
-                                    <a href="@if($transfer->team){{ $transfer->getClub()->getPublicURL() }}@else#@endif">
+                                    <a href="@if(has_permission('transfers.edit')){{ route('transfers.show',['id' => $transfer->id]) }}@elseif($transfer->team){{ $transfer->getClub()->getPublicURL() }}@else#@endif">
 
                                         <img src="{{ $transfer->getClubEmblem() }}" alt="">
 
