@@ -120,5 +120,6 @@ return [
     'amount_goals_against' => '{0} 0 Golos Sofridos|{1} 1 Golo Sofrido|[2,*] :count Golos Sofridos',
     'statistics' => 'Estatísticas',
     'attack' => 'Ataque',
-    'defense' => 'Defesa'
+    'defense' => 'Defesa',
+    'ads' => 'Publicidade'
 ];

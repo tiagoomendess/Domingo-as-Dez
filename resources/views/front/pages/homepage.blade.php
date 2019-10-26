@@ -160,7 +160,7 @@
             </div>
         </div>
 
-        <div class="row">
+        <div class="row no-margin-bottom">
             <div class="col s12">
                 <div class="vertical-spacer"></div>
                 <h2 class="over-card-title">{{ trans('models.competitions') }}</h2>
@@ -192,22 +192,31 @@
 
     </div>
 
-
     <div class="container">
-        <div class="row">
-            <div class="col s6 m4 l3">
-                <a href="http://www.prediol.com">
-                    <img style="width: 100%" src="/images/prediol_card_pub.jpeg" alt="">
+        <div class="row no-margin-bottom">
+            <div class="col s12">
+                <div class="vertical-spacer"></div>
+                <h2 class="over-card-title">{{ trans('front.ads') }}</h2>
+            </div>
+
+            <div class="col s12 m6 l4" style="margin-bottom: 10px">
+                <a href="https://www.prediol.com/" target="_blank">
+                    <img src="/images/prediol_web.jpg" alt="Prediol" style="width: 100%">
                 </a>
             </div>
 
-            <div class="col s6 m4 l3">
-                <a href="http://www.slc.pt">
-                    <img style="width: 100%" src="/images/slc_pub_1by1.jpg" alt="">
+            <div class="col s12 m6 l4" style="margin-bottom: 10px">
+                <a href="http://www.slc.pt/" target="_blank">
+                    <img src="/images/slc_web.jpg" alt="SLC" style="width: 100%">
+                </a>
+            </div>
+
+            <div class="col s12 m6 l4" style="margin-bottom: 10px">
+                <a href="https://www.facebook.com/IntensifyWorld/" target="_blank">
+                    <img src="/images/itw_web.jpg" alt="Itensify World" style="width: 100%">
                 </a>
             </div>
         </div>
-
     </div>
 
 @endsection

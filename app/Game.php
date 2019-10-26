@@ -252,7 +252,7 @@ class Game extends Model
         $gameSecondHalf = new Carbon($this->date);
         $gameSecondHalf->addMinutes(65);
         $endTime = new Carbon($this->date);
-        $endTime->addMinutes(180);
+        $endTime->addMinutes(240);
 
         if ($now->timestamp > $gameSecondHalf->timestamp && $now->timestamp < $endTime->timestamp)
             return true;

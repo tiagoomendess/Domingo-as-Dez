@@ -132,10 +132,10 @@
 
                 <div class="row no-margin-bottom">
                     <div id="man_of_the_match">
-                        @if($game->finished && !$game->isMvpVoteOpen() && $mvp && $mvp->amount > 1)
+                        @if($game->finished && !$game->isMvpVoteOpen() && $mvp && $mvp->amount >= 1)
                             <span>Homem do Jogo:</span>
                             <div class="chip">
-                                <img src="{{ $mvp->player->getPicture() }}" alt="Contact Person">
+                                <img src="{{ $mvp->player->getPicture() }}" alt="{{ $mvp->player->displayName() }}, homem do jogo">
                                 {{ $mvp->player->displayName() }}
                             </div>
                         @endif
