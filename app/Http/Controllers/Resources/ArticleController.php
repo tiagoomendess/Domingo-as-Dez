@@ -88,6 +88,9 @@ class ArticleController extends Controller
         if (count($media) != 1)
             $media_id = null;
 
+        if (empty($description))
+            $description = substr(strip_tags($text), 0, 270) . '...';
+
         $article = Article::create([
             'title' => $title,
             'description' => $description,
@@ -183,6 +186,10 @@ class ArticleController extends Controller
         $article->date = $request->input('date');
         $article->visible = $visible;
         $article->tags = str_replace(', ', ',', $request->input('tags'));
+
+        if (empty($article->description))
+            $article->description = substr(strip_tags($article->text), 0, 270) . '...';
+
         $article->save();
 
         $messages->add('success', trans('success.model_edited', ['model_name' => trans('models.article')]));
