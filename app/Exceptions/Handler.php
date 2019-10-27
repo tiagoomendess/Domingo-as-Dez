@@ -5,7 +5,6 @@ namespace App\Exceptions;
 use App\Mail\ExceptionMail;
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
 class Handler extends ExceptionHandler
