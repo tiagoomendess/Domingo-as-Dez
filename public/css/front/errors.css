@@ -1,0 +1,54 @@
+body{
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    background-color: rgba(218, 218, 218, 0.67);
+}
+
+.error-wrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.error-wrapper > .center-message {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin: 10px;
+}
+
+.errors > .actions {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.error-wrapper > .center-message > i {
+    font-size: 12rem;
+    font-weight: 100;
+}
+
+.error-wrapper > .center-message > h1 {
+    font-size: 4.5rem;
+    font-weight: 100;
+    text-align: center;
+    margin: 0 5px 10px 5px;
+}
+
+.error-wrapper > .center-message > .details {
+    margin: 0 10px 10px 10px;
+    font-size: 1.2rem;
+    font-weight: 300;
+    text-align: center;
+}

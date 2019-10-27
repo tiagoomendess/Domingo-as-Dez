@@ -22,4 +22,6 @@ return [
     'site_sidenav_image' => '/images/sidenav_image.jpg',
     'site_sidenav_image_no_login' => '/images/sidenav_image_blur.jpg',
     'user_avatars_path' => '/storage/uploads/users/avatars',
+    'send_exception_to_mail' => env('SEND_EXCEPTION_TO_MAIL', 'false'),
+    'exception_notification_email' => env('EXCEPTION_NOTIFICATION_EMAIL', 'tiagoomendess@gmail.com')
 ];
