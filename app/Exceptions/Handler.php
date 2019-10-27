@@ -2,8 +2,10 @@
 
 namespace App\Exceptions;
 
+use App\Mail\ExceptionMail;
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Support\Facades\Mail;
 
 class Handler extends ExceptionHandler
 {
@@ -40,14 +42,35 @@ class Handler extends ExceptionHandler
     }
 
     /**
-     * Render an exception into an HTTP response.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Exception  $exception
-     * @return \Illuminate\Http\Response
+     * @param \Illuminate\Http\Request $request
+     * @param Exception $exception
+     * @return \Illuminate\Http\Response|\Symfony\Component\HttpFoundation\Response
      */
     public function render($request, Exception $exception)
     {
+        $supportedCodes = [403, 404, 500];
+        $notifiableCodes = [500, 501, 503, 504];
+
+        if ($this->isHttpException($exception)) {
+            $statusCode = $exception->getStatusCode();
+            if (in_array($statusCode, $notifiableCodes) && config('custom.send_exception_to_mail'))
+                $this->sendExceptionToMail($request, $exception);
+
+            if (in_array($statusCode, $supportedCodes)) {
+                $vars = [
+                    'request' => $request,
+                    'exception' => $exception
+                ];
+                return response()->view('errors.' . $statusCode, $vars, $statusCode);
+            }
+        }
+
         return parent::render($request, $exception);
+    }
+
+    private function sendExceptionToMail($request, $exception): void
+    {
+        Mail::to(config('custom.exception_notification_email'))
+            ->send(new ExceptionMail($request, $exception));
     }
 }

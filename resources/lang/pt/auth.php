@@ -28,7 +28,7 @@ return [
     'remember_me' => 'Lembrar-me',
     'login' => 'Entrar',
     'register' => 'Registar',
-    'permission_denied' => 'Permissão negada.',
+    'permission_denied' => 'Permissão Negada',
     'email' => 'Email',
     'password' => 'Palavra chave',
     'forgot_password' => 'Esqueci-me da palavra chave',
@@ -42,7 +42,7 @@ return [
     'verify_email' => 'Verifique o Email',
     'verify_email_help' => 'Antes de poder aceder à sua conta, precisamos de ter a certeza que o email :email lhe 
     pertence. Entre na sua caixa de correio e siga as instruções que lhe enviamos',
-    'you_need_permission' => 'Se acredita que isto é um erro, contacte o administrador do website. Você precisa da permissão :permission',
+    'you_need_permission' => 'Você precisa da permissão «:permission»',
     'email_already_exists' => 'Já existe uma conta registada com esse email',
     'we_need_email_access' => 'Não foi possível registar porque não deu acesso ao seu email',
 ];
