@@ -366,7 +366,7 @@
         </form>
     </div>
 
-    @if(has_permission('games.edit'))
+    @if(has_permission('games'))
         <div class="row">
             <div class="container">
                 <a href="{{ route('games.show', ['game' => $game]) }}"

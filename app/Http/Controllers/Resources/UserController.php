@@ -18,12 +18,23 @@ class UserController extends Controller
         $this->middleware('permission:users');
     }
 
-    public function index() {
-        $users = User::where('verified', true)->orderBy('id', 'desc')->paginate(config('custom.results_per_page'));
+    public function index(Request $request) {
+
         $permAdmin = Permission::where('name', 'admin')->first();
         $admins = $permAdmin->users;
 
-        return view('backoffice.pages.users', ['users' => $users, 'admins' => $admins]);
+        if ($request->query->get('search')) {
+            $users = User::search($request->query->all());
+        } else {
+            $users = User::orderBy('id', 'desc')->paginate(config('custom.results_per_page'));
+        }
+
+        return view('backoffice.pages.users', [
+            'users' => $users,
+            'admins' => $admins,
+            'searchFields' => User::SEARCH_FIELDS,
+            'queryParams' => $request->query->all()
+        ]);
     }
 
     public function create() {
