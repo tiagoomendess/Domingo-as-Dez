@@ -26,7 +26,7 @@ class UserController extends Controller
         if ($request->query->get('search')) {
             $users = User::search($request->query->all());
         } else {
-            $users = User::orderBy('id', 'desc')->paginate(config('custom.results_per_page'));
+            $users = User::where('verified', 1)->orderBy('id', 'desc')->paginate(config('custom.results_per_page'));
         }
 
         return view('backoffice.pages.users', [

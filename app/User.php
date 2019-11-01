@@ -191,6 +191,7 @@ class User extends Authenticatable
                 ];
             }
         }
+        $whereClause[] = ['verified', '=', 1];
 
         $results = static::where($whereClause)->orderBy($orderBy, $order)->paginate(config('custom.results_per_page'));
 
