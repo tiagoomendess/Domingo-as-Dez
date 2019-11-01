@@ -30,6 +30,7 @@
                     <tr>
                         <th>{{ trans('general.name') }}</th>
                         <th>{{ trans('general.email') }}</th>
+                        <th>{{ trans('general.verified') }}</th>
                         <th>{{ trans('general.created_at') }}</th>
                     </tr>
                     </thead>
@@ -38,6 +39,7 @@
                         <tr>
                             <td><a href="{{ route('users.show', ['user' => $user]) }}">{{ $user->name }}</a></td>
                             <td>{{ $user->email }}</td>
+                            <td>{{ $user->verified ? trans('general.yes') : trans('general.no') }}</td>
                             <td>{{ $user->created_at }}</td>
                         </tr>
 
