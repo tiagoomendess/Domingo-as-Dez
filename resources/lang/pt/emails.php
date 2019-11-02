@@ -4,6 +4,7 @@ return [
     'verification_subject' => 'Verificar o email em :site_name',
     'verification_greetings' => 'Olá',
     'verification_p1' => 'Obrigado por se registar no nosso website. Para completar o registo, deverá verificar o seu email clicando no botão.',
+    'verification_p2' => 'Tem 10 minutos para verificar o email, se falhar o prazo terá de fazer novo registo!',
     'verification_btn' => 'Verificar Email',
     'thanks' => 'Obrigado por usar a nossa aplicação.',
     'reset_password_subject' => 'Recuperar a password em :site_name',
@@ -38,5 +39,9 @@ return [
     'account_deleted_subject' => 'A sua conta foi eliminada.',
     'account_deleted_p1' => 'Este será o último email que receberá da nossa parte. Logo após termos enviado este email a 
     sua conta foi eliminada permanentemente da nossa base de dados. A partir de agora não conseguirá autenticar-se com 
-    as credenciais. Se tiver sessão iniciada, esta será terminada assim que recarregar a página.'
+    as credenciais. Se tiver sessão iniciada, esta será terminada assim que recarregar a página.',
+
+    'password_changed_subject' => 'Password alterada em :site_name',
+    'password_changed_line_1' => 'A password da sua conta registada com o email :email foi alterada. Se não foi você que 
+    alterou a password faça recuperação de conta e defina uma nova, e mais segura password.',
 ];

@@ -7,21 +7,17 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class VerifyEmailNotification extends Notification
+class PasswordChangedNotification extends Notification
 {
     use Queueable;
-
-    protected $email, $token;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($email, $token)
+    public function __construct()
     {
-        $this->email = $email;
-        $this->token = $token;
     }
 
     /**
@@ -46,14 +42,9 @@ class VerifyEmailNotification extends Notification
 
         return (new MailMessage)
             ->from(config('custom.site_email'), config('custom.site_name'))
-            ->subject(trans('emails.verification_subject', ['site_name' => config('custom.site_name')]))
-            ->greeting(trans('emails.verification_greetings'))
-            ->line(trans('emails.verification_p1'))
-            ->action(trans('emails.verification_btn'), route('verifyEmail', [
-                'email' => $this->email,
-                'token' => $this->token,
-            ]))
-            ->line(trans('emails.verification_p2'))
+            ->subject(trans('emails.password_changed_subject', ['site_name' => config('custom.site_name')]))
+            ->greeting(trans('emails.general_greeting', ['name' => $notifiable->name]))
+            ->line(trans('emails.password_changed_line_1', ['email' => $notifiable->email]))
             ->line(trans('emails.thanks'));
     }
 

@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\UserProfile;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -101,7 +102,7 @@ class RegisterController extends Controller
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
-            'password' => bcrypt($data['password']),
+            'password' => Hash::make($data['password']),
             'email_token' => str_random(16),
         ]);
     }
@@ -131,38 +132,37 @@ class RegisterController extends Controller
         return view('auth.verify', ['email' => $email]);
     }
 
-    public function verifyEmail($email, $token) {
+    public function verifyEmail($email, $token)
+    {
+        $messages = new MessageBag();
 
         $user = User::where('email', $email)->first();
 
+        if (empty($user)) {
+            $messages->add('error', trans('auth.user_does_not_exist_to_verify'));
+            return redirect()->route('verifyEmailPage', ['email' => $email])->withErrors($messages);
+        }
+
         //If the user is already verified
         if ($user->verified == true) {
-
-            $errors = new MessageBag();
-            $errors->add('already_verified', trans('auth.already_verified'));
-            return redirect()->route('verifyEmailPage')->withErrors($errors);
-
+            $messages->add('already_verified', trans('auth.already_verified'));
+            return redirect()->route('verifyEmailPage', ['email' => $email])->withErrors($messages);
         }
 
         if ($token == $user->email_token) {
-
             $user->verified = true;
             $user->email_token = null;
             $user->save();
-
         } else {
-
-            $errors = new MessageBag();
-            $errors->add('verify_token_mismatch', trans('auth.verify_token_mismatch'));
-            return redirect()->route('verifyEmailPage')->withErrors($errors);
-
+            $messages->add('verify_token_mismatch', trans('auth.verify_token_mismatch'));
+            return redirect()->route('verifyEmailPage')->withErrors($messages);
         }
 
-        return redirect()->route('login');
+        $messages->add('success', trans('auth.account_verified'));
+        return redirect()->route('login')->with(['popup_message' => $messages]);
     }
 
     public function resendVerifyEmail(Request $request) {
 
     }
-
 }

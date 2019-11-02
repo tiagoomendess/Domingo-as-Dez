@@ -104,6 +104,7 @@ Route::get('/competicoes/{competition_slug}/{season_slug}/{group_slug}/{round}/{
 Route::get('/perfil/editar', 'Front\UserProfileController@edit')->name('front.userprofile.edit');
 Route::post('/perfil/editar', 'Front\UserProfileController@updateProfileInfo')->name('front.userprofile.update');
 Route::post('/perfil/foto/alterar', 'Front\UserProfileController@updateProfilePicture')->name('front.userprofilephoto.update');
+Route::post('/perfil/password/change', 'Front\UserProfileController@changePassword')->name('front.change_password');
 Route::get('/utilizador/perfil/download', 'Front\DefaultController@downloadUserInfo')->name('front.userprofile.download');
 Route::get('/clubes/{club_slug}', 'Front\ClubController@show')->name('front.club.show');
 Route::get('/jogadores/{id}/{name_slug}', 'Front\PlayersController@show')->name('front.player.show');
