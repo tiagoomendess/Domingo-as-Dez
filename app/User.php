@@ -150,6 +150,11 @@ class User extends Authenticatable
         return false;
     }
 
+    public function isSocial(): bool
+    {
+        return count($this->socialProviders) > 0 ? true : false;
+    }
+
     public static function search(array $parameters)
     {
         $standardRules = [

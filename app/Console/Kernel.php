@@ -2,9 +2,11 @@
 
 namespace App\Console;
 
+use App\Jobs\DeleteNotVerifiedAccounts;
 use App\Jobs\ProcessDeleteRequest;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Symfony\Component\HttpKernel\Log\Logger;
 
 class Kernel extends ConsoleKernel
 {
@@ -28,6 +30,7 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')
         //          ->hourly();
         $schedule->job(new ProcessDeleteRequest())->daily();
+        $schedule->job(new DeleteNotVerifiedAccounts())->everyMinute();
     }
 
     /**
