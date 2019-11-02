@@ -5,7 +5,10 @@ namespace App\Http\Controllers\Front;
 use App\Game;
 use App\Http\Controllers\Controller;
 use App\Media;
+use App\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Intervention\Image\ImageManager;
 
 class MatchImageGeneratorController extends Controller
@@ -19,10 +22,14 @@ class MatchImageGeneratorController extends Controller
     public function __construct(ImageManager $manager)
     {
         $this->manager = $manager;
+        $this->middleware('auth');
     }
 
     public function generateImage(Game $game)
     {
+        /** @var User $user */
+        $user = Auth::user();
+        Log::info('Generating match ' . $game->id . ' image for user ' . $user->id);
         $base = $this->manager->canvas(self::WIDTH, self::HEIGHT);
 
         if ($game->playground) {
