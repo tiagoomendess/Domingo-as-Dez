@@ -55,6 +55,8 @@ class DeleteRequestsController extends Controller
 
         $user->notify(new VerifyDeleteRequestNotification($code));
 
+        Log::info('User id ' . $user->id . ' with email ' . $user->email . ' requested an account deletion');
+
         return response()->redirectTo(route('front.userprofile.delete.verify.show'));
 
     }
@@ -93,7 +95,7 @@ class DeleteRequestsController extends Controller
 
             $delete_request->user->notify(new DeleteQueuedNotification());
 
-            Log::info('Delete Request verification code correct, queueing account for removal.');
+            Log::info('Delete Request verification code correct, queueing account ' . $user->id . ' for removal.');
 
             $delete_request->verified = true;
             $delete_request->save();
@@ -139,6 +141,7 @@ class DeleteRequestsController extends Controller
 
             $messages = new MessageBag();
             $messages->add('delete_cancelled', trans('delete_cancelled'));
+            Log::info('Delete request for user ' . $user->id . ' with email ' . $user->email . ' has been cancelled');
             return response()->redirectTo(route('front.userprofile.edit'))->with(['popup_messages' => $messages]);
 
         } else {

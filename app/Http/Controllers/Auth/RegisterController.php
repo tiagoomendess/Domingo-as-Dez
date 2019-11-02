@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
@@ -119,6 +120,7 @@ class RegisterController extends Controller
             'account_data_consent' => Carbon::now()->format("Y-m-d H:i:s"),
         ]);
 
+        Log::info('A user has registered with the email ' . $user->email . ' and got the id ' . $user->id);
         Auth::logout();
     }
 
