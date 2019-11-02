@@ -39,7 +39,7 @@ class DeleteNotVerifiedAccounts implements ShouldQueue
                 ->whereNotNull('email')
                 ->where([
                     ['verified', '=', 0],
-                    ['created_at', '<', $tenMinutesAgo->timestamp]
+                    ['created_at', '<', new \DateTime($tenMinutesAgo->timestamp)]
                 ])->update([
                     'name' => null,
                     'email' => null,
