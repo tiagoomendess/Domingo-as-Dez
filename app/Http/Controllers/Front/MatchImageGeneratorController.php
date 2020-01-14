@@ -174,7 +174,7 @@ class MatchImageGeneratorController extends Controller
         $base->text($game->getHomeScore() . ' - ' . $game->getAwayScore(), round(self::WIDTH / 2), round((self::HEIGHT / 4) * 3) + 10, function ($font) {
             $font->file(public_path('Roboto-Black.ttf'));
             $font->size(120);
-            $font->color('#fdf6e3');
+            $font->color('#ffffff');
             $font->align('center');
             $font->valign('top');
         });
@@ -190,7 +190,7 @@ class MatchImageGeneratorController extends Controller
             $base->text('(' . $game->penalties_home . '-' . $game->penalties_away . ' g.p)', round(self::WIDTH / 2), round((self::HEIGHT / 4) * 3) + 120, function ($font) {
                 $font->file(public_path('Roboto-Black.ttf'));
                 $font->size(30);
-                $font->color('#fdf6e3');
+                $font->color('#ffffff');
                 $font->align('center');
                 $font->valign('top');
             });
@@ -209,7 +209,7 @@ class MatchImageGeneratorController extends Controller
         $base->text($data['day'] . ' DE ' . $data['month'] . ' | ' . $data['time'], round(self::WIDTH / 2), round((self::HEIGHT / 4) * 3), function ($font) {
             $font->file(public_path('Roboto-Black.ttf'));
             $font->size(40);
-            $font->color('#fdf6e3');
+            $font->color('#ffffff');
             $font->align('center');
             $font->valign('center');
         });
@@ -224,7 +224,7 @@ class MatchImageGeneratorController extends Controller
         $base->text($data['playground_name'], round(self::WIDTH / 2), round((self::HEIGHT / 4) * 3) + 45, function ($font) {
             $font->file(public_path('Roboto-Regular.ttf'));
             $font->size(30);
-            $font->color('#fdf6e3');
+            $font->color('#ffffff');
             $font->align('center');
             $font->valign('center');
         });
