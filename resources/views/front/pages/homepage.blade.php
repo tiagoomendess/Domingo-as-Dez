@@ -3,13 +3,12 @@
 @section('head-content')
     <title>{{ config('custom.site_name') }}</title>
     <link rel="stylesheet" href="/css/front/homepage-style.css">
-    <meta property="og:title" content="{{ config('app.name') }}" />
-    <meta property="og:type" content="website" />
+    <meta property="og:title" content="{{ config('app.name') }}"/>
+    <meta property="og:type" content="website"/>
 @endsection
 @section('content')
 
     <div class="container">
-
         <div class="row no-margin-bottom {{ $live ? '' : 'hide' }}" id="is_live_warning">
             <div class="col s12">
                 <a href="{{ route('games.live') }}">
@@ -121,7 +120,8 @@
                     <div class="vertical-spacer"></div>
                     <div class="divider"></div>
                     <div class="account-greeting">
-                        <img class="circle" src="{{ \Illuminate\Support\Facades\Auth::user()->profile->getPicture() }}" alt="">
+                        <img class="circle" src="{{ \Illuminate\Support\Facades\Auth::user()->profile->getPicture() }}"
+                             alt="">
                         <span class="flow-text">{{ trans('front.hello_user', ['name' => \Illuminate\Support\Facades\Auth::user()->name]) }}</span>
                     </div>
                     <div class="divider"></div>
@@ -199,21 +199,27 @@
                 <h2 class="over-card-title">{{ trans('front.ads') }}</h2>
             </div>
 
-            <div class="col s12 m6 l4" style="margin-bottom: 10px">
+            <div class="col s12 m6 l3" style="margin-bottom: 10px">
                 <a href="https://www.prediol.com/" target="_blank">
                     <img src="/images/prediol_web.jpg" alt="Prediol" style="width: 100%">
                 </a>
             </div>
 
-            <div class="col s12 m6 l4" style="margin-bottom: 10px">
+            <div class="col s12 m6 l3" style="margin-bottom: 10px">
                 <a href="http://www.slc.pt/" target="_blank">
                     <img src="/images/slc_web.jpg" alt="SLC" style="width: 100%">
                 </a>
             </div>
 
-            <div class="col s12 m6 l4" style="margin-bottom: 10px">
+            <div class="col s12 m6 l3" style="margin-bottom: 10px">
                 <a href="https://www.facebook.com/IntensifyWorld/" target="_blank">
                     <img src="/images/itw_web.jpg" alt="Itensify World" style="width: 100%">
+                </a>
+            </div>
+
+            <div class="col s12 m6 l3" style="margin-bottom: 10px">
+                <a href="http://celoscar.com?ref=domingoasdez.com" target="_blank">
+                    <img src="/images/celoscar_web.jpg" alt="Itensify World" style="width: 100%">
                 </a>
             </div>
         </div>
@@ -224,9 +230,10 @@
 @section("scripts")
     <script src="/js/front/homepage-scripts.js"></script>
     <script>
-        $(document).ready(function(){
+        $(document).ready(function () {
             // the "href" attribute of the modal trigger must specify the modal ID that wants to be triggered
             $('.modal').modal();
+            $('.carousel.carousel-slider').carousel({fullWidth: true});
         });
     </script>
 @endsection
