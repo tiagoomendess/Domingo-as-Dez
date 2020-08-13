@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Resources;
 
-use App\Permission;
+use App\LegacyPermission;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\MessageBag;
@@ -25,7 +25,7 @@ class PermissionController extends Controller
      */
     public function index()
     {
-        $permissions = Permission::paginate(config('custom.results_per_page'));
+        $permissions = LegacyPermission::paginate(config('custom.results_per_page'));
 
         return view('backoffice.pages.permissions', ['permissions' => $permissions]);
     }
@@ -52,7 +52,7 @@ class PermissionController extends Controller
             'name' => 'required|string|max:100',
         ]);
 
-        $permission = Permission::create([
+        $permission = LegacyPermission::create([
             'name' => $request->name,
         ]);
 
@@ -67,7 +67,7 @@ class PermissionController extends Controller
      */
     public function show($id)
     {
-        $permission = Permission::findOrFail($id);
+        $permission = LegacyPermission::findOrFail($id);
         return view('backoffice.pages.permission', ['permission' => $permission]);
     }
 
@@ -79,7 +79,7 @@ class PermissionController extends Controller
      */
     public function edit($id)
     {
-        $permission = Permission::findOrFail($id);
+        $permission = LegacyPermission::findOrFail($id);
         return view('backoffice.pages.edit_permission', ['permission' => $permission]);
     }
 
@@ -92,7 +92,7 @@ class PermissionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $permission = Permission::findOrFail($id);
+        $permission = LegacyPermission::findOrFail($id);
 
         $request->validate([
             'name' => 'required|string|max:100',
@@ -112,7 +112,7 @@ class PermissionController extends Controller
      */
     public function destroy($id)
     {
-        $permission = Permission::findOrFail($id);
+        $permission = LegacyPermission::findOrFail($id);
 
         $permission->delete();
 

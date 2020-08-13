@@ -72,7 +72,7 @@ class User extends Authenticatable
 
     public function permissions()
     {
-        return $this->belongsToMany(Permission::class, 'user_permissions');
+        return $this->belongsToMany(LegacyPermission::class, 'user_permissions');
     }
 
     public function articles()

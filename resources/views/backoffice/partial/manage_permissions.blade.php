@@ -15,7 +15,7 @@
 
         <select id="permissions_dropdown" class="browser-default">
             <?php
-                $all_perms = App\Permission::all();
+                $all_perms = App\LegacyPermission::all();
             ?>
 
             <option value="" disabled selected>{{ trans('general.choose_option') }}</option>

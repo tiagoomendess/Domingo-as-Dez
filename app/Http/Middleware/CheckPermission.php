@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Auth;
-use App\Permission;
+use App\LegacyPermission;
 
 /**
  * Verifies if the user has the permission stated in the parameter

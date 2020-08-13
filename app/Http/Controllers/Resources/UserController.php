@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Resources;
 
-use App\Permission;
+use App\LegacyPermission;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Auth;
@@ -20,7 +20,7 @@ class UserController extends Controller
 
     public function index(Request $request) {
 
-        $permAdmin = Permission::where('name', 'admin')->first();
+        $permAdmin = LegacyPermission::where('name', 'admin')->first();
         $admins = $permAdmin->users;
 
         if ($request->query->get('search')) {
@@ -75,7 +75,7 @@ class UserController extends Controller
             'permission_id' => 'integer|required',
         ]);
 
-        $permission = Permission::find($request->input('permission_id'));
+        $permission = LegacyPermission::find($request->input('permission_id'));
         $user = User::find($request->input('user_id'));
 
         if (!$user || !$permission)
@@ -99,7 +99,7 @@ class UserController extends Controller
             'permission_id' => 'integer|required',
         ]);
 
-        $permission = Permission::find($request->input('permission_id'));
+        $permission = LegacyPermission::find($request->input('permission_id'));
         $user = User::find($request->input('user_id'));
 
         if (!$user || !$permission)

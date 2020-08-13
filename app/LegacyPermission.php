@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Permission extends Model
+class LegacyPermission extends Model
 {
     protected $fillable = ['name'];
 
