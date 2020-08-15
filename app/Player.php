@@ -3,6 +3,7 @@
 namespace App;
 
 use Carbon\Carbon;
+use TCG\Voyager\Facades\Voyager;
 
 class Player extends SearchableModel
 {
@@ -154,7 +155,7 @@ class Player extends SearchableModel
     public function getPicture()
     {
         if ($this->picture)
-            return $this->picture;
+            return Voyager::image($this->picture);
         else
             return config('custom.default_profile_pic');
     }

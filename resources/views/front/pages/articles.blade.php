@@ -26,11 +26,7 @@
                     <div class="card medium hoverable">
                         <div class="card-image">
                             <div class="article-thumb-fill">
-                                @if($article->media)
-                                    <img src="{{ $article->media->thumbnail_url ? $article->media->thumbnail_url : \App\Media::getPlaceholder('16:9', $article->id) }}" alt="{{ $article->media->tags }}">
-                                @else
-                                    <img src="{{ \App\Media::getPlaceholder('16:9', $article->id) }}" alt="">
-                                @endif
+                                <img src="{{ $article->getThumbnailOrPlaceholder() }}" alt="">
                                 <span class="card-title">{{ $article->title }}</span>
                             </div>
                         </div>

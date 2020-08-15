@@ -3,9 +3,12 @@
 namespace App;
 
 use Carbon\Carbon;
+use TCG\Voyager\Facades\Voyager;
+use TCG\Voyager\Traits\Resizable;
 
 class Article extends SearchableModel
 {
+    use Resizable;
 
     /**
     protected $fillable = [];
@@ -92,15 +95,18 @@ class Article extends SearchableModel
         ]);
     }
 
-    public function getThumbnail() {
+    public function getThumbnailOrPlaceholder() {
 
-        if (!is_null($this->media)) {
+        if (!is_null($this->picture)) {
+            return Voyager::image($this->getThumbnail($this->picture, 'medium'));
+        } elseif (!is_null($this->media)) {
             if (!is_null($this->thumbnail_url))
                 return $this->thumbnail_url;
             else
                 $this->media->generateThumbnail();
-                return $this->media->thumbnail_url;
-        } else
-            return Media::getPlaceholder('16:9', $this->id);
+            return Voyager::image($this->media->thumbnail_url);
+        } else {
+            return url(Media::getPlaceholder('16:9', $this->id));
+        }
     }
 }

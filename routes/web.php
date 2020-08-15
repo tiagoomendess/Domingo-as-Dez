@@ -133,3 +133,8 @@ Route::get('/uma-pre-eliminatoria-sem-tomba-gigantes', function () {
 });
 
 
+
+
+Route::group(['prefix' => 'admin'], function () {
+    Voyager::routes();
+});

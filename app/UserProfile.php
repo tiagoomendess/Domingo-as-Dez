@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use TCG\Voyager\Facades\Voyager;
 
 class UserProfile extends Model
 {
@@ -19,7 +20,7 @@ class UserProfile extends Model
     public function getPicture() {
 
         if ($this->picture)
-            return $this->picture;
+            return Voyager::image($this->picture);
         else
             return config('custom.default_profile_pic');
 

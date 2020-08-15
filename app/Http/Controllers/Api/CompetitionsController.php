@@ -57,7 +57,7 @@ class CompetitionsController extends Controller
 
             $data_object->competitions[$i]->id = $competition->id;
             $data_object->competitions[$i]->name = $competition->name;
-            $data_object->competitions[$i]->logo = $competition->picture;
+            $data_object->competitions[$i]->logo = $competition->getPicture();
             $data_object->competitions[$i]->slug = str_slug($competition->name);
 
             $i++;

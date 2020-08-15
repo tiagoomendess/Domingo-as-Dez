@@ -20,7 +20,7 @@
                     @foreach($competitions as $competition)
                         <li>
                             <a href="{{ $competition->getPublicUrl() }}">
-                                <img src="{{ $competition->picture }}" alt="{{$competition->name}}">
+                                <img src="{{ $competition->getPicture() }}" alt="{{$competition->name}}">
                                 <span class="flow-text">{{ $competition->name }}</span>
                             </a>
                         </li>

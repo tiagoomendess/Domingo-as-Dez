@@ -7,7 +7,7 @@
     <meta property="og:title" content="{{ $competition->name . ' - ' . config('app.name') }}"/>
     <meta property="og:type" content="website"/>
     <meta property="og:description" content="{{ trans('front.footer_desc') }}"/>
-    <meta property="og:image" content="{{ url($competition->picture) }}">
+    <meta property="og:image" content="{{ $competition->getPicture() }}">
 
 @endsection
 
@@ -20,7 +20,7 @@
                 <div class="input-field col s12 m6 l4">
                     <select id="competition_selector" class="icons">
                         <option slug="{{ str_slug($competition->name) }}" class="left circle"
-                                value="{{ $competition->id }}" data-icon="{{ $competition->picture }}"
+                                value="{{ $competition->id }}" data-icon="{{ $competition->getPicture() }}"
                                 selected>{{ $competition->name }}</option>
                     </select>
                     <label>{{ trans('models.competition') }}</label>

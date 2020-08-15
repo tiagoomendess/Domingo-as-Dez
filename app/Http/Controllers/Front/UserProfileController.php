@@ -76,6 +76,7 @@ class UserProfileController extends Controller
         $url = MediaController::storeSquareImage($image, str_random(9), 400, 'jpg', config('custom.user_avatars_path'));
 
         $user->profile->picture = $url;
+        $user->avatar = $url;
         $user->profile->save();
 
         return redirect(route('front.userprofile.edit'));

@@ -25,12 +25,12 @@
                 <input name="file" type="file" disabled>
             </div>
             <div class="file-path-wrapper">
-                <input class="file-path validate" type="text" value="{{ $competition->picture }}" disabled="">
+                <input class="file-path validate" type="text" value="{{ $competition->getPicture() }}" disabled="">
             </div>
         </div>
 
         <div class="col s2 m2 l1">
-            <img src="{{ $competition->picture }}" alt="" style="max-height: 60px;">
+            <img src="{{ $competition->getPicture() }}" alt="" style="max-height: 60px;">
         </div>
     </div>
 

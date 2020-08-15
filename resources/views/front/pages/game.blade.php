@@ -9,7 +9,7 @@
     <meta property="og:title" content="{{ $game->homeTeam->club->name }} vs {{ $game->awayTeam->club->name }}"/>
     <meta property="og:type" content="website"/>
     <meta property="og:description" content="{{ trans('front.footer_desc') }}"/>
-    <meta property="og:image" content="{{ url($game->game_group->season->competition->picture) }}">
+    <meta property="og:image" content="{{ $game->game_group->season->competition->getPicture() }}">
 
 @endsection
 
@@ -35,7 +35,7 @@
                 @if ($game->playground)<span><i
                             class="material-icons">location_on</i> {{ $game->playground->name }}</span>@endif
                 <span>
-                    <img src="{{$game->game_group->season->competition->picture}}"
+                    <img src="{{$game->game_group->season->competition->getPicture()}}"
                          alt="{{ $game->game_group->season->competition->name }}">
                     {{ $game->game_group->season->competition->name }}
                 </span>

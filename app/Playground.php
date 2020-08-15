@@ -2,6 +2,8 @@
 
 namespace App;
 
+use TCG\Voyager\Facades\Voyager;
+
 class Playground extends SearchableModel
 {
     protected $fillable = ['club_id', 'name', 'surface', 'width', 'height', 'capacity', 'picture', 'visible'];
@@ -55,7 +57,7 @@ class Playground extends SearchableModel
     {
 
         if ($this->picture)
-            return $this->picture;
+            return Voyager::image($this->picture);
         else
             return Media::getPlaceholder('16:9', $this->id);
     }

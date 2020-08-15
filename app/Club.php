@@ -3,6 +3,9 @@
 namespace App;
 
 
+use Illuminate\Support\Facades\Storage;
+use TCG\Voyager\Facades\Voyager;
+
 class Club extends SearchableModel
 {
     protected $fillable = ['name', 'emblem', 'website', 'visible'];
@@ -58,7 +61,7 @@ class Club extends SearchableModel
     public function getEmblem()
     {
         if ($this->emblem)
-            return $this->emblem;
+            return Voyager::image($this->emblem);
         else
             return config('custom.default_emblem');
     }

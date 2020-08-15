@@ -151,7 +151,8 @@ class Media extends SearchableModel
 
         switch ($this->media_type) {
             case "image":
-                $img = Image::make(public_path($this->url));
+                $urlStorage = public_path('/storage' . $this->url);
+                $img = Image::make($urlStorage);
                 break;
             case "youtube":
                 $play_btn = Image::make(public_path('/images/play_button.png'));
@@ -192,7 +193,7 @@ class Media extends SearchableModel
 
         $path = config('custom.media_thumbnails') . '/' . $this->id . '.jpg';
         $img->save(public_path($path));
-        $this->thumbnail_url = $path;
+        $this->thumbnail_url = str_replace('/storage', '', $path);
         $this->save();
 
         return true;

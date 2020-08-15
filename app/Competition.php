@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use TCG\Voyager\Facades\Voyager;
 
 class Competition extends Model
 {
@@ -69,5 +70,10 @@ class Competition extends Model
 
     public function getPublicUrl() {
         return route('competition', ['slug' => str_slug($this->name)]);
+    }
+
+    public function getPicture()
+    {
+        return Voyager::image($this->picture);
     }
 }

@@ -42,13 +42,7 @@
                                 <div class="news-thumbnail">
 
                                     <div>
-                                        @if ($article->media)
-
-                                            <img src="{{ $article->media->thumbnail_url }}" alt="{{ $article->media->tags }}">
-
-                                        @else
-                                            <img src="{{ \App\Media::getPlaceholder('16:9', $article->id) }}" alt="">
-                                        @endif
+                                        <img src="{{ $article->getThumbnailOrPlaceholder() }}" alt="{{ $article->title }}">
                                     </div>
 
                                     <span class="news-title">{{ $article->title }}</span>
@@ -170,7 +164,7 @@
                 <div class="col s6 m6 l3">
                     <a href="{{ route('competition', ['slug' => str_slug($competition->name)]) }}">
                         <div class="homepage-competition-box">
-                            <img src="{{ $competition->picture }}" alt="">
+                            <img src="{{ $competition->getPicture() }}" alt="">
                             <span class="truncate">{{ $competition->name }}</span>
                         </div>
                     </a>

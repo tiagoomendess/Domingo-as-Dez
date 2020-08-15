@@ -153,7 +153,7 @@ class MediaController extends Controller
                     $folder = 'videos';
                 }
 
-                $url = '/storage/media/' . $folder . '/' . $filename;
+                $url = '/media/' . $folder . '/' . $filename;
                 $path = '/public/media/' . $folder;
 
                 Storage::putFileAs(
@@ -322,7 +322,7 @@ class MediaController extends Controller
         $originalName = str_slug($originalName);
         $filename = str_random(3) . time() . str_random(6) . '_' . $originalName . '.' . $extension;
 
-        $url = '/storage/media/images/' . $filename;
+        $url = '/media/images/' . $filename;
         $path = '/public/media/images/';
 
         try {
@@ -384,7 +384,7 @@ class MediaController extends Controller
         $image->save(public_path($path) . '/' .$filename . '.' . $format);
 
         $url = $path . '/' . $filename . '.' . $format;
-        return $url;
+        return str_replace('/storage', '', $url);
 
     }
 

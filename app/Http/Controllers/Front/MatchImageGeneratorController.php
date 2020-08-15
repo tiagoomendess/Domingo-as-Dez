@@ -33,8 +33,12 @@ class MatchImageGeneratorController extends Controller
         Log::info('Generating match ' . $game->id . ' image for user ' . $user->name . ' with the email ' . $user->email);
         $base = $this->manager->canvas(self::WIDTH, self::HEIGHT);
 
+        $storageFolder = 'app' . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR;
+
         if ($game->playground) {
-            $backgroundImg = public_path(str_replace('16_9_placeholder_', '1_1_placeholder_', $game->playground->getPicture()));
+            $backgroundImg = $game->playground->picture
+                ? storage_path($storageFolder . $game->playground->picture)
+                : public_path(Media::getPlaceholder('1:1', $game->id));
         } else {
             $backgroundImg = public_path(Media::getPlaceholder('1:1', $game->id));
         }
@@ -42,16 +46,16 @@ class MatchImageGeneratorController extends Controller
         $gameDate = Carbon::createFromFormat('Y-m-d H:i:s', $game->date);
 
         $data = [
-            'home_club_emblem' => public_path($game->home_team->club->getEmblem()),
+            'home_club_emblem' => $game->home_team->club->emblem ? storage_path($storageFolder . $game->home_team->club->emblem) : public_path(config('custom.default_emblem')),
             'home_club_name' => mb_strtoupper($game->home_team->club->name),
-            'away_club_emblem' => public_path($game->away_team->club->getEmblem()),
+            'away_club_emblem' => $game->away_team->club->emblem ? storage_path($storageFolder . $game->away_team->club->emblem) : public_path(config('custom.default_emblem')),
             'away_club_name' => mb_strtoupper($game->away_team->club->name),
             'playground_name' => $game->playground ? mb_strtoupper($game->playground->name) : '',
             'day' => $gameDate->timezone('Europe/Lisbon')->format('d'),
             'month' => mb_strtoupper($this->translateMonth($gameDate->month)),
             'time' => $gameDate->timezone('Europe/Lisbon')->format('H\Hi'),
             'competition' => mb_strtoupper($game->game_group->season->competition->name),
-            'competition_logo' => public_path($game->game_group->season->competition->picture)
+            'competition_logo' => storage_path($storageFolder . $game->game_group->season->competition->picture)
         ];
 
         $base->insert($backgroundImg, 'center');

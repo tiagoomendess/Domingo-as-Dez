@@ -15,7 +15,7 @@
                             'day' => \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $article->date)->day,
                             'slug' => str_slug($article->title)
                         ]) }}" />
-    <meta property="og:image" content="{{ url($article->getThumbnail()) }}">
+    <meta property="og:image" content="{{ url($article->getThumbnailOrPlaceholder()) }}">
     <meta property="og:image:width" content="{{ $img_width }}">
     <meta property="og:image:height" content="{{ $img_height }}">
     <meta property="og:description" content="{{ $article->description }}" />
@@ -23,18 +23,33 @@
     <!-- Schema.org markup for Google+ -->
     <meta itemprop="name" content="{{ $article->title }}">
     <meta itemprop="description" content="{{ $article->description }}">
-    <meta itemprop="image" content="{{ url($article->getThumbnail()) }}">
+    <meta itemprop="image" content="{{ $article->getThumbnailOrPlaceholder() }}">
 @endsection
 
 @section('content')
     <article>
 
-        @if($article->media)
+        @if($article->picture)
+            <div class="parallax-container">
+                <div class="parallax">
+                    <img class="" src="{{ \TCG\Voyager\Facades\Voyager::image($article->picture) }}" alt="">
+                </div>
+
+                <div class="article-parallax-container">
+
+                    <div class="article-title col s12">
+                        <div class="container">
+                            <h1 class="light">{{ $article->title }}</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @elseif($article->media)
 
             @if($article->media->media_type == 'image')
                 <div class="parallax-container">
                     <div class="parallax">
-                        <img src="{{ $article->media->url }}" alt="{{ $article->media->tags }}">
+                        <img src="{{ \TCG\Voyager\Facades\Voyager::image($article->media->url) }}" alt="{{ $article->media->tags }}">
                     </div>
 
                     <div class="article-parallax-container">
@@ -66,7 +81,7 @@
                 <div class="">
                     <div class="container">
                         <video style="width: 100%" class="responsive-video" controls>
-                            <source src="{{ $article->media->url }}" type="video/mp4">
+                            <source src="{{ url(storage_path($article->media->url)) }}" type="video/mp4">
                         </video>
                     </div>
 
@@ -79,7 +94,6 @@
 
                 </div>
             @endif
-
         @else
 
             <div class="parallax-container">

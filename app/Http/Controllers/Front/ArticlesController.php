@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Front;
 
 use App\Article;
+use App\Http\Controllers\Resources\MediaController;
+use App\Media;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -57,10 +59,18 @@ class ArticlesController extends Controller
         if (!$article->visible && !has_permission('articles'))
             return abort(404);
 
-        $img = Image::make(public_path($article->getThumbnail()));
+        $storageFolder = 'app' . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR;
+
+        if (!empty($article->picture)) {
+            $imgLocation = storage_path($storageFolder . $article->getThumbnail($article->picture, 'medium'));
+        } elseif (!empty($article->media) && !empty($article->media->thumbnail_url)) {
+            $imgLocation = storage_path($storageFolder . $article->media->thumbnail_url);
+        } else {
+            $imgLocation = public_path(Media::getPlaceholder('16:9', $article->id));
+        }
+
+        $img = Image::make($imgLocation);
 
         return view('front.pages.article', ['article' => $article, 'navbar_title' => trans('front.news_singular'), 'img_width' => $img->width(), 'img_height' => $img->height()]);
-
-
     }
 }
