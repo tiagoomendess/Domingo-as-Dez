@@ -1,6 +1,6 @@
 
 # Domingo às Dez
-
+![enter image description here](https://scontent.fopo2-2.fna.fbcdn.net/v/t1.0-9/71145732_2263110943795074_5523891523969613824_o.png?_nc_cat=110&_nc_sid=e3f864&_nc_ohc=MvSXRRmt03wAX-RzpDy&_nc_ht=scontent.fopo2-2.fna&oh=7cc6d38e083b4b82b57e366f5b3938d8&oe=5F91C456)
 Este repositório contém todo o código que corre no website do Domingo às Dez. É agora OpenSource para permitir uma manutenção do código por todos os que queiram ajudar. O código é bastante antigo e vai contra algumas boas práticas e padrões de desenvolvimento, mas funciona e é preciso mantê-lo. Porquê OpenSource?
 - O site precisa de ser mantido
 - Quem o manter fica com contribuições públicas num projeto OpenSource, o que é sempre bom para o currículo
