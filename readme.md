@@ -1,58 +1,42 @@
-<p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+# Domingo às Dez
 
-## About Laravel
+Este repositório contém todo o código que corre no website do Domingo às Dez. É agora OpenSource para permitir uma manutenção do código por todos os que queiram ajudar. O código é bastante antigo e vai contra algumas boas práticas e padrões de desenvolvimento, mas funciona e é preciso mantê-lo. Porquê OpenSource?
+- O site precisa de ser mantido
+- Quem o manter fica com contribuições públicas num projeto OpenSource, o que é sempre bom para o currículo
+- Win win situation
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as:
+## Em primeiro lugar
+- Não há docker, instalar XAMPP, LAMP ou whatever dependendo do OS
+- Não há testes automáticos, nem unitários nem de integração
+- Produção corre com o código de master
+- Só há atualmente 1 instância a correr
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Como Contribuir
+- Faz pull do código mais recente de master
+- Cria uma branch local a partir de master
+- Faz lá o código
+- Commit com mensagens sugestivas
+- Abre pull request para master (Título pequeno e descrição com tudo o que foi alterado)
+- Alguém vai dar review e merge do código com master
 
-Laravel is accessible, yet powerful, providing tools needed for large, robust applications.
+## O que contribuir
+- 1º verifica que existem issues, dar prioridade a alterações que foram pedidas
+- Adiciona, corrige, melhora o que bem entenderes
 
-## Learning Laravel
+## Como correr localmente
+- Clone do repositório
+- Criar ficheiro .env e copiar o conteudo de .env.example la para dentro
+- Editar .env com as credenciais para a DB local
+- Correr as migrações correndo o comando `php artisan migrate`
+- Escrever `php artisan serve` no terminal dentro da pasta do projeto
+- Website is now up, deve dizer o link no terminal
+- Registar uma conta para ter acesso. Não deve estar nenhum serviço de email configurado por isso não vais receber código. Ver base de dados
+- Dar permissões, again, base de dados
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of any modern web application framework, making it a breeze to get started learning the framework.
+## Documentação
+Não há, quer dizer, há este [relatório](https://drive.google.com/file/d/1P0AJalnBdpLy_eTr7AdMmCxPQnOaa3ex/view?usp=sharing) final que pode ajudar. O capítulo 6 é capaz de ser o mais relevante, principalmente para perceber o modelo de dados.
 
-If you're not in the mood to read, [Laracasts](https://laracasts.com) contains over 1100 video tutorials on a range of topics including Laravel, modern PHP, unit testing, JavaScript, and more. Boost the skill level of yourself and your entire team by digging into our comprehensive video library.
+## Dummy Data
+Não há. Questões GDPR e não só. Deves conseguir inserir manualmente no backend a partir do momento que tenhas uma conta admin registada, até lá, edita manualmente a base de dados.
 
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for helping fund on-going Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell):
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[British Software Development](https://www.britishsoftware.co)**
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
-- [User10](https://user10.com)
-- [Soumettre.fr](https://soumettre.fr/)
-- [CodeBrisk](https://codebrisk.com)
-- [1Forge](https://1forge.com)
-- [TECPRESSO](https://tecpresso.co.jp/)
-- [Pulse Storm](http://www.pulsestorm.net/)
-- [Runtime Converter](http://runtimeconverter.com/)
-- [WebL'Agence](https://weblagence.com/)
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
