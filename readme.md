@@ -6,7 +6,7 @@ Este repositório contém todo o código que corre no website do Domingo às Dez
 
 ## Em primeiro lugar
 - Não há docker, instalar XAMPP, LAMP ou whatever dependendo do OS
-- Não há testes automáticos, nem unitários nem de integração
+- Não há testes automáticos, nem unitários nem de integração (YOLO)
 - Produção corre com o código de master
 - Só há atualmente 1 instância a correr
 
@@ -15,8 +15,9 @@ Este repositório contém todo o código que corre no website do Domingo às Dez
 - Cria uma branch local a partir de master
 - Faz lá o código
 - Commit com mensagens sugestivas
-- Abre pull request para master (Título pequeno e descrição com tudo o que foi alterado)
-- Alguém vai dar review e merge do código com master
+- Faz push
+- Abre pull request para master com título pequeno e descrição com tudo o que foi alterado
+- Alguém vai dar review e merge do código com master, ou pedir alterações
 
 ## O que contribuir
 - 1º verifica que existem issues, dar prioridade a alterações que foram pedidas
