@@ -11,12 +11,11 @@ Este repositório contém todo o código que corre no website do Domingo às Dez
 - Só há atualmente 1 instância a correr
 
 ## Como Contribuir
-- Faz pull do código mais recente de master
-- Cria uma branch local a partir de master
-- Faz lá o código
+- Faz fork do repositório
+- Desenvolve o código nesse fork
 - Commit com mensagens sugestivas
 - Faz push
-- Abre pull request para master com título pequeno e descrição com tudo o que foi alterado
+- Abre pull request para este repositório a partir do teu fork com título pequeno e descrição com tudo o que foi alterado
 - Alguém vai dar review e merge do código com master, ou pedir alterações
 
 ## O que contribuir
