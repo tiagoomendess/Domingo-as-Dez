@@ -69,12 +69,12 @@
         <li><a class="waves-effect" href="{{ route('permissions.index') }}">{{ trans('models.permissions') }}</a></li>
     @endif
 
-    @if(Auth::user()->hasPermission('users'))
-        <li><a class="waves-effect" href="{{ route('users.index') }}">{{ trans('models.users') }}</a></li>
+    @if(Auth::user()->hasPermission('pages'))
+        <li><a class="waves-effect" href="{{ route('pages.index') }}">{{ trans('models.pages') }}</a></li>
     @endif
 
-    @if(Auth::user()->hasPermission('admin'))
-        <li><a class="waves-effect" href="{{ route('settings.index') }}">{{ trans('backoffice.settings') }}</a></li>
+    @if(Auth::user()->hasPermission('users'))
+        <li><a class="waves-effect" href="{{ route('users.index') }}">{{ trans('models.users') }}</a></li>
     @endif
 
 

@@ -115,7 +115,10 @@
     <script>
         $(document).ready(function() {
 
-            CKEDITOR.replace( 'editor1' );
+            CKEDITOR.replace('editor1', {
+                filebrowserUploadUrl: '{{ route('ckeditor.upload', ['_token' => csrf_token()]) }}',
+                filebrowserUploadMethod: 'form'
+            });
 
             $('#select_media').modal();
 

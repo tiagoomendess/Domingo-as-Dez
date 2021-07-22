@@ -95,5 +95,7 @@ return [
     'tie' => 'Eliminatória',
     'group' => 'Grupo',
     'team_name' => 'Nome das equipas',
-
+    'pages' => 'Páginas',
+    'page' => 'Página',
+    'no_pages' => 'Não existem páginas criadas'
 ];

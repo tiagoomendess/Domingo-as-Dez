@@ -37,9 +37,8 @@ Route::get('/games/import', 'Resources\GameController@showImportPage')->name('ga
 Route::post('/games/import', 'Resources\GameController@importGames')->name('games.import_games');
 Route::post('/settings/change', 'SettingsController@changeSetting')->name('settings.change');
 
-Route::get('teste', function() {
-    dd(\App\Club::find(2)->getFirstPlayground());
-});
+//CKEditor
+Route::post('/ckeditor/upload', 'Backoffice\CKEditorController@upload')->name('ckeditor.upload');
 
 //Resources ---------------------
 Route::resources([
@@ -61,6 +60,7 @@ Route::resources([
     'goals' => 'Resources\GoalController',
     'referees' => 'Resources\RefereeController',
     'gamegroups' => 'Resources\GameGroupController',
+    'pages' => 'Resources\PageController'
 ]);
 
 //Routes to javascript in backend
