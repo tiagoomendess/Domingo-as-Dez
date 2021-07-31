@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Front;
 use App\Article;
 use App\Competition;
 use App\Game;
+use App\Page;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -29,6 +30,7 @@ class HomePageController extends Controller
         $total_games = DB::table('games')->count();
         $total_goals = DB::table('goals')->count();
         $total_clubs = DB::table('clubs')->count();
+        $pages = Page::where('visible', true)->orderBy('id', 'asc')->limit(10)->get();
 
         return view('front.pages.homepage', [
             'articles' => $articles,
@@ -38,6 +40,7 @@ class HomePageController extends Controller
             'total_games' => $total_games,
             'total_goals' => $total_goals,
             'total_clubs' => $total_clubs,
+            'pages' => $pages,
         ]);
     }
 

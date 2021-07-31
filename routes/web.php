@@ -26,6 +26,7 @@ Route::get('/login/{provider}/callback','Auth\LoginController@handleProviderCall
 Route::get('/', 'Front\HomePageController@index')->name('homePage');
 Route::post('/vote', 'Front\MvpVotesController@vote')->name('mvp_vote');
 Route::post('/game/{game}/generate_image', 'Front\MatchImageGeneratorController@generateImage')->name('generate_game_image');
+Route::get('/p/{slug}', 'Front\PagesController@show')->name('page.show');
 
 
 Route::get('/home', 'Front\HomePageController@home')->name('home');

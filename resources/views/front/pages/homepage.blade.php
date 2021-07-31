@@ -62,31 +62,6 @@
             </div>
 
             <div class="col s6 m6 l4">
-                <div class="vertical-spacer"></div>
-
-                <a class="modal-trigger" href="#modal-pof">
-                    <div class="player-of-the-week">
-
-                        <div>
-                            <span class="player-of-the-week-name">João Bita</span>
-                            <span class="player-of-the-week-desc">{{ trans('front.player_of_the_week') }}</span>
-                            <img src="{{ config('custom.default_profile_pic') }}" alt="">
-                        </div>
-
-                    </div>
-                </a>
-
-                <div id="modal-pof" class="modal">
-                    <div class="modal-content">
-                        <h4>Informação</h4>
-                        <p class="flow-text">O João Bita não é o jogador da Semana. Apenas está aqui enquanto o sistema de escolha automático
-                            não está pronto. Primeiro estamos a recolher dados, analisar e verificar quais os melhores fatores a ter em consideração.
-                            Assim que estiver pronto será anunciado. Apenas terão hipotese de ser jogador da semana aqueles registados neste website.</p>
-                    </div>
-                    <div class="modal-footer">
-                        <a href="#" class="modal-action modal-close waves-effect waves-green btn-flat">Ok</a>
-                    </div>
-                </div>
 
             </div>
 

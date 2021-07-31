@@ -115,17 +115,18 @@
 
 
             <section class="col s12 article-signature">
-                <p class="right">{{ trans('front.article_published', ['name' => $article->user->name, 'date' => \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $article->date)->format("d/m/Y")]) }}</p>
+                <p style="text-align: right">{{ trans('front.article_published', ['name' => $article->user->name, 'date' => \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $article->date)->format("d/m/Y")]) }}</p>
             </section>
-
-
         </div>
 
     </article>
 
+    @include('front.partial.article_comments')
+
 @endsection
 
 @section('scripts')
+
     <script>
 
         $(document).ready(function(){
@@ -167,4 +168,6 @@
         });
 
     </script>
+
+    <script src="/js/front/article-comments-scripts.js"></script>
 @endsection

@@ -26,7 +26,7 @@ return [
     'user_does_not_exist_to_verify' => 'Não está nenhuma verificação pendente para esse email. Esse email nunca foi registado ou demorou demasiado tempo a verificar. Terá de repetir o registo.',
     'verify_token_mismatch' => 'A token de verificação é inválida.',
     'not_verified' => 'Esta conta não tem o email verificado.',
-    'logout' => 'Terminar Sessão',
+    'logout' => 'Sair',
     'remember_me' => 'Lembrar-me',
     'login' => 'Entrar',
     'register' => 'Registar',

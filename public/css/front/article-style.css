@@ -63,3 +63,27 @@ article .parallax-container .parallax img{
     width: 100%;
     margin: 10px 0 0 0;
 }
+
+.comment {
+    width: 100%;
+}
+
+.comment-header {
+    display: flex;
+    flex-direction: row;
+    align-content: start;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.comment-header > img {
+    width: 20px;
+    margin-right: 5px;
+}
+
+.comment-content {
+    background-color: #e4e4e4;
+    padding: 5px 15px;
+    border-radius: 20px;
+    display:inline-block
+}
