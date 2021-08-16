@@ -7,6 +7,7 @@ use App\ArticleComment;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Intervention\Image\Facades\Image;
 
@@ -15,14 +16,13 @@ class ArticlesController extends Controller
     public function index()
     {
 
-        $articles = Article::where('visible', true)->orderBy('date', 'desc')->paginate(9);
+        $articles = Article::where('visible', true)->orderBy('date', 'desc')->paginate(8);
 
         return view('front.pages.articles', ['articles' => $articles]);
     }
 
     public function show($year, $month, $day, $slug)
     {
-
         if ($year < 1070)
             return abort(404);
         if ($month < 1 || $month > 12)
@@ -73,7 +73,8 @@ class ArticlesController extends Controller
             'navbar_title' => trans('front.news_singular'),
             'img_width' => $img->width(),
             'img_height' => $img->height(),
-            'comments' => $comments
+            'comments' => $comments,
+            'user' => Auth::user()
         ]);
 
 

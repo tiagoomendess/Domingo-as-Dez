@@ -28,7 +28,7 @@
         </div>
 
         <div class="row no-margin-bottom">
-            <div class="col s12 m12 l8">
+            <div class="col s12 m12 l12">
                 <div class="vertical-spacer"></div>
                 <div class="aspect-ratio-16by9">
                     <div class="aspect-ratio-inside" id="news_snippets">
@@ -61,19 +61,6 @@
                 </div>
             </div>
 
-            <div class="col s6 m6 l4">
-
-            </div>
-
-            <div class="col s6 m6 hide-on-large-only">
-                <div class="vertical-spacer"></div>
-                <a href="http://www.slc.pt">
-                    <div class="pub">
-                        <img src="/images/slc_pub_1by1.jpg" alt="">
-                    </div>
-                </a>
-            </div>
-
         </div>
 
         @if (!Auth::check())
@@ -84,7 +71,6 @@
                     <div class="auth-buttons">
                         <a href="{{ route('login') }}" class="waves-effect waves-light btn btn-large blue">{{ trans('auth.login') }}</a>
                         <a href="{{ route('register') }}" class="waves-effect waves-light btn btn-large blue">{{ trans('auth.register') }}</a>
-
                     </div>
                     <div class="divider"></div>
                 </div>
@@ -136,6 +122,18 @@
         </div>
 
         <div class="row no-margin-bottom">
+            <div class="col s12" style="margin-top: 15px">
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-3518000096682897"
+                     data-ad-slot="6406546239"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+
             <div class="col s12">
                 <div class="vertical-spacer"></div>
                 <h2 class="over-card-title">{{ trans('models.competitions') }}</h2>

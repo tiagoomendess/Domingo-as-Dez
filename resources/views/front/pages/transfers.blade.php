@@ -4,9 +4,9 @@
     <title>{{ trans('models.transfers') }}</title>
     <link rel="stylesheet" href="/css/front/transfers-style.css">
 
-    <meta property="og:title" content="{{ trans('models.transfers') . ' - ' . config('app.name') }}" />
-    <meta property="og:type" content="website" />
-    <meta property="og:description" content="{{ trans('front.footer_desc') }}" />
+    <meta property="og:title" content="{{ trans('models.transfers') . ' - ' . config('app.name') }}"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:description" content="{{ trans('front.footer_desc') }}"/>
 
 @endsection
 
@@ -27,24 +27,40 @@
                     </div>
                 @endif
 
-                @foreach($transfers as $transfer)
+                @foreach($transfers as $index => $transfer)
+                    @if($index % 3 == 0 && $index != 0)
+                        <div class="card">
+                            <ins class="adsbygoogle"
+                                 style="display:block"
+                                 data-ad-client="ca-pub-3518000096682897"
+                                 data-ad-slot="9373590543"
+                                 data-ad-format="auto"
+                                 data-full-width-responsive="true"></ins>
+                            <script>
+                                (adsbygoogle = window.adsbygoogle || []).push({});
+                            </script>
+                        </div>
+                    @endif
                     <div class="card">
                         <div class="card-content">
                             <div class="transfer">
                                 <div class="player-pic">
                                     <figure>
-                                        <img src="{{ $transfer->player->getPicture() }}" alt="{{ $transfer->player->displayName() }}">
+                                        <img src="{{ $transfer->player->getPicture() }}"
+                                             alt="{{ $transfer->player->displayName() }}">
                                     </figure>
                                 </div>
 
                                 <div class="transfer-info">
-                                    <a style="color: #000000" class="player-name" href="{{ route('front.player.show', ['id' => $transfer->player->id, 'name_slug' => str_slug($transfer->player->name) ]) }}">{{ $transfer->player->displayName() }}</a>
+                                    <a style="color: #000000" class="player-name"
+                                       href="{{ route('front.player.show', ['id' => $transfer->player->id, 'name_slug' => str_slug($transfer->player->name) ]) }}">{{ $transfer->player->displayName() }}</a>
                                     <div class="clubs">
                                         <div class="club">
                                             @if ($transfer->getPreviousTransfer() && !empty($transfer->getPreviousTransfer()->team))
                                                 <a href="{{ $transfer->getPreviousTransfer()->team->club->getPublicURL() }}">
                                                     <figure>
-                                                        <img src="{{ $transfer->getPreviousTransfer()->getClubEmblem() }}" alt="{{ $transfer->getPreviousTransfer()->getClubName() }}">
+                                                        <img src="{{ $transfer->getPreviousTransfer()->getClubEmblem() }}"
+                                                             alt="{{ $transfer->getPreviousTransfer()->getClubName() }}">
                                                     </figure>
                                                     <span class="club-name">{{ $transfer->getPreviousTransfer()->displayTeamAndClub() }}</span>
                                                 </a>
@@ -66,14 +82,16 @@
                                             @if ($transfer->team)
                                                 <a href="{{ $transfer->team->club->getPublicURL() }}">
                                                     <figure>
-                                                        <img src="{{ $transfer->getClubEmblem() }}" alt="{{ $transfer->getClubName() }}">
+                                                        <img src="{{ $transfer->getClubEmblem() }}"
+                                                             alt="{{ $transfer->getClubName() }}">
                                                     </figure>
                                                     <span class="club-name">{{ $transfer->displayTeamAndClub() }}</span>
                                                 </a>
                                             @else
 
                                                 <figure>
-                                                    <img src="{{ $transfer->getClubEmblem() }}" alt="{{ $transfer->getClubName() }}">
+                                                    <img src="{{ $transfer->getClubEmblem() }}"
+                                                         alt="{{ $transfer->getClubName() }}">
                                                 </figure>
                                                 <span class="club-name">{{ $transfer->displayTeamAndClub() }}</span>
 
@@ -81,7 +99,8 @@
                                         </div>
                                     </div>
                                     @if(has_permission('transfers.edit'))
-                                        <span class="transfer-date"><a href="{{ route('transfers.show', ['id' => $transfer->id]) }}">{{ Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $transfer->date)->format("d/m/Y") }}</a></span>
+                                        <span class="transfer-date"><a
+                                                    href="{{ route('transfers.show', ['id' => $transfer->id]) }}">{{ Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $transfer->date)->format("d/m/Y") }}</a></span>
                                     @else
                                         <span class="transfer-date">{{ Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $transfer->date)->format("d/m/Y") }}</span>
                                     @endif
@@ -95,14 +114,18 @@
             </div>
 
             <div class="col s12 m12 l4 xl4">
-                <a href="https://www.facebook.com/domingoasdez.popular">
-                    <div class="card">
-                        <div class="card-image">
-                            <img src="/images/anuncie-aqui-1by1.jpg">
-                        </div>
-                    </div>
-                </a>
-
+                <div class="card">
+                    <!-- Transfers Page -->
+                    <ins class="adsbygoogle"
+                         style="display:block"
+                         data-ad-client="ca-pub-3518000096682897"
+                         data-ad-slot="7172832993"
+                         data-ad-format="auto"
+                         data-full-width-responsive="true"></ins>
+                    <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
             </div>
         </div>
 

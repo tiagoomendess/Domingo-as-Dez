@@ -121,5 +121,5 @@ return [
     'statistics' => 'Estatísticas',
     'attack' => 'Ataque',
     'defense' => 'Defesa',
-    'ads' => 'Publicidade'
+    'ads' => 'Parceiros'
 ];

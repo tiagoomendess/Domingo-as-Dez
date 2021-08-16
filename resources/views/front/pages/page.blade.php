@@ -28,6 +28,21 @@
             {!! $page->body !!}
         </div>
     </div>
+
+    <div class="row">
+        <div class="container">
+            <!-- Custom Pages -->
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-3518000096682897"
+                 data-ad-slot="3386411476"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>
+                (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </div>
+    </div>
 @endsection
 
 @section('scripts')

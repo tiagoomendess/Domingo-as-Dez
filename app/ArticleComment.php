@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ArticleComment extends Model
 {
-    protected $fillable = ['article_id', 'article_comment_id', 'content', 'user_id', 'deleted'];
+    protected $fillable = ['article_id', 'article_comment_id', 'content', 'user_id', 'deleted', 'created_at'];
 
     protected $guarded = [];
 

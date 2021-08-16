@@ -14,20 +14,41 @@
     <div class="container">
         <h1 class="hide-on-med-and-down">{{ trans('models.competitions') }}</h1>
 
-        <div class="card">
-            <div class="card-content">
-                <ul class="list-a competitions-list">
-                    @foreach($competitions as $competition)
-                        <li>
-                            <a href="{{ $competition->getPublicUrl() }}">
-                                <img src="{{ $competition->picture }}" alt="{{$competition->name}}">
-                                <span class="flow-text">{{ $competition->name }}</span>
-                            </a>
-                        </li>
-                    @endforeach
-                </ul>
+        <div class="row">
+            <div class="col m12 l8">
+                <div class="card">
+                    <div class="card-content">
+                        <ul class="list-a competitions-list">
+                            @foreach($competitions as $competition)
+                                <li>
+                                    <a href="{{ $competition->getPublicUrl() }}">
+                                        <img src="{{ $competition->picture }}" alt="{{$competition->name}}">
+                                        <span class="flow-text">{{ $competition->name }}</span>
+                                    </a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
             </div>
+
+            <div class="col m12 l4">
+                <div class="card">
+                    <!-- Competitions List Square -->
+                    <ins class="adsbygoogle"
+                         style="display:block"
+                         data-ad-client="ca-pub-3518000096682897"
+                         data-ad-slot="2425038814"
+                         data-ad-format="auto"
+                         data-full-width-responsive="true"></ins>
+                    <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
+            </div>
+
         </div>
+
     </div>
 
 @endsection

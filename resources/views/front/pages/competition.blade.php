@@ -157,6 +157,21 @@
         <div class="container center">
             <a id="stats_link" class="waves-effect waves-light btn-large green darken-3" href=""><i class="material-icons left">insert_chart</i>{{ trans('front.statistics') }}</a></div>
     </div>
+
+    <div class="row">
+        <div class="container">
+            <!-- Competitions -->
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-3518000096682897"
+                 data-ad-slot="6228552458"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>
+                (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </div>
+    </div>
 @endsection
 
 @section('scripts')

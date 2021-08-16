@@ -133,4 +133,9 @@ Route::get('/uma-pre-eliminatoria-sem-tomba-gigantes', function () {
     return redirect('/noticias/2018/9/18/uma-pre-eliminatoria-sem-tomba-gigantes');
 });
 
+//Comments
+Route::get('/article_comments/{article_id}', 'Api\ArticleCommentsController@get')->name('api.article_comments.get')->where(['article_id' => '[0-9]+']);
+Route::post('/article_comments/{article_id}', 'Front\ArticleCommentsController@comment')->name('article_comments.comment')->where(['article_id' => '[0-9]+']);
+Route::post('/article_comments/{comment_id}/delete', 'Front\ArticleCommentsController@delete')->name('article_comments.delete')->where(['id' => '[0-9]+']);
+
 

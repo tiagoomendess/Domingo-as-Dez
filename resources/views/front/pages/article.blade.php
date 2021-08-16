@@ -27,7 +27,7 @@
 @endsection
 
 @section('content')
-    <article>
+    <article data-id="{{ $article->id }}">
 
         @if($article->media)
 
@@ -120,6 +120,22 @@
         </div>
 
     </article>
+
+    <div class="container">
+        <div class="row">
+            <div class="col s12 m12">
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-3518000096682897"
+                     data-ad-slot="9842679623"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+        </div>
+    </div>
 
     @include('front.partial.article_comments')
 

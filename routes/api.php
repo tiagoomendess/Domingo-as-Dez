@@ -26,6 +26,4 @@ Route::get('/games/live', 'Api\GamesController@getLiveMatches')->name('api.games
 Route::post('/games/live/update_match', 'Api\GamesController@updateScoreLiveMatch')->name('api.games.live.update_score');
 Route::get('/games/is_live', 'Api\GamesController@isLive')->name('api.games.is_live');
 
-Route::get('/article_comments/{article_id}', 'Api\ArticleCommentsController@get')->name('api.article_comments.get')->where(['article_id' => '[0-9]+']);
-Route::post('/article_comments/{article_id}/{article_comment_id?}', 'Api\ArticleCommentsController@comment')->name('api.article_comments.comment')->where(['article_id' => '[0-9]+']);
-Route::post('/article_comments/{id}/delete', 'Api\ArticleCommentsController@delete')->name('api.article_comments.delete')->where(['id' => '[0-9]+']);
+
