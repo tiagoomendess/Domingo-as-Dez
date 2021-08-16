@@ -28,7 +28,7 @@
         </div>
 
         <div class="row no-margin-bottom">
-            <div class="col s12 m12 l8">
+            <div class="col s12 m12 l12">
                 <div class="vertical-spacer"></div>
                 <div class="aspect-ratio-16by9">
                     <div class="aspect-ratio-inside" id="news_snippets">
@@ -61,44 +61,6 @@
                 </div>
             </div>
 
-            <div class="col s6 m6 l4">
-                <div class="vertical-spacer"></div>
-
-                <a class="modal-trigger" href="#modal-pof">
-                    <div class="player-of-the-week">
-
-                        <div>
-                            <span class="player-of-the-week-name">João Bita</span>
-                            <span class="player-of-the-week-desc">{{ trans('front.player_of_the_week') }}</span>
-                            <img src="{{ config('custom.default_profile_pic') }}" alt="">
-                        </div>
-
-                    </div>
-                </a>
-
-                <div id="modal-pof" class="modal">
-                    <div class="modal-content">
-                        <h4>Informação</h4>
-                        <p class="flow-text">O João Bita não é o jogador da Semana. Apenas está aqui enquanto o sistema de escolha automático
-                            não está pronto. Primeiro estamos a recolher dados, analisar e verificar quais os melhores fatores a ter em consideração.
-                            Assim que estiver pronto será anunciado. Apenas terão hipotese de ser jogador da semana aqueles registados neste website.</p>
-                    </div>
-                    <div class="modal-footer">
-                        <a href="#" class="modal-action modal-close waves-effect waves-green btn-flat">Ok</a>
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="col s6 m6 hide-on-large-only">
-                <div class="vertical-spacer"></div>
-                <a href="http://www.slc.pt">
-                    <div class="pub">
-                        <img src="/images/slc_pub_1by1.jpg" alt="">
-                    </div>
-                </a>
-            </div>
-
         </div>
 
         @if (!Auth::check())
@@ -109,7 +71,6 @@
                     <div class="auth-buttons">
                         <a href="{{ route('login') }}" class="waves-effect waves-light btn btn-large blue">{{ trans('auth.login') }}</a>
                         <a href="{{ route('register') }}" class="waves-effect waves-light btn btn-large blue">{{ trans('auth.register') }}</a>
-
                     </div>
                     <div class="divider"></div>
                 </div>
@@ -161,6 +122,18 @@
         </div>
 
         <div class="row no-margin-bottom">
+            <div class="col s12" style="margin-top: 15px">
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-3518000096682897"
+                     data-ad-slot="6406546239"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+
             <div class="col s12">
                 <div class="vertical-spacer"></div>
                 <h2 class="over-card-title">{{ trans('models.competitions') }}</h2>

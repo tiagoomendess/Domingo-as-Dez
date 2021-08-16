@@ -40,9 +40,14 @@
                         </tr>
 
                     @endforeach
-
-                    {{ $articles->links() }}
                 </table>
+
+                <div class="row">
+                    <div class="col s12">
+                        {{ $articles->links() }}
+                    </div>
+                </div>
+
             @endif
         </div>
     </div>

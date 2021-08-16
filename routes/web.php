@@ -26,6 +26,7 @@ Route::get('/login/{provider}/callback','Auth\LoginController@handleProviderCall
 Route::get('/', 'Front\HomePageController@index')->name('homePage');
 Route::post('/vote', 'Front\MvpVotesController@vote')->name('mvp_vote');
 Route::post('/game/{game}/generate_image', 'Front\MatchImageGeneratorController@generateImage')->name('generate_game_image');
+Route::get('/p/{slug}', 'Front\PagesController@show')->name('page.show');
 
 
 Route::get('/home', 'Front\HomePageController@home')->name('home');
@@ -37,9 +38,8 @@ Route::get('/games/import', 'Resources\GameController@showImportPage')->name('ga
 Route::post('/games/import', 'Resources\GameController@importGames')->name('games.import_games');
 Route::post('/settings/change', 'SettingsController@changeSetting')->name('settings.change');
 
-Route::get('teste', function() {
-    dd(\App\Club::find(2)->getFirstPlayground());
-});
+//CKEditor
+Route::post('/ckeditor/upload', 'Backoffice\CKEditorController@upload')->name('ckeditor.upload');
 
 //Resources ---------------------
 Route::resources([
@@ -61,6 +61,7 @@ Route::resources([
     'goals' => 'Resources\GoalController',
     'referees' => 'Resources\RefereeController',
     'gamegroups' => 'Resources\GameGroupController',
+    'pages' => 'Resources\PageController'
 ]);
 
 //Routes to javascript in backend
@@ -131,5 +132,10 @@ Route::post('/perfil/apagar/cancelar', 'Resources\DeleteRequestsController@cance
 Route::get('/uma-pre-eliminatoria-sem-tomba-gigantes', function () {
     return redirect('/noticias/2018/9/18/uma-pre-eliminatoria-sem-tomba-gigantes');
 });
+
+//Comments
+Route::get('/article_comments/{article_id}', 'Api\ArticleCommentsController@get')->name('api.article_comments.get')->where(['article_id' => '[0-9]+']);
+Route::post('/article_comments/{article_id}', 'Front\ArticleCommentsController@comment')->name('article_comments.comment')->where(['article_id' => '[0-9]+']);
+Route::post('/article_comments/{comment_id}/delete', 'Front\ArticleCommentsController@delete')->name('article_comments.delete')->where(['id' => '[0-9]+']);
 
 

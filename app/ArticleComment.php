@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ArticleComment extends Model
 {
-    protected $fillable = ['article_id', 'article_comment_id', 'content', 'user_id'];
+    protected $fillable = ['article_id', 'article_comment_id', 'content', 'user_id', 'deleted', 'created_at'];
 
     protected $guarded = [];
 
@@ -18,6 +18,10 @@ class ArticleComment extends Model
 
     public function parent_comment() {
         return $this->belongsTo(ArticleComment::class);
+    }
+
+    public function child_comments() {
+        return $this->hasMany(ArticleComment::class);
     }
 
     public function user() {

@@ -174,6 +174,19 @@
             </div>
         </div>
     </div>
+
+    <div class="container">
+        <!-- Competition Stats page -->
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-3518000096682897"
+             data-ad-slot="6364283822"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    </div>
 @endsection
 
 @section('scripts')

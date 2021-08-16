@@ -27,7 +27,7 @@
 @endsection
 
 @section('content')
-    <article>
+    <article data-id="{{ $article->id }}">
 
         @if($article->media)
 
@@ -115,17 +115,34 @@
 
 
             <section class="col s12 article-signature">
-                <p class="right">{{ trans('front.article_published', ['name' => $article->user->name, 'date' => \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $article->date)->format("d/m/Y")]) }}</p>
+                <p style="text-align: right">{{ trans('front.article_published', ['name' => $article->user->name, 'date' => \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $article->date)->format("d/m/Y")]) }}</p>
             </section>
-
-
         </div>
 
     </article>
 
+    <div class="container">
+        <div class="row">
+            <div class="col s12 m12">
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-3518000096682897"
+                     data-ad-slot="9842679623"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+        </div>
+    </div>
+
+    @include('front.partial.article_comments')
+
 @endsection
 
 @section('scripts')
+
     <script>
 
         $(document).ready(function(){
@@ -167,4 +184,6 @@
         });
 
     </script>
+
+    <script src="/js/front/article-comments-scripts.js"></script>
 @endsection

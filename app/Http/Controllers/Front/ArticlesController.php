@@ -3,26 +3,29 @@
 namespace App\Http\Controllers\Front;
 
 use App\Article;
+use App\ArticleComment;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Intervention\Image\Facades\Image;
 
 class ArticlesController extends Controller
 {
-    public function index() {
+    public function index()
+    {
 
-        $articles = Article::where('visible', true)->orderBy('date', 'desc')->paginate(9);
+        $articles = Article::where('visible', true)->orderBy('date', 'desc')->paginate(8);
 
         return view('front.pages.articles', ['articles' => $articles]);
     }
 
-    public function show($year, $month, $day, $slug) {
-
-        if($year < 1070)
+    public function show($year, $month, $day, $slug)
+    {
+        if ($year < 1070)
             return abort(404);
-        if($month < 1 || $month > 12)
+        if ($month < 1 || $month > 12)
             return abort(404);
         if ($day < 1 || $day > 31)
             return abort(404);
@@ -59,7 +62,20 @@ class ArticlesController extends Controller
 
         $img = Image::make(public_path($article->getThumbnail()));
 
-        return view('front.pages.article', ['article' => $article, 'navbar_title' => trans('front.news_singular'), 'img_width' => $img->width(), 'img_height' => $img->height()]);
+        $comments = ArticleComment::where([
+            'deleted' => false,
+            'article_id' => $article->id,
+            'article_comment_id' => null
+        ])->get();
+
+        return view('front.pages.article', [
+            'article' => $article,
+            'navbar_title' => trans('front.news_singular'),
+            'img_width' => $img->width(),
+            'img_height' => $img->height(),
+            'comments' => $comments,
+            'user' => Auth::user()
+        ]);
 
 
     }

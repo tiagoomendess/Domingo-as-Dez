@@ -287,7 +287,7 @@ p {
 .aspect-ratio-16by9 {
     height: 0;
     overflow: hidden;
-    padding-top: 56.25%;
+    padding-top: 45%;
     background: white;
     position: relative;
     z-index: 10;

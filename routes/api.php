@@ -25,3 +25,5 @@ Route::get('/games/{game}', 'Api\GamesController@show')->name('api.games.show')-
 Route::get('/games/live', 'Api\GamesController@getLiveMatches')->name('api.games.live');
 Route::post('/games/live/update_match', 'Api\GamesController@updateScoreLiveMatch')->name('api.games.live.update_score');
 Route::get('/games/is_live', 'Api\GamesController@isLive')->name('api.games.is_live');
+
+
