@@ -114,19 +114,19 @@
             </div>
 
             <div class="col s12 m12 l4 xl4">
-                <div class="card">
-                    <!-- Transfers Page -->
-                    <ins class="adsbygoogle"
-                         style="display:block"
-                         data-ad-client="ca-pub-3518000096682897"
-                         data-ad-slot="7172832993"
-                         data-ad-format="auto"
-                         data-full-width-responsive="true"></ins>
-                    <script>
-                        (adsbygoogle = window.adsbygoogle || []).push({});
-                    </script>
-                </div>
+
+                <!-- Transfers Page -->
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-3518000096682897"
+                     data-ad-slot="7172832993"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
             </div>
+
         </div>
 
         <div class="row no-margin-bottom">

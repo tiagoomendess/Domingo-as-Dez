@@ -122,7 +122,19 @@
         </div>
 
         <div class="row no-margin-bottom">
-            <div class="col s12" style="margin-top: 15px">
+            <div class="col col-xs-12 s12 m12 l6" style="margin-top: 15px">
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-3518000096682897"
+                     data-ad-slot="6406546239"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+
+            <div class="col l6 hide-on-med-and-down" style="margin-top: 15px">
                 <ins class="adsbygoogle"
                      style="display:block"
                      data-ad-client="ca-pub-3518000096682897"
