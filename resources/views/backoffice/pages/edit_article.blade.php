@@ -130,7 +130,8 @@
 
             CKEDITOR.replace('editor1', {
                 filebrowserUploadUrl: '{{ route('ckeditor.upload', ['_token' => csrf_token()]) }}',
-                filebrowserUploadMethod: 'form'
+                filebrowserUploadMethod: 'form',
+                disableNativeSpellChecker: false
             });
 
             $('#select_media').modal();
