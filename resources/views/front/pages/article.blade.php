@@ -109,13 +109,13 @@
 
             <div class="container">
                 <div class="row">
-                    <div class="col s10 m8 l6 offset-s1 offset-m2 offset-l3">
+                    <div class="col s12 m12 l8 offset-l2">
                         <!-- Article Description Horizontal -->
                         <ins class="adsbygoogle"
                              style="display:block"
                              data-ad-client="ca-pub-3518000096682897"
                              data-ad-slot="7397948298"
-                             data-ad-format="auto"
+                             data-ad-format="horizontal"
                              data-full-width-responsive="true"></ins>
                         <script>
                             (adsbygoogle = window.adsbygoogle || []).push({});

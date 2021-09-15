@@ -23,17 +23,19 @@
             @foreach($articles as $index => $article)
                 @if($index === 4)
                     <div class="col xs12 s12 m6 l6 xl4">
-                        <div class="card">
-                            <!-- News Page Card -->
-                            <ins class="adsbygoogle"
-                                 style="display:block"
-                                 data-ad-client="ca-pub-3518000096682897"
-                                 data-ad-slot="3616731365"
-                                 data-ad-format="auto"
-                                 data-full-width-responsive="true"></ins>
-                            <script>
-                                (adsbygoogle = window.adsbygoogle || []).push({});
-                            </script>
+                        <div style="">
+                            <div style="">
+                                <!-- News Page Card -->
+                                <ins class="adsbygoogle"
+                                     style="display:block"
+                                     data-ad-client="ca-pub-3518000096682897"
+                                     data-ad-slot="3616731365"
+                                     data-ad-format="auto"
+                                     data-full-width-responsive="true"></ins>
+                                <script>
+                                    (adsbygoogle = window.adsbygoogle || []).push({});
+                                </script>
+                            </div>
                         </div>
                     </div>
                 @endif
