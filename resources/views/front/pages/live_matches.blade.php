@@ -16,17 +16,21 @@
         <h1 class="hide-on-med-and-down">{{ trans('front.live_matches') }}</h1>
 
         <div class="row hide-on-large-only">
-            <div class="col s12">
-                <!-- Live Matches Horizontal -->
-                <ins class="adsbygoogle"
-                     style="display:block"
-                     data-ad-client="ca-pub-3518000096682897"
-                     data-ad-slot="3091605842"
-                     data-ad-format="horizontal"
-                     data-full-width-responsive="true"></ins>
-                <script>
-                    (adsbygoogle = window.adsbygoogle || []).push({});
-                </script>
+            <div class="container">
+                <div class="col s12">
+                    <div style="margin-top: .5rem">
+                        <!-- Live Matches Horizontal -->
+                        <ins class="adsbygoogle"
+                             style="display:block"
+                             data-ad-client="ca-pub-3518000096682897"
+                             data-ad-slot="3091605842"
+                             data-ad-format="horizontal"
+                             data-full-width-responsive="true"></ins>
+                        <script>
+                            (adsbygoogle = window.adsbygoogle || []).push({});
+                        </script>
+                    </div>
+                </div>
             </div>
         </div>
 
