@@ -29,7 +29,7 @@
 
                 @foreach($transfers as $index => $transfer)
                     @if($index % 3 == 0 && $index != 0)
-                        <div class="card">
+                        <div class="">
                             <ins class="adsbygoogle"
                                  style="display:block"
                                  data-ad-client="ca-pub-3518000096682897"
