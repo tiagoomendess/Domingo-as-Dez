@@ -115,16 +115,19 @@
 
             <div class="col s12 m12 l4 xl4">
 
-                <!-- Transfers Page -->
-                <ins class="adsbygoogle"
-                     style="display:block"
-                     data-ad-client="ca-pub-3518000096682897"
-                     data-ad-slot="7172832993"
-                     data-ad-format="auto"
-                     data-full-width-responsive="true"></ins>
-                <script>
-                    (adsbygoogle = window.adsbygoogle || []).push({});
-                </script>
+                <div style="margin-top: .5rem">
+                    <!-- Transfers Page -->
+                    <ins class="adsbygoogle"
+                         style="display:block"
+                         data-ad-client="ca-pub-3518000096682897"
+                         data-ad-slot="7172832993"
+                         data-ad-format="vertical"
+                         data-full-width-responsive="true"></ins>
+                    <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
+
             </div>
 
         </div>

@@ -172,6 +172,21 @@
         </div>
 
         <div class="row">
+            <div class="col s12 m10 l8 offset-m1 offset-l2">
+                <!-- Game -->
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-3518000096682897"
+                     data-ad-slot="4747113072"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
+        </div>
+
+        <div class="row">
 
             <section class="col xs12 s12 m12 l4 xl4">
                 <h2 class="over-card-title">{{ trans('front.goals_from', ['club' => $game->home_team->club->name]) }}</h2>
