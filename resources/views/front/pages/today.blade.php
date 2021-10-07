@@ -8,10 +8,10 @@
     <meta property="og:image" content="/images/todays_games.jpg">
     <meta property="og:image:width" content="1920">
     <meta property="og:image:height" content="1080">
-    <meta property="og:description" content="Lista de todos os logos marcados para o dia de hoje" />
+    <meta property="og:description" content="Lista de todos os jogos marcados para o dia de hoje" />
 
     <meta itemprop="name" content="Jogos de Hoje">
-    <meta itemprop="description" content="Lista de todos os logos marcados para o dia de hoje">
+    <meta itemprop="description" content="Lista de todos os jogos marcados para o dia de hoje">
     <meta itemprop="image" content="/images/todays_games.jpg">
 
 @endsection
