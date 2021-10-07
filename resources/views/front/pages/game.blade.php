@@ -386,7 +386,7 @@
     @if(has_permission('games'))
         <div class="row">
             <div class="container">
-                <a href="{{ route('games.show', ['game' => $game]) }}"
+                <a href="{{ route('games.edit', ['game' => $game]) }}"
                    class="btn-floating btn-large waves-effect waves-light blue right"><i class="material-icons">edit</i></a>
 
                 <form action="{{ route('generate_game_image', ['game' => $game->id]) }}" method="POST" target="_blank">
