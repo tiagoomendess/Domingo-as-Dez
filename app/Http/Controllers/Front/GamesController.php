@@ -7,6 +7,7 @@ use App\Game;
 use App\MvpVotes;
 use App\Player;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\GameGroup;
@@ -74,6 +75,29 @@ class GamesController extends Controller
 
     public function liveMatches() {
         return view('front.pages.live_matches');
+    }
+
+    public function today() {
+
+        $now = Carbon::now();
+        $begin = clone($now)->startOfDay();
+        $end = clone($now)->endOfDay();
+
+        $games = Game::where('date', '>', $begin)
+            ->where('date', '<', $end)
+            ->where('visible', true)
+            ->orderBy('date', 'asc')
+            ->get();
+
+        $closest = Game::where('date', '>', $end)
+            ->where('visible', true)
+            ->orderBy('date', 'asc')
+            ->first();
+
+        return view('front.pages.today', [
+            'games' => $games,
+            'closest' => $closest
+        ]);
     }
 }
 

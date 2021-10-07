@@ -146,6 +146,12 @@
                 </script>
             </div>
 
+
+
+            <div class="container center text-center">
+                <a class="waves-effect waves-light btn-large blue" href="{{ route('games.today') }}">Jogos de Hoje</a>
+            </div>
+
             <div class="col s12">
                 <div class="vertical-spacer"></div>
                 <h2 class="over-card-title">{{ trans('models.competitions') }}</h2>
