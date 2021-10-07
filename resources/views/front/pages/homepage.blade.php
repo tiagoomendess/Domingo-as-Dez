@@ -146,10 +146,12 @@
                 </script>
             </div>
 
-
-
-            <div class="container center text-center">
+            <div class="col s12 m12 l12 center text-center" style="margin-top: 10px">
+                <div class="divider"></div>
+                <div class="vertical-spacer"></div>
                 <a class="waves-effect waves-light btn-large blue" href="{{ route('games.today') }}">Jogos de Hoje</a>
+                <div class="vertical-spacer"></div>
+                <div class="divider"></div>
             </div>
 
             <div class="col s12">
