@@ -2,12 +2,9 @@
 
 @section('head-content')
     <title>Jogos de Hoje</title>
-    <link rel="stylesheet" href="/css/front/competitions-styles.css">
 
     <meta property="og:title" content="{{ 'Jogos Hoje - ' . config('app.name') }}"/>
     <meta property="og:type" content="website"/>
-    <meta property="og:description" content="Lista de jogos que vão ocorrer durante o dia de hoje"/>
-
     <meta property="og:image" content="/images/todays_games.jpg">
     <meta property="og:image:width" content="1920">
     <meta property="og:image:height" content="1080">
@@ -92,7 +89,7 @@
                                                 <div class="col s2" style="text-align: right">
                                                     <img style="width: 25px; right: 0; margin-top: 5px"
                                                          src="{{ $game->game_group->season->competition->picture }}"
-                                                         alt="assa">
+                                                         alt="{{ $game->game_group->season->competition->name }}">
                                                 </div>
                                             </div>
 
