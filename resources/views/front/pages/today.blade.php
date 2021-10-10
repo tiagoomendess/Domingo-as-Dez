@@ -20,7 +20,7 @@
     <div class="container">
         <h1 class="hide-on-med-and-down">Jogos de Hoje</h1>
 
-        <div class="hide-on-med-and-up" style="margin-top: 10px">
+        <div class="hide-on-med-and-up" style="margin-top: 5px">
             <!-- Today Games Horizontal -->
             <ins class="adsbygoogle"
                  style="display:block"
@@ -67,8 +67,8 @@
                                                      style="text-align: center; margin-top: 6px; padding: 0">
                                                         <span style="background-color: #989898; padding: 0.2rem 0.5rem; color: white; font-weight: bold">
                                                             @if ($game->finished)
-                                                                {{ $game->getTotalHomeGoals() }}
-                                                                - {{ $game->getTotalAwayGoals() }}
+                                                                {{ $game->getHomeScore() }}
+                                                                - {{ $game->getAwayScore() }}
                                                             @else
                                                                 {{ (new \Carbon\Carbon($game->date))->setTimezone('Europe/Lisbon')->format('H:i') }}
                                                             @endif
