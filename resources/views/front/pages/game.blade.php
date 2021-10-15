@@ -383,7 +383,7 @@
         </form>
     </div>
 
-    @if(has_permission('games'))
+    @if(\Illuminate\Support\Facades\Auth::check())
         <div class="row">
             <div class="container">
                 <a href="{{ route('games.edit', ['game' => $game]) }}"
