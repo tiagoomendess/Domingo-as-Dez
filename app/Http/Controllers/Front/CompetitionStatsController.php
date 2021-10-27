@@ -72,17 +72,44 @@ class CompetitionStatsController extends Controller
     {
         $goals = self::getAllSeasonGoals($season);
 
+        $a = [];
+        $allTeamIds = [];
+        foreach ($season->game_groups as $game_group) {
+            foreach ($game_group->games as $game) {
+                if (!isset($a[$game->home_team->id])) {
+                    $a[$game->home_team->id] = true;
+                    $allTeamIds[] = $game->home_team->id;
+                }
+
+                if (!isset($a[$game->away_team->id])) {
+                    $a[$game->away_team->id] = true;
+                    $allTeamIds[] = $game->away_team->id;
+                }
+
+            }
+        }
+
         $goalCount = $goals->groupBy('team_id');
 
         $goalCount = $goalCount->sortByDesc(function ($a) {
             return count($a);
         });
 
-        $finalList = collect();
+        $preList = [];
         foreach ($goalCount as $key => $value) {
+            $preList[$key] = count($value);
+        }
+
+        foreach ($allTeamIds as $teamId) {
+            if (empty($preList[$teamId]))
+                $preList[$teamId] = 0;
+        }
+
+        $finalList = collect();
+        foreach ($preList as $key => $value) {
             $finalList->push([
                 'team_id' => $key,
-                'goal_count' => count($value)
+                'goal_count' => $value
             ]);
         }
 
@@ -102,12 +129,8 @@ class CompetitionStatsController extends Controller
         $game_groups = $season->game_groups;
 
         $data = collect();
-        $games = collect();
         foreach ($game_groups as $game_group) {
-
-            $games = $games->concat($game_group->games);
-
-            foreach ($games as $game) {
+            foreach ($game_group->games as $game) {
 
                 $homeGoals = $game->getTotalHomeGoals();
                 $awayGoals = $game->getTotalAwayGoals();
@@ -117,7 +140,7 @@ class CompetitionStatsController extends Controller
             }
         }
 
-        $data = $data->sortBy(function($a) {
+        $data = $data->sortBy(function ($a) {
             return $a;
         });
 
