@@ -153,6 +153,10 @@
         </div>
     </div>
 
+    <div style="margin-top: 20px; margin-bottom: 20px" class="container center" id="season_obs">
+
+    </div>
+
     <div class="row hide" id="stats_button">
         <div class="container center">
             <a id="stats_link" class="waves-effect waves-light btn-large green darken-3" href=""><i class="material-icons left">insert_chart</i>{{ trans('front.statistics') }}</a></div>

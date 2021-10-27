@@ -71,6 +71,10 @@ function seasonChanged() {
     $('#groups').empty();
     $('#main_loading').removeClass('hide');
 
+    $('#season_obs > span').addClass('hide');
+
+    $('#season_obs_' + season_id).removeClass('hide');
+
     makeGetRequest('/api/seasons/' + season_id + '/games', {}, handleGetGamesRequest);
 }
 
@@ -120,6 +124,8 @@ function addSeasonsToOptions(response) {
         new_option.text(response[i].name);
         if (i === 0)
             new_option.selected = true;
+
+        $('#season_obs').append(`<span id="season_obs_${response[i].id}" class="small hide">${response[i].obs ?? ''}</span>`)
 
         new_option.appendTo(season_selector);
     }
@@ -486,6 +492,7 @@ function orderTable(table, rules_name, group, round) {
         case 'afpb_pontos_2018_div2':
         case 'afpb_pontos_basico':
         case 'afpb_pontos_2019_div1':
+        case 'afpb_series_2021':
             console.log('AFPB Points in 2018!');
             afpb_points_2018(table, group, round);
             break;

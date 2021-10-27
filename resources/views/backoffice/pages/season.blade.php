@@ -37,7 +37,7 @@
     <div class="row">
         <div class="input-field col s12 m8 l6">
             <textarea disabled id="obs" name="obs" class="materialize-textarea" rows="1">{{ $season->obs }}</textarea>
-            <label for="obs">{{ $season->obs }}</label>
+            <label for="obs">{{ trans('models.obs') }}</label>
         </div>
     </div>
 

@@ -3,11 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Game;
-use App\GameGroup;
-use Carbon\Carbon;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Input;
+use Carbon\Carbon;
+use DateTime;
+use Illuminate\Http\Request;
 
 class GamesController extends Controller
 {
@@ -127,6 +126,44 @@ class GamesController extends Controller
             }
 
             $i++;
+        }
+
+        return response()->json($return_object);
+    }
+
+    public function getNextTeamGame(int $team_id)
+    {
+        $now = Carbon::now('Europe/Lisbon');
+
+        $gameHome = Game::where('date', '>', $now)
+            ->where('visible', true)
+            ->where('home_team_id', $team_id)
+            ->orderBy('date', 'asc')
+            ->first();
+
+        $gameAway = Game::where('date', '>', $now)
+            ->where('visible', true)
+            ->where('away_team_id', $team_id)
+            ->orderBy('date', 'asc')
+            ->first();
+
+        $return_object = new \stdClass();
+
+        if (!$gameHome && !$gameAway) {
+            $return_object->has_game = false;
+        } else {
+            $game = $gameAway->date < $gameHome->date ? $gameAway : $gameHome;
+
+            $return_object->has_game = true;
+            $return_object->home_team = $game->homeTeam->club->name;
+            $return_object->home_emblem = $game->homeTeam->club->getEmblem();
+
+            $return_object->away_team = $game->awayTeam->club->name;
+            $return_object->away_team_emblem = $game->awayTeam->club->getEmblem();
+
+            $return_object->ground = $game->playground->name;
+
+            $return_object->date = (new DateTime($game->date, new \DateTimeZone('Europe/Lisbon')))->format('Y/m/d H:i');
         }
 
         return response()->json($return_object);
