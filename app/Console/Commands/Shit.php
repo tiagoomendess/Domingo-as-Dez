@@ -40,18 +40,6 @@ class Shit extends Command
     public function handle()
     {
         $this->info("Starting shit");
-        $users = User::all();
-
-        foreach ($users as $user) {
-
-            if (!empty($user->password)) {
-                $p = $user->password;
-                $this->info($user->password);
-                $a = decrypt("{\"value\": $p}");
-                dd($a);
-            }
-
-        }
 
         $this->info('Ending Shit');
     }
