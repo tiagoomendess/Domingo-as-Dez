@@ -1,7 +1,7 @@
 @extends('front.layouts.default-page')
 
 @section('head-content')
-    <title>{{ $player->name }}</title>
+    <title>Jogador {{ $player->name }}</title>
     <link rel="stylesheet" href="/css/front/player-style.css">
 
     <meta property="og:title" content="{{ $player->name . ' - ' . config('app.name') }}" />

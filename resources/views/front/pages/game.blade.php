@@ -2,15 +2,17 @@
 
 @section('head-content')
     <title>
-        {{ $game->homeTeam->club->name }} vs {{ $game->awayTeam->club->name }}
+        {{ $game->homeTeam->club->name }} vs
+        {{ $game->awayTeam->club->name }} -
+        {{ $game->game_group->season->competition->name }}
+        {{ \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $game->date)->timezone('Europe/Lisbon')->format("Y") }}
     </title>
+    <meta name="description" content="Jogo entre {{ $game->homeTeam->club->name }} e {{ $game->awayTeam->club->name }} para a competição {{ $game->game_group->season->competition->name }} no ano de {{ \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $game->date)->timezone('Europe/Lisbon')->format("Y") }}"/>
     <link rel="stylesheet" href="/css/front/game-style.css">
-
     <meta property="og:title" content="{{ $game->homeTeam->club->name }} vs {{ $game->awayTeam->club->name }}"/>
     <meta property="og:type" content="website"/>
-    <meta property="og:description" content="{{ trans('front.footer_desc') }}"/>
+    <meta property="og:description" content="Jogo entre {{ $game->homeTeam->club->name }} e {{ $game->awayTeam->club->name }} para a competição {{ $game->game_group->season->competition->name }} no ano de {{ \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $game->date)->timezone('Europe/Lisbon')->format("Y") }}"/>
     <meta property="og:image" content="{{ url($game->game_group->season->competition->picture) }}">
-
 @endsection
 
 @section('content')

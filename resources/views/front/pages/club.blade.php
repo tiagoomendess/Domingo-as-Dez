@@ -1,7 +1,7 @@
 @extends('front.layouts.default-page')
 
 @section('head-content')
-    <title>{{ $club->name }}</title>
+    <title>Clube {{ $club->name }}</title>
     <link rel="stylesheet" href="/css/front/club-page-style.css">
 
     <meta property="og:title" content="{{ $club->name . ' - ' . config('app.name') }}" />

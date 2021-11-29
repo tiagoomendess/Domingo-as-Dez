@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Console\Commands\shit;
 use App\Jobs\DeleteNotVerifiedAccounts;
 use App\Jobs\ProcessDeleteRequest;
 use Illuminate\Console\Scheduling\Schedule;
@@ -16,7 +17,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        'App\Console\Commands\Shit'
     ];
 
     /**
