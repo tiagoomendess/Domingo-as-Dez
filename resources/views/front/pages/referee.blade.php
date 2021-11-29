@@ -2,7 +2,7 @@
 
 @section('head-content')
     <link rel="stylesheet" href="/css/front/referee-style.css">
-    <title>{{ $referee->name }}</title>
+    <title>Árbitro {{ $referee->name }}</title>
 
     <meta property="og:title" content="{{ $referee->name . ' - ' . config('app.name') }}" />
     <meta property="og:type" content="website" />
