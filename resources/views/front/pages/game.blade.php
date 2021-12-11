@@ -388,8 +388,11 @@
     @if(\Illuminate\Support\Facades\Auth::check())
         <div class="row">
             <div class="container">
+
+                @if(has_permission('games.edit'))
                 <a href="{{ route('games.edit', ['game' => $game]) }}"
                    class="btn-floating btn-large waves-effect waves-light blue right"><i class="material-icons">edit</i></a>
+                @endif
 
                 <form action="{{ route('generate_game_image', ['game' => $game->id]) }}" method="POST" target="_blank">
                     {{ csrf_field() }}

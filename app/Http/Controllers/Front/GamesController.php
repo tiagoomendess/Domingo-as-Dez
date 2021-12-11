@@ -99,6 +99,46 @@ class GamesController extends Controller
             'closest' => $closest
         ]);
     }
-}
 
+    public function todayEdit()
+    {
+        if (!has_permission('games.edit'))
+            return abort(404);
+
+        $now = Carbon::now();
+        $begin = clone($now)->startOfDay();
+        $end = clone($now)->endOfDay();
+
+        $games = Game::where('date', '>', $begin)
+            ->where('date', '<', $end)
+            ->where('visible', true)
+            ->orderBy('date', 'asc')
+            ->get();
+
+        return view('front.pages.today_edit', [
+            'games' => $games
+        ]);
+    }
+
+    public function todayUpdateScore(Request $request) {
+
+        if (!has_permission('games.edit'))
+            return abort(404);
+
+        $request->validate([
+            'game_id' => 'required|min:1',
+            'goals_home' => 'required|min:0',
+            'goals_away' => 'required|min:0',
+            'finished' => 'integer|min:0|max:1'
+        ]);
+
+        $game = Game::findOrFail($request->input('game_id'));
+        $game->goals_home = $request->input('goals_home');
+        $game->goals_away = $request->input('goals_away');
+        $game->finished = (bool)$request->input('finished', false);;
+        $game->save();
+
+        return redirect()->route('games.today_edit');
+    }
+}
 

@@ -77,8 +77,6 @@ class GameController extends Controller
             'timezone' => 'required|string|max:20'
         ]);
 
-        //dd($request->input('timezone'));
-
         $carbon = new Carbon($request->input('date'), $request->input('timezone'));
         $splited = explode(':', $request->input('hour'));
 

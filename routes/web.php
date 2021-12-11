@@ -82,6 +82,8 @@ Route::get('seasons/{id}/game_groups', 'Resources\SeasonController@getGameGroups
 //Front
 Route::get('/direto', 'Front\GamesController@liveMatches')->name('games.live');
 Route::get('/hoje', 'Front\GamesController@today')->name('games.today');
+Route::get('/hoje/edit', 'Front\GamesController@todayEdit')->name('games.today_edit');
+Route::post('/hoje/edit/store', 'Front\GamesController@todayUpdateScore')->name('games.today_update_score');
 Route::get('/noticias', 'Front\ArticlesController@index')->name('news.index');
 Route::get('/noticias/{year}/{month}/{day}/{slug}', 'Front\ArticlesController@show')->name('news.show');
 Route::get('/competicoes', 'Front\CompetitionsController@showAll')->name('competitions');

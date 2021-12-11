@@ -102,6 +102,15 @@
                 </div>
             </div>
 
+            @if(has_permission('games.edit'))
+                <div class="row">
+                    <div class="col s12">
+                        <a href="{{ route('games.today_edit') }}"
+                           class="btn-floating btn-large waves-effect waves-light blue right"><i class="material-icons">edit</i></a>
+                    </div>
+                </div>
+            @endif
+
             <div class="col m12 l4">
 
                 <!-- Today Games Page -->
