@@ -15,7 +15,8 @@ function updateMatches(response) {
     live_matches_element.empty();
 
     if (response.data.length < 1) {
-        live_matches_element.append($('<p class="center flow-text">Não existem jogos a decorrer</p>'))
+        live_matches_element.append($('<p class="center flow-text">Não existem jogos a decorrer. Clica <a href="/hoje">aqui</a> ' +
+            'para consultar todos os jogos e resultados para o dia de hoje</p>'))
         $('#live_matches_caption').attr('class', 'hide');
     } else {
         $('#live_matches_caption').removeClass('hide');
