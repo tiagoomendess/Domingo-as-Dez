@@ -74,7 +74,8 @@ class GameController extends Controller
             'referees_id.*' => 'required|integer|exists:referees,id',
             'types_id' => 'nullable|array|min:1|max:8',
             'types_id.*' => 'required|integer|exists:referee_types,id',
-            'timezone' => 'required|string|max:20'
+            'timezone' => 'required|string|max:20',
+            'postponed' => 'required'
         ]);
 
         $carbon = new Carbon($request->input('date'), $request->input('timezone'));
@@ -83,15 +84,9 @@ class GameController extends Controller
         $carbon->addHours($splited[0]);
         $carbon->addMinutes($splited[1]);
 
-        if($request->input('visible') == 'true')
-            $visible = true;
-        else
-            $visible = false;
-
-        if($request->input('finished') == 'true')
-            $finished = true;
-        else
-            $finished = false;
+        $visible = $request->input('visible') == 'true';
+        $finished = $request->input('finished') == 'true';
+        $postponed = $request->input('postponed') == 'true';
 
         $home_team_id = $request->input('home_team_id');
         $away_team_id = $request->input('away_team_id');
@@ -104,7 +99,6 @@ class GameController extends Controller
         $playground_id = $request->input('playground_id');
 
         $game = Game::create([
-
             'home_team_id' => $home_team_id,
             'away_team_id' => $away_team_id,
             'game_group_id' => $game_group_id,
@@ -117,7 +111,8 @@ class GameController extends Controller
             'round' => $round,
             'date' => Carbon::createFromTimestamp($carbon->timestamp)->format("Y-m-d H:i:s"),
             'playground_id' => $playground_id,
-
+            'postponed' => $postponed,
+            'generate_image' => true
         ]);
 
         //If there were referees set
@@ -150,7 +145,6 @@ class GameController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
@@ -162,7 +156,6 @@ class GameController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
@@ -199,6 +192,7 @@ class GameController extends Controller
             'types_id' => 'nullable|array|min:1|max:8',
             'types_id.*' => 'required|integer|exists:referee_types,id',
             'timezone' => 'required|string|max:20',
+            'postponed' => 'required'
         ]);
 
         $game = Game::findOrFail($id);
@@ -209,15 +203,9 @@ class GameController extends Controller
         $carbon->addHours($splited[0]);
         $carbon->addMinutes($splited[1]);
 
-        if($request->input('visible') == 'true')
-            $visible = true;
-        else
-            $visible = false;
-
-        if($request->input('finished') == 'true')
-            $finished = true;
-        else
-            $finished = false;
+        $visible = $request->input('visible') == 'true';
+        $finished = $request->input('finished') == 'true';
+        $postponed = $request->input('postponed') == 'true';
 
         $home_team_id = $request->input('home_team_id');
         $away_team_id = $request->input('away_team_id');
@@ -241,6 +229,8 @@ class GameController extends Controller
         $game->date = Carbon::createFromTimestamp($carbon->timestamp)->format("Y-m-d H:i:s");
         $game->visible = $visible;
         $game->finished = $finished;
+        $game->postponed = $postponed;
+        $game->generate_image = true;
 
         $game->save();
 

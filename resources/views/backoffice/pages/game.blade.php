@@ -23,7 +23,7 @@
 
         <div class="col s6 m4 l3">
             <label>{{ trans('general.home_team') }}</label>
-            <select id="home_team_id" name="home_team_id" class="browser-default" disabled disabled>
+            <select id="home_team_id" name="home_team_id" class="browser-default" disabled>
                 <option value="0" disabled selected>{{ $game->homeTeam->name }}</option>
             </select>
         </div>
@@ -195,6 +195,23 @@
                         <input disabled name="visible" type="checkbox" value="true" checked>
                     @else
                         <input disabled name="visible" type="checkbox" value="true">
+                    @endif
+                    <span class="lever"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col s12">
+            <div class="switch">
+                <label>
+                    Adiado
+                    <input name="finished" type="hidden" value="false">
+                    @if($game->postponed)
+                        <input disabled name="postponed" type="checkbox" value="true" checked>
+                    @else
+                        <input disabled name="postponed" type="checkbox" value="true">
                     @endif
                     <span class="lever"></span>
                 </label>

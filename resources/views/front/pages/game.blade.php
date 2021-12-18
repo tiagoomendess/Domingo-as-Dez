@@ -12,7 +12,12 @@
     <meta property="og:title" content="{{ $game->homeTeam->club->name }} vs {{ $game->awayTeam->club->name }}"/>
     <meta property="og:type" content="website"/>
     <meta property="og:description" content="Jogo entre {{ $game->homeTeam->club->name }} e {{ $game->awayTeam->club->name }} para a competição {{ $game->game_group->season->competition->name }} no ano de {{ \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $game->date)->timezone('Europe/Lisbon')->format("Y") }}"/>
-    <meta property="og:image" content="{{ url($game->game_group->season->competition->picture) }}">
+    @if(!empty($game->image))
+        <meta property="og:image" content="{{ url($game->image) }}">
+    @else
+        <meta property="og:image" content="{{ url($game->game_group->season->competition->picture) }}">
+    @endif
+
 @endsection
 
 @section('content')
@@ -29,10 +34,16 @@
             <div class="details">
                 <span class="hide" id="exact_time">{{ $game->date }}</span>
                 <time>
-                    <i class="material-icons">date_range</i> {{ \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $game->date)->timezone('Europe/Lisbon')->format("d/m/Y") }}
+                    <i class="material-icons">date_range</i>
+                    @if($game->postponed)<s>@endif
+                    {{ \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $game->date)->timezone('Europe/Lisbon')->format("d/m/Y") }}
+                    @if($game->postponed)</s>@endif
                 </time>
                 <time>
-                    <i class="material-icons">access_time</i> {{ \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $game->date)->timezone('Europe/Lisbon')->format("H:i") }}
+                    <i class="material-icons">access_time</i>
+                    @if($game->postponed)<s>@endif
+                    {{ \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $game->date)->timezone('Europe/Lisbon')->format("H:i") }}
+                    @if($game->postponed)</s>@endif
                 </time>
                 @if ($game->playground)<span><i
                             class="material-icons">location_on</i> {{ $game->playground->name }}</span>@endif
@@ -62,7 +73,9 @@
                     <div class="col xs4 s4 m4 l2 xl2 center">
                         <div class="separator">
                             <span class="hide" id="game_id">{{ $game->id }}</span>
-                            @if($game->started())
+                            @if($game->postponed)
+                                <p style="padding: 0 5px; border-radius: 10px" class="red text-center white-text flow-text">Adiado</p>
+                            @elseif($game->started())
                                 <span id="score">{{ $game->getHomeScore() }} - {{ $game->getAwayScore() }}</span>
                                 <div class="hide" id="countdown">
                                     <table>

@@ -70,7 +70,11 @@
                                                                 {{ $game->getHomeScore() }}
                                                                 - {{ $game->getAwayScore() }}
                                                             @else
-                                                                {{ (new \Carbon\Carbon($game->date))->setTimezone('Europe/Lisbon')->format('H:i') }}
+                                                                @if($game->postponed)
+                                                                    ADI
+                                                                @else
+                                                                    {{ (new \Carbon\Carbon($game->date))->setTimezone('Europe/Lisbon')->format('H:i') }}
+                                                                @endif
                                                             @endif
                                                         </span>
                                                 </div>

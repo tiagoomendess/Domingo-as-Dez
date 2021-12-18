@@ -227,7 +227,9 @@ function handleGetGamesRequest(response) {
                 overview.find('.teams .away-team div span').text(response.data.groups[i].rounds[j].games[k].away_club_name);
                 overview.find('.teams .away-team div img').attr('src', response.data.groups[i].rounds[j].games[k].away_club_emblem);
 
-                if (startGame > now) {
+                if (response.data.groups[i].rounds[j].games[k].postponed) {
+                    overview.find('.teams .separator time').text("ADI");
+                } else if (startGame > now) {
                     var hours = startGame.getHours() > 9 ? startGame.getHours() : '0' + startGame.getHours();
                     var minutes = startGame.getMinutes() > 9 ? startGame.getMinutes() : '0' + startGame.getMinutes();
                     overview.find('.teams .separator time').text(hours + ':' + minutes);

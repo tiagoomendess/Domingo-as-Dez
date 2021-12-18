@@ -91,6 +91,7 @@ class SeasonsController extends Controller
                     $game_object->playground = $game->playground->name;
                     $game_object->finished = $game->finished;
                     $game_object->game_link = $game->getPublicUrl();
+                    $game_object->postponed = $game->postponed;
 
                     $game_object->home_club_name = $game->home_team->club->name;
                     $game_object->home_club_url = $game->home_team->club->getPublicURL();

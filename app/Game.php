@@ -4,12 +4,27 @@ namespace App;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\DB;
 
 class Game extends Model
 {
-    protected $fillable = ['home_team_id', 'away_team_id', 'season_id', 'round', 'date', 'playground_id', 'goals_home', 'goals_away', 'penalties_home', 'penalties_away', 'game_group_id', 'finished', 'visible'];
+    protected $fillable = [
+        'home_team_id',
+        'away_team_id',
+        'season_id',
+        'round',
+        'date',
+        'playground_id',
+        'goals_home',
+        'goals_away',
+        'penalties_home',
+        'penalties_away',
+        'game_group_id',
+        'finished',
+        'visible',
+        'postponed',
+        'image',
+        'generate_image'
+    ];
 
     protected $guarded = [];
 
@@ -230,6 +245,9 @@ class Game extends Model
         $games = collect();
 
         foreach ($today_games as $game) {
+            if ($game->postponed)
+                continue;
+
             $game_date = Carbon::createFromFormat("Y-m-d H:i:s", $game->date);
             $game_warmup_date = Carbon::createFromTimestamp($game_date->timestamp);
             $game_warmup_date->subMinutes(30);
