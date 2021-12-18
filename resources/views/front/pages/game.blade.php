@@ -29,10 +29,16 @@
             <div class="details">
                 <span class="hide" id="exact_time">{{ $game->date }}</span>
                 <time>
-                    <i class="material-icons">date_range</i> {{ \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $game->date)->timezone('Europe/Lisbon')->format("d/m/Y") }}
+                    <i class="material-icons">date_range</i>
+                    @if($game->postponed)<s>@endif
+                    {{ \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $game->date)->timezone('Europe/Lisbon')->format("d/m/Y") }}
+                    @if($game->postponed)</s>@endif
                 </time>
                 <time>
-                    <i class="material-icons">access_time</i> {{ \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $game->date)->timezone('Europe/Lisbon')->format("H:i") }}
+                    <i class="material-icons">access_time</i>
+                    @if($game->postponed)<s>@endif
+                    {{ \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $game->date)->timezone('Europe/Lisbon')->format("H:i") }}
+                    @if($game->postponed)</s>@endif
                 </time>
                 @if ($game->playground)<span><i
                             class="material-icons">location_on</i> {{ $game->playground->name }}</span>@endif
@@ -62,7 +68,9 @@
                     <div class="col xs4 s4 m4 l2 xl2 center">
                         <div class="separator">
                             <span class="hide" id="game_id">{{ $game->id }}</span>
-                            @if($game->started())
+                            @if($game->postponed)
+                                <p style="padding: 0 5px; border-radius: 10px" class="red text-center white-text flow-text">Adiado</p>
+                            @elseif($game->started())
                                 <span id="score">{{ $game->getHomeScore() }} - {{ $game->getAwayScore() }}</span>
                                 <div class="hide" id="countdown">
                                     <table>

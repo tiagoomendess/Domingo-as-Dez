@@ -218,6 +218,19 @@
             <div class="col s12">
                 <div class="switch">
                     <label>
+                        Adiado
+                        <input name="postponed" type="hidden" value="false">
+                        <input name="postponed" type="checkbox" value="true">
+                        <span class="lever"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col s12">
+                <div class="switch">
+                    <label>
                         {{ trans('general.visible') }}
                         <input name="visible" type="hidden" value="false">
                         <input name="visible" type="checkbox" value="true" checked>
