@@ -12,7 +12,12 @@
     <meta property="og:title" content="{{ $game->homeTeam->club->name }} vs {{ $game->awayTeam->club->name }}"/>
     <meta property="og:type" content="website"/>
     <meta property="og:description" content="Jogo entre {{ $game->homeTeam->club->name }} e {{ $game->awayTeam->club->name }} para a competição {{ $game->game_group->season->competition->name }} no ano de {{ \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $game->date)->timezone('Europe/Lisbon')->format("Y") }}"/>
-    <meta property="og:image" content="{{ url($game->game_group->season->competition->picture) }}">
+    @if(!empty($game->image))
+        <meta property="og:image" content="{{ url($game->image) }}">
+    @else
+        <meta property="og:image" content="{{ url($game->game_group->season->competition->picture) }}">
+    @endif
+
 @endsection
 
 @section('content')
