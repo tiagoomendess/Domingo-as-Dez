@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use DateTime;
 use Illuminate\Http\Request;
+use stdClass;
 
 class GamesController extends Controller
 {
@@ -21,6 +22,10 @@ class GamesController extends Controller
         $data_object->data = new \stdClass();
         $data_object->data->home_score = $game->getHomeScore();
         $data_object->data->away_score = $game->getAwayScore();
+        $data_object->data->home_emblem = $game->home_team->club->getEmblem();
+        $data_object->data->away_emblem = $game->away_team->club->getEmblem();
+        $data_object->data->home_name = $game->home_team->club->name;
+        $data_object->data->away_name = $game->away_team->club->name;
 
         if ($game->decidedByPenalties()) {
             $data_object->data->penalties = '(' . trans('front.after_penalties', ['penalties_home' => $game->penalties_home, 'penalties_away' => $game->penalties_away]) . ')';
@@ -234,5 +239,32 @@ class GamesController extends Controller
         return response()->json($out);
 
 
+    }
+
+    public function todayMatches() {
+        $now = Carbon::now();
+        $begin = clone($now)->startOfDay();
+        $end = clone($now)->endOfDay();
+
+        $games = Game::where('date', '>', $begin)
+            ->where('date', '<', $end)
+            ->where('visible', true)
+            ->orderBy('date', 'asc')
+            ->get();
+
+        $results = [];
+        foreach ($games as $game) {
+            $data_object = new \stdClass();
+            $data_object->id = $game->id;
+            $data_object->home_score = $game->getHomeScore();
+            $data_object->away_score = $game->getAwayScore();
+            $data_object->home_emblem = $game->home_team->club->getEmblem();
+            $data_object->away_emblem = $game->away_team->club->getEmblem();
+            $data_object->home_name = $game->home_team->club->name;
+            $data_object->away_name = $game->away_team->club->name;
+            $results[] = $data_object;
+        }
+
+        return response()->json($results);
     }
 }
