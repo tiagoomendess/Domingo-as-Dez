@@ -29,6 +29,12 @@
     <meta property="fb:app_id" content="153482715435840" />
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3518000096682897"
             crossorigin="anonymous"></script>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({
+            google_ad_client: "ca-pub-3518000096682897",
+            overlays: { bottom: true }
+        });
+    </script>
 
     @yield('head-content')
 @endsection
