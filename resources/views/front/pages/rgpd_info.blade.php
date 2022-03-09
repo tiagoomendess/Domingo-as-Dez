@@ -172,7 +172,7 @@
                             <a href="{{ route('front.userprofile.edit') }}" class="waves-effect waves-light btn green darken-2"><i class="material-icons right">edit</i>{{ trans('front.click_here') }}</a>
                         </div>
                     @else
-                        <span>Não aplicável.</span>
+                        <span>Precisa de estar <a href="/login">autenticado</a></span>
                     @endif
                 </div>
             </li>
@@ -185,7 +185,7 @@
                             <a href="{{ route('front.userprofile.delete.create') }}" class="waves-effect waves-light btn red darken-2"><i class="material-icons right">delete_forever</i>{{ trans('front.delete_account') }}</a>
                         </div>
                     @else
-                        <span>Não aplicável.</span>
+                        <span>Precisa de estar <a href="/login">autenticado</a></span>
                     @endif
                 </div>
             </li>
