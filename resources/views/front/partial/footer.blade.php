@@ -8,7 +8,7 @@
         <div class="col l4 offset-l2 s12">
             <h5 class="white-text">{{ trans('front.important_links') }}</h5>
             <ul>
-                <li><a class="grey-text text-lighten-3" href="#">{{ trans('front.contact') }}</a></li>
+                <li><a class="grey-text text-lighten-3" href="/p/contactos">{{ trans('front.contact') }}</a></li>
                 <li><a class="grey-text text-lighten-3" href="{{ route('privacy_policy') }}">{{ trans('front.privacy_policy') }}</a></li>
                 <li><a class="grey-text text-lighten-3" href="{{ route('terms_and_conditions') }}">{{ trans('front.terms_and_conditions') }}</a></li>
                 <li><a class="grey-text text-lighten-3" href="{{ route('rgpd_info') }}">{{ trans('front.rgpd') }}</a></li>

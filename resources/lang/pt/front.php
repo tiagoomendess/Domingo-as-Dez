@@ -75,8 +75,7 @@ return [
             organismo que proceda ao tratamento de dados de pessoais e que esteja e/ou faça negócios com a EU. Entrou em
             vigor no dia 25 de maio de 2018 na União Europeia (UE) e prevalece sobre quaisquer leis nacionais.',
     'rgpd_info_p3' => 'O Domingo às Dez é abrangido por esta lei, e pretende com esta página informar e cumprir as suas 
-    obrigações para com os seus utilizadores. Para mais informações sobre este regulamento consulte o portal relativo a esta
-    nova legislação em https://www.eugdpr.org',
+    obrigações para com os seus utilizadores.',
     'rgpd_info_consent' => 'Consentimento',
     'rgpd_no_info_stored' => 'Neste momento não temos nenhuma informação pessoal sua armazenada nos nossos servidores',
     'rgpd_info_right_access' => 'Direito ao Acesso',
