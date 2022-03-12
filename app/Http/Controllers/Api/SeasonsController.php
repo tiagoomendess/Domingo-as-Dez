@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Season;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 
 class SeasonsController extends Controller
 {
@@ -27,6 +29,12 @@ class SeasonsController extends Controller
     }
 
     public function getGames($season_id) {
+        $key = "get_season_games_${season_id}";
+        $cached = Cache::store('file')->get($key, null);
+        if($cached) {
+            $obj = \GuzzleHttp\json_decode($cached);
+            return response()->json($obj);
+        }
 
         /** @var Season $season */
         $season = Season::findOrFail($season_id);
@@ -115,7 +123,9 @@ class SeasonsController extends Controller
             $i++;
         }
 
+        $serializedObj = \GuzzleHttp\json_encode($data_object);
+        Cache::store('file')->put($key, $serializedObj, 1);
+
         return response()->json($data_object);
     }
-
 }
