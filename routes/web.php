@@ -61,7 +61,8 @@ Route::resources([
     'goals' => 'Resources\GoalController',
     'referees' => 'Resources\RefereeController',
     'gamegroups' => 'Resources\GameGroupController',
-    'pages' => 'Resources\PageController'
+    'pages' => 'Resources\PageController',
+    'partners' => 'Resources\PartnerController'
 ]);
 
 //Routes to javascript in backend

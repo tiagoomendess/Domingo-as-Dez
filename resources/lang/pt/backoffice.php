@@ -3,7 +3,7 @@
     return [
 
         'navbar_back_to_site' => 'Voltar ao site',
-        'dashboard' => 'Dashboard',
+        'dashboard' => 'Inicio',
         'no_results' => 'Não foram encontrados resultados para a pesquisa feita.',
         'settings' => 'Definições',
 
