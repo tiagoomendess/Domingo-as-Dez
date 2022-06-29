@@ -36,16 +36,17 @@
 
                                     <div class="row">
                                         <div class="col s12">
+                                            <small class="grey-text">Anónimo:</small>
                                             <div class="switch">
                                                 <label>
-                                                    Não Anónimo
+                                                    OFF
                                                     <input name="anonymous" type="hidden" value="false">
                                                     <input type="checkbox"
                                                            name="anonymous"
                                                            @if(!\Illuminate\Support\Facades\Auth::check()) disabled
                                                            checked @endif value="true">
                                                     <span class="lever"></span>
-                                                    Anónimo
+                                                    ON
                                                 </label>
                                             </div>
                                         </div>

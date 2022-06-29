@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\MessageBag;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
 use League\Flysystem\Exception;
 use Illuminate\Support\Facades\DB;
@@ -112,13 +113,13 @@ class MediaController extends Controller
 
             $mediaType = 'other';
 
-            if (str_contains($url, ['youtube.com', 'youtu.be', 'youtube']))
+            if (Str::contains($url, ['youtube.com', 'youtu.be', 'youtube']))
                 $mediaType = 'youtube';
 
-            if (str_contains($url, ['.jpeg', '.png', '.gif']))
+            if (Str::contains($url, ['.jpeg', '.png', '.gif']))
                 $mediaType = 'image';
 
-            if (str_contains($url, ['.mp4', '.avi', '.mpeg']))
+            if (Str::contains($url, ['.mp4', '.avi', '.mpeg']))
                 $mediaType = 'video';
 
             $media = Media::create([
@@ -143,12 +144,12 @@ class MediaController extends Controller
                 $mediaType = 'other';
                 $folder = 'files';
 
-                if (str_contains($extension, ['jpg', 'jpeg', 'png', 'gif', 'svg'])) {
+                if (Str::contains($extension, ['jpg', 'jpeg', 'png', 'gif', 'svg'])) {
                     $mediaType = 'image';
                     $folder = 'images';
                 }
 
-                if (str_contains($extension, ['mp4', 'avi'])) {
+                if (Str::contains($extension, ['mp4', 'avi'])) {
                     $mediaType = 'video';
                     $folder = 'videos';
                 }
@@ -280,7 +281,7 @@ class MediaController extends Controller
         }
 
         //if it does not huave http means it's a local file
-        if (!str_contains($media->url, 'http')){
+        if (!Str::contains($media->url, 'http')){
 
             $path = str_replace('storage', 'public', $media->url);
             $path_thumbnail = str_replace('storage', 'public', $media->thumbnail_url);
