@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -22,6 +23,12 @@ class CreateInfoReportTable extends Migration
             $table->string('source', 155);
             $table->timestamps();
         });
+
+        DB::table('permissions')->insert([
+            ['name' => 'info_reports'],
+            ['name' => 'info_reports.create'],
+            ['name' => 'info_reports.edit'],
+        ]);
     }
 
     /**
