@@ -36,8 +36,10 @@
 </div>
 
 <script>
-    $(document).ready(function(){
-        $('#popup_message_modal').modal();
-        $('#popup_message_modal').modal('open');
-    });
+    setTimeout(() => {
+        $(document).ready(function () {
+            $('#popup_message_modal').modal();
+            $('#popup_message_modal').modal('open');
+        });
+    }, 10)
 </script>

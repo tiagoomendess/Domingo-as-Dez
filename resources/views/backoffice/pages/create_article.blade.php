@@ -28,7 +28,7 @@
 
             <div class="row">
                 <div class="input-field col s12">
-                    <input id="title" name="title" type="text" class="validate" data-length="155" value="{{ old('title') }}">
+                    <input id="title" name="title" type="text" class="validate" data-length="155" value="{{ old('title') }}" required>
                     <label for="title">{{ trans('general.title') }}</label>
                 </div>
             </div>
@@ -67,13 +67,16 @@
 
                 <div class="row">
                     <div class="col s12">
-                        <input name="date" placeholder="{{ trans('general.date') }}" id="date" type="text" class="datepicker" value="{{ old('date') }}">
+                        @php
+                        $nowDateString = (new \Carbon\Carbon())->now('Europe/Lisbon')->format('Y-m-d');
+                        @endphp
+                        <input name="date" placeholder="{{ trans('general.date') }}" id="date" type="text" class="datepicker" value="{{ old('date', $nowDateString) }}">
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="input-field col s12">
-                        <input name="tags" placeholder="{{ trans('general.tags_help') }}" id="tags" type="text" value="{{ old('tags') }}" class="validate" required>
+                        <input name="tags" placeholder="{{ trans('general.tags_help') }}" id="tags" type="text" value="{{ old('tags') }}" class="validate">
                         <label for="first_name">{{ trans('general.tags') }}</label>
                     </div>
                 </div>
@@ -98,7 +101,7 @@
                         </button>
                     </div>
                 </div>
-
+            </div>
         </form>
     </div>
 
@@ -118,7 +121,19 @@
             CKEDITOR.replace('editor1', {
                 filebrowserUploadUrl: '{{ route('ckeditor.upload', ['_token' => csrf_token()]) }}',
                 filebrowserUploadMethod: 'form',
-                disableNativeSpellChecker: false
+                disableNativeSpellChecker: false,
+                toolbar: [
+                    { name: 'document', groups: [ 'mode', 'document', 'doctools' ], items: [ 'Source' ] },
+                    { name: 'colors', items: [ 'TextColor', 'BGColor' ] },
+                    { name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align', 'bidi' ], items: [ 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'NumberedList', 'BulletedList', 'Blockquote' ] },
+                    { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic', 'Underline', 'Strike', 'RemoveFormat' ] },
+                    { name: 'insert', items: [ 'Image', 'Table', 'HorizontalRule' ] },
+                    { name: 'clipboard', groups: [ 'clipboard', 'undo' ], items: [ 'Paste', 'PasteText', 'PasteFromWord', 'Undo', 'Redo' ] },
+                    { name: 'links', items: [ 'Link', 'Unlink', ] },
+                    { name: 'styles', items: [ 'Format', 'Font', 'FontSize' ] },
+                    { name: 'tools', items: ['ShowBlocks', 'Maximize'] },
+                ],
+                language: 'pt',
             });
 
             $('#select_media').modal();

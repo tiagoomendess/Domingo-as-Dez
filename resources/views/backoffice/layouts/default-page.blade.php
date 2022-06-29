@@ -2,8 +2,8 @@
 
 @section('head')
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link type="text/css" rel="stylesheet" href="/materialize/css/materialize.min.css"  media="screen,projection"/>
-    <link type="text/css" rel="stylesheet" href="/css/backoffice/style.css"  media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="/materialize/css/materialize.min.css" media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="/css/backoffice/style.css" media="screen,projection"/>
     @yield('head-content')
 @endsection
 
@@ -13,16 +13,16 @@
 
         @include('backoffice.partial.sidenav')
 
-            @include('backoffice.partial.navbar')
+        @include('backoffice.partial.navbar')
 
-            <div class="row">
-                <div class="content-wrapper">
-                    <div class="col s12">
+        <div class="row">
+            <div class="content-wrapper">
+                <div class="col s12">
 
-                        @yield('content')
-                    </div>
+                    @yield('content')
                 </div>
             </div>
+        </div>
 
     </div>
 
@@ -39,7 +39,7 @@
             }
         );
 
-        $(document).ready(function(){
+        $(document).ready(function () {
             // the "href" attribute of the modal trigger must specify the modal ID that wants to be triggered
             $('#modal_logout').modal();
         });

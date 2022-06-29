@@ -10,6 +10,7 @@ return [
     'abort' => 'Abortar',
     'back' => 'Voltar',
     'name' => 'Nome',
+    'status' => 'Estado',
     'email' => 'Email',
     'image' => 'Imagem',
     'close' => 'Fechar',

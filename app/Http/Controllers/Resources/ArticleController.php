@@ -4,11 +4,14 @@ namespace App\Http\Controllers\Resources;
 
 use App\Article;
 use App\Media;
+use Facebook\Facebook;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\MessageBag;
+use Symfony\Component\HttpKernel\Log\Logger;
 
 class ArticleController extends Controller
 {
@@ -18,7 +21,7 @@ class ArticleController extends Controller
         $this->middleware('auth');
         $this->middleware('permission:articles')->only(['index', 'show']);
         $this->middleware('permission:articles.edit')->only(['edit', 'update']);
-        $this->middleware('permission:articles.create')->only(['create', 'store', 'destroy']);
+        $this->middleware('permission:articles.create')->only(['create', 'store', 'destroy', 'postOnFacebook']);
     }
 
     /**
@@ -44,7 +47,6 @@ class ArticleController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
      */
     public function create()
     {
@@ -53,9 +55,6 @@ class ArticleController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
@@ -81,7 +80,7 @@ class ArticleController extends Controller
         $media_id = $request->input('selected_media_id');
         $text = $request->input('editor1');
         $date = $request->input('date');
-        $tags = str_replace(', ', ',', $request->input('tags'));
+        $tags = str_replace(', ', ',', $request->input('tags') ?? '');
 
         $media = Media::where('id', $media_id)->where('visible', true)->get();
 
@@ -100,6 +99,7 @@ class ArticleController extends Controller
             'tags' => $tags,
             'user_id' => $user->id,
             'visible' => $visible,
+            'facebook_post_id' => null,
         ]);
 
         return redirect(route('articles.show', ['article' => $article]));
@@ -107,8 +107,6 @@ class ArticleController extends Controller
 
     /**
      * Display the specified resource.
-     *
-     * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
@@ -125,8 +123,6 @@ class ArticleController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Article  $article
-     * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
@@ -138,18 +134,13 @@ class ArticleController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Article  $article
-     * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
         $request->validate([
-            'title' => 'required|max:155|string',
             'description' => 'nullable|max:280|string',
             'selected_media_id' => 'nullable|integer',
             'editor1' => 'required|max:65000|string',
-            'date' => 'required|date',
             'tags' => 'nullable|string|max:280',
             'visible' => 'required',
         ]);
@@ -179,11 +170,9 @@ class ArticleController extends Controller
         if (count($media) != 1)
             $media_id = null;
 
-        $article->title = $request->input('title');
         $article->description = $request->input('description');
         $article->media_id = $media_id;
         $article->text = $request->input('editor1');
-        $article->date = $request->input('date');
         $article->visible = $visible;
         $article->tags = str_replace(', ', ',', $request->input('tags'));
 
@@ -200,8 +189,6 @@ class ArticleController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Article  $article
-     * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
@@ -223,5 +210,55 @@ class ArticleController extends Controller
         $message->add('success', trans('success.model_deleted', ['model_name' => trans('models.article')]));
 
         return redirect(route('articles.index'))->with(['popup_message' => $message]);
+    }
+
+    public function postOnFacebook(Request $request, Article $article)
+    {
+        $messages = new MessageBag();
+
+        if (!empty($article->facebook_post_id)) {
+            $messages->add('error', 'Este artigo já foi publicado no facebook');
+            return redirect(route('articles.index'))->with(['popup_message' => $messages]);
+        }
+
+        $request->validate([
+            'message' => 'nullable|max:144|string',
+        ]);
+
+        $pageId = config('services.facebook.page_id');
+        $appId = config('services.facebook.client_id');
+        $appSecret = config('services.facebook.client_secret');
+        $pageAccessToken = config('services.facebook.page_access_token');
+
+        try {
+            $fb = new Facebook([
+                'app_id' => $appId,
+                'app_secret' => $appSecret
+            ]);
+
+            $url = $article->getPublicUrl();
+            //$url = str_replace('localhost:8000', 'domingoasdez.com', $url);
+
+            $response = $fb->post("/$pageId/feed", [
+                'message' => $request->input('message', ''),
+                'link' => $url
+            ], $pageAccessToken, null, 'v11.0');
+        } catch (\Exception $e) {
+            $messages->add('error', "Não foi possível publicar o artigo na página de facebook, a API retornou uma exceção: " . $e->getMessage());
+            Log::info("Could not send post to facebook, error: " . $e->getMessage());
+
+            return redirect(route('articles.index'))->with(['popup_message' => $messages]);
+        }
+
+        $decodedBody = $response->getDecodedBody();
+        if ($response->getHttpStatusCode() == 200 && !empty($decodedBody) && isset($decodedBody['id'])) {
+            $messages->add('success', "O Artigo foi publicado no facebook");
+            $article->facebook_post_id = $decodedBody['id'];
+            $article->save();
+        } else {
+            $messages->add('error', "Não foi possível publicar o artigo na página de facebook");
+        }
+
+        return redirect(route('articles.index'))->with(['popup_message' => $messages]);
     }
 }

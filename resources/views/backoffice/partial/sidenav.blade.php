@@ -155,6 +155,10 @@
                             <li><a class="waves-effect"
                                    href="{{ route('permissions.index') }}">{{ trans('models.permissions') }}</a></li>
                         @endif
+                        @if(Auth::user()->hasPermission('info_reports'))
+                            <li><a class="waves-effect"
+                                   href="{{ route('info_reports.index') }}">{{ trans('models.info_reports') }}</a></li>
+                        @endif
                     </ul>
                 </div>
             </li>

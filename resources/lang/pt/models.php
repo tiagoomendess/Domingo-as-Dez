@@ -101,4 +101,7 @@ return [
     'partners' => 'Parceiros',
     'partner' => 'Parceiro',
     'no_partners' => 'Não existem parceiros criados',
+    'info_reports' => 'Informações',
+    'info_report' => 'Informação',
+    'no_info_reports' => 'Não existem informações criadas',
 ];

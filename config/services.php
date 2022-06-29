@@ -38,7 +38,9 @@ return [
     'facebook' => [
         'client_id' => env('FACEBOOK_CLIENT_ID'),
         'client_secret' => env('FACEBOOK_CLIENT_SECRET'),
-        'redirect' => env('FACEBOOK_CLIENT_CALLBACK')
+        'redirect' => env('FACEBOOK_CLIENT_CALLBACK'),
+        'page_id' => env('FACEBOOK_PAGE_ID', 740853286020855),
+        'page_access_token' => env('FACEBOOK_PAGE_ACCESS_TOKEN', 'GGNotGoingToWork'),
     ],
 
     'google' => [

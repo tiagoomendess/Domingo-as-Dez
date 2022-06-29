@@ -16,9 +16,6 @@
     <div class="row">
 
         <form>
-
-            {{ csrf_field() }}
-
             <div class="row">
                 <div class="input-field col s10 m5">
                     <input id="name" name="name" type="text" class="validate" data-length="50"

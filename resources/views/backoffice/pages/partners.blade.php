@@ -19,14 +19,23 @@
                 <table class="bordered">
                     <thead>
                     <tr>
-                        <th>{{ trans('general.title') }}</th>
+                        <th>{{ trans('general.name') }}</th>
+                        <th>Prioridade</th>
+                        <th>{{trans('general.visible')}}</th>
                         <th>{{ trans('general.created_at') }}</th>
                     </tr>
                     </thead>
 
                     @foreach($partners as $partner)
                         <tr>
-                            <td><a href="{{ route('partners.show', ['partner' => $partner]) }}">{{ $partner->name }}</a></td>
+                            <td>
+                                <a href="{{ route('partners.show', ['partner' => $partner]) }}">
+                                    <img style="height: 15px" src="{{ $partner->picture }}">
+                                    {{ $partner->name }}
+                                </a>
+                            </td>
+                            <td>{{ $partner->priority }}</td>
+                            <td>{{ $partner->visible ? 'Sim' : 'Não' }}</td>
                             <td>{{ $partner->created_at }}</td>
                         </tr>
 
