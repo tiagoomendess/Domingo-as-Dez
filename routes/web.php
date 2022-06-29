@@ -27,7 +27,10 @@ Route::get('/', 'Front\HomePageController@index')->name('homePage');
 Route::post('/vote', 'Front\MvpVotesController@vote')->name('mvp_vote');
 Route::post('/game/{game}/generate_image', 'Front\MatchImageGeneratorController@generateImage')->name('generate_game_image');
 Route::get('/p/{slug}', 'Front\PagesController@show')->name('page.show');
-
+Route::get('/info', 'Front\InfoReportsController@create')->name('info.create');
+Route::post('/info', 'Front\InfoReportsController@store')->name('info.store');
+Route::post('/info/show', 'Front\InfoReportsController@show')->name('info.show');
+Route::post('/info/delete', 'Front\InfoReportsController@delete')->name('info.delete');
 
 Route::get('/home', 'Front\HomePageController@home')->name('home');
 
@@ -37,6 +40,7 @@ Route::get('settings', 'SettingsController@index')->name('settings.index');
 Route::get('/games/import', 'Resources\GameController@showImportPage')->name('games.show_import_page');
 Route::post('/games/import', 'Resources\GameController@importGames')->name('games.import_games');
 Route::post('/settings/change', 'SettingsController@changeSetting')->name('settings.change');
+Route::post('/articles/{article}/post-on-facebook', 'Resources\ArticleController@postOnFacebook')->name('articles.post_on_facebook');
 
 //CKEditor
 Route::post('/ckeditor/upload', 'Backoffice\CKEditorController@upload')->name('ckeditor.upload');
@@ -61,7 +65,9 @@ Route::resources([
     'goals' => 'Resources\GoalController',
     'referees' => 'Resources\RefereeController',
     'gamegroups' => 'Resources\GameGroupController',
-    'pages' => 'Resources\PageController'
+    'pages' => 'Resources\PageController',
+    'partners' => 'Resources\PartnerController',
+    'info_reports' => 'Resources\InfoReportController'
 ]);
 
 //Routes to javascript in backend

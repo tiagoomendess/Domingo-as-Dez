@@ -6,5 +6,4 @@
         'dashboard' => 'Dashboard',
         'no_results' => 'Não foram encontrados resultados para a pesquisa feita.',
         'settings' => 'Definições',
-
     ];

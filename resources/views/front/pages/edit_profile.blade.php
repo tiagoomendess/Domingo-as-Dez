@@ -121,7 +121,6 @@
                                 </div>
                             </div>
                         </form>
-
                     </div>
                 </div>
 
@@ -179,6 +178,15 @@
                         </div>
                     </div>
                 @endif
+
+                <h2 class="over-card-title">Informações Enviadas</h2>
+                @if($infos->count() > 0)
+                    @foreach($infos as $info)
+                        @include('front.partial.info_report', ['info' => $info])
+                    @endforeach
+                @else
+                    <p class="flow-text">Ainda não enviou nenhuma informação, pode enviar através deste <a href="{{ route('info.create') }}">formulário</a>.</p>
+                @endif
             </div>
         </div>
     </div>
@@ -186,7 +194,15 @@
 @endsection
 
 @section('scripts')
+    <script>
+        setTimeout(() => {
+            $(document).ready(function(){
+                $('#apagar_info_modal').modal();
+            });
+        }, 100)
+    </script>
 
     <script src="/js/front/edit_profile-scripts.js"></script>
+
 
 @endsection

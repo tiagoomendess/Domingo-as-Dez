@@ -120,5 +120,12 @@ return [
     'statistics' => 'Estatísticas',
     'attack' => 'Ataque',
     'defense' => 'Defesa',
-    'ads' => 'Parceiros'
+    'ads' => 'Parceiros',
+    'create_info_report_title' => 'Enviar Informação',
+    'show_info_report_title' => 'Ver Informação',
+    'info_report_status_sent' => 'Enviada',
+    'info_report_status_deleted' => 'Apagada',
+    'info_report_status_archived' => 'Arquivada',
+    'info_report_status_seen' => 'Vista',
+    'info_report_status_used' => 'Utilizada',
 ];

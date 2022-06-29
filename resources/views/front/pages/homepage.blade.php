@@ -150,6 +150,7 @@
                 <div class="divider"></div>
                 <div class="vertical-spacer"></div>
                 <a class="waves-effect waves-light btn-large blue" href="{{ route('games.today') }}">Jogos de Hoje</a>
+                <a class="waves-effect waves-light btn-large blue" href="{{ route('info.create') }}">Enviar Informação</a>
                 <div class="vertical-spacer"></div>
                 <div class="divider"></div>
             </div>
@@ -167,7 +168,6 @@
                             <span class="truncate">{{ $competition->name }}</span>
                         </div>
                     </a>
-
                 </div>
             @endforeach
 
@@ -178,45 +178,11 @@
                         <span>{{ trans('front.see_all_competitions') }}</span>
                     </div>
                 </a>
-
-            </div>
-
-        </div>
-
-    </div>
-
-    <div class="container">
-        <div class="row no-margin-bottom">
-            <div class="col s12">
-                <div class="vertical-spacer"></div>
-                <h2 class="over-card-title">{{ trans('front.ads') }}</h2>
-            </div>
-
-            <div class="col s12 m6 l3" style="margin-bottom: 10px">
-                <a href="https://www.prediol.com/" target="_blank">
-                    <img src="/images/prediol_web.jpg" alt="Prediol" style="width: 100%">
-                </a>
-            </div>
-
-            <div class="col s12 m6 l3" style="margin-bottom: 10px">
-                <a href="http://www.slc.pt/" target="_blank">
-                    <img src="/images/slc_web.jpg" alt="SLC" style="width: 100%">
-                </a>
-            </div>
-
-            <div class="col s12 m6 l3" style="margin-bottom: 10px">
-                <a href="https://www.facebook.com/IntensifyWorld/" target="_blank">
-                    <img src="/images/itw_web.jpg" alt="Itensify World" style="width: 100%">
-                </a>
-            </div>
-
-            <div class="col s12 m6 l3" style="margin-bottom: 10px">
-                <a href="http://celoscar.com?ref=domingoasdez.com" target="_blank">
-                    <img src="/images/celoscar_web.jpg" alt="Itensify World" style="width: 100%">
-                </a>
             </div>
         </div>
     </div>
+
+    <div class="vertical-spacer"></div>
 
 @endsection
 

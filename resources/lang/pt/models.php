@@ -97,5 +97,11 @@ return [
     'team_name' => 'Nome das equipas',
     'pages' => 'Páginas',
     'page' => 'Página',
-    'no_pages' => 'Não existem páginas criadas'
+    'no_pages' => 'Não existem páginas criadas',
+    'partners' => 'Parceiros',
+    'partner' => 'Parceiro',
+    'no_partners' => 'Não existem parceiros criados',
+    'info_reports' => 'Informações',
+    'info_report' => 'Informação',
+    'no_info_reports' => 'Não existem informações criadas',
 ];

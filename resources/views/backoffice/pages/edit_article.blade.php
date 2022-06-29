@@ -29,7 +29,7 @@
 
             <div class="row">
                 <div class="input-field col s12">
-                    <input required id="title" name="title" type="text" class="validate" data-length="155" value="{{ $article->title }}">
+                    <input disabled required id="title" name="title" type="text" class="validate" data-length="155" value="{{ $article->title }}">
                     <label for="title">{{ trans('general.title') }}</label>
                 </div>
             </div>
@@ -74,7 +74,7 @@
 
                 <div class="row">
                     <div class="col s12">
-                        <input name="date" placeholder="{{ trans('general.date') }}" id="date" type="text" class="datepicker" value="{{\Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $article->date)->format("Y-m-d")}}">
+                        <input disabled name="date" placeholder="{{ trans('general.date') }}" id="date" type="text" class="datepicker" value="{{\Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $article->date)->format("Y-m-d")}}">
                     </div>
                 </div>
 
@@ -131,7 +131,19 @@
             CKEDITOR.replace('editor1', {
                 filebrowserUploadUrl: '{{ route('ckeditor.upload', ['_token' => csrf_token()]) }}',
                 filebrowserUploadMethod: 'form',
-                disableNativeSpellChecker: false
+                disableNativeSpellChecker: false,
+                toolbar: [
+                    { name: 'document', groups: [ 'mode', 'document', 'doctools' ], items: [ 'Source' ] },
+                    { name: 'colors', items: [ 'TextColor', 'BGColor' ] },
+                    { name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align', 'bidi' ], items: [ 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'NumberedList', 'BulletedList', 'Blockquote' ] },
+                    { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic', 'Underline', 'Strike', 'RemoveFormat' ] },
+                    { name: 'insert', items: [ 'Image', 'Table', 'HorizontalRule' ] },
+                    { name: 'clipboard', groups: [ 'clipboard', 'undo' ], items: [ 'Paste', 'PasteText', 'PasteFromWord', 'Undo', 'Redo' ] },
+                    { name: 'links', items: [ 'Link', 'Unlink', ] },
+                    { name: 'styles', items: [ 'Format', 'Font', 'FontSize' ] },
+                    { name: 'tools', items: ['ShowBlocks', 'Maximize'] },
+                ],
+                language: 'pt',
             });
 
             $('#select_media').modal();

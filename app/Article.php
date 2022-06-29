@@ -15,7 +15,7 @@ class Article extends SearchableModel
     protected $hidden = [];
     **/
 
-    protected $fillable = ['media_id', 'title', 'description', 'text', 'user_id', 'date', 'tags', 'visible'];
+    protected $fillable = ['media_id', 'title', 'description', 'text', 'user_id', 'date', 'tags', 'visible', 'facebook_post_id'];
 
     protected $guarded = [];
 

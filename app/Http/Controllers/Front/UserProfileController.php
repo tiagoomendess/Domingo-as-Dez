@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Resources\MediaController;
+use App\InfoReport;
 use App\Notifications\PasswordChangedNotification;
 use App\User;
 use Illuminate\Contracts\Hashing\Hasher;
@@ -28,8 +29,9 @@ class UserProfileController extends Controller
     public function edit()
     {
         $user = Auth::user();
+        $infos = InfoReport::where('status', '!=', 'deleted')->where('user_id', $user->id)->get();
 
-        return view('front.pages.edit_profile', ['user' => $user]);
+        return view('front.pages.edit_profile', ['user' => $user, 'infos' => $infos]);
     }
 
     public function updateProfileInfo(Request $request) {
