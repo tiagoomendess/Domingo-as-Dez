@@ -8,10 +8,12 @@
     <meta property="og:image" content="{{ url('/images/enviar-info.jpg') }}">
     <meta property="og:image:width" content="1280">
     <meta property="og:image:height" content="720">
-    <meta property="og:description" content="Envie uma informação que deseja partilhar com a comunidade, pode escolher manter o anonimato ou não." />
+    <meta property="og:description"
+          content="Envie uma informação que deseja partilhar com a comunidade, pode escolher manter o anonimato ou não."/>
 
     <meta itemprop="name" content="Enviar Informação">
-    <meta itemprop="description" content="Envie uma informação que deseja partilhar com a comunidade, pode escolher manter o anonimato ou não.">
+    <meta itemprop="description"
+          content="Envie uma informação que deseja partilhar com a comunidade, pode escolher manter o anonimato ou não.">
     <meta itemprop="image" content="{{ url('/images/enviar-info.jpg') }}">
 @endsection
 
@@ -51,12 +53,19 @@
                                             <div class="switch">
                                                 <label>
                                                     OFF
-                                                    <input name="anonymous" type="hidden" value="false">
-                                                    <input type="checkbox"
-                                                           name="anonymous"
-                                                           @if(!\Illuminate\Support\Facades\Auth::check()) disabled
-                                                           checked @endif value="true">
-                                                    <span class="lever"></span>
+                                                    @if(\Illuminate\Support\Facades\Auth::check())
+                                                        <input name="anonymous" type="hidden" value="false">
+                                                        <input type="checkbox"
+                                                               name="anonymous"
+                                                               value="true">
+                                                        <span class="lever"></span>
+                                                    @else
+                                                        <input name="anonymous" type="hidden" value="true">
+                                                        <input type="checkbox"
+                                                               name="anonymous"
+                                                               value="true" checked disabled>
+                                                        <span class="lever"></span>
+                                                    @endif
                                                     ON
                                                 </label>
                                             </div>
@@ -66,7 +75,8 @@
                                     <div class="row">
                                         <div class="input-field col s12">
                                             <textarea id="content" name="content" class="materialize-textarea validate"
-                                                      data-length="500" autocomplete="off" required>{{ old('content') }}</textarea>
+                                                      data-length="500" autocomplete="off"
+                                                      required>{{ old('content') }}</textarea>
                                             <label for="content">Informação</label>
                                         </div>
                                     </div>
@@ -74,7 +84,8 @@
                                     <div class="row">
                                         <div class="input-field col s12">
                                             <input id="source" name="source" type="text" class="validate"
-                                                   data-length="155" autocomplete="off" value="{{ old('content') }}" required>
+                                                   data-length="155" autocomplete="off" value="{{ old('content') }}"
+                                                   required>
                                             <label for="source">Fonte</label>
                                         </div>
                                     </div>
