@@ -5,14 +5,14 @@
 
     <meta property="og:title" content="{{ 'Jogos Hoje - ' . config('app.name') }}"/>
     <meta property="og:type" content="website"/>
-    <meta property="og:image" content="/images/todays_games.jpg">
+    <meta property="og:image" content="{{ url('/images/todays_games.jpg') }}">
     <meta property="og:image:width" content="1920">
     <meta property="og:image:height" content="1080">
     <meta property="og:description" content="Lista de todos os jogos marcados para o dia de hoje" />
 
     <meta itemprop="name" content="Jogos de Hoje">
     <meta itemprop="description" content="Lista de todos os jogos marcados para o dia de hoje">
-    <meta itemprop="image" content="/images/todays_games.jpg">
+    <meta itemprop="image" content="{{ url('/images/todays_games.jpg') }}">
 
 @endsection
 
