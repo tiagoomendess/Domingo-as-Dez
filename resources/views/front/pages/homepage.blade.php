@@ -149,8 +149,10 @@
             <div class="col s12 m12 l12 center text-center" style="margin-top: 10px">
                 <div class="divider"></div>
                 <div class="vertical-spacer"></div>
-                <a class="waves-effect waves-light btn-large blue" href="{{ route('games.today') }}">Jogos de Hoje</a>
-                <a class="waves-effect waves-light btn-large blue" href="{{ route('info.create') }}">Enviar Informação</a>
+                <a class="waves-effect waves-light btn-large blue" href="{{ route('games.today') }}">
+                    <i class="large material-icons left">date_range</i>
+                    Jogos de Hoje
+                </a>
                 <div class="vertical-spacer"></div>
                 <div class="divider"></div>
             </div>
@@ -180,6 +182,16 @@
                 </a>
             </div>
         </div>
+    </div>
+
+    <div class="col s12 m12 l12 center text-center" style="margin-top: 10px">
+        <div class="divider"></div>
+        <div class="vertical-spacer"></div>
+        <a class="waves-effect waves-light btn-large yellow darken-3" href="{{ route('info.create') }}">
+            <i class="large material-icons left">send</i>
+            Enviar Informação</a>
+        <div class="vertical-spacer"></div>
+        <div class="divider"></div>
     </div>
 
     <div class="vertical-spacer"></div>

@@ -5,6 +5,10 @@ echo "#########################"
 echo "\n--- Taking application down ------------"
 php artisan down
 
+echo "\n--- Handing Permissions and Ownership to root ------------"
+chmod 755 -R ../DomingoAsDez/
+chown root ../DomingoAsDez/ -R
+
 echo "\n--- Get Code -----------"
 git reset --hard
 git pull

@@ -2,6 +2,17 @@
 
 @section('head-content')
     <title>{{ trans('front.create_info_report_title') }}</title>
+
+    <meta property="og:title" content="{{ 'Enviar Informação - ' . config('app.name') }}"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:image" content="{{ url('/images/enviar-info.jpg') }}">
+    <meta property="og:image:width" content="1280">
+    <meta property="og:image:height" content="720">
+    <meta property="og:description" content="Envie uma informação que deseja partilhar com a comunidade, pode escolher manter o anonimato ou não." />
+
+    <meta itemprop="name" content="Enviar Informação">
+    <meta itemprop="description" content="Envie uma informação que deseja partilhar com a comunidade, pode escolher manter o anonimato ou não.">
+    <meta itemprop="image" content="{{ url('/images/enviar-info.jpg') }}">
 @endsection
 
 @section('content')
@@ -115,10 +126,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="col s12">
-
             </div>
         </div>
     </div>
