@@ -24,9 +24,9 @@ class InfoReportController extends Controller
         if ($request->query->get('search')) {
             $infos = InfoReport::search($request->query->all());
         } else {
-            $infos = InfoReport::where('status', '!=', 'deleted')
-                ->where('status', '!=', 'archived')
-                ->orderBy('id', 'asc')
+            $infos = InfoReport::whereIn('status', ['seen', 'sent'])
+                ->orderBy('status', 'asc')
+                ->orderBy('id', 'desc')
                 ->paginate(config('custom.results_per_page'));
         }
 
