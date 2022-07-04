@@ -27,11 +27,12 @@
 
         <div class="row">
             <div class="input-field col s6 m4 l3">
-                <input id="code" type="text" disabled value="{{ $info->code }}">
+                <input style="color: black" id="code" type="text" disabled value="{{ $info->code }}">
                 <label for="code">Código</label>
             </div>
             <div class="input-field col s6 m4 l3">
                 <input id="date" type="text"
+                       style="color: black"
                        disabled
                        value="{{ \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $info->created_at)->timezone('Europe/Lisbon')->format("d/m/Y H:i") }}">
                 <label for="date">Enviada</label>
@@ -41,6 +42,7 @@
         <div class="row">
             <div class="input-field col s12 m8 l6">
                 <textarea id="content" name="content" class="materialize-textarea validate"
+                          style="color: black"
                           data-length="500" autocomplete="off"
                           disabled>{{ $info->content }}</textarea>
                 <label for="content">Informação</label>
@@ -49,14 +51,14 @@
 
         <div class="row">
             <div class="input-field col s12 m8 l6">
-                <input id="source" type="text" disabled value="{{ $info->source }}">
+                <input style="color: black" id="source" type="text" disabled value="{{ $info->source }}">
                 <label for="source">Fonte</label>
             </div>
         </div>
 
         <div class="row">
             <div class="input-field col s12 m8 l6">
-                <input id="source" type="text" disabled value="{{ $info->user_id ? $info->user->name . " - " . $info->user->email : 'Anonimo' }}">
+                <input style="color: black" id="source" type="text" disabled value="{{ $info->user_id ? $info->user->name . " - " . $info->user->email : 'Anonimo' }}">
                 <label for="source">Utilizador</label>
             </div>
         </div>
@@ -81,6 +83,7 @@
         <div class="row">
 
             <div class="file-field input-field col s12 m8 l6">
+                <a href="{{ route('info_reports.index') }}" class="waves-effect waves-ripple btn grey"><i class="material-icons left">arrow_left</i>Voltar</a>
                 <button class="right green btn waves-effect waves-light" type="submit" name="action">{{ trans('general.save') }}
                     <i class="material-icons right">send</i>
                 </button>

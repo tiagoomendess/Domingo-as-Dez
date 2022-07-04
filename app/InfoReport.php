@@ -15,6 +15,14 @@ class InfoReport extends SearchableModel
             'compare' => '=',
             'validation' => 'nullable|min:9|max:9|string'
         ],
+        'content' => [
+            'name' => 'content',
+            'type' => 'string',
+            'trans' => 'Conteúdo',
+            'allowSearch' => true,
+            'compare' => 'like',
+            'validation' => 'nullable|string'
+        ],
         'status' => [
             'name' => 'status',
             'type' => 'enum',
