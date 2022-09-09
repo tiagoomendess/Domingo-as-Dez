@@ -7,18 +7,18 @@
     <link rel="stylesheet" href="/css/front/article-style.css">
 
     <!-- Open Graph data -->
-    <meta property="og:title" content="{{ $article->title }}" />
-    <meta property="og:type" content="article" />
+    <meta property="og:title" content="{{ $article->title }}"/>
+    <meta property="og:type" content="article"/>
     <meta property="og:url" content="{{ route('news.show', [
                             'year' => \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $article->date)->year,
                             'month' => \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $article->date)->month,
                             'day' => \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $article->date)->day,
                             'slug' => str_slug($article->title)
-                        ]) }}" />
+                        ]) }}"/>
     <meta property="og:image" content="{{ url($article->getThumbnail()) }}">
     <meta property="og:image:width" content="{{ $img_width }}">
     <meta property="og:image:height" content="{{ $img_height }}">
-    <meta property="og:description" content="{{ $article->description }}" />
+    <meta property="og:description" content="{{ $article->description }}"/>
 
     <!-- Schema.org markup for Google+ -->
     <meta itemprop="name" content="{{ $article->title }}">
@@ -50,7 +50,9 @@
                 <div class="article-video-media">
                     <div class="container">
                         <div class="embed-container">
-                            <iframe id="media_youtube_video" src="{{ str_replace('watch?v=', 'embed/', $article->media->url) }}" frameborder='0' allowfullscreen></iframe>
+                            <iframe id="media_youtube_video"
+                                    src="{{ str_replace('watch?v=', 'embed/', $article->media->url) }}" frameborder='0'
+                                    allowfullscreen></iframe>
                         </div>
                     </div>
 
@@ -107,7 +109,8 @@
             </div>
         </section>
 
-            <div class="container">
+        <div class="container">
+            @if ($article->visible)
                 <div class="row">
                     <div class="col s12 m12 l8 offset-l2">
                         <!-- Article Description Horizontal -->
@@ -122,7 +125,10 @@
                         </script>
                     </div>
                 </div>
-            </div>
+            @else
+                <p class="flow-text center text-center">Publicidade Google não está visivel porque o artigo está invisível</p>
+            @endif
+        </div>
 
         <div class="container">
 
@@ -140,29 +146,33 @@
 
     <div class="container">
         <div class="row">
-            <div class="col s12 m12 l6">
-                <ins class="adsbygoogle"
-                     style="display:block"
-                     data-ad-client="ca-pub-3518000096682897"
-                     data-ad-slot="9842679623"
-                     data-ad-format="auto"
-                     data-full-width-responsive="true"></ins>
-                <script>
-                    (adsbygoogle = window.adsbygoogle || []).push({});
-                </script>
-            </div>
+            @if ($article->visible)
+                <div class="col s12 m12 l6">
+                    <ins class="adsbygoogle"
+                         style="display:block"
+                         data-ad-client="ca-pub-3518000096682897"
+                         data-ad-slot="9842679623"
+                         data-ad-format="auto"
+                         data-full-width-responsive="true"></ins>
+                    <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
 
-            <div class="col col-xs-12 s12 m12 l6 hide-on-med-and-down">
-                <ins class="adsbygoogle"
-                     style="display:block"
-                     data-ad-client="ca-pub-3518000096682897"
-                     data-ad-slot="9842679623"
-                     data-ad-format="auto"
-                     data-full-width-responsive="true"></ins>
-                <script>
-                    (adsbygoogle = window.adsbygoogle || []).push({});
-                </script>
-            </div>
+                <div class="col col-xs-12 s12 m12 l6 hide-on-med-and-down">
+                    <ins class="adsbygoogle"
+                         style="display:block"
+                         data-ad-client="ca-pub-3518000096682897"
+                         data-ad-slot="9842679623"
+                         data-ad-format="auto"
+                         data-full-width-responsive="true"></ins>
+                    <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
+            @else
+                <p class="flow-text center text-center">Publicidade Google não está visivel porque o artigo está invisível</p>
+            @endif
         </div>
     </div>
 
@@ -174,7 +184,7 @@
 
     <script>
 
-        $(document).ready(function(){
+        $(document).ready(function () {
             $('.parallax').parallax();
             $('.materialboxed').materialbox();
 
@@ -197,7 +207,7 @@
                 console.log(height);
                 var width = height * 1.777;
 
-                if(height < 350) {
+                if (height < 350) {
 
                     iframe.attr('style', 'width: 100%;');
                     width = iframe.width();
