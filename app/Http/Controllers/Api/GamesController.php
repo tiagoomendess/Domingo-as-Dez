@@ -177,7 +177,7 @@ class GamesController extends Controller
 
             $return_object->ground = $game->playground->name;
 
-            $return_object->date = (new DateTime($game->date, new \DateTimeZone('Europe/Lisbon')))->format('Y/m/d H:i');
+            $return_object->date = (new DateTime($game->date))->setTimezone(new \DateTimeZone('Europe/Lisbon'))->format('Y/m/d H:i');
         }
 
         return response()->json($return_object);
