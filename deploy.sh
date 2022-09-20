@@ -5,8 +5,9 @@ echo "#########################"
 echo "Taking application down"
 php artisan down
 
-echo "Changing folder owner to root user"
-chown root ../DomingoAsDez/ -R
+echo "\n--- Handing Permissions and Ownership to root ------------"
+chmod 755 -R ../DomingoAsDez
+chown root ../DomingoAsDez -R
 
 echo "Getting the Code from repository"
 git reset --hard
@@ -21,9 +22,9 @@ composer install
 echo "Running migrations"
 php artisan migrate --env=production --force
 
-echo "Setting folder owner back to nginx user"
-chmod 755 -R ../DomingoAsDez/
-chown www-data ../DomingoAsDez/ -R
+echo "\n--- Dealing with permissions ------------"
+chmod 755 -R ../DomingoAsDez
+chown www-data ../DomingoAsDez -R
 
 echo "Trying to open application"
 php artisan up
