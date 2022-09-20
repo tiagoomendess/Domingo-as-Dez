@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use DateTime;
 use Illuminate\Http\Request;
 use stdClass;
+use function foo\func;
 
 class GamesController extends Controller
 {
@@ -153,11 +154,19 @@ class GamesController extends Controller
             ->first();
 
         $return_object = new \stdClass();
+        $game = null;
 
         if (!$gameHome && !$gameAway) {
             $return_object->has_game = false;
         } else {
-            $game = $gameAway->date < $gameHome->date ? $gameAway : $gameHome;
+
+            if (!empty($gameHome) && !empty($gameAway)) {
+                $game = $gameAway->date < $gameHome->date ? $gameAway : $gameHome;
+            }
+
+            if (empty($game)) {
+                $game = $gameHome ?? $gameAway;
+            }
 
             $return_object->has_game = true;
             $return_object->home_team = $game->homeTeam->club->name;
