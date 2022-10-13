@@ -32,6 +32,7 @@
     <script>
         (adsbygoogle = window.adsbygoogle || []).push({
             google_ad_client: "ca-pub-3518000096682897",
+            enable_page_level_ads: true,
             overlays: { bottom: true }
         });
     </script>
