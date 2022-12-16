@@ -70,7 +70,49 @@ class GamesController extends Controller
             $mvpVote = null;
         }
 
-        return view('front.pages.game', ['game' => $game, 'mvp' => $mvp, 'mvp_vote' => $mvpVote]);
+        // get past games
+        $past_games = Game::where('visible', true)
+            ->where('finished', true)
+            ->where('date', '<', $game->date)
+            ->whereRaw(
+                "((home_team_id = ? and away_team_id = ?) or (home_team_id = ? and away_team_id = ?))",
+                [ $game->home_team_id, $game->away_team_id, $game->away_team_id, $game->home_team_id]
+            )
+            ->orderByDesc('date')
+            ->get();
+
+        if (!$game->started() && !$game->finished) {
+            $home_team_last_games = Game::where('visible', true)
+                ->where('finished', true)
+                ->where('date', '<', $game->date)
+                ->whereRaw("(home_team_id = ? or away_team_id = ?)", [$game->home_team_id, $game->home_team_id])
+                ->orderByDesc('date')
+                ->limit(4)
+                ->get();
+
+            $away_team_last_games = Game::where('visible', true)
+                ->where('finished', true)
+                ->where('date', '<', $game->date)
+                ->whereRaw("(home_team_id = ? or away_team_id = ?)", [$game->away_team_id, $game->away_team_id])
+                ->orderByDesc('date')
+                ->limit(4)
+                ->get();
+        } else {
+            $home_team_last_games = [];
+            $away_team_last_games = [];
+        }
+
+        return view(
+            'front.pages.game',
+            [
+                'game' => $game,
+                'mvp' => $mvp,
+                'mvp_vote' => $mvpVote,
+                'past_games' => $past_games,
+                'home_team_last_games' => $home_team_last_games,
+                'away_team_last_games' => $away_team_last_games,
+            ]
+        );
     }
 
     public function liveMatches() {
