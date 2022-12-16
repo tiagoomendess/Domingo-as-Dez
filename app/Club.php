@@ -86,4 +86,9 @@ class Club extends SearchableModel
     {
         return route('front.club.show', ['club_slug' => str_slug($this->name)]);
     }
+
+    public function getThreeLetterName() {
+        $name = str_replace([' ', '.'], "", $this->name);
+        return strtoupper(str_split($name, 3)[0]);
+    }
 }

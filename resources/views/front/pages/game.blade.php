@@ -145,6 +145,43 @@
 
                 </div>
 
+                @if (count($home_team_last_games) > 1 || count($away_team_last_games) > 1)
+                    <div class="row no-margin-bottom" style="margin-top: 20px">
+                        <div class="col s12 m8 l6 offset-l3 offset-m2">
+                            <div class="col s6 performance-labels">
+                                <div class="left">
+                                @foreach($home_team_last_games as $lg)
+                                    @if ($lg->isDraw())
+                                        <a class="yellow darken-2" href="{{ $lg->getPublicUrl() }}">E</a>
+                                    @else
+                                        @if($lg->winner()->id == $game->home_team->id)
+                                            <a class="green darken-1" href="{{ $lg->getPublicUrl() }}">V</a>
+                                        @else
+                                            <a class="red darken-1" href="{{ $lg->getPublicUrl() }}">D</a>
+                                        @endif
+                                    @endif
+                                @endforeach
+                                </div>
+                            </div>
+                            <div class="col s6 performance-labels">
+                                <div class="right">
+                                    @foreach($away_team_last_games as $lg)
+                                        @if ($lg->isDraw())
+                                            <a class="yellow darken-2" href="{{ $lg->getPublicUrl() }}">E</a>
+                                        @else
+                                            @if($lg->winner()->id == $game->away_team->id)
+                                                <a class="green darken-1" href="{{ $lg->getPublicUrl() }}">V</a>
+                                            @else
+                                                <a class="red darken-1" href="{{ $lg->getPublicUrl() }}">D</a>
+                                            @endif
+                                        @endif
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endif
+
                 <div class="row no-margin-bottom">
                     <div id="man_of_the_match">
                         @if($game->finished && !$game->isMvpVoteOpen() && $mvp && $mvp->amount >= 1)
@@ -346,6 +383,51 @@
                 </div>
             </section>
 
+        </div>
+
+        <div class="row">
+            <section class="col xs12 s12 m12 l12 xl12">
+                <h2 class="over-card-title">Confrontos Anteriores</h2>
+                <div class="card">
+                    <div class="card-content">
+                        @if(count($past_games) == 0)
+                            <p class="flow-text center">Não temos nenhum jogo registado entre estas duas equipas antes da data deste jogo.</p>
+                        @else
+                            <ul class="list-a">
+                            @foreach($past_games as $past_game)
+                                <div class="past-game-item">
+                                    <a style="width: 100%" href="{{ $past_game->getPublicURL() }}">
+                                        <div class="row no-margin-bottom" style="padding: 10px">
+                                            <div class="col s3 m4">
+                                                <img class="right" src="{{ $past_game->home_team->club->getEmblem() }}" alt="{{ $past_game->home_team->club->name }}">
+                                                <span class="right hide-on-med-and-down">{{ $past_game->home_team->club->name }}</span>
+                                                <span class="right hide-on-large-only hide-on-small-and-down">{{ $past_game->home_team->club->getThreeLetterName() }}</span>
+                                            </div>
+                                            <div class="col s6 m2 center">
+                                                <span class="center" style="background-color: grey; padding: 4px 10px; color: white; margin-top: 10px;">
+                                                    <b>{{ $past_game->getHomeScore() }} - {{ $past_game->getAwayScore() }}</b>
+                                                </span>
+                                            </div>
+                                            <div class="col s3 m4">
+                                                <img class="left" src="{{ $past_game->away_team->club->getEmblem() }}" alt="{{ $past_game->away_team->club->name }}">
+                                                <span class="left hide-on-med-and-down">{{ $past_game->away_team->club->name }}</span>
+                                                <span class="left hide-on-large-only hide-on-small-and-down">{{ $past_game->away_team->club->getThreeLetterName() }}</span>
+                                            </div>
+                                            <div class="col m1 hide-on-small-and-down">
+                                                <span class="right">{{ str_split($past_game->date, 4)[0] }}</span>
+                                            </div>
+                                            <div class="col m1 hide-on-small-and-down">
+                                                <img class="right" src="{{ $past_game->game_group->season->competition->picture }}" alt="Competição da AFPB">
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            @endforeach
+                            </ul>
+                        @endif
+                    </div>
+                </div>
+            </section>
         </div>
     </div>
 
