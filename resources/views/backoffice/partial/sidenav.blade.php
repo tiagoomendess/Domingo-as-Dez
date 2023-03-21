@@ -39,6 +39,10 @@
                             <li><a class="waves-effect"
                                    href="{{ route('media.index') }}">{{ trans('models.media') }}</a></li>
                         @endif
+                        @if(Auth::user()->hasPermission('polls'))
+                            <li><a class="waves-effect"
+                                   href="{{ route('polls.index') }}">Sondagens</a></li>
+                        @endif
                     </ul>
                 </div>
             </li>

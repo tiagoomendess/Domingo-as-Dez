@@ -67,7 +67,8 @@ Route::resources([
     'gamegroups' => 'Resources\GameGroupController',
     'pages' => 'Resources\PageController',
     'partners' => 'Resources\PartnerController',
-    'info_reports' => 'Resources\InfoReportController'
+    'info_reports' => 'Resources\InfoReportController',
+    'polls' => 'Resources\PollController'
 ]);
 
 //Routes to javascript in backend
@@ -100,6 +101,15 @@ Route::get('/competicoes/{competition_slug}/{season_slug}/estatisticas', 'Front\
         'competition_slug' => '[a-z0-9\-]+',
         'season_slug' => '[0-9]{4}\-[0-9]{4}|[0-9]{4}'
     ]);
+
+// Sondagens
+Route::get('/sondagens/{slug}', 'Front\PollsController@show')->name('polls.front.show')->where([
+    'slug' => '[0-9a-z-]+'
+]);
+Route::put('/sondagens/{slug}', 'Front\PollsController@vote')->name('polls.front.vote')->where([
+    'slug' => '[0-9a-z-]+'
+]);
+
 Route::get('/transferencias', 'Front\TransfersController@index')->name('transfers');
 Route::get('/competicoes/{competition_slug}/{season_slug}/{group_slug}/{round}/{clubs_slug}', 'Front\GamesController@show')
     ->name('front.games.show')
