@@ -160,7 +160,7 @@ class PollsController extends Controller
             "poll$pollId",
             $voteId,
             576000,
-            "",
+            "/",
             config("app.env") == "production" ? "domingoasdez.com" : "localhost",
             true,
             false
