@@ -82,7 +82,7 @@ class PollsController extends Controller
 
     public function vote(Request $request, string $slug): RedirectResponse
     {
-        $poll = Poll::where('slug', $slug)->first();
+        $poll = Poll::where('slug', $slug)->where('visible', true)->first();
         if (empty($poll)) {
             abort(404);
         }
@@ -160,8 +160,8 @@ class PollsController extends Controller
             "poll$pollId",
             $voteId,
             576000,
-            url(""),
-            "localhost",
+            "/",
+            config("app.env") == "production" ? "domingoasdez.com" : "localhost",
             true,
             false
         );
