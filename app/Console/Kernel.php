@@ -6,6 +6,7 @@ use App\Console\Commands\shit;
 use App\Jobs\DeleteNotVerifiedAccounts;
 use App\Jobs\GenerateGameImage;
 use App\Jobs\ProcessDeleteRequest;
+use App\Jobs\ProcessPolls;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Symfony\Component\HttpKernel\Log\Logger;
@@ -34,6 +35,7 @@ class Kernel extends ConsoleKernel
         $schedule->job(new ProcessDeleteRequest())->daily();
         $schedule->job(new DeleteNotVerifiedAccounts())->everyMinute();
         $schedule->job(new GenerateGameImage())->everyMinute();
+        $schedule->job(new ProcessPolls())->everyMinute();
     }
 
     /**
