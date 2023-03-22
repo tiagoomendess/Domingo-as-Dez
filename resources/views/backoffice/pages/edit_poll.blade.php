@@ -54,7 +54,7 @@
         <!-- Close voting -->
         <div class="row">
             <div class="col s12">
-                <label>Fechar votação em:</label>
+                <label>Fechar votação a partir de:</label>
             </div>
             <div class="input-field col s7 m7 l3">
                 <input id="close_after_date" name="close_after_date" type="text" class="datepicker"

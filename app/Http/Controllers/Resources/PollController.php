@@ -66,6 +66,8 @@ class PollController extends Controller
 
             if(!empty($existingPoll)) {
                 $newSlug = $slug . "-$i";
+            } else {
+                break;
             }
         }
 
@@ -140,6 +142,7 @@ class PollController extends Controller
     public function update(Request $request, $id): RedirectResponse
     {
         $request->validate([
+            'question' => 'required|string|max:144',
             'show_results_after_date' => 'required|date',
             'show_results_after_time' => ["required", "string", "regex:/^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/"],
             'publish_after_date' => 'required|date',
@@ -170,6 +173,7 @@ class PollController extends Controller
         $showResultsAfter->addHours($showResultsAfterSplit[0]);
         $showResultsAfter->addMinutes($showResultsAfterSplit[1]);
 
+        $poll->question = $request->input('question');
         $poll->show_results_after = $showResultsAfter->format("Y-m-d H:i:s");
         $poll->publish_after = $publishAfter->format("Y-m-d H:i:s");
         $poll->close_after = $closeAfter->format("Y-m-d H:i:s");

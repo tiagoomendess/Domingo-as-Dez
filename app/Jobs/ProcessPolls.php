@@ -3,7 +3,6 @@
 namespace App\Jobs;
 
 use App\Poll;
-use App\Media;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -11,7 +10,6 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Intervention\Image\Image;
 use Intervention\Image\ImageManager;
 
 class ProcessPolls
@@ -98,7 +96,7 @@ class ProcessPolls
 
             } catch (\Exception $e) {
                 $failed++;
-                Log::error("Error generating image for poll $poll->id");
+                Log::error("Error generating image for poll $poll->id: $e");
             }
         }
 

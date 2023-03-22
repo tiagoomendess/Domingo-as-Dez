@@ -1,6 +1,6 @@
 <div class="card">
     <div class="card-content">
-        <h2 style="margin-bottom: 5px; font-size: 2rem; font-weight: 400; line-height: 2.1rem">{{ $poll->question }}</h2>
+        <h2 style="margin-bottom: 5px; font-size: 2rem; font-weight: 400; line-height: 2.2rem">{{ $poll->question }}</h2>
         <div class="divider"></div>
         <div class="vertical-spacer"></div>
         <div class="vertical-spacer"></div>
