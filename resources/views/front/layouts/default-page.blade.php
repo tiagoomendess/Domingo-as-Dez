@@ -1,15 +1,6 @@
 @extends('base')
 
 @section('head')
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-138219681-1"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-
-        gtag('config', 'UA-138219681-1');
-    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link type="text/css" rel="stylesheet" href="/materialize/css/materialize.min.css"  media="screen,projection"/>
@@ -27,6 +18,7 @@
     <meta name="theme-color" content="#ffffff">
     <meta property="og:site_name" content="{{ config('app.name') }}" />
     <meta property="fb:app_id" content="153482715435840" />
+    @include('front.partial.google_analytics')
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3518000096682897"
             crossorigin="anonymous"></script>
     <script>

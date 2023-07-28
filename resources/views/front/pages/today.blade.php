@@ -28,9 +28,6 @@
                  data-ad-slot="2210321320"
                  data-ad-format="horizontal"
                  data-full-width-responsive="true"></ins>
-            <script>
-                (adsbygoogle = window.adsbygoogle || []).push({});
-            </script>
         </div>
 
         <div class="row">
@@ -124,10 +121,6 @@
                      data-ad-slot="8596939730"
                      data-ad-format="vertical"
                      data-full-width-responsive="true"></ins>
-                <script>
-                    (adsbygoogle = window.adsbygoogle || []).push({});
-                </script>
-
             </div>
 
         </div>

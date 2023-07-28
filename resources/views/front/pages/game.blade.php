@@ -233,9 +233,6 @@
                          data-ad-slot="4747113072"
                          data-ad-format="horizontal"
                          data-full-width-responsive="true"></ins>
-                    <script>
-                        (adsbygoogle = window.adsbygoogle || []).push({});
-                    </script>
                 </div>
             </div>
         </div>
