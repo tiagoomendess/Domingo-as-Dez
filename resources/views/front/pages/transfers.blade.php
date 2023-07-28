@@ -36,6 +36,9 @@
                                  data-ad-slot="9373590543"
                                  data-ad-format="auto"
                                  data-full-width-responsive="true"></ins>
+                            <script>
+                                (adsbygoogle = window.adsbygoogle || []).push({});
+                            </script>
                         </div>
                     @endif
                     <div class="card">
@@ -120,6 +123,9 @@
                          data-ad-slot="7172832993"
                          data-ad-format="vertical"
                          data-full-width-responsive="true"></ins>
+                    <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
                 </div>
 
             </div>
