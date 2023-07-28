@@ -26,6 +26,9 @@
                              data-ad-slot="3091605842"
                              data-ad-format="horizontal"
                              data-full-width-responsive="true"></ins>
+                        <script>
+                            (adsbygoogle = window.adsbygoogle || []).push({});
+                        </script>
                     </div>
                 </div>
             </div>
@@ -46,6 +49,9 @@
                          data-ad-slot="9341798357"
                          data-ad-format="vertical"
                          data-full-width-responsive="true"></ins>
+                    <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
                 </div>
             </div>
         </div>
