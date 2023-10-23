@@ -223,8 +223,8 @@ class Audit extends SearchableModel {
         $audit->action = $action;
         $audit->model = $model;
         $audit->model_id = $model_id;
-        $audit->old_values = $oldValues ?? null;
-        $audit->new_values = $newValues ?? null;
+        $audit->old_values = $oldValues ? str_limit($oldValues, 65531) : null;
+        $audit->new_values = $newValues ? str_limit($newValues, 65531) : null;
         $audit->ip_address = $_COOKIE['ip'] ?? request()->getClientIp();
         $audit->user_agent = request()->userAgent();
         $audit->timezone = $_COOKIE['timezone'] ?? null;
