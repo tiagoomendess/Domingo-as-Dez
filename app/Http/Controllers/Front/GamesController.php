@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Front;
 
+use App\Audit;
 use App\Competition;
 use App\Game;
 use App\MvpVotes;
@@ -175,10 +176,13 @@ class GamesController extends Controller
         ]);
 
         $game = Game::findOrFail($request->input('game_id'));
+        $old_game = $game->toArray();
         $game->goals_home = $request->input('goals_home');
         $game->goals_away = $request->input('goals_away');
         $game->finished = (bool)$request->input('finished', false);;
         $game->save();
+
+        Audit::add(Audit::ACTION_UPDATE, 'Game', $old_game, $game->toArray());
 
         return redirect()->route('games.today_edit');
     }

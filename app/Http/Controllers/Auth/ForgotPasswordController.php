@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Audit;
 use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
@@ -66,6 +67,8 @@ class ForgotPasswordController extends Controller
         $response = $this->broker()->sendResetLink(
             $request->only('email')
         );
+
+        Audit::add(Audit::ACTION_FORGOT_PASSWORD, null, $user->toArray());
 
         return $response == Password::RESET_LINK_SENT
             ? $this->sendResetLinkResponse($response)

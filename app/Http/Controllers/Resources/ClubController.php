@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Resources;
 
+use App\Audit;
 use App\Club;
 use App\Media;
 use Illuminate\Http\Request;
@@ -106,6 +107,8 @@ class ClubController extends Controller
             'visible' => $visible,
         ]);
 
+        Audit::add(Audit::ACTION_CREATE, 'Club', null, $club->toArray());
+
         return redirect(route('clubs.show', ['club' => $club]));
     }
 
@@ -154,6 +157,7 @@ class ClubController extends Controller
         ]);
 
         $club = Club::findOrFail($id);
+        $old_club = $club->toArray();
 
         if($request->input('visible') == 'true')
             $visible = true;
@@ -193,6 +197,8 @@ class ClubController extends Controller
         $messages = new MessageBag();
         $messages->add('success', trans('success.model_edited', ['model_name' => trans('models.club')]));
 
+        Audit::add(Audit::ACTION_UPDATE, 'Club', $old_club, $club->toArray());
+
         return redirect(route('clubs.show', ['club' => $club]))->with(['popup_message' => $messages]);
     }
 
@@ -205,10 +211,13 @@ class ClubController extends Controller
     public function destroy($id)
     {
         $club = Club::findOrFail($id);
+        $old_club = $club->toArray();
         $club->delete();
 
         $messages = new MessageBag();
         $messages->add('success', trans('success.model_deleted', ['model_name' => trans('models.club')]));
+
+        Audit::add(Audit::ACTION_DELETE, 'Club', $old_club);
 
         return redirect(route('clubs.index'))->with(['popup_message' => $messages]);
     }

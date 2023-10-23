@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Resources;
 
 use App\Article;
+use App\Audit;
 use App\Media;
 use Facebook\Facebook;
 use Illuminate\Http\Request;
@@ -76,6 +77,10 @@ class ArticleController extends Controller
             $visible = false;
 
         $title = $request->input('title');
+        if (str_ends_with($title, '.') || str_ends_with($title, '!') || str_ends_with($title, '?')) {
+            $title = substr($title, 0, -1);
+        }
+
         $description = $request->input('description');
         $media_id = $request->input('selected_media_id');
         $text = $request->input('editor1');
@@ -101,6 +106,13 @@ class ArticleController extends Controller
             'visible' => $visible,
             'facebook_post_id' => null,
         ]);
+
+        Audit::add(
+            Audit::ACTION_CREATE,
+            'Article',
+            null,
+            $article->toArray()
+        );
 
         return redirect(route('articles.show', ['article' => $article]));
     }
@@ -148,6 +160,7 @@ class ArticleController extends Controller
         $messages = new MessageBag();
 
         $article = Article::findOrFail($id);
+        $old_article = $article->toArray();
         $user = Auth::user();
         if ($user->id != $article->user_id) {
             if(!$user->hasPermission('admin')) {
@@ -183,6 +196,13 @@ class ArticleController extends Controller
 
         $messages->add('success', trans('success.model_edited', ['model_name' => trans('models.article')]));
 
+        Audit::add(
+            Audit::ACTION_UPDATE,
+            'Article',
+            $old_article,
+            $article->toArray()
+        );
+
         return redirect(route('articles.show', ['article' => $article]))->with(['popup_message' => $messages]);
     }
 
@@ -194,6 +214,7 @@ class ArticleController extends Controller
     {
         $user = Auth::user();
         $article = Article::findOrFail($id);
+        $old_article = $article->toArray();
 
         if ($user->id != $article->user_id) {
             if(!$user->hasPermission('admin')) {
@@ -208,6 +229,8 @@ class ArticleController extends Controller
         $article->delete();
         $message = new MessageBag();
         $message->add('success', trans('success.model_deleted', ['model_name' => trans('models.article')]));
+
+        Audit::add(Audit::ACTION_DELETE, 'Article', $old_article);
 
         return redirect(route('articles.index'))->with(['popup_message' => $message]);
     }

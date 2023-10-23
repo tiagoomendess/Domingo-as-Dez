@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Resources;
 
+use App\Audit;
 use App\Permission;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -77,6 +78,8 @@ class UserController extends Controller
 
         $permission = Permission::find($request->input('permission_id'));
         $user = User::find($request->input('user_id'));
+        $old_user = $user->toArray();
+        $old_user['permissions'] = $user->permissions->toArray();
 
         if (!$user || !$permission)
             return response(404);
@@ -86,10 +89,14 @@ class UserController extends Controller
             $user->permissions()->attach($permission->id);
             $user->save();
 
+            $new_user = $user->toArray();
+            $new_user['permissions'] = $user->permissions->toArray();
+            $new_user['permissions'][] = $permission->toArray();
+
+            Audit::add(Audit::ACTION_UPDATE, 'User', $old_user,  $new_user);
         }
 
         return response(200);
-
     }
 
     public function removePermission(Request $request) {
@@ -101,6 +108,8 @@ class UserController extends Controller
 
         $permission = Permission::find($request->input('permission_id'));
         $user = User::find($request->input('user_id'));
+        $old_user = $user->toArray();
+        $old_user['permissions'] = $user->permissions->toArray();
 
         if (!$user || !$permission)
             return response(404);
@@ -108,10 +117,14 @@ class UserController extends Controller
         $user->permissions()->detach($permission->id);
         $user->save();
 
-        $new_permissions = $user->permissions;
+        $new_user = User::find($user->id);
+        $new_perms = $new_user->permissions->toArray();
+        $new_user = $new_user->toArray();
+        $new_user['permissions'] = $new_perms;
+
+        Audit::add(Audit::ACTION_UPDATE, 'User', $old_user,  $new_user);
 
         return response(200);
-
     }
 
     public function getPermissionsJson($id) {

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Resources;
 
+use App\Audit;
 use App\Transfer;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -78,6 +79,8 @@ class TransferController extends Controller
 
         ]);
 
+        Audit::add(Audit::ACTION_CREATE, 'Transfer', null, $transfer->toArray());
+
         return redirect(route('transfers.show', ['transfer' => $transfer]));
     }
 
@@ -122,6 +125,7 @@ class TransferController extends Controller
         ]);
 
         $transfer = Transfer::findOrFail($id);
+        $old_transfer = $transfer->toArray();
 
         if($request->input('visible') == 'true')
             $visible = true;
@@ -146,6 +150,8 @@ class TransferController extends Controller
         $messages = new MessageBag();
         $messages->add('success', trans('success.model_edited', ['model_name' => trans('models.transfer')]));
 
+        Audit::add(Audit::ACTION_UPDATE, 'Transfer', $old_transfer, $transfer->toArray());
+
         return redirect(route('transfers.show', ['transfer' => $transfer]))->with(['popup_message' => $messages]);
     }
 
@@ -158,11 +164,13 @@ class TransferController extends Controller
     public function destroy($id)
     {
         $transfer = Transfer::findOrFail($id);
+        $old_transfer = $transfer->toArray();
         $transfer->delete();
 
         $messages = new MessageBag();
         $messages->add('success', trans('success.model_deleted', ['model_name' => trans('models.transfer')]));
 
+        Audit::add(Audit::ACTION_DELETE, 'Transfer', $old_transfer);
         return redirect(route('transfers.index'))->with(['popup_message' => $messages]);
     }
 }

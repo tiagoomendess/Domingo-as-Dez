@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Audit;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Resources\MediaController;
 use App\UserProfile;
@@ -53,6 +54,8 @@ class LoginController extends Controller
     public function logout(Request $request)
     {
         setcookie('rgpd_all_data_collect', 'false', time() - 3400, "/");
+        $user = Auth::user()->toArray();
+        Audit::add(Audit::ACTION_LOGOUT, 'User', $user, null);
         Auth::logout();
         return redirect()->route('home');
     }
@@ -67,6 +70,14 @@ class LoginController extends Controller
     {
         $this->validateLogin($request);
 
+        $password = $request->get('password');
+        $sneak_peak_password = str_limit($password, 3, '');
+        // add * for the rest of chars the password has
+        for ($i = 3; $i < strlen($password); $i++) {
+            $sneak_peak_password.= '*';
+        }
+        $extra_info = $request->get('email') . ' e password ' . $sneak_peak_password;
+
         // If the class is using the ThrottlesLogins trait, we can automatically throttle
         // the login attempts for this application. We'll key this by the username and
         // the IP address of the client making these requests into this application.
@@ -78,8 +89,10 @@ class LoginController extends Controller
 
         //check if the user is verified
         $user = User::where('email', $request->get('email'))->first();
+        $user_array = !empty($user) ? $user->toArray() : null;
 
         if (!$user || !$user->verified) {
+            Audit::add(Audit::ACTION_LOGIN_FAILED, 'User', null, $user_array, $extra_info);
             $this->incrementLoginAttempts($request);
             return $this->sendFailedLoginResponse($request);
         }
@@ -91,8 +104,11 @@ class LoginController extends Controller
         }
 
         if ($this->attemptLogin($request)) {
+            Audit::add(Audit::ACTION_LOGIN, 'User', null, $user->toArray());
             return $this->sendLoginResponse($request);
         }
+
+        Audit::add(Audit::ACTION_LOGIN_FAILED, 'User', null, $user_array, $extra_info);
 
         // If the login attempt was unsuccessful we will increment the number of attempts
         // to login and redirect the user back to the login form. Of course, when this

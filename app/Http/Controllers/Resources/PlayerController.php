@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Resources;
 
+use App\Audit;
 use App\Media;
 use App\Player;
 use App\Transfer;
@@ -146,6 +147,8 @@ class PlayerController extends Controller
 
         }
 
+        Audit::add(Audit::ACTION_CREATE, 'Player', null, $player->toArray());
+
         return redirect(route('players.show', ['player' => $player]));
     }
 
@@ -198,6 +201,7 @@ class PlayerController extends Controller
         ]);
 
         $player = Player::findOrFail($id);
+        $old_player = $player->toArray();
 
         if($request->input('visible') == 'true')
             $visible = true;
@@ -256,6 +260,8 @@ class PlayerController extends Controller
         $messages = new MessageBag();
         $messages->add('success', trans('success.model_edited', ['model_name' => trans('models.player')]));
 
+        Audit::add(Audit::ACTION_UPDATE, 'Player', $old_player, $player->toArray());
+
         return redirect(route('players.show', ['player' => $player]))->with(['popup_message' => $messages]);
     }
 
@@ -268,10 +274,13 @@ class PlayerController extends Controller
     public function destroy($id)
     {
         $player = Player::findOrFail($id);
+        $old_player = $player->toArray();
         $player->delete();
 
         $messages = new MessageBag();
         $messages->add('success', trans('success.model_deleted', ['model_name' => trans('models.player')]));
+
+        Audit::add(Audit::ACTION_DELETE, 'Player', $old_player);
 
         return redirect(route('players.index'))->with(['popup_message' => $messages]);
     }

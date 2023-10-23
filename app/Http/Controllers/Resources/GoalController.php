@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Resources;
 
+use App\Audit;
 use App\Game;
 use App\Goal;
 use App\Player;
@@ -40,7 +41,6 @@ class GoalController extends Controller
      */
     public function create(Request $request)
     {
-
         $game = null;
         $team = null;
 
@@ -124,6 +124,8 @@ class GoalController extends Controller
             'visible' => $visible,
             'minute' => $minute,
         ]);
+
+        Audit::add(Audit::ACTION_CREATE, 'Goal', null, $goal->toArray());
 
         return redirect(route('goals.show', ['goal' => $goal]));
 
