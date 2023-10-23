@@ -104,4 +104,6 @@ return [
     'info_reports' => 'Informações',
     'info_report' => 'Informação',
     'no_info_reports' => 'Não existem informações criadas',
+    'audit' => 'Auditoria',
+    'no_audits' => 'Não existem auditorias',
 ];

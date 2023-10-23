@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Resources;
 
+use App\Audit;
 use App\Media;
 use Illuminate\Contracts\Session\Session;
 use Illuminate\Http\File;
@@ -20,7 +21,6 @@ class MediaController extends Controller
 
     public function __construct()
     {
-
         $this->middleware('auth');
         $this->middleware('permission:media.edit')->only(['edit', 'update']);
         $this->middleware('permission:articles.create')->only(['mediaQuery']);
@@ -182,6 +182,8 @@ class MediaController extends Controller
 
         $message = new MessageBag();
         $message->add('success', trans('success.model_added', ['model_name' => trans('models.media')]));
+
+        Audit::add(Audit::ACTION_CREATE, "Media", null, $media->toArray());
 
         return redirect()->route('media.show', ['media' => $media])->with(['popup_message' => $message]);
     }

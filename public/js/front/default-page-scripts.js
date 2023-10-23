@@ -1,7 +1,20 @@
 $(document).ready(function(){
     handleNavbarMobileTitle();
     $('#modal_logout').modal();
-    
+    var lang = navigator.language || navigator.userLanguage;
+    document.cookie = "lang=" + lang;
+
+    if (document.cookie.indexOf("ip=") < 0) {
+        getIp("https://api.my-ip.io/v1/ip", async (ip) => {
+            if (ip) {
+                document.cookie = "ip=" + ip;
+            }
+        });
+    }
+
+    if (document.cookie.indexOf("timezone=") < 0) {
+        document.cookie = "timezone=" + Intl.DateTimeFormat().resolvedOptions().timeZone;
+    }
 });
 
 $('.button-collapse').sideNav({
@@ -62,4 +75,18 @@ function makeRequest(url, data, method, callback) {
         error: function() { console.log('failed get request to ' + url) }
     });
 
+}
+
+async function getIp(theUrl, callback) {
+    let xmlHttp = new XMLHttpRequest();
+    xmlHttp.onreadystatechange = function () {
+        if (xmlHttp.readyState === 4) {
+            if (xmlHttp.status === 200)
+                callback(xmlHttp.responseText)
+            else
+                callback(null)
+        }
+    }
+    xmlHttp.open("GET", theUrl, true);
+    xmlHttp.send(null);
 }

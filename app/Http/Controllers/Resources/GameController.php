@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Resources;
 
+use App\Audit;
 use App\Club;
 use App\Game;
 use App\GameGroup;
@@ -137,6 +138,8 @@ class GameController extends Controller
 
         }
 
+        Audit::add(Audit::ACTION_CREATE, 'Game', null, $game->toArray());
+
         return redirect(route('games.show', ['game' => $game]));
 
     }
@@ -196,6 +199,7 @@ class GameController extends Controller
         ]);
 
         $game = Game::findOrFail($id);
+        $old_game = $game->toArray();
 
         $carbon = new Carbon($request->input('date'), $request->input('timezone'));
         $splited = explode(':', $request->input('hour'));
@@ -300,6 +304,8 @@ class GameController extends Controller
         $messages = new MessageBag();
         $messages->add('success', trans('success.model_edited', ['model_name' => trans('models.game')]));
 
+        Audit::add(Audit::ACTION_UPDATE, 'Game', $old_game, $game->toArray());
+
         return redirect(route('games.show', ['game' => $game]))->with(['popup_message' => $messages]);
     }
 
@@ -312,11 +318,13 @@ class GameController extends Controller
     public function destroy($id)
     {
         $game = Game::findOrFail($id);
+        $old_game = $game->toArray();
         $game->delete();
 
         $messages = new MessageBag();
         $messages->add('success', trans('success.model_deleted', ['model_name' => trans('models.game')]));
 
+        Audit::add(Audit::ACTION_DELETE, 'Game', $old_game);
         return redirect(route('games.index'))->with(['popup_message' => $messages]);
     }
 

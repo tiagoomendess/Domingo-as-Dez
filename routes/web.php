@@ -41,6 +41,7 @@ Route::get('/games/import', 'Resources\GameController@showImportPage')->name('ga
 Route::post('/games/import', 'Resources\GameController@importGames')->name('games.import_games');
 Route::post('/settings/change', 'SettingsController@changeSetting')->name('settings.change');
 Route::post('/articles/{article}/post-on-facebook', 'Resources\ArticleController@postOnFacebook')->name('articles.post_on_facebook');
+Route::get('/audit', 'Backoffice\AuditController@index')->name('audit.index');
 
 //CKEditor
 Route::post('/ckeditor/upload', 'Backoffice\CKEditorController@upload')->name('ckeditor.upload');

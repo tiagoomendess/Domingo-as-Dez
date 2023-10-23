@@ -72,7 +72,7 @@
                         event.preventDefault();
                         $('#submit_btn').addClass('disabled').html("A Enviar <i class=\"material-icons right\">send</i>");
 
-                        getIp("https://api.my-ip.io/ip", async (ip) => {
+                        getIp("https://api.my-ip.io/v1/ip", async (ip) => {
                             if (ip) {
                                 let ipInput = $(`<input type="hidden" name="ip" value="${ip}">`)
                                 ipInput.appendTo('#vote_form')
