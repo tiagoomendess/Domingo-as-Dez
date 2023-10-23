@@ -20,8 +20,8 @@ class CreateAuditTable extends Migration
             $table->string('action', 25);
             $table->string('model', 50)->nullable();
             $table->unsignedBigInteger('model_id')->nullable();
-            $table->json('old_values')->nullable();
-            $table->json('new_values')->nullable();
+            $table->text('old_values')->nullable();
+            $table->text('new_values')->nullable();
             $table->string('ip_address', 45)->nullable();
             $table->string('user_agent')->nullable();
             $table->string('timezone', 30)->nullable();
