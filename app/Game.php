@@ -23,7 +23,8 @@ class Game extends Model
         'visible',
         'postponed',
         'image',
-        'generate_image'
+        'generate_image',
+        'scoreboard_updates',
     ];
 
     protected $guarded = [];
