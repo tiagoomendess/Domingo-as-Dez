@@ -100,5 +100,6 @@ return [
     'timezone' => 'Timezone',
     'selec_timezone' => 'Escolha uma timezone',
     'best' => 'Melhor',
-    'worst' => 'Pior'
+    'worst' => 'Pior',
+    'scoreboard_updates' => 'Atualizações de Placard',
 ];

@@ -113,7 +113,8 @@ class GameController extends Controller
             'date' => Carbon::createFromTimestamp($carbon->timestamp)->format("Y-m-d H:i:s"),
             'playground_id' => $playground_id,
             'postponed' => $postponed,
-            'generate_image' => true
+            'generate_image' => true,
+            'scoreboard_updates' => true,
         ]);
 
         //If there were referees set
@@ -195,7 +196,8 @@ class GameController extends Controller
             'types_id' => 'nullable|array|min:1|max:8',
             'types_id.*' => 'required|integer|exists:referee_types,id',
             'timezone' => 'required|string|max:20',
-            'postponed' => 'required'
+            'postponed' => 'required',
+            'scoreboard_updates' => 'required',
         ]);
 
         $game = Game::findOrFail($id);
@@ -210,6 +212,7 @@ class GameController extends Controller
         $visible = $request->input('visible') == 'true';
         $finished = $request->input('finished') == 'true';
         $postponed = $request->input('postponed') == 'true';
+        $scoreboard_updates = $request->input('scoreboard_updates') == 'true';
 
         $home_team_id = $request->input('home_team_id');
         $away_team_id = $request->input('away_team_id');
@@ -235,6 +238,7 @@ class GameController extends Controller
         $game->finished = $finished;
         $game->postponed = $postponed;
         $game->generate_image = true;
+        $game->scoreboard_updates = $scoreboard_updates;
 
         $game->save();
 

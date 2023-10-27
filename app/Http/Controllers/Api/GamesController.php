@@ -4,15 +4,22 @@ namespace App\Http\Controllers\Api;
 
 use App\Game;
 use App\Http\Controllers\Controller;
+use App\Variable;
 use Carbon\Carbon;
 use DateTime;
 use Illuminate\Http\Request;
-use stdClass;
-use function foo\func;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Validator;
 
 class GamesController extends Controller
 {
-    public function show($id) {
+    public function __construct()
+    {
+        $this->middleware('authenticate.access_token')->only(['scoreboardUpdated']);
+    }
+
+    public function show($id)
+    {
 
         $game = Game::findOrFail($id);
 
@@ -65,7 +72,8 @@ class GamesController extends Controller
         return response()->json($data_object);
     }
 
-    public function getLiveMatches() {
+    public function getLiveMatches()
+    {
         $return_object = new \stdClass();
         $return_object->data = [];
 
@@ -90,13 +98,13 @@ class GamesController extends Controller
 
                 $new_game = new \stdClass();
 
-                preg_match("/[A-Z\Á][a-z\ç\ã\õ\á]+$/", $game->home_team->club->name,$small_name_match);
+                preg_match("/[A-Z\Á][a-z\ç\ã\õ\á]+$/", $game->home_team->club->name, $small_name_match);
                 if (count($small_name_match) > 0)
                     $new_game->home_club_name_small = str_replace("...", "", str_limit($small_name_match[0], 3));
                 else
                     $new_game->home_club_name_small = str_replace("...", "", str_limit($game->home_team->club->name, 3));
 
-                preg_match("/[A-Z\Á][a-z\ç\ã\õ\á]+$/", $game->away_team->club->name,$small_name_match);
+                preg_match("/[A-Z\Á][a-z\ç\ã\õ\á]+$/", $game->away_team->club->name, $small_name_match);
                 if (count($small_name_match) > 0)
                     $new_game->away_club_name_small = str_replace("...", "", str_limit($small_name_match[0], 3));
                 else
@@ -183,7 +191,8 @@ class GamesController extends Controller
         return response()->json($return_object);
     }
 
-    public function isLive() {
+    public function isLive()
+    {
 
         $data = new \stdClass();
 
@@ -196,8 +205,9 @@ class GamesController extends Controller
 
     }
 
-    public function updateScoreLiveMatch(Request $request) {
-
+    public function updateScoreLiveMatch(Request $request)
+    {
+        abort(404); //not in use, but don't want to throw away the code
         $local_token = 'inuVeIZB5IjoxXiMDdnf';
         $out = new \stdClass();
         $out->success = false;
@@ -229,8 +239,8 @@ class GamesController extends Controller
 
         foreach ($games as $game) {
 
-            similar_text(strtolower($game->home_team->club->name), $home_club,$percent1);
-            similar_text(strtolower($game->away_team->club->name), $away_club,$percent2);
+            similar_text(strtolower($game->home_team->club->name), $home_club, $percent1);
+            similar_text(strtolower($game->away_team->club->name), $away_club, $percent2);
 
             $out->percents = $percent1 . ' - ' . $percent2;
 
@@ -250,10 +260,11 @@ class GamesController extends Controller
 
     }
 
-    public function todayMatches() {
+    public function todayMatches()
+    {
         $now = Carbon::now();
-        $begin = clone($now)->startOfDay();
-        $end = clone($now)->endOfDay();
+        $begin = clone ($now)->startOfDay();
+        $end = clone ($now)->endOfDay();
 
         $games = Game::where('date', '>', $begin)
             ->where('date', '<', $end)
@@ -275,5 +286,50 @@ class GamesController extends Controller
         }
 
         return response()->json($results);
+    }
+
+    public function scoreboardUpdated(Request $request, Game $game)
+    {
+        if (empty($game)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Jogo não encontrado!'
+            ], 404);
+        }
+
+        $validator = Validator::make($request->all(), [
+            'home_score' => 'required|min:0|max:99|integer',
+            'away_score' => 'required|min:0|max:99|integer',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Dados inválidos!'
+            ], 400);
+        }
+
+        if (!$game->started() || $game->finished) {
+            return response()->json([
+                'success' => false,
+                'message' => 'O jogo ainda não começou ou já terminou!'
+            ], 400);
+        }
+
+        if (!$game->scoreboard_updates) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Este jogo não aceita atualizações de resultado via placard!'
+            ], 400);
+        }
+
+        $game->goals_home = $request->json('home_score');
+        $game->goals_away = $request->json('away_score');
+        $game->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Resultado atualizado com sucesso!'
+        ]);
     }
 }

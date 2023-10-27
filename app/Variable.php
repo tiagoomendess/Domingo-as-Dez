@@ -8,8 +8,14 @@ class Variable extends Model
 {
     protected $fillable = ['name', 'value'];
 
-    public static function get($name) {
-        return Variable::where('name', $name)->get();
+    public static function getValue($name) {
+
+        $var = Variable::where('name', $name)->first();
+        if (empty($var)) {
+            return null;
+        }
+
+        return $var->value;
     }
 
     public static function set($name, $value) {
