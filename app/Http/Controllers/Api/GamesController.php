@@ -273,8 +273,8 @@ class GamesController extends Controller
             ->get();
 
         $results = [];
+        $data_object = new \stdClass();
         foreach ($games as $game) {
-            $data_object = new \stdClass();
             $data_object->id = $game->id;
             $data_object->home_score = $game->getHomeScore();
             $data_object->away_score = $game->getAwayScore();
@@ -284,6 +284,30 @@ class GamesController extends Controller
             $data_object->away_name = $game->away_team->club->name;
             $results[] = $data_object;
         }
+
+        if (count($results) > 0) {
+            return response()->json($results);
+        }
+
+        $test_game_id = Variable::getValue('test_game_id');
+        if (empty($test_game_id)) {
+            return response()->json($results);
+        }
+
+        $testGame = Game::find($test_game_id);
+        if (empty($testGame)) {
+            return response()->json($results);
+        }
+
+        // Return list with single test game
+        $data_object->id = $testGame->id;
+        $data_object->home_score = $testGame->getHomeScore();
+        $data_object->away_score = $testGame->getAwayScore();
+        $data_object->home_emblem = $testGame->home_team->club->getEmblem();
+        $data_object->away_emblem = $testGame->away_team->club->getEmblem();
+        $data_object->home_name = $testGame->home_team->club->name;
+        $data_object->away_name = $testGame->away_team->club->name;
+        $results[] = $data_object;
 
         return response()->json($results);
     }

@@ -6,6 +6,7 @@ use App\Audit;
 use App\Variable;
 use Closure;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 
 class AuthenticateAccessToken
 {
@@ -27,6 +28,7 @@ class AuthenticateAccessToken
         }
 
         $access_token = str_replace('Bearer', '', $access_token);
+        $access_token = str_replace('\"', '', $access_token);
         $access_token = trim($access_token);
 
         $token = Cache::store('file')->get('api_access_token', null);
@@ -40,6 +42,7 @@ class AuthenticateAccessToken
         }
 
         if ($access_token != $token) {
+            Log::warn("Authentication via api access token failed");
             Audit::add(Audit::ACTION_LOGIN_FAILED, 'Variable', null, $access_token);
             return response()->json([
                 'success' => false,
