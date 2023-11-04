@@ -273,8 +273,8 @@ class GamesController extends Controller
             ->get();
 
         $results = [];
-        $data_object = new \stdClass();
         foreach ($games as $game) {
+            $data_object = new \stdClass();
             $data_object->id = $game->id;
             $data_object->home_score = $game->getHomeScore();
             $data_object->away_score = $game->getAwayScore();
