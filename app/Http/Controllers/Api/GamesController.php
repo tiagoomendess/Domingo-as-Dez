@@ -300,6 +300,7 @@ class GamesController extends Controller
         }
 
         // Return list with single test game
+        $data_object = new \stdClass();
         $data_object->id = $testGame->id;
         $data_object->home_score = $testGame->getHomeScore();
         $data_object->away_score = $testGame->getAwayScore();
