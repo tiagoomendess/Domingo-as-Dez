@@ -5,8 +5,8 @@ namespace App\Http\Middleware;
 use App\Audit;
 use App\Variable;
 use Closure;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Cache;
 
 class AuthenticateAccessToken
 {
@@ -42,7 +42,7 @@ class AuthenticateAccessToken
         }
 
         if ($access_token != $token) {
-            Log::warn("Authentication via api access token failed");
+            Log::error("Authentication via api access token failed");
             Audit::add(Audit::ACTION_LOGIN_FAILED, 'Variable', null, $access_token);
             return response()->json([
                 'success' => false,

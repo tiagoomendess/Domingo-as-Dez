@@ -7,6 +7,7 @@ use App\Competition;
 use App\Game;
 use App\MvpVotes;
 use App\Player;
+use App\ScoreReport;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -158,8 +159,32 @@ class GamesController extends Controller
             ->orderBy('date', 'asc')
             ->get();
 
+        $score_reports = [];
+        // Get score reports for each game
+        foreach ($games as $game) {
+            $results = [];
+            $game_score_reports = ScoreReport::where('game_id', $game->id)
+                ->orderBy('id', 'desc')
+                ->limit(50)
+                ->get();
+
+            foreach ($game_score_reports as $game_score_report) {
+                $key = $game_score_report->home_score . '-' . $game_score_report->away_score;
+                if (!isset($results[$key]))
+                    $results[$key] = 1;
+                else
+                    $results[$key]++;
+            }
+
+            // get only the first 3 elements
+            $results = array_slice($results, 0, 3);
+
+            $score_reports[$game->id] = $results;
+        }
+
         return view('front.pages.today_edit', [
-            'games' => $games
+            'games' => $games,
+            'score_reports' => $score_reports
         ]);
     }
 
