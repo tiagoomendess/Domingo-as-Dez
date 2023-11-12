@@ -336,6 +336,13 @@ class GamesController extends Controller
             ], 400);
         }
 
+        if (!$game->started() || $game->finished) {
+            return response()->json([
+                'success' => false,
+                'message' => 'O jogo ainda não começou ou já terminou!'
+            ], 400);
+        }
+
         $home_score = $request->json('home_score');
         $away_score = $request->json('away_score');
         $current_home_score = $game->getHomeScore();
@@ -358,25 +365,18 @@ class GamesController extends Controller
             ]);
         }
 
-        if ($home_score == $current_home_score && $away_score == $current_away_score) {
-            return response()->json([
-                'success' => true,
-                'message' => 'O resultado já é o que foi enviado, atualização desnecessária!'
-            ], 304);
-        }
-
-        if (!$game->started() || $game->finished) {
-            return response()->json([
-                'success' => false,
-                'message' => 'O jogo ainda não começou ou já terminou!'
-            ], 400);
-        }
-
         if (!$game->scoreboard_updates) {
             return response()->json([
                 'success' => false,
                 'message' => 'Este jogo não aceita atualizações de resultado via placard!'
             ], 400);
+        }
+
+        if ($home_score == $current_home_score && $away_score == $current_away_score) {
+            return response()->json([
+                'success' => true,
+                'message' => 'O resultado já é o que foi enviado, atualização desnecessária!'
+            ], 304);
         }
 
         $game->goals_home = $home_score;
