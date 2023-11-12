@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Api;
 
 use App\Game;
 use App\Http\Controllers\Controller;
+use App\ScoreReport;
 use App\Variable;
 use Carbon\Carbon;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 class GamesController extends Controller
@@ -334,6 +336,35 @@ class GamesController extends Controller
             ], 400);
         }
 
+        $home_score = $request->json('home_score');
+        $away_score = $request->json('away_score');
+        $current_home_score = $game->getHomeScore();
+        $current_away_score = $game->getAwayScore();
+
+        $five_minutes_ago = Carbon::now()->subMinutes(5)->toDateTimeString();
+        $existing_report = ScoreReport::where('game_id', $game->id)
+            ->where('home_score', $home_score)
+            ->where('away_score', $away_score)
+            ->where('source', 'placard')
+            ->where('created_at', '>', $five_minutes_ago)
+            ->count();
+
+        if (empty($existing_report)) {
+            ScoreReport::create([
+                'game_id' => $game->id,
+                'home_score' => $home_score,
+                'away_score' => $away_score,
+                'source' => 'placard'
+            ]);
+        }
+
+        if ($home_score == $current_home_score && $away_score == $current_away_score) {
+            return response()->json([
+                'success' => true,
+                'message' => 'O resultado já é o que foi enviado, atualização desnecessária!'
+            ], 304);
+        }
+
         if (!$game->started() || $game->finished) {
             return response()->json([
                 'success' => false,
@@ -348,8 +379,8 @@ class GamesController extends Controller
             ], 400);
         }
 
-        $game->goals_home = $request->json('home_score');
-        $game->goals_away = $request->json('away_score');
+        $game->goals_home = $home_score;
+        $game->goals_away = $away_score;
         $game->save();
 
         return response()->json([

@@ -21,21 +21,36 @@
                                 @foreach($games as $game)
                                     <li>
                                         <div class="row">
-                                            <form method="POST" class="col s12" action="{{ route('games.today_update_score') }}" id="game_{{ $game->id }}">
+                                            <form method="POST" class="col s12"
+                                                  action="{{ route('games.today_update_score') }}"
+                                                  id="game_{{ $game->id }}">
                                                 {{ csrf_field() }}
                                                 <div class="row center">
                                                     <input type="hidden" name="game_id" value="{{ $game->id }}"/>
                                                     <div class="col s3">
-                                                        <img style="width: 100%; margin-top: 5px" src="{{ $game->home_team->club->getEmblem() }}" alt="">
+                                                        <img style="width: 100%; margin-top: 5px"
+                                                             src="{{ $game->home_team->club->getEmblem() }}" alt="">
                                                     </div>
-                                                    <div class="input-field col s3">
-                                                        <input class="center" type="text" name="goals_home" value="{{ $game->getHomeScore() }}"/>
-                                                    </div>
-                                                    <div class="input-field col s3">
-                                                        <input class="center" type="text" name="goals_away" value="{{ $game->getAwayScore() }}"/>
+                                                    <div class="col s6">
+                                                        <div class="input-field col s6">
+                                                            <input class="center" type="text" name="goals_home"
+                                                                   value="{{ $game->getHomeScore() }}"/>
+                                                        </div>
+                                                        <div class="input-field col s6">
+                                                            <input class="center" type="text" name="goals_away"
+                                                                   value="{{ $game->getAwayScore() }}"/>
+                                                        </div>
+                                                        <div class="col s12">
+                                                            @if(!empty($score_reports[$game->id]))
+                                                                @foreach($score_reports[$game->id] as $key => $value)
+                                                                    <small style="color: #5d5d5d">&nbsp;{{ $key }}({{ $value }})&nbsp;</small>
+                                                                @endforeach
+                                                            @endif
+                                                        </div>
                                                     </div>
                                                     <div class="col s3">
-                                                        <img style="width: 100%; margin-top: 5px" src="{{ $game->away_team->club->getEmblem() }}" alt="">
+                                                        <img style="width: 100%; margin-top: 5px"
+                                                             src="{{ $game->away_team->club->getEmblem() }}" alt="">
                                                     </div>
                                                 </div>
                                                 <div class="row">
