@@ -287,10 +287,6 @@ class GamesController extends Controller
             $results[] = $data_object;
         }
 
-        if (count($results) > 0) {
-            return response()->json($results);
-        }
-
         $test_game_id = Variable::getValue('test_game_id');
         if (empty($test_game_id)) {
             return response()->json($results);
