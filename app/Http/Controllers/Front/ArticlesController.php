@@ -16,14 +16,17 @@ class ArticlesController extends Controller
     public function index()
     {
 
-        $articles = Article::where('visible', true)->orderBy('date', 'desc')->paginate(8);
+        $articles = Article::where('visible', true)
+            ->orderBy('date', 'desc')
+            ->orderBy('id', 'desc')
+            ->paginate(8);
 
         return view('front.pages.articles', ['articles' => $articles]);
     }
 
     public function show($year, $month, $day, $slug)
     {
-        if ($year < 1070)
+        if ($year < 1970)
             return abort(404);
         if ($month < 1 || $month > 12)
             return abort(404);
@@ -76,7 +79,5 @@ class ArticlesController extends Controller
             'comments' => $comments,
             'user' => Auth::user()
         ]);
-
-
     }
 }

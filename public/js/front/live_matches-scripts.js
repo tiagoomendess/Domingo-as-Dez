@@ -15,9 +15,14 @@ function updateMatches(response) {
     live_matches_element.empty();
 
     if (response.data.length < 1) {
-        live_matches_element.append($('<p class="center flow-text">Não existem jogos a decorrer. Clica <a href="/hoje">aqui</a> ' +
-            'para consultar todos os jogos e resultados para o dia de hoje</p>'))
+        live_matches_element.append($('<p class="center flow-text">' +
+            'Não existem jogos a decorrer, vai ser redirecionado para página com todos os resultados de hoje. ' +
+            'Clique <a href="/hoje">aqui</a> caso não seja redirecionado automaticamente</p>'))
         $('#live_matches_caption').attr('class', 'hide');
+        // Redirect for today matches page
+        setTimeout(function () {
+            window.location.href = '/hoje';
+        }, 2000)
     } else {
         $('#live_matches_caption').removeClass('hide');
     }
