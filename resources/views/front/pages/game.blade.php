@@ -114,6 +114,13 @@
                                     - {{ $game->getAwayScore() }}</span>
                             @endif
 
+                            @if($game->allowScoreReports())
+                                <a href="{{ route('score_reports.create', ['game' => $game, 'returnTo' => \Request::url()]) }}"
+                                   style="text-decoration: underline; color: white; margin-top: 25px">
+                                    Resultado Errado?
+                                </a>
+                            @endif
+
                             @if($game->finished)
                                 @if($game->decidedByPenalties())
                                     <span id="penalties">({{ trans('front.after_penalties', ['penalties_home' => $game->penalties_home, 'penalties_away' => $game->penalties_away]) }}
