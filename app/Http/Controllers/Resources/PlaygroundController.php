@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Resources;
 
 use App\Playground;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\MessageBag;
+use Illuminate\View\View;
 
 class PlaygroundController extends Controller
 {
@@ -121,12 +123,17 @@ class PlaygroundController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return View
      */
     public function edit($id)
     {
         $playground = Playground::findOrFail($id);
-        return view('backoffice.pages.edit_playground', ['playground' => $playground]);
+
+        return view('backoffice.pages.edit_playground', [
+            'playground' => $playground,
+            'latitude' => $playground->getLatitude(),
+            'longitude' => $playground->getLongitude(),
+        ]);
     }
 
     /**
@@ -134,7 +141,7 @@ class PlaygroundController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return RedirectResponse
      */
     public function update(Request $request, $id)
     {
@@ -148,6 +155,8 @@ class PlaygroundController extends Controller
             'picture' => 'nullable|image|max:20000',
             'obs' => 'nullable|string|max:1000|min:1',
             'visible' => 'required',
+            'address_latitude' => 'numeric|nullable',
+            'address_longitude' => 'numeric|nullable',
         ]);
 
         $playground = Playground::findOrFail($id);
@@ -183,14 +192,13 @@ class PlaygroundController extends Controller
         $playground->capacity = $capacity;
         $playground->obs = $obs;
         $playground->visible = $visible;
-
+        $playground->location = $playground->toPoint($request->input('address_latitude'), $request->input('address_longitude'));
         $playground->save();
 
         $messages = new MessageBag();
         $messages->add('success', trans('success.model_edited', ['model_name' => trans('models.playground')]));
 
         return redirect(route('playgrounds.show', ['playground' => $playground]))->with(['popup_message' => $messages]);
-
     }
 
     /**

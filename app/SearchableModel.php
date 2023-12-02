@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Validator;
 
-class SearchableModel extends Model
+class SearchableModel extends BaseModel
 {
     public static function search(array $parameters)
     {
