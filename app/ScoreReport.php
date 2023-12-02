@@ -7,7 +7,18 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class ScoreReport extends Model
 {
-    protected $fillable = ['user_id', 'game_id', 'home_score', 'away_score', 'source', 'ip_address', 'user_agent'];
+    protected $fillable = [
+        'user_id',
+        'game_id',
+        'home_score',
+        'away_score',
+        'source',
+        'ip_address',
+        'user_agent',
+        'location',
+        'location_accuracy',
+        'uuid',
+    ];
 
     protected $guarded = [];
 

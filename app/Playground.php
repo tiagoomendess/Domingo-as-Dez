@@ -4,7 +4,7 @@ namespace App;
 
 class Playground extends SearchableModel
 {
-    protected $fillable = ['club_id', 'name', 'surface', 'width', 'height', 'capacity', 'picture', 'visible'];
+    protected $fillable = ['club_id', 'name', 'surface', 'width', 'height', 'capacity', 'picture', 'visible', 'location'];
 
     protected $guarded = [];
 

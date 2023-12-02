@@ -50,3 +50,37 @@
         <span class="caption">{{ trans('front.finished') }}</span>
     </div>
 </div>
+
+<!-- Modal Structure -->
+<div id="score_update_modal" class="modal">
+    <div class="modal-content" style="padding-bottom: 0">
+        <h5 class="center">Resultado errado?</h5>
+        <div class="row">
+            <div class="col s12 center" style="margin-bottom: 20px">
+                <div class="divider"></div>
+            </div>
+            <div class="col s6 center">
+                <img style="width: 50%" id="score_update_modal_home_team_img" src="" alt="">
+            </div>
+            <div class="col s6 center">
+                <img style="width: 50%" id="score_update_modal_away_team_img" src="" alt="">
+            </div>
+            <div class="col s12 center">
+                <p id="score_update_modal_desc"></p>
+            </div>
+            <div class="col s12 center">
+                <a id="send_score_report_btn" href="#" class="waves-effect green darken-3 waves-light btn">Enviar Resultado <i class="material-icons left">event</i></a>
+            </div>
+        </div>
+
+        <div class="row no-margin-bottom">
+            <div class="col s12 center">
+                <div class="divider"></div>
+            </div>
+        </div>
+
+    </div>
+    <div class="modal-footer" style="">
+        <a href="javascript:void(0)" class="modal-action modal-close waves-effect btn-flat">Fechar</a>
+    </div>
+</div>

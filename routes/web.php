@@ -31,6 +31,8 @@ Route::get('/info', 'Front\InfoReportsController@create')->name('info.create');
 Route::post('/info', 'Front\InfoReportsController@store')->name('info.store');
 Route::post('/info/show', 'Front\InfoReportsController@show')->name('info.show');
 Route::post('/info/delete', 'Front\InfoReportsController@delete')->name('info.delete');
+Route::get('/score-reports/{game}', 'Front\ScoreReportsController@create')->name('score_reports.create');
+Route::post('/score-reports/{game}', 'Front\ScoreReportsController@store')->name('score_reports.store');
 
 Route::get('/home', 'Front\HomePageController@home')->name('home');
 

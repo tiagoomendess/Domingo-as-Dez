@@ -1,5 +1,6 @@
 $(document).ready(function(){
     console.log('Live Matches scripts loaded!');
+    $('.modal').modal();
 });
 
 function start() {
@@ -8,8 +9,9 @@ function start() {
     liveMatches();
 }
 
-function updateMatches(response) {
+let games = {};
 
+function updateMatches(response) {
     console.log('Updating Matches...');
     var live_matches_element = $('#live_matches');
     live_matches_element.empty();
@@ -27,6 +29,8 @@ function updateMatches(response) {
         $('#live_matches_caption').removeClass('hide');
     }
 
+    games = {};
+
     for (var i = 0; i < response.data.length; i++) {
 
         var new_group = $('#group_template').clone();
@@ -36,9 +40,10 @@ function updateMatches(response) {
 
         for (var j = 0; j < response.data[i].games.length; j++) {
 
-            var new_game = new_group.find('#match_template').clone();
+            games[response.data[i].games[j].id] = response.data[i].games[j];
 
-            new_game.attr('href', response.data[i].games[j].game_link);
+            var new_game = new_group.find('#match_template').clone();
+            new_game.attr('onclick', `handleGameClick(${response.data[i].games[j].id})`);
             new_game.find('.home-club .right span:eq(0)').text(response.data[i].games[j].home_club_name);
             new_game.find('.home-club .right span:eq(1)').text(response.data[i].games[j].home_club_name_small);
             new_game.find('.home-club .right img').attr('src', response.data[i].games[j].home_club_emblem);
@@ -72,7 +77,18 @@ function updateMatches(response) {
         new_group.removeClass('hide');
         new_group.appendTo(live_matches_element);
     }
+}
 
+function handleGameClick(game_id) {
+    let game = games[game_id];
+    let current_url = encodeURIComponent(window.location.href);
+
+    $('#send_score_report_btn').attr('href', `/score-reports/${game_id}?returnTo=${current_url}`);
+    $('#score_update_modal_home_team_img').attr('src', game.home_club_emblem);
+    $('#score_update_modal_away_team_img').attr('src', game.away_club_emblem);
+    $('#score_update_modal_desc').text(`O resultado de ${game.home_score} - ${game.away_score} entre ${game.home_club_name} e ${game.away_club_name} não está correto?`);
+
+    $('#score_update_modal').modal('open');
 }
 
 function liveMatches() {
@@ -82,8 +98,7 @@ function liveMatches() {
         console.log('Updating matches...');
         makeGetRequest('/api/games/live', {}, updateMatches);
 
-    }, 15000);
-
+    }, 10000);
 }
 
 start();

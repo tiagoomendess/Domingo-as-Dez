@@ -1,0 +1,175 @@
+<?php
+
+namespace App\Http\Controllers\Front;
+
+use App\Game;
+use App\Http\Controllers\Controller;
+use App\ScoreReport;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\MessageBag;
+
+class ScoreReportsController extends Controller
+{
+    public function create(Request $request, Game $game) {
+
+        $backUrl = $request->input('returnTo', url()->previous($game->getPublicUrl()));
+        if (!filter_var($backUrl, FILTER_VALIDATE_URL)) {
+            $backUrl = $game->getPublicUrl();
+        }
+
+        $uuid = $request->cookie('uuid');
+        if (empty($uuid)) {
+            $uuid = $this->guidv4();
+            $request->cookies->add(['uuid' => $uuid]);
+        }
+
+        $response = new Response(view('front.pages.score_report', [
+            'game' => $game,
+            'backUrl' => $backUrl,
+        ]));
+        $response->withCookie(cookie('uuid', $uuid, 525948));
+
+        return $response;
+    }
+
+    public function store(Request $request, Game $game) {
+
+        $validatorRules = [
+            'home_score' => 'required|integer|min:0|max:32',
+            'away_score' => 'required|integer|min:0|max:32',
+            'latitude' => 'numeric|nullable',
+            'longitude' => 'numeric|nullable',
+            'accuracy' => 'numeric|nullable',
+            'ip' => 'string|max:155|nullable',
+            'redirect_to' => 'string|max:255|nullable',
+        ];
+
+        $user = Auth::user();
+
+        // If not logged in require captcha
+        if (empty($user)) {
+            $validatorRules['g-recaptcha-response'] = 'required|recaptcha';
+        }
+
+        $validator = Validator::make($request->all(), $validatorRules);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        // get uuid from cookie
+        $uuid = $request->cookie('uuid');
+        if (empty($uuid)) {
+            $uuid = $this->guidv4();
+            $request->cookies->add(['uuid' => $uuid]);
+            // redirect back with cookie and error
+            return redirect()
+                ->back()
+                ->withErrors(['uuid' => 'Ocorreu um erro, por favor tente de novo'])
+                ->withInput()
+                ->withCookie(cookie()->forever('uuid', $uuid));
+        }
+
+        if (!$game->allowScoreReports()) {
+            return redirect()
+                ->back()
+                ->withErrors(['game' => 'Este jogo não aceita resultados porque ainda não começou ou já terminou'])
+                ->withInput()
+                ->withCookie(cookie()->forever('uuid', $uuid));
+        }
+
+        $now = Carbon::now();
+
+        $recentReportByUserId = null;
+        if (!empty($user)) {
+            $recentReportByUserId = ScoreReport::where('user_id', $user->id)
+                ->where('source', 'website')
+                ->where('created_at', '>', $now->subMinutes(4))
+                ->first();
+        }
+
+        $recentReportByUuid = ScoreReport::where('uuid', $uuid)
+            ->where('source', 'website')
+            ->where('created_at', '>', $now->subMinutes(4))
+            ->first();
+
+        // if got any report in the past 5 minutes return error
+        if (!empty($recentReportByUserId) || !empty($recentReportByUuid)) {
+            return redirect()
+                ->back()
+                ->withErrors(['uuid' => 'Já enviou um resultado recentemente, por favor tente de novo mais tarde'])
+                ->withInput();
+        }
+
+        $recentTotalByIpAddress = ScoreReport::where('ip_address', $request->input('ip'))
+            ->where('source', 'website')
+            ->where('created_at', '>', $now->subMinutes(4))
+            ->where('game_id', $game->id)
+            ->count();
+
+        // if total equal or greater than 3 return error
+        if ($recentTotalByIpAddress >= 3) {
+            return redirect()
+                ->back()
+                ->withErrors(['ip' => 'Já temos muitos registos vindos da sua rede nos últimos minutos. Por favor tente de novo mais tarde'])
+                ->withInput();
+        }
+
+        $location = $this->getMysqlPoint($request->input('latitude'), $request->input('longitude'));
+
+        $home_score = $request->input('home_score');
+        $away_score = $request->input('away_score');
+        ScoreReport::create([
+            'user_id' => empty($user) ? null : $user->id,
+            'game_id' => $game->id,
+            'home_score' => $home_score,
+            'away_score' => $away_score,
+            'source' => 'website',
+            'ip_address' => $request->input('ip'),
+            'user_agent' => $request->header('User-Agent'),
+            'location' => $location,
+            'location_accuracy' => $request->input('accuracy'),
+            'uuid' => $uuid,
+        ]);
+
+        $successMessage = "Resultado de $home_score-$away_score enviado, obrigado pelo seu contributo. ";
+        if (empty($location)) {
+            $successMessage .= ' No entanto a localização não foi enviada junto com o resultado. Para a próxima considere enviar também a localização para a sua informação ter mais relevância. ';
+        }
+        $successMessage .= "O resultado do jogo pode demorar alguns minutos até ser atualizado no website.";
+
+        $messages = new MessageBag();
+        $messages->add('success', $successMessage);
+
+        $url = $request->input('redirect_to', $game->getPublicUrl());
+
+        return redirect($url)
+            ->with('popup_message', $messages);
+    }
+
+    private function getMysqlPoint($latitude, $longitude) {
+        if (empty($latitude) || empty($longitude)) {
+            return null;
+        }
+
+        return DB::raw("ST_GeomFromText('POINT(" . $latitude . " " . $longitude . ")')");
+    }
+
+    private function guidv4($data = null) {
+        // Generate 16 bytes (128 bits) of random data or use the data passed into the function.
+        $data = $data ?? random_bytes(16);
+        assert(strlen($data) == 16);
+
+        // Set version to 0100
+        $data[6] = chr(ord($data[6]) & 0x0f | 0x40);
+        // Set bits 6-7 to 10
+        $data[8] = chr(ord($data[8]) & 0x3f | 0x80);
+
+        // Output the 36 character UUID.
+        return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4));
+    }
+}
