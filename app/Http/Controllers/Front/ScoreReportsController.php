@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Front;
 use App\Game;
 use App\Http\Controllers\Controller;
 use App\ScoreReport;
+use App\ScoreReportBan;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -28,9 +29,17 @@ class ScoreReportsController extends Controller
             $request->cookies->add(['uuid' => $uuid]);
         }
 
+        $ban = ScoreReportBan::findMatch(
+            $uuid,
+            empty($user) ? null : $user->id,
+            null,
+            $request->header('User-Agent')
+        );
+
         $response = new Response(view('front.pages.score_report', [
             'game' => $game,
             'backUrl' => $backUrl,
+            'ban' => $ban,
         ]));
         $response->withCookie(cookie('uuid', $uuid, 525948));
 
@@ -78,6 +87,38 @@ class ScoreReportsController extends Controller
             return redirect()
                 ->back()
                 ->withErrors(['game' => 'Este jogo não aceita resultados porque ainda não começou ou já terminou'])
+                ->withInput()
+                ->withCookie(cookie()->forever('uuid', $uuid));
+        }
+
+        $ban = ScoreReportBan::findMatch(
+            $uuid,
+            empty($user) ? null : $user->id,
+            $request->input('ip'),
+            $request->header('User-Agent')
+        );
+        if (!empty($ban)) {
+            $expire = Carbon::createFromFormat("Y-m-d H:i:s", $ban->expires_at)->format("d/m/Y \à\s H:i");
+            $reason = $ban->reason;
+            return redirect()
+                ->back()
+                ->withErrors(['uuid' => "Você foi bloqueado temporariamente e não pode enviar resultados até $expire. Razão: $reason "])
+                ->withInput()
+                ->withCookie(cookie()->forever('uuid', $uuid));
+        }
+
+        $sameReportFromSameUser = DB::table('score_reports')
+            ->whereRaw('game_id = ? AND home_score = ? AND away_score = ? AND (user_id = ? OR uuid = ?)', [
+                $game->id,
+                $request->input('home_score'),
+                $request->input('away_score'),
+                empty($user) ? null : $user->id,
+                $uuid,
+            ])->count();
+        if ($sameReportFromSameUser > 0) {
+            return redirect()
+                ->back()
+                ->withErrors(['game' => 'Já enviou este resultado e não precisa de faze-lo novamente, obrigado pelo seu contributo'])
                 ->withInput()
                 ->withCookie(cookie()->forever('uuid', $uuid));
         }
@@ -130,7 +171,7 @@ class ScoreReportsController extends Controller
             'away_score' => $away_score,
             'source' => 'website',
             'ip_address' => $request->input('ip'),
-            'user_agent' => $request->header('User-Agent'),
+            'user_agent' => str_limit($request->header('User-Agent'), 155, ''),
             'location' => $location,
             'location_accuracy' => $request->input('accuracy'),
             'uuid' => $uuid,
