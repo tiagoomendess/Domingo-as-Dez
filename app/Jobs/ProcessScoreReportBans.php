@@ -47,6 +47,7 @@ class ProcessScoreReportBans implements ShouldQueue
         $banKeys = [];
 
         ScoreReport::where('created_at', '>', $startFrom->format("Y-m-d H:i:s"))
+            ->where('source', '=', 'website')
             ->where('created_at', '<', $now->format("Y-m-d H:i:s"))
             ->chunk(10, function ($scoreReports) use (&$totalProcessed, &$totalFakes, &$banKeys, $banExpiration) {
                 foreach ($scoreReports as $scoreReport) {
