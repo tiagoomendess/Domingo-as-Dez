@@ -3,9 +3,9 @@
 @section('head-content')
     <title>Enviar Resultado</title>
 
-    <meta property="og:title" content="Enviar Resultado" />
-    <meta property="og:type" content="website" />
-    <meta property="og:description" content="Envie o resultado do jogo que está a ver" />
+    <meta property="og:title" content="Enviar Resultado"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:description" content="Envie o resultado do jogo que está a ver"/>
 @endsection
 
 @section('content')
@@ -32,9 +32,23 @@
                 @if(!$game->allowScoreReports())
                     <blockquote>
                         <ul style="color: red;">
-                            <li>Este jogo não está a aceitar resultados porque ainda não começou ou já terminou terminou há muito tempo.</li>
+                            <li>Este jogo não está a aceitar resultados porque ainda não começou ou já terminou terminou
+                                há muito tempo.
+                            </li>
                         </ul>
                     </blockquote>
+                @endif
+
+                @if(!empty($ban))
+                        <blockquote>
+                            <ul style="color: red;">
+                                <li>
+                                    Você não pode enviar resultados porque foi temporariamente bloqueado até
+                                    {{  \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $ban->expires_at)->format("d/m/Y \à\s H:i") }}.
+                                    {{ $ban->reason }}. Se acredita que isto é um erro, por favor contacte-nos pelos canais oficiais.
+                                </li>
+                            </ul>
+                        </blockquote>
                 @endif
 
                 <form action="{{ route('score_reports.store', ['game' => $game]) }}" method="POST"
@@ -50,7 +64,8 @@
 
                     <div class="row">
                         <div class="col s12">
-                            <p class="center flow-text">{{ $game->home_team->club->name }} vs {{ $game->away_team->club->name }}</p>
+                            <p class="center flow-text">{{ $game->home_team->club->name }}
+                                vs {{ $game->away_team->club->name }}</p>
                         </div>
                     </div>
 
@@ -64,32 +79,37 @@
                         <div class="col s2">
                             <div class="col s12" style="margin-bottom: 10px">
                                 <a style="padding: 0; width: 36px"
-                                   class="@if(!$game->allowScoreReports())disabled @endif() waves-effect waves-light btn green" onclick="handleHomeUp()">
+                                   class="@if(!$game->allowScoreReports() || !empty($ban))disabled @endif() waves-effect waves-light btn green"
+                                   onclick="handleHomeUp()">
                                     <i class="material-icons">arrow_upward</i>
                                 </a>
                             </div>
                             <div class="col s12">
                                 <a style="padding: 0; width: 36px"
-                                   class="@if(!$game->allowScoreReports())disabled @endif() waves-effect waves-light btn red"  onclick="handleHomeDown()">
+                                   class="@if(!$game->allowScoreReports() || !empty($ban))disabled @endif() waves-effect waves-light btn red"
+                                   onclick="handleHomeDown()">
                                     <i class="material-icons">arrow_downward</i>
                                 </a>
                             </div>
                         </div>
 
                         <div class="col s8 center">
-                            <h1 id="score_title" class="center">{{ $game->getHomeScore() }} - {{ $game->getAwayScore() }}</h1>
+                            <h1 id="score_title" class="center">{{ $game->getHomeScore() }}
+                                - {{ $game->getAwayScore() }}</h1>
                         </div>
 
                         <div class="col s2">
                             <div class="col s12" style="margin-bottom: 10px">
                                 <a style="padding: 0; width: 36px"
-                                   class="@if(!$game->allowScoreReports())disabled @endif() waves-effect waves-light btn green right" onclick="handleAwayUp()">
+                                   class="@if(!$game->allowScoreReports() || !empty($ban))disabled @endif() waves-effect waves-light btn green right"
+                                   onclick="handleAwayUp()">
                                     <i class="material-icons">arrow_upward</i>
                                 </a>
                             </div>
                             <div class="col s12">
                                 <a style="padding: 0; width: 36px"
-                                   class="@if(!$game->allowScoreReports())disabled @endif() waves-effect waves-light btn red right" onclick="handleAwayDown()">
+                                   class="@if(!$game->allowScoreReports() || !empty($ban))disabled @endif() waves-effect waves-light btn red right"
+                                   onclick="handleAwayDown()">
                                     <i class="material-icons">arrow_downward</i>
                                 </a>
                             </div>
@@ -114,7 +134,8 @@
 
                     @if(!Auth::check())
                         <div class="row hide" id="captcha_row">
-                            <small class="center grey-text">&nbsp;&nbsp;&nbsp;Faça login para não ter de resolver o captcha</small>
+                            <small class="center grey-text">&nbsp;&nbsp;&nbsp;Faça login para não ter de resolver o
+                                captcha</small>
                             <div class="col xs12 s12 center">
                                 {!! Recaptcha::render() !!}
                             </div>
@@ -124,12 +145,13 @@
                     <div class="row">
                         <div class="col s12">
                             <div class="col s6">
-                                <a class="waves-effect waves-light btn @if($game->allowScoreReports()) grey @else() green @endif() darken-1"
+                                <a class="waves-effect waves-light btn @if($game->allowScoreReports() && empty($ban)) grey @else() green @endif() darken-1"
                                    href="{{ $backUrl }}">
                                     <i class="material-icons left">arrow_back</i>voltar</a>
                             </div>
                             <div class="col s6">
-                                <a id="master_send" onclick="handleSendForm()" class="disabled waves-effect waves-light btn green darken-2 right">
+                                <a id="master_send" onclick="handleSendForm()"
+                                   class="disabled waves-effect waves-light btn green darken-2 right">
                                     <i class="material-icons right">send</i>enviar</a>
                             </div>
                         </div>
@@ -137,7 +159,8 @@
 
                     <div class="row">
                         <div class="col s12 center">
-                            <small class="modal-trigger grey-text" style="text-decoration: underline; cursor: pointer" href="#modal_explain_1">Porquê a localização?</small>
+                            <small class="modal-trigger grey-text" style="text-decoration: underline; cursor: pointer"
+                                   href="#modal_explain_1">Porquê a localização?</small>
                         </div>
                     </div>
                 </form>
@@ -154,15 +177,22 @@
                     <p class="flow-text"><b>Porque me pede a localização?</b></p>
 
                     <p style="text-align: justify">
-                        Utilizamos a localização apenas no momento exato em que envia o resultado, para garantir que a informação está a ser enviada por alguém que está a assistir ao jogo pessoalmente no campo, e assim garantir uma melhor qualidade dos dados que recolhemos.
+                        Utilizamos a localização apenas no momento exato em que envia o resultado, para garantir que a
+                        informação está a ser enviada por alguém que está a assistir ao jogo pessoalmente no campo, e
+                        assim garantir uma melhor qualidade dos dados que recolhemos.
                     </p>
 
                     <p style="text-align: justify">
-                        No entanto, se escolher não partilhar a sua localização, pode continuar a enviar resultados, estes apenas terão um peso menor que os outros, pelo que recomendamos sempre que autorize o envio da localização juntamente com o resultado.
+                        No entanto, se escolher não partilhar a sua localização, pode continuar a enviar resultados,
+                        estes apenas terão um peso menor que os outros, pelo que recomendamos sempre que autorize o
+                        envio da localização juntamente com o resultado.
                     </p>
 
                     <p style="text-align: justify">
-                        O domingo às dez não faz monitorização ativa e constante da sua localização, apenas recebe a sua localização no instante que envia o resultado. O código fonte do projeto é aberto e pode confirmar no <a target="_blank" href="https://github.com/tiagoomendess/Domingo-as-Dez">GitHub</a>.
+                        O domingo às dez não faz monitorização ativa e constante da sua localização, apenas recebe a sua
+                        localização no instante que envia o resultado. O código fonte do projeto é aberto e pode
+                        confirmar no <a target="_blank"
+                                        href="https://github.com/tiagoomendess/Domingo-as-Dez">GitHub</a>.
                     </p>
                 </div>
             </div>
@@ -183,7 +213,7 @@
         let askedForLocation = false
 
         // on document ready, get the score from the DOM
-        $(document).ready(function(){
+        $(document).ready(function () {
             $('.modal').modal();
             homeScore = parseInt(scoreTitle.innerText.split(' - ')[0])
             awayScore = parseInt(scoreTitle.innerText.split(' - ')[1])
