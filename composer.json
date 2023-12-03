@@ -6,7 +6,6 @@
     "type": "project",
     "require": {
         "php": ">=7.0.0",
-        "doctrine/dbal": "^3.3",
         "facebook/graph-sdk": "^5.7",
         "fideloper/proxy": "~3.3",
         "greggilbert/recaptcha": "^2.2",
