@@ -31,10 +31,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
         $schedule->job(new ProcessDeleteRequest())->daily();
-        $schedule->job(new DeleteNotVerifiedAccounts())->everyMinute();
+        $schedule->job(new DeleteNotVerifiedAccounts())->everyTenMinutes();
         $schedule->job(new GenerateGameImage())->everyMinute();
         $schedule->job(new ProcessPolls())->everyMinute();
         $schedule->job(new ProcessScoreReportBans())->dailyAt('22:59');

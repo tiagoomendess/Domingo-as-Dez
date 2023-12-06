@@ -49,17 +49,6 @@ class ForgotPasswordController extends Controller
         ]);
 
         $this->validateEmail($request);
-        $email = (string) $request->input('email');
-
-        /** @var User $user */
-        $user = User::where('email', $email)->first();
-        if ($user) {
-            if ($user->isSocial()) {
-                $messages = new MessageBag();
-                $messages->add('error', 'Esta é uma conta social. Faça login através do botão Facebook, Twitter ou Google.');
-                return redirect()->back()->withErrors($messages);
-            }
-        }
 
         // We will send the password reset link to this user. Once we have attempted
         // to send the link, we will examine the response then see the message we
@@ -68,7 +57,12 @@ class ForgotPasswordController extends Controller
             $request->only('email')
         );
 
-        Audit::add(Audit::ACTION_FORGOT_PASSWORD, null, $user->toArray());
+        $email = (string) $request->input('email');
+        /** @var User $user */
+        $user = User::where('email', $email)->first();
+        if (!empty($user)) {
+            Audit::add(Audit::ACTION_FORGOT_PASSWORD, null, $user->toArray());
+        }
 
         return $response == Password::RESET_LINK_SENT
             ? $this->sendResetLinkResponse($response)
