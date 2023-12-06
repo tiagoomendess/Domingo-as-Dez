@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Backoffice;
 
-use App\Article;
 use App\Audit;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class AuditController extends Controller
 {
@@ -15,7 +15,7 @@ class AuditController extends Controller
         $this->middleware('permission:admin')->only(['index']);
     }
 
-    public function index(Request $request)
+    public function index(Request $request): View
     {
         if ($request->query->get('search')) {
             $audits = Audit::search($request->query->all());

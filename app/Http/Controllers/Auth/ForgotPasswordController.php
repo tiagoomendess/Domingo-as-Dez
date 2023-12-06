@@ -68,7 +68,9 @@ class ForgotPasswordController extends Controller
             $request->only('email')
         );
 
-        Audit::add(Audit::ACTION_FORGOT_PASSWORD, null, $user->toArray());
+        if (!empty($user)) {
+            Audit::add(Audit::ACTION_FORGOT_PASSWORD, null, $user->toArray());
+        }
 
         return $response == Password::RESET_LINK_SENT
             ? $this->sendResetLinkResponse($response)
