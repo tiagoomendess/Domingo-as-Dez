@@ -148,14 +148,9 @@
             });
 
             $('.json').each(function (i, element) {
-                console.log("Element: ", element);
-                console.log("Ran for element");
                 try {
                     let json = JSON.parse(element.innerHTML);
-                    console.log("JSON: ", json);
-                    let stringify = JSON.stringify(json, null, 2);
-                    console.log("Stringify: ", stringify);
-                    element.innerHTML = stringify;
+                    element.innerHTML = JSON.stringify(json, null, 2);
                 } catch (e) {
                     console.warn("Error parsing JSON: ", e);
                 }
