@@ -69,22 +69,29 @@
                             </td>
                             <td>@if(!empty($audit->old_values) || !empty($audit->new_values))
                                     <a class="modal-trigger waves-effect waves-ripple btn-flat" href="#dif_modal_{{ $audit->id }}"><i class="large material-icons">open_in_new</i></a>
-                                    <div id="dif_modal_{{ $audit->id }}" class="modal">
+                                    <div id="dif_modal_{{ $audit->id }}" class="modal" style="width: 95%; max-height: 95%">
                                         <div class="modal-content">
                                             <h4 class="text-center center">Diferenças</h4>
-                                            <div class="row">
-                                                <div class="col s6"><h5 class="center">Antes</h5></div><div class="col s6"><h5 class="center">Depois</h5></div>
-                                            </div>
+                                            <div class="divider"></div>
                                             <div class="row">
                                                 <div class="col s6">
-                                                    <pre>{{ $audit->old_values }}</pre>
+                                                    <h5 class="center red-text">Antes</h5>
                                                 </div>
                                                 <div class="col s6">
-                                                    <pre>{{ $audit->new_values }}</pre>
+                                                    <h5 class="center green-text">Depois</h5>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col s6" style="border-right: #d0d0d0 solid 1px">
+                                                    <pre class="json">{{ $audit->old_values }}</pre>
+                                                </div>
+                                                <div class="col s6" style="border-left: #d0d0d0 solid 1px">
+                                                    <pre class="json">{{ $audit->new_values }}</pre>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="modal-footer">
+                                            <div class="divider"></div>
                                             <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Fechar</a>
                                         </div>
                                     </div>
@@ -138,6 +145,15 @@
                 outDuration: 75,
                 startingTop: '4%',
                 endingTop: '10%',
+            });
+
+            $('.json').each(function (i, element) {
+                try {
+                    let json = JSON.parse(element.innerHTML);
+                    element.innerHTML = JSON.stringify(json, null, 2);
+                } catch (e) {
+                    console.warn("Error parsing JSON: ", e);
+                }
             });
         })
 

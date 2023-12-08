@@ -7,11 +7,14 @@
         {{ $game->game_group->season->competition->name }}
         {{ $game->game_group->season->getName() }}
     </title>
-    <meta name="description" content="Jogo da {{ $game->game_group->season->competition->name }} na época {{ $game->game_group->season->getName() }}"/>
+    <meta name="description"
+          content="Jogo da {{ $game->game_group->season->competition->name }} na época {{ $game->game_group->season->getName() }}"/>
     <link rel="stylesheet" href="/css/front/game-style.css">
-    <meta property="og:title" content="{{ $game->homeTeam->club->name }} vs {{ $game->awayTeam->club->name }} - {{ $game->game_group->season->competition->name }} {{ $game->game_group->season->getName() }}"/>
+    <meta property="og:title"
+          content="{{ $game->homeTeam->club->name }} vs {{ $game->awayTeam->club->name }} - {{ $game->game_group->season->competition->name }} {{ $game->game_group->season->getName() }}"/>
     <meta property="og:type" content="website"/>
-    <meta property="og:description" content="Jogo da {{ $game->game_group->season->competition->name }} na época {{ $game->game_group->season->getName() }}"/>
+    <meta property="og:description"
+          content="Jogo da {{ $game->game_group->season->competition->name }} na época {{ $game->game_group->season->getName() }}"/>
     @if(!empty($game->image))
         <meta property="og:image" content="{{ url($game->image) }}">
     @else
@@ -34,30 +37,39 @@
             <div class="details">
                 <span class="hide" id="exact_time">{{ $game->date }}</span>
                 <time>
-                    <i class="material-icons">date_range</i>
-                    @if($game->postponed)<s>@endif
-                    {{ \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $game->date)->timezone('Europe/Lisbon')->format("d/m/Y") }}
-                    @if($game->postponed)</s>@endif
+                    <i class="material-icons">date_range</i>&nbsp;
+                    @if($game->postponed)
+                        <s>@endif
+                            {{ \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $game->date)->timezone('Europe/Lisbon')->format("d/m/Y") }}
+                            @if($game->postponed)</s>
+                    @endif
                 </time>
                 <time>
-                    <i class="material-icons">access_time</i>
-                    @if($game->postponed)<s>@endif
-                    {{ \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $game->date)->timezone('Europe/Lisbon')->format("H:i") }}
-                    @if($game->postponed)</s>@endif
+                    <i class="material-icons">access_time</i>&nbsp;
+                    @if($game->postponed)
+                        <s>@endif
+                            {{ \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $game->date)->timezone('Europe/Lisbon')->format("H:i") }}
+                            @if($game->postponed)</s>
+                    @endif
                 </time>
-                @if ($game->playground)<span><i
-                            class="material-icons">location_on</i> {{ $game->playground->name }}</span>@endif
+                @if ($game->playground)
+                    <a class="modal-trigger" href="#directions_modal" style="color: white;">
+                    <span>
+                        <i class="material-icons">location_on</i>
+                        &nbsp;{{ $game->playground->name }}&nbsp;
+                        <i class="material-icons">directions</i>
+                    </span>
+                    </a>
+                @endif
                 <span>
                     <img src="{{$game->game_group->season->competition->picture}}"
                          alt="{{ $game->game_group->season->competition->name }}">
-                    {{ $game->game_group->season->competition->name }}
+                    &nbsp;{{ $game->game_group->season->competition->name }}
                 </span>
             </div>
 
             <div class="container">
-
                 <div class="row no-margin-bottom">
-
                     <div class="col l3 xl3 hide-on-med-and-down">
                         <span class="club-name right">{{ $game->home_team->club->name }}</span>
                     </div>
@@ -74,7 +86,8 @@
                         <div class="separator">
                             <span class="hide" id="game_id">{{ $game->id }}</span>
                             @if($game->postponed)
-                                <p style="padding: 0 5px; border-radius: 10px" class="red text-center white-text flow-text">Adiado</p>
+                                <p style="padding: 0 5px; border-radius: 10px"
+                                   class="red text-center white-text flow-text">Adiado</p>
                             @elseif($game->started())
                                 <span id="score">{{ $game->getHomeScore() }} - {{ $game->getAwayScore() }}</span>
                                 <div class="hide" id="countdown">
@@ -149,7 +162,6 @@
                     <div class="col l3 xl3 hide-on-med-and-down">
                         <span class="club-name">{{ $game->away_team->club->name }}</span>
                     </div>
-
                 </div>
 
                 @if (count($home_team_last_games) > 1 || count($away_team_last_games) > 1)
@@ -157,17 +169,17 @@
                         <div class="col s12 m8 l6 offset-l3 offset-m2">
                             <div class="col s6 performance-labels">
                                 <div class="left">
-                                @foreach($home_team_last_games as $lg)
-                                    @if ($lg->isDraw())
-                                        <a class="yellow darken-2" href="{{ $lg->getPublicUrl() }}">E</a>
-                                    @else
-                                        @if($lg->winner()->id == $game->home_team->id)
-                                            <a class="green darken-1" href="{{ $lg->getPublicUrl() }}">V</a>
+                                    @foreach($home_team_last_games as $lg)
+                                        @if ($lg->isDraw())
+                                            <a class="yellow darken-2" href="{{ $lg->getPublicUrl() }}">E</a>
                                         @else
-                                            <a class="red darken-1" href="{{ $lg->getPublicUrl() }}">D</a>
+                                            @if($lg->winner()->id == $game->home_team->id)
+                                                <a class="green darken-1" href="{{ $lg->getPublicUrl() }}">V</a>
+                                            @else
+                                                <a class="red darken-1" href="{{ $lg->getPublicUrl() }}">D</a>
+                                            @endif
                                         @endif
-                                    @endif
-                                @endforeach
+                                    @endforeach
                                 </div>
                             </div>
                             <div class="col s6 performance-labels">
@@ -194,12 +206,46 @@
                         @if($game->finished && !$game->isMvpVoteOpen() && $mvp && $mvp->amount >= 1)
                             <span>Homem do Jogo:</span>
                             <div class="chip">
-                                <img src="{{ $mvp->player->getPicture() }}" alt="{{ $mvp->player->displayName() }}, homem do jogo">
+                                <img src="{{ $mvp->player->getPicture() }}"
+                                     alt="{{ $mvp->player->displayName() }}, homem do jogo">
                                 {{ $mvp->player->displayName() }}
                             </div>
                         @endif
                     </div>
                 </div>
+
+                <div id="directions_modal" class="modal">
+                    <div class="modal-content" style="padding-bottom: 0">
+                        <h4 class="center">Direções</h4>
+                        <div class="divider"></div>
+                        @if(!empty($game->playground->location))
+                            <p class="flow-text text-justify" style="text-align: justify">Escolha uma das seguintes
+                                opções para obter direções de GPS para o campo onde se vai disputar este jogo</p>
+                            <div class="row">
+                                <div class="col s6 center">
+                                    <a target="_blank" href="{{ $game->playground->getGoogleMapsLink() }}">
+                                        <p class="flow-text">Google Maps</p>
+                                    </a>
+                                </div>
+                                <div class="col s6 center">
+                                    <a target="_blank" href="{{ $game->playground->getWazeLink() }}">
+                                        <p class="flow-text">Waze</p>
+                                    </a>
+                                </div>
+                            </div>
+                        @else
+                            <p class="flow-text text-justify" style="text-align: justify">
+                                A localização deste campo é desconhecida pelo sistema, logo não é possível obter indicações.
+                            </p>
+                        @endif
+
+                        <div class="divider"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="#!" class="modal-action modal-close waves-effect btn-flat">Fechar</a>
+                    </div>
+                </div>
+
             </div>
         </div>
 
@@ -258,10 +304,10 @@
                                 <div class="goal-overview">
                                     <a href="
                                         @if(has_permission('goals.edit.' . $goal->id))
-                                    {{ route('goals.show', ['goal' => $goal]) }}
-                                    @elseif(!is_null($goal->player))
-                                    {{ route('front.player.show', ['id' => $goal->player->id, 'name_slug' => str_slug($goal->player->name)]) }}
-                                    @else
+                                            {{ route('goals.show', ['goal' => $goal]) }}
+                                        @elseif(!is_null($goal->player))
+                                            {{ route('front.player.show', ['id' => $goal->player->id, 'name_slug' => str_slug($goal->player->name)]) }}
+                                        @else
                                             #
                                         @endif">
 
@@ -398,38 +444,46 @@
                 <div class="card">
                     <div class="card-content">
                         @if(count($past_games) == 0)
-                            <p class="flow-text center">Não temos nenhum jogo registado entre estas duas equipas antes da data deste jogo.</p>
+                            <p class="flow-text center">Não temos nenhum jogo registado entre estas duas equipas antes
+                                da data deste jogo.</p>
                         @else
                             <ul class="list-a">
-                            @foreach($past_games as $past_game)
-                                <div class="past-game-item">
-                                    <a style="width: 100%" href="{{ $past_game->getPublicURL() }}">
-                                        <div class="row no-margin-bottom" style="padding: 10px">
-                                            <div class="col s3 m4">
-                                                <img class="right" src="{{ $past_game->home_team->club->getEmblem() }}" alt="{{ $past_game->home_team->club->name }}">
-                                                <span class="right hide-on-med-and-down">{{ $past_game->home_team->club->name }}</span>
-                                                <span class="right hide-on-large-only hide-on-small-and-down">{{ $past_game->home_team->club->getThreeLetterName() }}</span>
-                                            </div>
-                                            <div class="col s6 m2 center">
-                                                <span class="center" style="background-color: grey; padding: 4px 10px; color: white; margin-top: 10px;">
+                                @foreach($past_games as $past_game)
+                                    <div class="past-game-item">
+                                        <a style="width: 100%" href="{{ $past_game->getPublicURL() }}">
+                                            <div class="row no-margin-bottom" style="padding: 10px">
+                                                <div class="col s3 m4">
+                                                    <img class="right"
+                                                         src="{{ $past_game->home_team->club->getEmblem() }}"
+                                                         alt="{{ $past_game->home_team->club->name }}">
+                                                    <span class="right hide-on-med-and-down">{{ $past_game->home_team->club->name }}</span>
+                                                    <span class="right hide-on-large-only hide-on-small-and-down">{{ $past_game->home_team->club->getThreeLetterName() }}</span>
+                                                </div>
+                                                <div class="col s6 m2 center">
+                                                <span class="center"
+                                                      style="background-color: grey; padding: 4px 10px; color: white; margin-top: 10px;">
                                                     <b>{{ $past_game->getHomeScore() }} - {{ $past_game->getAwayScore() }}</b>
                                                 </span>
+                                                </div>
+                                                <div class="col s3 m4">
+                                                    <img class="left"
+                                                         src="{{ $past_game->away_team->club->getEmblem() }}"
+                                                         alt="{{ $past_game->away_team->club->name }}">
+                                                    <span class="left hide-on-med-and-down">{{ $past_game->away_team->club->name }}</span>
+                                                    <span class="left hide-on-large-only hide-on-small-and-down">{{ $past_game->away_team->club->getThreeLetterName() }}</span>
+                                                </div>
+                                                <div class="col m1 hide-on-small-and-down">
+                                                    <span class="right">{{ str_split($past_game->date, 4)[0] }}</span>
+                                                </div>
+                                                <div class="col m1 hide-on-small-and-down">
+                                                    <img class="right"
+                                                         src="{{ $past_game->game_group->season->competition->picture }}"
+                                                         alt="Competição da AFPB">
+                                                </div>
                                             </div>
-                                            <div class="col s3 m4">
-                                                <img class="left" src="{{ $past_game->away_team->club->getEmblem() }}" alt="{{ $past_game->away_team->club->name }}">
-                                                <span class="left hide-on-med-and-down">{{ $past_game->away_team->club->name }}</span>
-                                                <span class="left hide-on-large-only hide-on-small-and-down">{{ $past_game->away_team->club->getThreeLetterName() }}</span>
-                                            </div>
-                                            <div class="col m1 hide-on-small-and-down">
-                                                <span class="right">{{ str_split($past_game->date, 4)[0] }}</span>
-                                            </div>
-                                            <div class="col m1 hide-on-small-and-down">
-                                                <img class="right" src="{{ $past_game->game_group->season->competition->picture }}" alt="Competição da AFPB">
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-                            @endforeach
+                                        </a>
+                                    </div>
+                                @endforeach
                             </ul>
                         @endif
                     </div>
@@ -492,13 +546,16 @@
             <div class="container">
 
                 @if(has_permission('games.edit'))
-                <a href="{{ route('games.edit', ['game' => $game]) }}"
-                   class="btn-floating btn-large waves-effect waves-light blue right"><i class="material-icons">edit</i></a>
+                    <a href="{{ route('games.edit', ['game' => $game]) }}"
+                       class="btn-floating btn-large waves-effect waves-light blue right"><i
+                                class="material-icons">edit</i></a>
                 @endif
 
                 <form action="{{ route('generate_game_image', ['game' => $game->id]) }}" method="POST" target="_blank">
                     {{ csrf_field() }}
-                    <button class="btn waves-effect waves-light green darken-3" type="submit" name="action"><i class="material-icons right">cloud_download</i>Download Imagem</button>
+                    <button class="btn waves-effect waves-light green darken-3" type="submit" name="action"><i
+                                class="material-icons right">cloud_download</i>Download Imagem
+                    </button>
                 </form>
             </div>
         </div>

@@ -4,19 +4,13 @@
             <div class="card-content">
                 <div class="row">
 
-                    <div class="col xs4 s4 center">
+                    <div class="col xs6 s6 center">
                         <a href="{{ route('social.redirect', ['provider' => 'facebook']) }}" class="social-login-link">
                             <img class="facebook-btn" src="/images/facebook-logo.svg" alt="">
                         </a>
                     </div>
 
-                    <div class="col xs4 s4 center">
-                        <a href="{{ route('social.redirect', ['provider' => 'twitter']) }}" class="social-login-link">
-                            <img src="/images/twitter-logo.svg" alt="">
-                        </a>
-                    </div>
-
-                    <div class="col xs4 s4 center">
+                    <div class="col xs6 s6 center">
                         <a href="{{ route('social.redirect', ['provider' => 'google']) }}" class="social-login-link">
                             <img src="/images/google-plus-logo.svg" alt="">
                         </a>

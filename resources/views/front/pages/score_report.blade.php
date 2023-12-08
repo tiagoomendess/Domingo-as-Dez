@@ -163,9 +163,18 @@
                                    href="#modal_explain_1">Porquê a localização?</small>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col s12" style="text-align: justify">
+                            <small class="grey-text">
+                                Por favor não envie resultados falsos, os resultados não são diretamente atualizados sem antes serem analisados.
+                                Para além de ser um comportamento infantil, poderá vir a ser automaticamente bloqueado
+                                pelo sistema no fim do jogo, assim que a sequência de resultados for conhecida.
+                                Valorize o futebol popular, seja um contribuidor positivo.
+                            </small>
+                        </div>
+                    </div>
                 </form>
             </div>
-
         </div>
     </div>
 
@@ -191,8 +200,9 @@
                     <p style="text-align: justify">
                         O domingo às dez não faz monitorização ativa e constante da sua localização, apenas recebe a sua
                         localização no instante que envia o resultado. O código fonte do projeto é aberto e pode
-                        confirmar no <a target="_blank"
-                                        href="https://github.com/tiagoomendess/Domingo-as-Dez">GitHub</a>.
+                        visualiza-lo no <a target="_blank"
+                                        href="https://github.com/tiagoomendess/Domingo-as-Dez">GitHub</a>,
+                        e confirmar esta afirmação.
                     </p>
                 </div>
             </div>

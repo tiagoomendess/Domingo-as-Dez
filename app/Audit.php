@@ -29,6 +29,7 @@ class Audit extends SearchableModel {
     protected $hidden = [];
 
     protected $table = 'audit';
+
     public function user() {
         return $this->belongsTo(User::class);
     }
@@ -73,13 +74,13 @@ class Audit extends SearchableModel {
             'compare' => '=',
             'validation' => 'nullable|min:1|integer'
         ],
-        'action' => [
-            'name' => 'action',
+        '_action' => [
+            'name' => '_action',
             'type' => 'enum',
-            'trans' => 'Ação',
+            'trans' => 'Action',
             'allowSearch' => true,
             'compare' => '=',
-            'validation' => 'nullable|in:view,create,update,delete,login,login_failed,logout,register,forgot_password,other',
+            'validation' => 'nullable|string',
             'enumItems' => [
                 [
                     'name' => 'View',
@@ -129,7 +130,7 @@ class Audit extends SearchableModel {
             'trans' => 'Modelo',
             'allowSearch' => true,
             'compare' => '=',
-            'validation' => 'nullable|in:Article,Club,Competition,Game,GameGroup,Goal,Player,Transfer,User',
+            'validation' => 'nullable|string|in:Article,Club,Competition,Game,GameGroup,Goal,Player,Transfer,User',
             'enumItems' => [
                 [
                     'name' => 'Article',
@@ -226,10 +227,10 @@ class Audit extends SearchableModel {
         $audit->old_values = $oldValues ? str_limit($oldValues, 65531) : null;
         $audit->new_values = $newValues ? str_limit($newValues, 65531) : null;
         $audit->ip_address = $_COOKIE['ip'] ?? request()->getClientIp();
-        $audit->user_agent = request()->userAgent();
-        $audit->timezone = $_COOKIE['timezone'] ?? null;
-        $audit->language = $_COOKIE['lang'] ?? null;
-        $audit->extra_info = $extraInfo;
+        $audit->user_agent = str_limit(request()->userAgent(), 255, '');
+        $audit->timezone = $_COOKIE['timezone'] ? str_limit($_COOKIE['timezone'], 30, ''): null;
+        $audit->language = $_COOKIE['lang'] ? str_limit($_COOKIE['lang'], 155, '') : null;
+        $audit->extra_info = $extraInfo ? str_limit($extraInfo, 155, '') : null;
 
         $audit->save();
     }

@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\MessageBag;
 
@@ -154,6 +155,7 @@ class ScoreReportsController extends Controller
 
         // if total equal or greater than 3 return error
         if ($recentTotalByIpAddress >= 3) {
+            Log::info("Score report blocked from ip " . $request->input('ip') . " for game " . $game->id . " because of too many reports");
             return redirect()
                 ->back()
                 ->withErrors(['ip' => 'Já temos muitos registos vindos da sua rede nos últimos minutos. Por favor tente de novo mais tarde'])
@@ -187,6 +189,9 @@ class ScoreReportsController extends Controller
         $messages->add('success', $successMessage);
 
         $url = $request->input('redirect_to', $game->getPublicUrl());
+
+        $logMessage = "Score report of $home_score-$away_score for game " . $game->id . " created ($uuid)";
+        Log::info($logMessage);
 
         return redirect($url)
             ->with('popup_message', $messages);

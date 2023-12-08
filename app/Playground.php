@@ -102,4 +102,26 @@ class Playground extends SearchableModel
 
         return DB::raw("ST_GeomFromText('$pointStr')");
     }
+
+    public function getGoogleMapsLink()
+    {
+        $latitude = $this->getLatitude();
+        $longitude = $this->getLongitude();
+
+        if (empty($latitude) || empty($longitude))
+            return null;
+
+        return "https://www.google.com/maps/search/?api=1&query=$latitude,$longitude";
+    }
+
+    public function getWazeLink()
+    {
+        $latitude = $this->getLatitude();
+        $longitude = $this->getLongitude();
+
+        if (empty($latitude) || empty($longitude))
+            return null;
+
+        return "https://www.waze.com/ul?ll=$latitude,$longitude&navigate=yes";
+    }
 }
