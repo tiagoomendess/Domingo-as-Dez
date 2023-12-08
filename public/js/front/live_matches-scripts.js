@@ -86,7 +86,8 @@ function handleGameClick(game_id) {
     $('#send_score_report_btn').attr('href', `/score-reports/${game_id}?returnTo=${current_url}`);
     $('#score_update_modal_home_team_img').attr('src', game.home_club_emblem);
     $('#score_update_modal_away_team_img').attr('src', game.away_club_emblem);
-    $('#score_update_modal_desc').append(`O resultado de ${game.home_score}-${game.away_score} entre <a href="${game.game_link}">${game.home_club_name} e ${game.away_club_name}</a> não está correto?`);
+
+    $('#score_update_modal_desc').html(`O resultado de ${game.home_score}-${game.away_score} entre <a href="${game.game_link}">${game.home_club_name} e ${game.away_club_name}</a> não está correto?`);
 
     $('#score_update_modal').modal('open');
 }
