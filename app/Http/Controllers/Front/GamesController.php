@@ -12,9 +12,9 @@ use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\GameGroup;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class GamesController extends Controller
 {
@@ -204,12 +204,45 @@ class GamesController extends Controller
         $old_game = $game->toArray();
         $game->goals_home = $request->input('goals_home');
         $game->goals_away = $request->input('goals_away');
-        $game->finished = (bool)$request->input('finished', false);;
+        $game->finished = (bool)$request->input('finished', false);
         $game->save();
 
         Audit::add(Audit::ACTION_UPDATE, 'Game', $old_game, $game->toArray());
+        $this->createScoreReport($game);
 
         return redirect()->route('games.today_edit');
+    }
+
+    private function createScoreReport(Game $game) {
+        try {
+            $user = Auth::user();
+            ScoreReport::create([
+                'user_id' => $user ? $user->id : null,
+                'game_id' => $game->id,
+                'home_score' => $game->getHomeScore(),
+                'away_score' => $game->getAwayScore(),
+                'source' => 'today_edit',
+                'ip_address' => str_limit(request()->getClientIp(), 255, ''),
+                'user_agent' => str_limit(request()->userAgent(), 255, ''),
+                'uuid' => $this->guidv4(),
+            ]);
+        } catch (\Exception $e) {
+            Log::error("Error creating score report on today edit: " . $e->getMessage());
+        }
+    }
+
+    private function guidv4($data = null) {
+        // Generate 16 bytes (128 bits) of random data or use the data passed into the function.
+        $data = $data ?? random_bytes(16);
+        assert(strlen($data) == 16);
+
+        // Set version to 0100
+        $data[6] = chr(ord($data[6]) & 0x0f | 0x40);
+        // Set bits 6-7 to 10
+        $data[8] = chr(ord($data[8]) & 0x3f | 0x80);
+
+        // Output the 36 character UUID.
+        return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4));
     }
 }
 
