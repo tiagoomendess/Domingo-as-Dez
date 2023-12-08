@@ -65,7 +65,7 @@ class ScoreReportConsumer implements ShouldQueue
         }
 
         $now = Carbon::now();
-        $listenFrom = $now->subMinutes(240);
+        $listenFrom = $now->subMinutes(10);
 
         $reports = ScoreReport::where('game_id', '=', $game->id)
             ->where('created_at', '>', $listenFrom->format("Y-m-d H:i:s"))
