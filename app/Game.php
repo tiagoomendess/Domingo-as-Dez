@@ -261,8 +261,6 @@ class Game extends Model
         }
 
         return $games;
-
-
     }
 
     public function isMvpVoteOpen(): bool

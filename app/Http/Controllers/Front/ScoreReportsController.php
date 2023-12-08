@@ -175,7 +175,7 @@ class ScoreReportsController extends Controller
             'ip_address' => str_limit($request->input('ip'), 45, ''),
             'user_agent' => str_limit($request->header('User-Agent'), 255, ''),
             'location' => $location,
-            'location_accuracy' => $request->input('accuracy'),
+            'location_accuracy' => $request->input('accuracy') ? (int) $request->input('accuracy') : null,
             'uuid' => $uuid,
         ]);
 
