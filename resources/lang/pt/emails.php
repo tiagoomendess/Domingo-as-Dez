@@ -42,6 +42,10 @@ return [
     as credenciais. Se tiver sessão iniciada, esta será terminada assim que recarregar a página.',
 
     'password_changed_subject' => 'Password alterada em :site_name',
-    'password_changed_line_1' => 'A password da sua conta registada com o email :email foi alterada. Se não foi você que 
-    alterou a password faça recuperação de conta e defina uma nova, e mais segura password.',
+    'password_changed_line_1' => 'A password da sua conta registada com o email :email foi alterada. Se não foi você que alterou a password faça recuperação de conta e defina uma nova, e mais segura password.',
+
+    'score_report_ban_subject' => 'Você foi temporariamente bloqueado de enviar resultados',
+    'score_report_ban_line_1' => 'Informamos que você foi temporariamente bloqueado de enviar resultados até :expiration_date, pelo motivo: «:reason». Depois desta data poderá voltar a enviar resultados novamente.',
+    'score_report_ban_line_2' => 'Apelamos que não volte a enviar resultados falsos, para que possamos ter uma lista de resultados atualizada e fiável que todos podemos usar. Seja um contribuidor positivo e não destrutivo.',
+    'score_report_ban_line_3' => 'Se acredita que isto foi um erro entre em contacto pelas nossas redes sociais ou enviando um email para :site_email.',
 ];
