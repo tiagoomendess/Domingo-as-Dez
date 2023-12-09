@@ -37,7 +37,7 @@ class ProcessDeleteRequest implements ShouldQueue
      */
     public function handle()
     {
-
+        $startTime = new \DateTime();
         $deleted = 0;
         $canceled = 0;
 
@@ -96,7 +96,9 @@ class ProcessDeleteRequest implements ShouldQueue
 
         }
 
-        Log::info('Finished. ' . $total_requests . ' requests processed, ' . $deleted . ' deleted and ' . $canceled . ' cancelled!');
+        $endTime = new \DateTime();
+        $diff = $endTime->diff($startTime);
 
+        Log::info('Finished. ' . $total_requests . ' requests processed, ' . $deleted . ' deleted and ' . $canceled . ' cancelled in ' . $diff->format('%s seconds %F microseconds'));
     }
 }

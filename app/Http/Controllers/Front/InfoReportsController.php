@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use App\InfoReport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\MessageBag;
+use Illuminate\Support\Str;
 
 class InfoReportsController extends Controller
 {
@@ -33,7 +35,7 @@ class InfoReportsController extends Controller
 
         $tries = 0;
         do {
-            $code = strtoupper(str_random(9));
+            $code = strtoupper(Str::random(9));
             $tries++;
             $existingInfo = InfoReport::where('code', $code)->first();
 
@@ -42,6 +44,8 @@ class InfoReportsController extends Controller
 
             if ($tries > 5) {
                 $messages->add('error', 'Não foi possível gerar um código único. Volte a tentar mais tarde');
+                Log::error("Could not generate unique code for info report after 5 tries");
+                
                 return redirect()->back()->with('popup_message', $messages);
             }
         } while (true);
@@ -67,6 +71,7 @@ class InfoReportsController extends Controller
         }
 
         $messages->add('success', $message);
+        Log::info("Info report created with code $code");
 
         return redirect(route('info.create'))->with('popup_message', $messages);
     }

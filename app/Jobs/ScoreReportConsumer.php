@@ -52,7 +52,7 @@ class ScoreReportConsumer implements ShouldQueue
 
         $endTime = new DateTime();
         $diff = $endTime->diff($startTime);
-        $delta = $diff->format('%i:%s');
+        $delta = $diff->format('%s seconds %F microseconds');
         Log::info("ScoreReportConsumer finished processing " . $games->count() . " games in $delta");
     }
 

@@ -11,8 +11,10 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\MessageBag;
+use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
 
 class UserProfileController extends Controller
@@ -48,6 +50,8 @@ class UserProfileController extends Controller
         $user->profile->bio = $request->input('bio');
         $user->profile->save();
 
+        Log::info("User " . $user->id . " updated profile info");
+
         return redirect(route('front.userprofile.edit'));
 
     }
@@ -75,10 +79,12 @@ class UserProfileController extends Controller
 
         $image = Image::make($request->file('photo'));
 
-        $url = MediaController::storeSquareImage($image, str_random(9), 400, 'jpg', config('custom.user_avatars_path'));
+        $url = MediaController::storeSquareImage($image, Str::random(9), 400, 'jpg', config('custom.user_avatars_path'));
 
         $user->profile->picture = $url;
         $user->profile->save();
+
+        Log::info("User " . $user->id . " updated profile picture");
 
         return redirect(route('front.userprofile.edit'));
     }

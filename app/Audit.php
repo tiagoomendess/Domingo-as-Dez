@@ -6,6 +6,7 @@ namespace App;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class Audit extends SearchableModel {
 
@@ -224,13 +225,13 @@ class Audit extends SearchableModel {
         $audit->action = $action;
         $audit->model = $model;
         $audit->model_id = $model_id;
-        $audit->old_values = $oldValues ? str_limit($oldValues, 65531) : null;
-        $audit->new_values = $newValues ? str_limit($newValues, 65531) : null;
+        $audit->old_values = $oldValues ? Str::limit($oldValues, 65531) : null;
+        $audit->new_values = $newValues ? Str::limit($newValues, 65531) : null;
         $audit->ip_address = $_COOKIE['ip'] ?? request()->getClientIp();
-        $audit->user_agent = str_limit(request()->userAgent(), 255, '');
-        $audit->timezone = $_COOKIE['timezone'] ? str_limit($_COOKIE['timezone'], 30, ''): null;
-        $audit->language = $_COOKIE['lang'] ? str_limit($_COOKIE['lang'], 155, '') : null;
-        $audit->extra_info = $extraInfo ? str_limit($extraInfo, 155, '') : null;
+        $audit->user_agent = Str::limit(request()->userAgent(), 255, '');
+        $audit->timezone = $_COOKIE['timezone'] ? Str::limit($_COOKIE['timezone'], 30, ''): null;
+        $audit->language = $_COOKIE['lang'] ? Str::limit($_COOKIE['lang'], 155, '') : null;
+        $audit->extra_info = $extraInfo ? Str::limit($extraInfo, 155, '') : null;
 
         $audit->save();
     }

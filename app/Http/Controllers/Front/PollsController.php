@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 use Symfony\Component\HttpFoundation\Cookie;
 
@@ -119,6 +120,7 @@ class PollsController extends Controller
 
         // Check if there is user vote in DB
         if(!empty($userVote)) {
+            Log::info("User " . $user->id . " tried to vote twice in poll " . $poll->id . " - DB Check");
             return redirect()
                 ->back()
                 ->cookie(cookie('poll' . $poll->id, $userVote->id, 576000, "/", url("/"), true, false));
@@ -127,6 +129,8 @@ class PollsController extends Controller
         // Check if user has vote registered in cookies
         $cookieVote = $request->cookie('poll' . $poll->id);
         if (!empty($cookieVote)) {
+            Log::info("User tried to vote twice in poll " . $poll->id . " - Cookie Check");
+
             return redirect()
                 ->back()
                 ->cookie($this->getCookie($poll->id, $cookieVote));
@@ -138,6 +142,8 @@ class PollsController extends Controller
             ->get();
 
         if ($ipVotes->count() > 1 ) {
+            Log::info("User tried to vote twice in poll " . $poll->id . " - IP Check (" . $request->input('ip') . ")");
+
             return redirect()
                 ->back()
                 ->cookie($this->getCookie($poll->id, $ipVotes->first()->id));
@@ -148,6 +154,8 @@ class PollsController extends Controller
             'poll_answer_id' => $request->input('answer'),
             'ip' => $request->input('ip'),
         ]);
+
+        Log::info("Vote in pool " . $poll->id . " registered with answer " . $vote->poll_answer_id . " and IP " . $vote->ip);
 
         return redirect()
             ->back()

@@ -9,6 +9,7 @@ use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\MessageBag;
 
@@ -51,8 +52,9 @@ class MvpVotesController extends Controller
                 'user_id' => $user->id
             ]);
 
-            //$messages->add('success', 'Voto guardado com sucesso');
-            return redirect()->back();//->with(['popup_message' => $messages]);
+            Log::info("User " . $user->id . " voted for player " . $player_id . " for MVP in the game " . $game_id);
+
+            return redirect()->back();
         } else {
             $messages->add('error', 'A janela de voto não está aberta para este jogo');
             return redirect()->back()->with(['popup_message' => $messages]);

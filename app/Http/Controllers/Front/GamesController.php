@@ -15,6 +15,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class GamesController extends Controller
 {
@@ -222,8 +223,8 @@ class GamesController extends Controller
                 'home_score' => $game->getHomeScore(),
                 'away_score' => $game->getAwayScore(),
                 'source' => 'today_edit',
-                'ip_address' => str_limit(request()->getClientIp(), 255, ''),
-                'user_agent' => str_limit(request()->userAgent(), 255, ''),
+                'ip_address' => Str::limit(request()->getClientIp(), 255, ''),
+                'user_agent' => Str::limit(request()->userAgent(), 255, ''),
                 'uuid' => $this->guidv4(),
             ]);
         } catch (\Exception $e) {

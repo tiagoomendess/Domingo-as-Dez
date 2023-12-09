@@ -52,7 +52,7 @@
                                 </div>
                             </div>
                             <div class="card-content">
-                                <p class="">{{ str_limit($article->description, 300) }}</p>
+                                <p class="">{{ \Illuminate\Support\Str::limit($article->description, 300) }}</p>
                             </div>
                             <div class="card-action">
                                 <a href="{{ route('news.show', [
