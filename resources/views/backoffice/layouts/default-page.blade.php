@@ -42,7 +42,40 @@
         $(document).ready(function () {
             // the "href" attribute of the modal trigger must specify the modal ID that wants to be triggered
             $('#modal_logout').modal();
+
+            if (document.cookie.indexOf("lang=") < 0) {
+                const lang = navigator.language || navigator.userLanguage;
+                document.cookie = `lang=${lang};path=/`;
+            }
+
+            // if no ip cookie is found, set it
+            if (document.cookie.indexOf("ip=") < 0) {
+                getIp("https://api.my-ip.io/v1/ip", async (ip) => {
+                    if (ip) {
+                        document.cookie = `ip=${ip};path=/`;
+                    }
+                });
+            }
+
+            if (document.cookie.indexOf("timezone=") < 0) {
+                const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+                document.cookie = `timezone=${tz};path=/`;
+            }
         });
+
+        async function getIp(theUrl, callback) {
+            let xmlHttp = new XMLHttpRequest();
+            xmlHttp.onreadystatechange = function () {
+                if (xmlHttp.readyState === 4) {
+                    if (xmlHttp.status === 200)
+                        callback(xmlHttp.responseText)
+                    else
+                        callback(null)
+                }
+            }
+            xmlHttp.open("GET", theUrl, true);
+            xmlHttp.send(null);
+        }
 
     </script>
 

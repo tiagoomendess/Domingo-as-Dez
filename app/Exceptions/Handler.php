@@ -49,12 +49,17 @@ class Handler extends ExceptionHandler
     public function render($request, Exception $exception)
     {
         $supportedCodes = [403, 404, 500];
-        $notifiableCodes = [500, 501, 503, 504];
+        $notifiableCodes = [500, 501, 502, 503, 504];
 
         if ($this->isHttpException($exception)) {
             $statusCode = $exception->getStatusCode();
-            if (in_array($statusCode, $notifiableCodes) && config('custom.send_exception_to_mail'))
-                $this->sendExceptionToMail($request, $exception);
+            if (in_array($statusCode, $notifiableCodes) && config('custom.send_exception_to_mail')) {
+                try {
+                    $this->sendExceptionToMail($request, $exception);
+                } catch (Exception $e) {
+                    // do nothing
+                }
+            }
 
             if (in_array($statusCode, $supportedCodes)) {
                 $vars = [

@@ -2,13 +2,14 @@
 
 namespace App\Console;
 
-use App\Console\Commands\shit;
 use App\Jobs\DeleteNotVerifiedAccounts;
 use App\Jobs\GenerateGameImage;
 use App\Jobs\ProcessDeleteRequest;
+use App\Jobs\ProcessPolls;
+use App\Jobs\ProcessScoreReportBans;
+use App\Jobs\ScoreReportConsumer;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
-use Symfony\Component\HttpKernel\Log\Logger;
 
 class Kernel extends ConsoleKernel
 {
@@ -29,11 +30,12 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
         $schedule->job(new ProcessDeleteRequest())->daily();
-        $schedule->job(new DeleteNotVerifiedAccounts())->everyMinute();
+        $schedule->job(new DeleteNotVerifiedAccounts())->everyTenMinutes();
         $schedule->job(new GenerateGameImage())->everyMinute();
+        $schedule->job(new ProcessPolls())->everyMinute();
+        $schedule->job(new ProcessScoreReportBans())->dailyAt('22:59');
+        $schedule->job(new ScoreReportConsumer())->everyMinute();
     }
 
     /**

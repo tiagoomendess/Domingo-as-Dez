@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Front;
 
+use App\Audit;
 use App\Game;
 use App\Http\Controllers\Controller;
 use App\Media;
@@ -63,9 +64,12 @@ class MatchImageGeneratorController extends Controller
         $this->setClubEmblems($base, $data);
         $this->setClubNames($base, $data);
 
+        $audit_extra_info = "";
         if ($game->finished) {
+            $audit_extra_info = "Imagem de resultado final";
             $this->setFinalScore($base, $game);
         } else {
+            $audit_extra_info = "Imagem de divulgação ao jogo";
             $this->setMatchInfo($base, $data);
         }
 
@@ -75,6 +79,8 @@ class MatchImageGeneratorController extends Controller
             'Content-Type' => 'image/jpeg',
             'Content-Disposition' => 'attachment; filename=' . $name,
         ];
+
+        Audit::add(Audit::ACTION_VIEW, "MatchImage", null, $game->toArray(), $audit_extra_info);
 
         return response()->stream(function () use ($base) {
             echo $base;

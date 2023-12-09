@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Resources;
 
+use App\Audit;
 use App\Club;
 use App\Game;
 use App\GameGroup;
@@ -112,7 +113,8 @@ class GameController extends Controller
             'date' => Carbon::createFromTimestamp($carbon->timestamp)->format("Y-m-d H:i:s"),
             'playground_id' => $playground_id,
             'postponed' => $postponed,
-            'generate_image' => true
+            'generate_image' => true,
+            'scoreboard_updates' => true,
         ]);
 
         //If there were referees set
@@ -136,6 +138,8 @@ class GameController extends Controller
             }
 
         }
+
+        Audit::add(Audit::ACTION_CREATE, 'Game', null, $game->toArray());
 
         return redirect(route('games.show', ['game' => $game]));
 
@@ -192,10 +196,12 @@ class GameController extends Controller
             'types_id' => 'nullable|array|min:1|max:8',
             'types_id.*' => 'required|integer|exists:referee_types,id',
             'timezone' => 'required|string|max:20',
-            'postponed' => 'required'
+            'postponed' => 'required',
+            'scoreboard_updates' => 'required',
         ]);
 
         $game = Game::findOrFail($id);
+        $old_game = $game->toArray();
 
         $carbon = new Carbon($request->input('date'), $request->input('timezone'));
         $splited = explode(':', $request->input('hour'));
@@ -206,6 +212,7 @@ class GameController extends Controller
         $visible = $request->input('visible') == 'true';
         $finished = $request->input('finished') == 'true';
         $postponed = $request->input('postponed') == 'true';
+        $scoreboard_updates = $request->input('scoreboard_updates') == 'true';
 
         $home_team_id = $request->input('home_team_id');
         $away_team_id = $request->input('away_team_id');
@@ -231,6 +238,7 @@ class GameController extends Controller
         $game->finished = $finished;
         $game->postponed = $postponed;
         $game->generate_image = true;
+        $game->scoreboard_updates = $scoreboard_updates;
 
         $game->save();
 
@@ -300,6 +308,8 @@ class GameController extends Controller
         $messages = new MessageBag();
         $messages->add('success', trans('success.model_edited', ['model_name' => trans('models.game')]));
 
+        Audit::add(Audit::ACTION_UPDATE, 'Game', $old_game, $game->toArray());
+
         return redirect(route('games.show', ['game' => $game]))->with(['popup_message' => $messages]);
     }
 
@@ -312,11 +322,13 @@ class GameController extends Controller
     public function destroy($id)
     {
         $game = Game::findOrFail($id);
+        $old_game = $game->toArray();
         $game->delete();
 
         $messages = new MessageBag();
         $messages->add('success', trans('success.model_deleted', ['model_name' => trans('models.game')]));
 
+        Audit::add(Audit::ACTION_DELETE, 'Game', $old_game);
         return redirect(route('games.index'))->with(['popup_message' => $messages]);
     }
 

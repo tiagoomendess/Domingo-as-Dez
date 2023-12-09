@@ -39,6 +39,10 @@
                             <li><a class="waves-effect"
                                    href="{{ route('media.index') }}">{{ trans('models.media') }}</a></li>
                         @endif
+                        @if(Auth::user()->hasPermission('polls'))
+                            <li><a class="waves-effect"
+                                   href="{{ route('polls.index') }}">Sondagens</a></li>
+                        @endif
                     </ul>
                 </div>
             </li>
@@ -159,6 +163,10 @@
                             <li><a class="waves-effect"
                                    href="{{ route('info_reports.index') }}">{{ trans('models.info_reports') }}</a></li>
                         @endif
+                            @if(Auth::user()->hasPermission('admin'))
+                                <li><a class="waves-effect"
+                                       href="{{ route('audit.index') }}">{{ trans('models.audit') }}</a></li>
+                            @endif
                     </ul>
                 </div>
             </li>

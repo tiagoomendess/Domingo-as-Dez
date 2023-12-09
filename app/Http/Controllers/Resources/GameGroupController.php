@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Resources;
 
+use App\Audit;
 use App\GameGroup;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -63,6 +64,8 @@ class GameGroupController extends Controller
             'group_rules_id' => $group_rules_id,
         ]);
 
+        Audit::add(Audit::ACTION_CREATE, 'GameGroup', null, $game_group->toArray());
+
         return redirect()->route('gamegroups.show', ['game_group' => $game_group]);
     }
 
@@ -100,6 +103,7 @@ class GameGroupController extends Controller
     public function update(Request $request, $id)
     {
         $game_group = GameGroup::findOrFail($id);
+        $old_game_group = $game_group->toArray();
 
         $request->validate([
             'name' => 'string|max:154|required',
@@ -117,6 +121,8 @@ class GameGroupController extends Controller
 
         $game_group->save();
 
+        Audit::add(Audit::ACTION_UPDATE, 'GameGroup', $old_game_group, $game_group->toArray());
+
         return redirect()->route('gamegroups.show', ['game_group' => $game_group]);
     }
 
@@ -129,10 +135,13 @@ class GameGroupController extends Controller
     public function destroy($id)
     {
         $game_group = GameGroup::findOrFail($id);
+        $old_game_group = $game_group->toArray();
         $game_group->delete();
 
         $messages = new MessageBag();
         $messages->add('success', trans('success.model_deleted', ['model_name' => trans('models.game_group')]));
+
+        Audit::add(Audit::ACTION_DELETE, 'GameGroup', $old_game_group, null);
 
         return redirect(route('gamegroups.index'))->with(['popup_message' => $messages]);
     }

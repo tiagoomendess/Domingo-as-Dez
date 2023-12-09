@@ -223,6 +223,23 @@
         <div class="col s12">
             <div class="switch">
                 <label>
+                    {{ trans('general.scoreboard_updates') }}
+                    <input name="scoreboard_updates" type="hidden" value="false">
+                    @if($game->scoreboard_updates)
+                        <input disabled name="scoreboard_updates" type="checkbox" value="true" checked>
+                    @else
+                        <input disabled name="scoreboard_updates" type="checkbox" value="true">
+                    @endif
+                    <span class="lever"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col s12">
+            <div class="switch">
+                <label>
                     {{ trans('general.visible') }}
                     <input name="visible" type="hidden" value="false">
                     @if($game->visible)

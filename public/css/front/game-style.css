@@ -257,3 +257,40 @@ figure img {
     color: white;
     text-shadow: 1px 1px 1px #000000, 0 0 2px rgba(0, 0, 0, 0.88);
 }
+
+.past-game-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 1px solid black;
+}
+
+.past-game-item:hover {
+    background-color: #eaeaea;
+    cursor: pointer;
+}
+
+.past-game-item span {
+    color: black;
+    font-size: 18px;
+    padding-top: 2px;
+}
+
+.past-game-item:nth-child(1) {
+    border-top: 1px solid black;
+}
+
+.past-game-item img {
+    width: 30px;
+    height: auto;
+    margin: 0 7px 0 7px;
+}
+
+.performance-labels a {
+    color: white;
+    padding: 2px 8px;
+    text-align: center;
+    font-weight: bold;
+    background-color: black;
+    margin: 0 2px;
+}

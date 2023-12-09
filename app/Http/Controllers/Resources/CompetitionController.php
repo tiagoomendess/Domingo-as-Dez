@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Resources;
 
+use App\Audit;
 use App\Competition;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -85,8 +86,9 @@ class CompetitionController extends Controller
             'name' => $name,
             'picture' => $url,
             'visible' => $visible
-
         ]);
+
+        Audit::add(Audit::ACTION_CREATE, 'Competition', null, $competition->toArray());
 
         return redirect(route('competitions.show', ['competition' => $competition]));
 
@@ -134,6 +136,7 @@ class CompetitionController extends Controller
         ]);
 
         $competition = Competition::findOrFail($id);
+        $old_competition = $competition->toArray();
         $messages = new MessageBag();
 
         if($request->input('visible') == 'true')
@@ -176,6 +179,8 @@ class CompetitionController extends Controller
 
         $messages->add('success', trans('success.model_edited', ['model_name' => trans('models.competition')]));
 
+        Audit::add(Audit::ACTION_UPDATE, 'Competition', $old_competition, $competition->toArray());
+
         return redirect(route('competitions.show', ['competition' => $competition]))->with(['popup_message' => $messages]);
 
     }
@@ -189,11 +194,14 @@ class CompetitionController extends Controller
     public function destroy($id)
     {
         $competition = Competition::findOrFail($id);
+        $old_competition = $competition->toArray();
 
         $competition->delete();
 
         $messages = new MessageBag();
         $messages->add('success', trans('success.model_deleted', ['model_name' => trans('models.competition')]));
+
+        Audit::add(Audit::ACTION_DELETE, 'Competition', $old_competition);
 
         return redirect()->route('competitions.index')->with('popup_message', $messages);
     }

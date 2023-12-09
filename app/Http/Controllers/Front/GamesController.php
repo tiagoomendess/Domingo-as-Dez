@@ -2,17 +2,19 @@
 
 namespace App\Http\Controllers\Front;
 
+use App\Audit;
 use App\Competition;
 use App\Game;
 use App\MvpVotes;
 use App\Player;
+use App\ScoreReport;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\GameGroup;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class GamesController extends Controller
 {
@@ -70,7 +72,49 @@ class GamesController extends Controller
             $mvpVote = null;
         }
 
-        return view('front.pages.game', ['game' => $game, 'mvp' => $mvp, 'mvp_vote' => $mvpVote]);
+        // get past games
+        $past_games = Game::where('visible', true)
+            ->where('finished', true)
+            ->where('date', '<', $game->date)
+            ->whereRaw(
+                "((home_team_id = ? and away_team_id = ?) or (home_team_id = ? and away_team_id = ?))",
+                [ $game->home_team_id, $game->away_team_id, $game->away_team_id, $game->home_team_id]
+            )
+            ->orderByDesc('date')
+            ->get();
+
+        if (!$game->started() && !$game->finished) {
+            $home_team_last_games = Game::where('visible', true)
+                ->where('finished', true)
+                ->where('date', '<', $game->date)
+                ->whereRaw("(home_team_id = ? or away_team_id = ?)", [$game->home_team_id, $game->home_team_id])
+                ->orderByDesc('date')
+                ->limit(4)
+                ->get();
+
+            $away_team_last_games = Game::where('visible', true)
+                ->where('finished', true)
+                ->where('date', '<', $game->date)
+                ->whereRaw("(home_team_id = ? or away_team_id = ?)", [$game->away_team_id, $game->away_team_id])
+                ->orderByDesc('date')
+                ->limit(4)
+                ->get();
+        } else {
+            $home_team_last_games = [];
+            $away_team_last_games = [];
+        }
+
+        return view(
+            'front.pages.game',
+            [
+                'game' => $game,
+                'mvp' => $mvp,
+                'mvp_vote' => $mvpVote,
+                'past_games' => $past_games,
+                'home_team_last_games' => $home_team_last_games,
+                'away_team_last_games' => $away_team_last_games,
+            ]
+        );
     }
 
     public function liveMatches() {
@@ -115,8 +159,32 @@ class GamesController extends Controller
             ->orderBy('date', 'asc')
             ->get();
 
+        $score_reports = [];
+        // Get score reports for each game
+        foreach ($games as $game) {
+            $results = [];
+            $game_score_reports = ScoreReport::where('game_id', $game->id)
+                ->orderBy('id', 'desc')
+                ->limit(50)
+                ->get();
+
+            foreach ($game_score_reports as $game_score_report) {
+                $key = $game_score_report->home_score . '-' . $game_score_report->away_score;
+                if (!isset($results[$key]))
+                    $results[$key] = 1;
+                else
+                    $results[$key]++;
+            }
+
+            // get only the first 3 elements
+            $results = array_slice($results, 0, 3);
+
+            $score_reports[$game->id] = $results;
+        }
+
         return view('front.pages.today_edit', [
-            'games' => $games
+            'games' => $games,
+            'score_reports' => $score_reports
         ]);
     }
 
@@ -133,12 +201,48 @@ class GamesController extends Controller
         ]);
 
         $game = Game::findOrFail($request->input('game_id'));
+        $old_game = $game->toArray();
         $game->goals_home = $request->input('goals_home');
         $game->goals_away = $request->input('goals_away');
-        $game->finished = (bool)$request->input('finished', false);;
+        $game->finished = (bool)$request->input('finished', false);
         $game->save();
 
+        Audit::add(Audit::ACTION_UPDATE, 'Game', $old_game, $game->toArray());
+        $this->createScoreReport($game);
+
         return redirect()->route('games.today_edit');
+    }
+
+    private function createScoreReport(Game $game) {
+        try {
+            $user = Auth::user();
+            ScoreReport::create([
+                'user_id' => $user ? $user->id : null,
+                'game_id' => $game->id,
+                'home_score' => $game->getHomeScore(),
+                'away_score' => $game->getAwayScore(),
+                'source' => 'today_edit',
+                'ip_address' => str_limit(request()->getClientIp(), 255, ''),
+                'user_agent' => str_limit(request()->userAgent(), 255, ''),
+                'uuid' => $this->guidv4(),
+            ]);
+        } catch (\Exception $e) {
+            Log::error("Error creating score report on today edit: " . $e->getMessage());
+        }
+    }
+
+    private function guidv4($data = null) {
+        // Generate 16 bytes (128 bits) of random data or use the data passed into the function.
+        $data = $data ?? random_bytes(16);
+        assert(strlen($data) == 16);
+
+        // Set version to 0100
+        $data[6] = chr(ord($data[6]) & 0x0f | 0x40);
+        // Set bits 6-7 to 10
+        $data[8] = chr(ord($data[8]) & 0x3f | 0x80);
+
+        // Output the 36 character UUID.
+        return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4));
     }
 }
 

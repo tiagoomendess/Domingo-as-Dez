@@ -23,7 +23,8 @@ class Game extends Model
         'visible',
         'postponed',
         'image',
-        'generate_image'
+        'generate_image',
+        'scoreboard_updates',
     ];
 
     protected $guarded = [];
@@ -260,8 +261,6 @@ class Game extends Model
         }
 
         return $games;
-
-
     }
 
     public function isMvpVoteOpen(): bool
@@ -276,5 +275,14 @@ class Game extends Model
             return true;
         else
             return false;
+    }
+
+    public function allowScoreReports(): bool {
+
+        $now = Carbon::now();
+        $kickOffAt = Carbon::createFromFormat("Y-m-d H:i:s", $this->date);
+        $kickOffAt->addHours(3);
+
+        return $this->started() && $now < $kickOffAt->addHours(3);
     }
 }

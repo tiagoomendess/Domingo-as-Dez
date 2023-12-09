@@ -31,6 +31,8 @@ Route::get('/info', 'Front\InfoReportsController@create')->name('info.create');
 Route::post('/info', 'Front\InfoReportsController@store')->name('info.store');
 Route::post('/info/show', 'Front\InfoReportsController@show')->name('info.show');
 Route::post('/info/delete', 'Front\InfoReportsController@delete')->name('info.delete');
+Route::get('/score-reports/{game}', 'Front\ScoreReportsController@create')->name('score_reports.create');
+Route::post('/score-reports/{game}', 'Front\ScoreReportsController@store')->name('score_reports.store');
 
 Route::get('/home', 'Front\HomePageController@home')->name('home');
 
@@ -41,6 +43,7 @@ Route::get('/games/import', 'Resources\GameController@showImportPage')->name('ga
 Route::post('/games/import', 'Resources\GameController@importGames')->name('games.import_games');
 Route::post('/settings/change', 'SettingsController@changeSetting')->name('settings.change');
 Route::post('/articles/{article}/post-on-facebook', 'Resources\ArticleController@postOnFacebook')->name('articles.post_on_facebook');
+Route::get('/audit', 'Backoffice\AuditController@index')->name('audit.index');
 
 //CKEditor
 Route::post('/ckeditor/upload', 'Backoffice\CKEditorController@upload')->name('ckeditor.upload');
@@ -67,7 +70,8 @@ Route::resources([
     'gamegroups' => 'Resources\GameGroupController',
     'pages' => 'Resources\PageController',
     'partners' => 'Resources\PartnerController',
-    'info_reports' => 'Resources\InfoReportController'
+    'info_reports' => 'Resources\InfoReportController',
+    'polls' => 'Resources\PollController'
 ]);
 
 //Routes to javascript in backend
@@ -100,6 +104,15 @@ Route::get('/competicoes/{competition_slug}/{season_slug}/estatisticas', 'Front\
         'competition_slug' => '[a-z0-9\-]+',
         'season_slug' => '[0-9]{4}\-[0-9]{4}|[0-9]{4}'
     ]);
+
+// Sondagens
+Route::get('/sondagens/{slug}', 'Front\PollsController@show')->name('polls.front.show')->where([
+    'slug' => '[0-9a-z-]+'
+]);
+Route::put('/sondagens/{slug}', 'Front\PollsController@vote')->name('polls.front.vote')->where([
+    'slug' => '[0-9a-z-]+'
+]);
+
 Route::get('/transferencias', 'Front\TransfersController@index')->name('transfers');
 Route::get('/competicoes/{competition_slug}/{season_slug}/{group_slug}/{round}/{clubs_slug}', 'Front\GamesController@show')
     ->name('front.games.show')

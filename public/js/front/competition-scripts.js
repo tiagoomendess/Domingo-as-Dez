@@ -303,12 +303,10 @@ function showTable(group, round) {
             buildPointsTable(group, round);
         }
 
-    } else if (data.groups[group].type === 'elimination') {
+    } else {
         group_element.find('.table-loading').addClass('hide');
         group_element.find('.group-table').empty();
-        group_element.find('.group-table').append($('<p class="center">Não existe tabela para competições a eliminar.</p>'));
-    } else {
-
+        group_element.find('.group-table').append($('<p class="center">Não existe tabela de pontos para esta competição</p>'));
     }
 }
 
@@ -495,7 +493,8 @@ function orderTable(table, rules_name, group, round) {
         case 'afpb_pontos_basico':
         case 'afpb_pontos_2019_div1':
         case 'afpb_series_2021':
-            console.log('AFPB Points in 2018!');
+        case 'afpb_pontos_2023_div1':
+        case 'afpb_pontos_series_2023_div2':
             afpb_points_2018(table, group, round);
             break;
         default:
