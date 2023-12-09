@@ -10,8 +10,12 @@ return [
     'page_not_found' => 'Página não encontrada',
     'http_403' => 'Não tem permissão para visualizar esta página',
     'http_500' => 'Erro ao processar o pedido',
-    'http_500_details' => 'Tente mais tarde, se o problema persistir constacte o administrador do Website',
+    'http_500_details' => 'Tente mais tarde, se o problema persistir contacte o administrador do Website',
     'http_500_title' => 'Erro 500',
+    'http_503' => 'Website Indisponível',
+    'http_503_details' => 'O website está temporariamente indisponível para manutenção, por favor tente mais tarde.',
+    'http_503_title' => 'Website Indisponível',
+    'http_503_update_page' => 'Recarregar Página',
     'error' => 'Erro',
     'back_to_index' => 'Voltar ao Início'
 ];

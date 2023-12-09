@@ -2,8 +2,10 @@
 
 namespace App\Jobs;
 
+use App\Notifications\ScoreReportBanNotification;
 use App\ScoreReport;
 use App\ScoreReportBan;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
@@ -33,6 +35,7 @@ class ProcessScoreReportBans implements ShouldQueue
      */
     public function handle()
     {
+        $startTime = new \DateTime();
         Log::info("Starting ProcessScoreReportBans...");
         $startFrom = Carbon::now()->subHours(24);
         $now = Carbon::now();
@@ -54,7 +57,7 @@ class ProcessScoreReportBans implements ShouldQueue
                     $totalProcessed++;
 
                     if (!$scoreReport->game->finished || $scoreReport->game->postponed) {
-                        Log::info("Match not finished or postponed. Skipping...");
+                        Log::info("Match " . $scoreReport->game->id . " not finished or postponed. Skipping...");
                         continue;
                     }
 
@@ -69,7 +72,7 @@ class ProcessScoreReportBans implements ShouldQueue
 
                         $banKeys[] = $banKey;
                         $matchName = $scoreReport->game->home_team->club->name . " vs " . $scoreReport->game->away_team->club->name;
-                        $reason = "Bloqueio automatico do sistema por ter enviado um resultado falso no jogo $matchName";
+                        $reason = "Envio de um resultado falso no jogo $matchName";
                         ScoreReportBan::create([
                             'user_id' => $scoreReport->user_id,
                             'score_report_id' => $scoreReport->id,
@@ -80,12 +83,35 @@ class ProcessScoreReportBans implements ShouldQueue
                             'reason' => $reason,
                         ]);
 
-                        Log::info("Banned a user: USER_ID:" . $scoreReport->user_id . ", IP: " . $scoreReport->ip_address . ", UUID: " . $scoreReport->uuid);
+                        if (!empty($scoreReport->user)) {
+                            $this->banUser($scoreReport->user, $reason, $banExpiration->format("d/m/Y \à\s H:i"));
+                        } else {
+                            Log::info("Report with no user associated. Skipping notification...");
+                        }
+
+                        Log::info("Banned a user: USER_ID:" . $scoreReport->user_id ?? '0' . ", IP: " . $scoreReport->ip_address . ", UUID: " . $scoreReport->uuid);
                     }
                 }
             });
 
         $totalBans = count($banKeys);
-        Log::info("ProcessScoreReportBans Job finished. $totalBans bans created out of $totalFakes fake scores and a total of $totalProcessed reports processed.");
+        $endTime = new \DateTime();
+        $diffTime = $endTime->diff($startTime);
+        $elapsed = $diffTime->format("%I:%S");
+        Log::info("ProcessScoreReportBans Job finished. $totalBans bans created out of $totalFakes fake scores and a total of $totalProcessed reports processed in $elapsed.");
+    }
+
+    private function banUser(User $user, string $reason, string $expiration) {
+        try {
+            Log::info("Notifying user " . $user->email . " about the ban...");
+            $user->notify(
+                new ScoreReportBanNotification(
+                    $expiration,
+                    $reason
+                )
+            );
+        } catch (\Exception $e) {
+            Log::error("Error banning user " . $user->email . ": " . $e->getMessage());
+        }
     }
 }
