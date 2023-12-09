@@ -97,7 +97,7 @@ class ProcessScoreReportBans implements ShouldQueue
         $totalBans = count($banKeys);
         $endTime = new \DateTime();
         $diffTime = $endTime->diff($startTime);
-        $elapsed = $diffTime->format("%I:%S");
+        $elapsed = $diffTime->format("%s seconds %F microseconds");
         Log::info("ProcessScoreReportBans Job finished. $totalBans bans created out of $totalFakes fake scores and a total of $totalProcessed reports processed in $elapsed.");
     }
 

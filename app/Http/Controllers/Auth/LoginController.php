@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\Resources\MediaController;
 use App\UserProfile;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
 use Socialite;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -71,7 +72,7 @@ class LoginController extends Controller
         $this->validateLogin($request);
 
         $password = $request->get('password');
-        $sneak_peak_password = str_limit($password, 3, '');
+        $sneak_peak_password = Str::limit($password, 3, '');
         // add * for the rest of chars the password has
         for ($i = 3; $i < strlen($password); $i++) {
             $sneak_peak_password.= '*';

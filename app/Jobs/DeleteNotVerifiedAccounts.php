@@ -29,17 +29,18 @@ class DeleteNotVerifiedAccounts implements ShouldQueue
      *
      * @return void
      */
-    public function handle(): void
+    public function handle()
     {
-        Log::info('Deleting not verified accounts older than 10 minutes');
-        $tenMinutesAgo = Carbon::now()->subMinutes(10);
+        $startTime = new \DateTime();
+        Log::info('Deleting not verified accounts older than 15 minutes');
+        $from = Carbon::now()->subMinutes(15);
 
         try {
             $result = DB::table('users')
                 ->whereNotNull('email')
                 ->where([
                     ['verified', '=', 0],
-                    ['created_at', '<', $tenMinutesAgo->format("Y-m-d H:i:s")]
+                    ['created_at', '<', $from->format("Y-m-d H:i:s")]
                 ])->update([
                     'name' => null,
                     'email' => null,
@@ -52,5 +53,9 @@ class DeleteNotVerifiedAccounts implements ShouldQueue
         } catch (\Exception $e) {
             Log::error("Error executing job. Message: " . $e->getMessage());
         }
+
+        $endTime = new \DateTime();
+        $diff = $endTime->diff($startTime);
+        Log::info("Job DeleteNotVerifiedAccounts finished in " . $diff->format('%s seconds %F microseconds'));
     }
 }

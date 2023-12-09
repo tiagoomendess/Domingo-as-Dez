@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\MessageBag;
+use Illuminate\Support\Str;
 
 class ScoreReportsController extends Controller
 {
@@ -60,6 +61,7 @@ class ScoreReportsController extends Controller
         ];
 
         $user = Auth::user();
+        $user_id = empty($user) ? '0' : $user->id;
 
         // If not logged in require captcha
         if (empty($user)) {
@@ -76,6 +78,8 @@ class ScoreReportsController extends Controller
         if (empty($uuid)) {
             $uuid = $this->guidv4();
             $request->cookies->add(['uuid' => $uuid]);
+            Log::info("Error creating Score Report. UUID was missing, created new one: $uuid");
+
             // redirect back with cookie and error
             return redirect()
                 ->back()
@@ -117,6 +121,8 @@ class ScoreReportsController extends Controller
                 $uuid,
             ])->count();
         if ($sameReportFromSameUser > 0) {
+            Log::info("User ($user_id) tried to send same score report twice for game " . $game->id . " - uuid($uuid)");
+
             return redirect()
                 ->back()
                 ->withErrors(['game' => 'Já enviou este resultado e não precisa de faze-lo novamente, obrigado pelo seu contributo'])
@@ -172,8 +178,8 @@ class ScoreReportsController extends Controller
             'home_score' => $home_score,
             'away_score' => $away_score,
             'source' => 'website',
-            'ip_address' => str_limit($request->input('ip'), 45, ''),
-            'user_agent' => str_limit($request->header('User-Agent'), 255, ''),
+            'ip_address' => Str::limit($request->input('ip'), 45, ''),
+            'user_agent' => Str::limit($request->header('User-Agent'), 255, ''),
             'location' => $location,
             'location_accuracy' => $request->input('accuracy') ? (int) $request->input('accuracy') : null,
             'uuid' => $uuid,
@@ -190,7 +196,7 @@ class ScoreReportsController extends Controller
 
         $url = $request->input('redirect_to', $game->getPublicUrl());
 
-        $logMessage = "Score report of $home_score-$away_score for game " . $game->id . " created ($uuid)";
+        $logMessage = "User ($user_id) created score report of $home_score-$away_score for game " . $game->id . " - uuid($uuid)";
         Log::info($logMessage);
 
         return redirect($url)

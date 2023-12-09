@@ -56,7 +56,7 @@
                                                     <div style="display: flex; flex-direction: row; justify-content: end; align-items: center; height: 37px">
                                                         <span style="" class="hide-on-med-and-down">{{ $game->home_team->club->name }}</span>
                                                         <span class="hide-on-large-only">
-                                                            {{ mb_strtoupper(str_limit($game->home_team->club->name, 3, '')) }}
+                                                            {{ mb_strtoupper(\Illuminate\Support\Str::limit($game->home_team->club->name, 3, '')) }}
                                                         </span>
                                                         <img class="" style="width: 30px; margin-left: 5px; resize: none;"
                                                              src="{{ $game->home_team->club->getEmblem() }}">
@@ -85,7 +85,7 @@
                                                              src="{{ $game->away_team->club->getEmblem() }}">
                                                         <span style="" class="hide-on-med-and-down">{{ $game->away_team->club->name }}</span>
                                                         <span class="hide-on-large-only">
-                                                            {{ mb_strtoupper(str_limit($game->away_team->club->name, 3, '')) }}
+                                                            {{ mb_strtoupper(\Illuminate\Support\Str::limit($game->away_team->club->name, 3, '')) }}
                                                         </span>
                                                     </div>
                                                 </div>

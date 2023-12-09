@@ -34,7 +34,7 @@
 
                     @foreach($infos as $info)
                         <tr>
-                            <td><a href="{{ route('info_reports.edit', ['id' => $info->id]) }}">{{ str_limit($info->content, 30) }}</a></td>
+                            <td><a href="{{ route('info_reports.edit', ['id' => $info->id]) }}">{{ \Illuminate\Support\Str::limit($info->content, 30) }}</a></td>
                             <td>{{ trans('front.info_report_status_' . $info->status) }}</td>
                             <td>
                                 {{ \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $info->created_at)->timezone('Europe/Lisbon')->format("d/m/Y H:i") }}

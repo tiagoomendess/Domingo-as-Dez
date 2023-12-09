@@ -39,6 +39,7 @@ class ProcessPolls
      */
     public function handle()
     {
+        $startTime = new \DateTime();
         Log::info("Starting Processing Polls Job");
 
         Log::info("Publishing scheduled polls");
@@ -100,7 +101,10 @@ class ProcessPolls
             }
         }
 
+        $endTime = new \DateTime();
+        $diff = $endTime->diff($startTime);
+
         $total = $success + $failed;
-        Log::info("Finished Processing $total Polls. $success success and $failed fails");
+        Log::info("Finished Processing $total Polls. $success success and $failed fails in " . $diff->format('%s seconds %F microseconds'));
     }
 }

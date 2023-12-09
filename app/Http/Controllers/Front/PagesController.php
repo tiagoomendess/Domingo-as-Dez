@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
 use App\Page;
+use Illuminate\Support\Str;
 
 class PagesController extends Controller
 {
@@ -19,7 +20,7 @@ class PagesController extends Controller
         if (!$page)
             abort(404);
 
-        $description = str_limit(strip_tags($page->body), 155);
+        $description = Str::limit(strip_tags($page->body), 155);
 
         return view('front.pages.page', ['page' => $page, 'description' => $description]);
     }

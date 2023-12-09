@@ -81,6 +81,7 @@ class MatchImageGeneratorController extends Controller
         ];
 
         Audit::add(Audit::ACTION_VIEW, "MatchImage", null, $game->toArray(), $audit_extra_info);
+        Log::info("Match Image generated for game " . $game->id . " by user " . $user->id);
 
         return response()->stream(function () use ($base) {
             echo $base;

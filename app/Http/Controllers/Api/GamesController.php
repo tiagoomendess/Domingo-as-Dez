@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class GamesController extends Controller
 {
@@ -102,15 +103,15 @@ class GamesController extends Controller
 
                 preg_match("/[A-Z\Á][a-z\ç\ã\õ\á]+$/", $game->home_team->club->name, $small_name_match);
                 if (count($small_name_match) > 0)
-                    $new_game->home_club_name_small = str_replace("...", "", str_limit($small_name_match[0], 3));
+                    $new_game->home_club_name_small = str_replace("...", "", Str::limit($small_name_match[0], 3));
                 else
-                    $new_game->home_club_name_small = str_replace("...", "", str_limit($game->home_team->club->name, 3));
+                    $new_game->home_club_name_small = str_replace("...", "", Str::limit($game->home_team->club->name, 3));
 
                 preg_match("/[A-Z\Á][a-z\ç\ã\õ\á]+$/", $game->away_team->club->name, $small_name_match);
                 if (count($small_name_match) > 0)
-                    $new_game->away_club_name_small = str_replace("...", "", str_limit($small_name_match[0], 3));
+                    $new_game->away_club_name_small = str_replace("...", "", Str::limit($small_name_match[0], 3));
                 else
-                    $new_game->away_club_name_small = str_replace("...", "", str_limit($game->away_team->club->name, 3));
+                    $new_game->away_club_name_small = str_replace("...", "", Str::limit($game->away_team->club->name, 3));
 
                 $new_game->home_club_name_small = strtoupper($new_game->home_club_name_small);
                 $new_game->away_club_name_small = strtoupper($new_game->away_club_name_small);

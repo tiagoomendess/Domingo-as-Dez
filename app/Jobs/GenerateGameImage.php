@@ -9,6 +9,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 use Intervention\Image\Image;
 use Intervention\Image\ImageManager;
 
@@ -39,9 +40,15 @@ class GenerateGameImage
      */
     public function handle()
     {
-        Log::info("Starting GenerateGameImage Job");
-
+        $startTime = new \DateTime();
         $games = Game::where('generate_image', true)->limit(10)->get();
+
+        // If no games, exit silently
+        if (count($games) == 0) {
+            return;
+        }
+
+        Log::info("Starting GenerateGameImage Job");
         Log::info("Got " . count($games) . " game(s) to generate.");
 
         foreach ($games as $game) {
@@ -77,7 +84,7 @@ class GenerateGameImage
                     $base->insert(public_path('/images/game_image_postponed_watermark.png'));
                 }
 
-                $name = str_slug($game->home_team->club->name . '-vs-'
+                $name = Str::slug($game->home_team->club->name . '-vs-'
                         . $game->away_team->club->name
                         . '-'
                         . $game->game_group->season->competition->name
@@ -99,7 +106,9 @@ class GenerateGameImage
             }
         }
 
-        Log::info("Finished GenerateGameImage Job");
+        $endTime = new \DateTime();
+        $diff = $endTime->diff($startTime);
+        Log::info("Finished GenerateGameImage Job in " . $diff->format('%s seconds %F microseconds'));
     }
 
     private function setCompetitionLogo(Image &$base, $data)
