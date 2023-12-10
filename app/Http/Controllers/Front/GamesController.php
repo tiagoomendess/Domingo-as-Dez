@@ -163,7 +163,7 @@ class GamesController extends Controller
         $gameIds = $games->pluck('id')->toArray();
         $all_reports = DB::table('score_reports')->whereIn('game_id', $gameIds)
             ->orderBy('id', 'desc')
-            ->limit(50)
+            ->limit(200)
             ->get();
 
         $reports_by_game = [];
