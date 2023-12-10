@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Season;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Log;
 
 class SeasonsController extends Controller
 {
@@ -124,7 +122,7 @@ class SeasonsController extends Controller
         }
 
         $serializedObj = \GuzzleHttp\json_encode($data_object);
-        Cache::store('file')->put($key, $serializedObj, 1);
+        Cache::store('file')->put($key, $serializedObj, 120);
 
         return response()->json($data_object);
     }

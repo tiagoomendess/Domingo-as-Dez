@@ -160,27 +160,34 @@ class GamesController extends Controller
             ->orderBy('date', 'asc')
             ->get();
 
+        $gameIds = $games->pluck('id')->toArray();
+        $all_reports = DB::table('score_reports')->whereIn('game_id', $gameIds)
+            ->orderBy('id', 'desc')
+            ->limit(50)
+            ->get();
+
+        $reports_by_game = [];
+        // Group by game_id
+        foreach ($all_reports as $report) {
+            if (!isset($reports_by_game[$report->game_id]))
+                $reports_by_game[$report->game_id] = [];
+
+            $reports_by_game[$report->game_id][] = $report;
+        }
+
         $score_reports = [];
-        // Get score reports for each game
-        foreach ($games as $game) {
-            $results = [];
-            $game_score_reports = ScoreReport::where('game_id', $game->id)
-                ->orderBy('id', 'desc')
-                ->limit(50)
-                ->get();
+        foreach ($reports_by_game as $game_id => $reports) {
+            foreach ($reports as $report) {
+                $key = $report->home_score . '-' . $report->away_score;
 
-            foreach ($game_score_reports as $game_score_report) {
-                $key = $game_score_report->home_score . '-' . $game_score_report->away_score;
-                if (!isset($results[$key]))
-                    $results[$key] = 1;
-                else
-                    $results[$key]++;
+                if (!isset($score_reports[$game_id][$key]))
+                    $score_reports[$game_id][$key] = 1;
+
+                if (count($score_reports[$game_id]) > 3)
+                    break;
+
+                $score_reports[$game_id][$key]++;
             }
-
-            // get only the first 3 elements
-            $results = array_slice($results, 0, 3);
-
-            $score_reports[$game->id] = $results;
         }
 
         return view('front.pages.today_edit', [
@@ -209,7 +216,7 @@ class GamesController extends Controller
         $game->save();
 
         Audit::add(Audit::ACTION_UPDATE, 'Game', $old_game, $game->toArray());
-        $this->createScoreReport($game);
+        //$this->createScoreReport($game);
 
         return redirect()->route('games.today_edit');
     }
@@ -246,4 +253,3 @@ class GamesController extends Controller
         return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4));
     }
 }
-

@@ -23,7 +23,6 @@ class GamesController extends Controller
 
     public function show($id)
     {
-
         $game = Game::findOrFail($id);
 
         if (!$game->visible)
@@ -77,6 +76,12 @@ class GamesController extends Controller
 
     public function getLiveMatches()
     {
+        $cached_data = Cache::store('file')->get('live_matches');
+        if (!empty($cached_data)) {
+            $return_object = json_decode($cached_data, true);
+            return response()->json($return_object);
+        }
+
         $return_object = new \stdClass();
         $return_object->data = [];
 
@@ -144,6 +149,8 @@ class GamesController extends Controller
 
             $i++;
         }
+
+        Cache::store('file')->put('live_matches', json_encode($return_object), 30);
 
         return response()->json($return_object);
     }
