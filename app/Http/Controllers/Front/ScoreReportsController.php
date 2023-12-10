@@ -27,9 +27,11 @@ class ScoreReportsController extends Controller
 
         $uuid = $request->cookie('uuid');
         if (empty($uuid)) {
-            $uuid = $this->guidv4();
+            $uuid = Str::limit($this->guidv4(), 36, '');
             $request->cookies->add(['uuid' => $uuid]);
         }
+
+        $uuid = Str::limit($uuid, 36, '');
 
         $ban = ScoreReportBan::findMatch(
             $uuid,
@@ -76,7 +78,7 @@ class ScoreReportsController extends Controller
         // get uuid from cookie
         $uuid = $request->cookie('uuid');
         if (empty($uuid)) {
-            $uuid = $this->guidv4();
+            $uuid = Str::limit($this->guidv4(), 36, '');
             $request->cookies->add(['uuid' => $uuid]);
             Log::info("Error creating Score Report. UUID was missing, created new one: $uuid");
 
@@ -86,6 +88,10 @@ class ScoreReportsController extends Controller
                 ->withErrors(['uuid' => 'Ocorreu um erro, por favor tente de novo'])
                 ->withInput()
                 ->withCookie(cookie()->forever('uuid', $uuid));
+        }
+
+        if (Str::length($uuid) != 36) {
+            $uuid = Str::limit($uuid, 36, '');
         }
 
         if (!$game->allowScoreReports()) {
@@ -182,7 +188,7 @@ class ScoreReportsController extends Controller
             'user_agent' => Str::limit($request->header('User-Agent'), 255, ''),
             'location' => $location,
             'location_accuracy' => $request->input('accuracy') ? (int) $request->input('accuracy') : null,
-            'uuid' => $uuid,
+            'uuid' => Str::limit($uuid, 36, ''),
         ]);
 
         $successMessage = "Resultado de $home_score-$away_score enviado, obrigado pelo seu contributo. ";
