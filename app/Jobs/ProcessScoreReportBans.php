@@ -13,6 +13,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class ProcessScoreReportBans implements ShouldQueue
 {
@@ -37,6 +38,21 @@ class ProcessScoreReportBans implements ShouldQueue
     {
         $startTime = new \DateTime();
         Log::info("Starting ProcessScoreReportBans...");
+
+        try {
+            $this->doHandle();
+        } catch (\Exception $e) {
+            Log::error("Error processing score reports: " . $e->getMessage());
+        }
+
+        $endTime = new \DateTime();
+        $diffTime = $endTime->diff($startTime);
+        $elapsed = $diffTime->format("%s seconds %F microseconds");
+        Log::info("ProcessScoreReportBans Job finished in $elapsed.");
+    }
+
+    private function doHandle()
+    {
         $startFrom = Carbon::now()->subHours(24);
         $now = Carbon::now();
 
@@ -70,18 +86,24 @@ class ProcessScoreReportBans implements ShouldQueue
                             continue;
                         }
 
-                        $banKeys[] = $banKey;
                         $matchName = $scoreReport->game->home_team->club->name . " vs " . $scoreReport->game->away_team->club->name;
                         $reason = "Envio de um resultado falso no jogo $matchName";
-                        ScoreReportBan::create([
-                            'user_id' => $scoreReport->user_id,
-                            'score_report_id' => $scoreReport->id,
-                            'ip_address' => $scoreReport->ip_address,
-                            'user_agent' => $scoreReport->user_agent,
-                            'uuid' => $scoreReport->uuid,
-                            'expires_at' => $banExpiration,
-                            'reason' => $reason,
-                        ]);
+
+                        try {
+                            ScoreReportBan::create([
+                                'user_id' => $scoreReport->user_id,
+                                'score_report_id' => $scoreReport->id,
+                                'ip_address' => Str::limit($scoreReport->ip_address, 40, ''),
+                                'user_agent' => Str::limit($scoreReport->user_agent, 255, ''),
+                                'uuid' => Str::limit($scoreReport->uuid, 36, ''),
+                                'expires_at' => $banExpiration,
+                                'reason' => Str::limit($reason, 255, ''),
+                            ]);
+                        } catch (\Exception $e) {
+                            Log::error("Error creating score report $scoreReport->id ban: " . $e->getMessage());
+                            continue;
+                        }
+                        $banKeys[] = $banKey;
 
                         if (!empty($scoreReport->user)) {
                             $this->banUser($scoreReport->user, $reason, $banExpiration->format("d/m/Y \à\s H:i"));
@@ -95,13 +117,11 @@ class ProcessScoreReportBans implements ShouldQueue
             });
 
         $totalBans = count($banKeys);
-        $endTime = new \DateTime();
-        $diffTime = $endTime->diff($startTime);
-        $elapsed = $diffTime->format("%s seconds %F microseconds");
-        Log::info("ProcessScoreReportBans Job finished. $totalBans bans created out of $totalFakes fake scores and a total of $totalProcessed reports processed in $elapsed.");
+        Log::info("$totalFakes fake scores, $totalBans bans created out of a total of $totalProcessed reports processed");
     }
 
-    private function banUser(User $user, string $reason, string $expiration) {
+    private function banUser(User $user, string $reason, string $expiration)
+    {
         try {
             Log::info("Notifying user " . $user->email . " about the ban...");
             $user->notify(
@@ -111,7 +131,7 @@ class ProcessScoreReportBans implements ShouldQueue
                 )
             );
         } catch (\Exception $e) {
-            Log::error("Error banning user " . $user->email . ": " . $e->getMessage());
+            Log::error("Error sending notification to banned user " . $user->email . ": " . $e->getMessage());
         }
     }
 }
