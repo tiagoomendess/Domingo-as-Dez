@@ -44,7 +44,7 @@ class PartnerController extends Controller
             'name' => 'required|max:50|string',
             'url' => 'required|max:255|string|url',
             'priority' => 'required|integer|min:1|max:100',
-            'picture' => 'required|image|max:20000',
+            'picture' => 'required|mimes:jpeg,jpg,png|max:20000',
             'visible' => 'required',
         ]);
 

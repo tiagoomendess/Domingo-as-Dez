@@ -52,7 +52,7 @@ class PageController extends Controller
             'title' => 'required|max:155|string',
             'name' => 'required|max:50|string',
             'body' => 'required|min:1',
-            'picture' => 'nullable|image|max:20000',
+            'picture' => 'nullable|mimes:jpeg,jpg,png|max:20000',
             'visible' => 'required',
         ]);
 
