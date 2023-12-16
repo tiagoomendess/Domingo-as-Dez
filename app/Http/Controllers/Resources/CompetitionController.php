@@ -55,7 +55,7 @@ class CompetitionController extends Controller
     {
         $request->validate([
             'name' => 'string|max:155|required|unique:competitions,name',
-            'file' => 'required|image|max:20000',
+            'file' => 'required|mimes:jpeg,jpg,png|max:20000',
             'visible' => 'required',
         ]);
 
@@ -131,7 +131,7 @@ class CompetitionController extends Controller
     {
         $request->validate([
             'name' => 'string|max:155|required',
-            'file' => 'nullable|image|max:20000',
+            'file' => 'nullable|mimes:jpeg,jpg,png|max:20000',
             'visible' => 'required',
         ]);
 

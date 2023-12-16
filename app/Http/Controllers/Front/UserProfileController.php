@@ -59,7 +59,7 @@ class UserProfileController extends Controller
     public function updateProfilePicture(Request $request) {
 
         $request->validate([
-            'photo' => 'required|image|mimes:png,jpg,jpeg|max:9000',
+            'photo' => 'required|mimes:png,jpg,jpeg|max:9000',
         ]);
 
         $user = Auth::user();

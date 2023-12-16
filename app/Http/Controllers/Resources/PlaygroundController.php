@@ -65,7 +65,7 @@ class PlaygroundController extends Controller
             'width' => 'nullable|integer|max:200|min:2',
             'height' => 'nullable|integer|max:200|min:5',
             'capacity' => 'nullable|integer|max:200000|min:0',
-            'picture' => 'nullable|image|max:20000',
+            'picture' => 'nullable|mimes:jpeg,jpg,png|max:20000',
             'obs' => 'nullable|string|max:1000|min:1',
             'visible' => 'required',
         ]);
@@ -152,7 +152,7 @@ class PlaygroundController extends Controller
             'width' => 'nullable|integer|max:200|min:2',
             'height' => 'nullable|integer|max:200|min:5',
             'capacity' => 'nullable|integer|max:200000|min:0',
-            'picture' => 'nullable|image|max:20000',
+            'picture' => 'nullable|mimes:jpeg,jpg,png|max:20000',
             'obs' => 'nullable|string|max:1000|min:1',
             'visible' => 'required',
             'address_latitude' => 'numeric|nullable',
