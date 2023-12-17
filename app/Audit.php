@@ -217,6 +217,27 @@ class Audit extends SearchableModel {
             $model_id = $newValues["id"];
         }
 
+        $timezone = null;
+        try {
+            $timezone = !empty($_COOKIE['timezone']) ? Str::limit($_COOKIE['timezone'], 30, '') : null;
+        } catch (Exception $e) {
+            Log::error("Error getting timezone: " . $e->getMessage());
+        }
+
+        $ip = null;
+        try {
+            $ip = !empty($_COOKIE['ip']) ? Str::limit($_COOKIE['ip'], 45, '') : request()->getClientIp();
+        } catch (Exception $e) {
+            Log::error("Error getting ip: " . $e->getMessage());
+        }
+
+        $lang = null;
+        try {
+            $lang = !empty($_COOKIE['lang']) ? Str::limit($_COOKIE['lang'], 30, '') : null;
+        } catch (Exception $e) {
+            Log::error("Error getting language: " . $e->getMessage());
+        }
+
         $oldValues = json_encode($oldValues, JSON_PRETTY_PRINT);
         $newValues = json_encode($newValues, JSON_PRETTY_PRINT);
 
@@ -227,10 +248,10 @@ class Audit extends SearchableModel {
         $audit->model_id = $model_id;
         $audit->old_values = $oldValues ? Str::limit($oldValues, 65531) : null;
         $audit->new_values = $newValues ? Str::limit($newValues, 65531) : null;
-        $audit->ip_address = $_COOKIE['ip'] ?? request()->getClientIp();
+        $audit->ip_address = $ip;
         $audit->user_agent = Str::limit(request()->userAgent(), 255, '');
-        $audit->timezone = $_COOKIE['timezone'] ? Str::limit($_COOKIE['timezone'], 30, ''): null;
-        $audit->language = $_COOKIE['lang'] ? Str::limit($_COOKIE['lang'], 155, '') : null;
+        $audit->timezone = $timezone;
+        $audit->language = $lang;
         $audit->extra_info = $extraInfo ? Str::limit($extraInfo, 155, '') : null;
 
         $audit->save();

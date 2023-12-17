@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Season;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 
 class SeasonsController extends Controller
 {
@@ -33,6 +34,8 @@ class SeasonsController extends Controller
             $obj = \GuzzleHttp\json_decode($cached);
             return response()->json($obj);
         }
+
+        Log::debug("Cache miss for $key, generating new data");
 
         /** @var Season $season */
         $season = Season::findOrFail($season_id);

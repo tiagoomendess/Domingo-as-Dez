@@ -7,6 +7,7 @@ use App\Variable;
 use Closure;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Str;
 
 class AuthenticateAccessToken
 {
@@ -36,9 +37,9 @@ class AuthenticateAccessToken
             $token = Variable::getValue('api_access_token');
 
             if (empty($token))
-                $token = str_random(32);
+                $token = Str::random(32);
 
-            Cache::store('file')->put('api_access_token', $token, 10);
+            Cache::store('file')->put('api_access_token', $token, 120);
         }
 
         if ($access_token != $token) {

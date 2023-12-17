@@ -37,14 +37,15 @@
 
                         @foreach($articles as $index => $article)
 
-                            <a href="{{ $article->getPublicUrl() }}" class="{{ $index > 0 ? 'hide': 'active' }}">
+                            <a href="{{ $article->public_url }}" class="{{ $index > 0 ? 'hide': 'active' }}">
 
                                 <div class="news-thumbnail">
 
                                     <div>
                                         @if ($article->media)
 
-                                            <img src="{{ $article->media->thumbnail_url }}" alt="{{ $article->media->tags }}">
+                                            <img src="{{ $article->media->thumbnail_url }}"
+                                                 alt="{{ $article->media->tags }}">
 
                                         @else
                                             <img src="{{ \App\Media::getPlaceholder('16:9', $article->id) }}" alt="">
@@ -69,8 +70,10 @@
                     <div class="vertical-spacer"></div>
                     <div class="divider"></div>
                     <div class="auth-buttons">
-                        <a href="{{ route('login') }}" class="waves-effect waves-light btn btn-large blue">{{ trans('auth.login') }}</a>
-                        <a href="{{ route('register') }}" class="waves-effect waves-light btn btn-large blue">{{ trans('auth.register') }}</a>
+                        <a href="{{ route('login') }}"
+                           class="waves-effect waves-light btn btn-large blue">{{ trans('auth.login') }}</a>
+                        <a href="{{ route('register') }}"
+                           class="waves-effect waves-light btn btn-large blue">{{ trans('auth.register') }}</a>
                     </div>
                     <div class="divider"></div>
                 </div>
@@ -122,29 +125,25 @@
         </div>
 
         <div class="row no-margin-bottom">
-            <div class="col col-xs-12 s12 m12 l6" style="margin-top: 15px">
-                <ins class="adsbygoogle"
-                     style="display:block"
-                     data-ad-client="ca-pub-3518000096682897"
-                     data-ad-slot="6406546239"
-                     data-ad-format="auto"
-                     data-full-width-responsive="true"></ins>
-                <script>
-                    (adsbygoogle = window.adsbygoogle || []).push({});
-                </script>
-            </div>
+            @if(!has_permission('disable_ads'))
+                <div class="col col-xs-12 s12 m12 l6" style="margin-top: 15px">
+                    <ins class="adsbygoogle"
+                         style="display:block"
+                         data-ad-client="ca-pub-3518000096682897"
+                         data-ad-slot="6406546239"
+                         data-ad-format="auto"
+                         data-full-width-responsive="true"></ins>
+                </div>
 
-            <div class="col l6 hide-on-med-and-down" style="margin-top: 15px">
-                <ins class="adsbygoogle"
-                     style="display:block"
-                     data-ad-client="ca-pub-3518000096682897"
-                     data-ad-slot="6406546239"
-                     data-ad-format="auto"
-                     data-full-width-responsive="true"></ins>
-                <script>
-                    (adsbygoogle = window.adsbygoogle || []).push({});
-                </script>
-            </div>
+                <div class="col l6 hide-on-med-and-down" style="margin-top: 15px">
+                    <ins class="adsbygoogle"
+                         style="display:block"
+                         data-ad-client="ca-pub-3518000096682897"
+                         data-ad-slot="6406546239"
+                         data-ad-format="auto"
+                         data-full-width-responsive="true"></ins>
+                </div>
+            @endif
 
             <div class="col s12 m12 l12 center text-center" style="margin-top: 10px">
                 <div class="divider"></div>
@@ -164,7 +163,7 @@
 
             @foreach($competitions as $competition)
                 <div class="col s6 m6 l3">
-                    <a href="{{ route('competition', ['slug' => str_slug($competition->name)]) }}">
+                    <a href="{{ route('competition', ['slug' => $competition->name_slug]) }}">
                         <div class="homepage-competition-box">
                             <img src="{{ $competition->picture }}" alt="">
                             <span class="truncate">{{ $competition->name }}</span>
@@ -182,6 +181,7 @@
                 </a>
             </div>
         </div>
+
     </div>
 
     <div class="col s12 m12 l12 center text-center" style="margin-top: 10px">

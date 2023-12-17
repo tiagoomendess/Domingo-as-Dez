@@ -111,7 +111,7 @@ class ProcessScoreReportBans implements ShouldQueue
                             Log::info("Report with no user associated. Skipping notification...");
                         }
 
-                        Log::info("Banned a user: USER_ID:" . $scoreReport->user_id ?? '0' . ", IP: " . $scoreReport->ip_address . ", UUID: " . $scoreReport->uuid);
+                        Log::info("Banned a user, ban key: $banKey");
                     }
                 }
             });

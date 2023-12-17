@@ -32,9 +32,6 @@
                                      data-ad-slot="3616731365"
                                      data-ad-format="auto"
                                      data-full-width-responsive="true"></ins>
-                                <script>
-                                    (adsbygoogle = window.adsbygoogle || []).push({});
-                                </script>
                             </div>
                         </div>
                     </div>

@@ -4,7 +4,7 @@ return [
     'verification_subject' => 'Verificar o email em :site_name',
     'verification_greetings' => 'Olá',
     'verification_p1' => 'Obrigado por se registar no nosso website. Para completar o registo, deverá verificar o seu email clicando no botão.',
-    'verification_p2' => 'Tem 10 minutos para verificar o email, se falhar o prazo terá de fazer novo registo!',
+    'verification_p2' => 'Tem 15 minutos para verificar o email, se falhar o prazo terá de fazer novo registo!',
     'verification_btn' => 'Verificar Email',
     'thanks' => 'Obrigado por usar a nossa aplicação.',
     'reset_password_subject' => 'Recuperar a password em :site_name',
