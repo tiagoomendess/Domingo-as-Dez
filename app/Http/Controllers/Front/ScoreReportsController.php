@@ -176,13 +176,13 @@ class ScoreReportsController extends Controller
 
         // If score is ridiculous, ban user
         if ($home_score > 20 || $away_score > 20) {
-            Log::info("Score report blocked for game $game->id with score $home_score-$away_score");
+            Log::info("Score report of $home_score-$away_score blocked for game $game->id");
             ScoreReportBan::create([
                 'uuid' => $uuid,
                 'ip_address' => $ip,
                 'user_agent' => Str::limit($request->header('User-Agent'), 255, ''),
                 'reason' => "Envio de resultados falsos no jogo " . $game->home_team->club->name . " vs " . $game->away_team->club->name,
-                'expires_at' => Carbon::now()->addDays(8),
+                'expires_at' => Carbon::now()->addDays(2),
             ]);
 
             Log::info("User with uuid $uuid and ip $ip was banned for sending invalid score report");

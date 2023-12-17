@@ -34,7 +34,7 @@ class ScoreReportsController extends Controller
 
         $validator = Validator::make($request->all(), $validatorRules);
         if ($validator->fails()) {
-            return response()->json([
+            return response('', 400)->json([
                 'message' => 'Bad Request did not meet validation rules',
                 'errors' => $validator->errors(),
             ]);
