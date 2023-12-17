@@ -22,16 +22,6 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3518000096682897"
             crossorigin="anonymous"></script>
 
-    @if(!has_permission('disable_ads'))
-        <script>
-            (adsbygoogle = window.adsbygoogle || []).push({
-                google_ad_client: "ca-pub-3518000096682897",
-                enable_page_level_ads: true,
-                overlays: { bottom: true }
-            });
-        </script>
-    @endif
-
     @yield('head-content')
 @endsection
 
@@ -51,7 +41,15 @@
     <script type="text/javascript" src="/js/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="/materialize/js/materialize.min.js"></script>
     <script type="text/javascript" src="/js/front/default-page-scripts.js"></script>
-
+    @if(!has_permission('disable_ads'))
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({
+                google_ad_client: "ca-pub-3518000096682897",
+                enable_page_level_ads: true,
+                overlays: { bottom: true }
+            });
+        </script>
+    @endif
     @yield('scripts')
 
     @if(Session::has('popup_message'))
