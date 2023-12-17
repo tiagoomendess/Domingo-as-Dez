@@ -43,11 +43,11 @@
     <script type="text/javascript" src="/js/front/default-page-scripts.js"></script>
     @if(!has_permission('disable_ads'))
         <script>
-            (adsbygoogle = window.adsbygoogle || []).push({
+            /*(adsbygoogle = window.adsbygoogle || []).push({
                 google_ad_client: "ca-pub-3518000096682897",
                 enable_page_level_ads: true,
                 overlays: { bottom: true }
-            });
+            });*/
         </script>
     @endif
     @yield('scripts')

@@ -133,6 +133,9 @@
                          data-ad-slot="6406546239"
                          data-ad-format="auto"
                          data-full-width-responsive="true"></ins>
+                    <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
                 </div>
 
                 <div class="col l6 hide-on-med-and-down" style="margin-top: 15px">
@@ -142,6 +145,9 @@
                          data-ad-slot="6406546239"
                          data-ad-format="auto"
                          data-full-width-responsive="true"></ins>
+                    <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
                 </div>
             @endif
 
