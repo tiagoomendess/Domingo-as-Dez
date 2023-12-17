@@ -44,7 +44,7 @@
                             <ul style="color: red;">
                                 <li>
                                     Você não pode enviar resultados porque foi temporariamente bloqueado até
-                                    {{  \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $ban->expires_at)->format("d/m/Y \à\s H:i") }}.
+                                    {{  \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $ban->expires_at)->format("d/m/Y \à\s H:i") }} pela razão:
                                     {{ $ban->reason }}. Se acredita que isto é um erro, por favor contacte-nos pelos canais oficiais.
                                 </li>
                             </ul>

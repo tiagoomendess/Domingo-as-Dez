@@ -21,13 +21,16 @@
     @include('front.partial.google_analytics')
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3518000096682897"
             crossorigin="anonymous"></script>
-    <script>
-        (adsbygoogle = window.adsbygoogle || []).push({
-            google_ad_client: "ca-pub-3518000096682897",
-            enable_page_level_ads: true,
-            overlays: { bottom: true }
-        });
-    </script>
+
+    @if(!has_permission('disable_ads'))
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({
+                google_ad_client: "ca-pub-3518000096682897",
+                enable_page_level_ads: true,
+                overlays: { bottom: true }
+            });
+        </script>
+    @endif
 
     @yield('head-content')
 @endsection

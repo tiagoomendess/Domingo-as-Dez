@@ -13,26 +13,23 @@
     <meta itemprop="name" content="Jogos de Hoje">
     <meta itemprop="description" content="Lista de todos os jogos marcados para o dia de hoje">
     <meta itemprop="image" content="{{ url('/images/todays_games.jpg') }}">
-
 @endsection
 
 @section('content')
     <div class="container">
         <h1 class="hide-on-med-and-down">Jogos de Hoje</h1>
 
-        <div class="hide-on-med-and-up" style="margin-top: 5px">
-            <!-- Today Games Horizontal -->
-            <ins class="adsbygoogle"
-                 style="display:block"
-                 data-ad-client="ca-pub-3518000096682897"
-                 data-ad-slot="2210321320"
-                 data-ad-format="horizontal"
-                 data-full-width-responsive="true"></ins>
-            <script>
-                (adsbygoogle = window.adsbygoogle || []).push({});
-            </script>
-        </div>
-
+        @if(!has_permission('disable_ads'))
+            <div class="hide-on-med-and-up" style="margin-top: 5px">
+                <!-- Today Games Horizontal -->
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-3518000096682897"
+                     data-ad-slot="2210321320"
+                     data-ad-format="horizontal"
+                     data-full-width-responsive="true"></ins>
+            </div>
+        @endif
         <div class="row">
             <div class="col s12 m12 l8">
                 <div class="card">
@@ -124,9 +121,6 @@
                      data-ad-slot="8596939730"
                      data-ad-format="vertical"
                      data-full-width-responsive="true"></ins>
-                <script>
-                    (adsbygoogle = window.adsbygoogle || []).push({});
-                </script>
             </div>
 
         </div>

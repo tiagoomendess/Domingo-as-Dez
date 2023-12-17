@@ -15,24 +15,23 @@
     <div class="container">
         <h1 class="hide-on-med-and-down">{{ trans('front.live_matches') }}</h1>
 
-        <div class="row hide-on-large-only">
-            <div class="container">
-                <div class="col s12">
-                    <div style="margin-top: .5rem">
-                        <!-- Live Matches Horizontal -->
-                        <ins class="adsbygoogle"
-                             style="display:block"
-                             data-ad-client="ca-pub-3518000096682897"
-                             data-ad-slot="3091605842"
-                             data-ad-format="horizontal"
-                             data-full-width-responsive="true"></ins>
-                        <script>
-                            (adsbygoogle = window.adsbygoogle || []).push({});
-                        </script>
+        @if(!has_permission('disable_ads'))
+            <div class="row hide-on-large-only">
+                <div class="container">
+                    <div class="col s12">
+                        <div style="margin-top: .5rem">
+                            <!-- Live Matches Horizontal -->
+                            <ins class="adsbygoogle"
+                                 style="display:block"
+                                 data-ad-client="ca-pub-3518000096682897"
+                                 data-ad-slot="3091605842"
+                                 data-ad-format="horizontal"
+                                 data-full-width-responsive="true"></ins>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        @endif
 
         <div class="row">
             <div class="col s12 m12 l9">
@@ -40,20 +39,19 @@
                 @include('front.partial.live_matches_template')
             </div>
 
-            <div class="col l3 hide-on-med-and-down">
-                <div style="margin-top: 1rem">
-                    <!-- Live Matches Sidebar -->
-                    <ins class="adsbygoogle"
-                         style="display:block"
-                         data-ad-client="ca-pub-3518000096682897"
-                         data-ad-slot="9341798357"
-                         data-ad-format="vertical"
-                         data-full-width-responsive="true"></ins>
-                    <script>
-                        (adsbygoogle = window.adsbygoogle || []).push({});
-                    </script>
+            @if(!has_permission('disable_ads'))
+                <div class="col l3 hide-on-med-and-down">
+                    <div style="margin-top: 1rem">
+                        <!-- Live Matches Sidebar -->
+                        <ins class="adsbygoogle"
+                             style="display:block"
+                             data-ad-client="ca-pub-3518000096682897"
+                             data-ad-slot="9341798357"
+                             data-ad-format="vertical"
+                             data-full-width-responsive="true"></ins>
+                    </div>
                 </div>
-            </div>
+            @endif
         </div>
     </div>
 @endsection

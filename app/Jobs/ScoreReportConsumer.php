@@ -11,11 +11,14 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 
 class ScoreReportConsumer implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+
+    protected $games_updated = 0;
 
     /**
      * Create a new job instance.
@@ -50,10 +53,17 @@ class ScoreReportConsumer implements ShouldQueue
             }
         }
 
+        if ($this->games_updated > 0) {
+            // invalidate cache for live games because games were updated
+            Cache::store('file')->forget('live_matches');
+            Log::info("Invalidated live_matches cache because at least one game was updated");
+        }
+
         $endTime = new DateTime();
         $diff = $endTime->diff($startTime);
         $delta = $diff->format('%s seconds %F microseconds');
-        Log::info("ScoreReportConsumer finished processing " . $games->count() . " games in $delta");
+        $gamesTotal = $games->count();
+        Log::info("A total of $this->games_updated games were updated out of $gamesTotal processed in $delta");
     }
 
     private function process_game(Game $game)
@@ -149,6 +159,12 @@ class ScoreReportConsumer implements ShouldQueue
                     Log::debug("Report score is the same as current one, +1 point ($reportPoints points)");
                 }
 
+                // If the report is of source 'api_afpb_crawler' then add 2 points
+                if ($report->source == 'api_afpb_crawler') {
+                    $reportPoints += 2;
+                    Log::debug("Report is from source api_afpb_crawler, +2 points ($reportPoints points)");
+                }
+
                 $scorePoints += $reportPoints;
                 Log::debug("Report " . $report->id . " responsible for $reportPoints points ($scorePoints total)");
             }
@@ -207,17 +223,20 @@ class ScoreReportConsumer implements ShouldQueue
         $finalStats = "1st: $highestScoreKey($highestScorePoints) | 2nd: $secondHighestScoreKey($secondHighestScorePoints) | lowest: $lowestScoreKey($lowestScorePoints)";
         if ($canUpdateScore) {
             Log::info("Game $gameId will update score to $highestScoreKey: $finalStats");
-            $this->updateGameScore($game, $highestScoreKey);
+            $updated = $this->updateGameScore($game, $highestScoreKey);
+            if ($updated) {
+                $this->games_updated++;
+            }
         } else {
             Log::info("Game $gameId will NOT update score: $finalStats");
         }
     }
 
-    function updateGameScore(Game $game, string $scoreKey) {
+    function updateGameScore(Game $game, string $scoreKey): bool {
         $previousScore = $game->getHomeScore() . '-' . $game->getAwayScore();
         if ($previousScore == $scoreKey) {
             Log::info("Score for game " . $game->id . " is already $scoreKey, not updating");
-            return;
+            return false;
         }
 
         $scores = explode('-', $scoreKey);
@@ -228,6 +247,8 @@ class ScoreReportConsumer implements ShouldQueue
         $game->goals_away = $awayScore;
         $game->save();
         Log::info("Updated score for game " . $game->id . " from $previousScore to $scoreKey");
+
+        return true;
     }
 
     // calculate distance using haversine method

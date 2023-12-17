@@ -172,13 +172,32 @@ class ScoreReportsController extends Controller
 
         $home_score = $request->input('home_score');
         $away_score = $request->input('away_score');
+        $ip = Str::limit($request->input('ip'), 45, '');
+
+        // If score is ridiculous, ban user
+        if ($home_score > 20 || $away_score > 20) {
+            Log::info("Score report of $home_score-$away_score blocked for game $game->id");
+            ScoreReportBan::create([
+                'uuid' => $uuid,
+                'ip_address' => $ip,
+                'user_agent' => Str::limit($request->header('User-Agent'), 255, ''),
+                'reason' => "Envio de resultados falsos no jogo " . $game->home_team->club->name . " vs " . $game->away_team->club->name,
+                'expires_at' => Carbon::now()->addDays(2),
+            ]);
+
+            Log::info("User with uuid $uuid and ip $ip was banned for sending invalid score report");
+
+            return redirect()
+                ->back();
+        }
+
         ScoreReport::create([
             'user_id' => empty($user) ? null : $user->id,
             'game_id' => $game->id,
             'home_score' => $home_score,
             'away_score' => $away_score,
             'source' => 'website',
-            'ip_address' => Str::limit($request->input('ip'), 45, ''),
+            'ip_address' => $ip,
             'user_agent' => Str::limit($request->header('User-Agent'), 255, ''),
             'location' => $location,
             'location_accuracy' => $request->input('accuracy') ? (int) $request->input('accuracy') : null,

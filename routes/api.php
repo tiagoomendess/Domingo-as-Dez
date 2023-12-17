@@ -28,3 +28,4 @@ Route::post('/games/live/update_match', 'Api\GamesController@updateScoreLiveMatc
 Route::get('/games/is_live', 'Api\GamesController@isLive')->name('api.games.is_live');
 Route::get('/games/next/{team_id}', 'Api\GamesController@getNextTeamGame')->name('api.games.next');
 Route::put('/games/{game}/scoreboard-updated', 'Api\GamesController@scoreboardUpdated')->name('api.games.scoreboard_updated');
+Route::post('/score-reports/{game}', 'Api\ScoreReportsController@store')->name('api.game_reports.store');

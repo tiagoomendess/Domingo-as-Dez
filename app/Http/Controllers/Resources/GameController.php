@@ -15,6 +15,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\MessageBag;
 
 class GameController extends Controller
@@ -307,6 +308,9 @@ class GameController extends Controller
 
         $messages = new MessageBag();
         $messages->add('success', trans('success.model_edited', ['model_name' => trans('models.game')]));
+
+        // invalidate cache for live games because score was updated
+        Cache::store('file')->forget('live_matches');
 
         Audit::add(Audit::ACTION_UPDATE, 'Game', $old_game, $game->toArray());
 

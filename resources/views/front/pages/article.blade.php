@@ -120,9 +120,6 @@
                              data-ad-slot="7397948298"
                              data-ad-format="horizontal"
                              data-full-width-responsive="true"></ins>
-                        <script>
-                            (adsbygoogle = window.adsbygoogle || []).push({});
-                        </script>
                     </div>
                 </div>
             @else
@@ -154,9 +151,6 @@
                          data-ad-slot="9842679623"
                          data-ad-format="auto"
                          data-full-width-responsive="true"></ins>
-                    <script>
-                        (adsbygoogle = window.adsbygoogle || []).push({});
-                    </script>
                 </div>
 
                 <div class="col col-xs-12 s12 m12 l6 hide-on-med-and-down">
@@ -166,9 +160,6 @@
                          data-ad-slot="9842679623"
                          data-ad-format="auto"
                          data-full-width-responsive="true"></ins>
-                    <script>
-                        (adsbygoogle = window.adsbygoogle || []).push({});
-                    </script>
                 </div>
             @else
                 <p class="flow-text center text-center">Publicidade Google não está visivel porque o artigo está invisível</p>

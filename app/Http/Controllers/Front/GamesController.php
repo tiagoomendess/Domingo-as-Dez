@@ -13,6 +13,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
@@ -181,7 +182,7 @@ class GamesController extends Controller
                 $key = $report->home_score . '-' . $report->away_score;
 
                 if (!isset($score_reports[$game_id][$key]))
-                    $score_reports[$game_id][$key] = 1;
+                    $score_reports[$game_id][$key] = 0;
 
                 if (count($score_reports[$game_id]) > 3)
                     break;
@@ -215,8 +216,11 @@ class GamesController extends Controller
         $game->finished = (bool)$request->input('finished', false);
         $game->save();
 
+        // invalidate cache for live games because score was updated
+        Cache::store('file')->forget('live_matches');
+
         Audit::add(Audit::ACTION_UPDATE, 'Game', $old_game, $game->toArray());
-        //$this->createScoreReport($game);
+        //$this->createScoreReport($game); -> Removed for now, maybe will add later
 
         return redirect()->route('games.today_edit');
     }

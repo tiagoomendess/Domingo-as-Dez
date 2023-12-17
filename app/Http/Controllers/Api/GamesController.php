@@ -82,11 +82,10 @@ class GamesController extends Controller
             return response()->json($return_object);
         }
 
+        Log::debug("Live matches cache miss, generating new data");
+
         $return_object = new \stdClass();
         $return_object->data = [];
-
-        $now = Carbon::now();
-        $warmup_date = Carbon::now()->subMinutes(30);
 
         $games = Game::getLiveGames();
 

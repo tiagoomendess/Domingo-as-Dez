@@ -54,11 +54,9 @@
                 </time>
                 @if ($game->playground)
                     <a class="modal-trigger" href="#directions_modal" style="color: white;">
-                    <span>
                         <i class="material-icons">location_on</i>
-                        &nbsp;{{ $game->playground->name }}&nbsp;
+                        <span class="center text-center">{{ $game->playground->name }}&nbsp;</span>
                         <i class="material-icons">directions</i>
-                    </span>
                     </a>
                 @endif
                 <span>
@@ -286,9 +284,6 @@
                          data-ad-slot="4747113072"
                          data-ad-format="horizontal"
                          data-full-width-responsive="true"></ins>
-                    <script>
-                        (adsbygoogle = window.adsbygoogle || []).push({});
-                    </script>
                 </div>
             </div>
         </div>
