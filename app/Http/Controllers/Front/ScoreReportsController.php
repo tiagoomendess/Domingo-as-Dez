@@ -6,6 +6,7 @@ use App\Game;
 use App\Http\Controllers\Controller;
 use App\ScoreReport;
 use App\ScoreReportBan;
+use App\UserUuid;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -18,6 +19,10 @@ use Illuminate\Support\Str;
 
 class ScoreReportsController extends Controller
 {
+    public function __construct() {
+        $this->middleware('ensure-uuid')->only(['create', 'store']);
+    }
+
     public function create(Request $request, Game $game) {
 
         $backUrl = $request->input('returnTo', url()->previous($game->getPublicUrl()));
@@ -49,6 +54,19 @@ class ScoreReportsController extends Controller
     }
 
     public function store(Request $request, Game $game) {
+        // get uuid from cookie
+        $uuid = $request->cookie('uuid');
+        if (empty($uuid) || Str::length($uuid) > 36) {
+            $uuid = Str::limit($this->guidv4(), 36, '');
+            Log::info("Error creating Score Report. UUID was missing, created new one: $uuid");
+
+            // redirect back with cookie and error
+            return redirect()
+                ->back()
+                ->withErrors(['uuid' => 'Ocorreu um erro, por favor tente de novo'])
+                ->withInput()
+                ->withCookie(cookie()->forever('uuid', $uuid));
+        }
 
         $validatorRules = [
             'home_score' => 'required|integer|min:0|max:32',
@@ -61,31 +79,18 @@ class ScoreReportsController extends Controller
         ];
 
         $user = Auth::user();
-        $user_id = empty($user) ? '0' : $user->id;
-
+        $user_id = 0;
         // If not logged in require captcha
         if (empty($user)) {
             $validatorRules['g-recaptcha-response'] = 'required|recaptcha';
+        } else {
+            $user_id = $user->id;
+            UserUuid::addIfNotExist($user_id, $uuid);
         }
 
         $validator = Validator::make($request->all(), $validatorRules);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
-        }
-
-        // get uuid from cookie
-        $uuid = $request->cookie('uuid');
-        if (empty($uuid) || Str::length($uuid) > 36) {
-            $uuid = Str::limit($this->guidv4(), 36, '');
-            $request->cookies->add(['uuid' => $uuid]);
-            Log::info("Error creating Score Report. UUID was missing, created new one: $uuid");
-
-            // redirect back with cookie and error
-            return redirect()
-                ->back()
-                ->withErrors(['uuid' => 'Ocorreu um erro, por favor tente de novo'])
-                ->withInput()
-                ->withCookie(cookie()->forever('uuid', $uuid));
         }
 
         if (!$game->allowScoreReports()) {
@@ -96,6 +101,9 @@ class ScoreReportsController extends Controller
                 ->withCookie(cookie()->forever('uuid', $uuid));
         }
 
+        $messages = new MessageBag();
+        $url = $request->input('redirect_to', $game->getPublicUrl());
+
         $ban = ScoreReportBan::findMatch(
             $uuid,
             empty($user) ? null : $user->id,
@@ -103,6 +111,13 @@ class ScoreReportsController extends Controller
             $request->header('User-Agent')
         );
         if (!empty($ban)) {
+            if ($ban->shadow_ban) {
+                Log::info("User ($user_id) and uuid($uuid) tried to send score report for game $game->id but is shadow banned ban($ban->id)");
+                $messages->add('success', 'Obrigado por enviar o resultado, poderá levar alguns minutos até ser atualizado no website');
+                return redirect($url)
+                    ->with('popup_message', $messages);
+            }
+
             $expire = Carbon::createFromFormat("Y-m-d H:i:s", $ban->expires_at)->format("d/m/Y \à\s H:i");
             $reason = $ban->reason;
             return redirect()
@@ -209,12 +224,7 @@ class ScoreReportsController extends Controller
             $successMessage .= ' No entanto a localização não foi enviada junto com o resultado. Para a próxima considere enviar também a localização para a sua informação ter mais relevância. ';
         }
         $successMessage .= "O resultado do jogo pode demorar alguns minutos até ser atualizado no website.";
-
-        $messages = new MessageBag();
         $messages->add('success', $successMessage);
-
-        $url = $request->input('redirect_to', $game->getPublicUrl());
-
         $logMessage = "User ($user_id) created score report of $home_score-$away_score for game " . $game->id . " - uuid($uuid)";
         Log::info($logMessage);
 

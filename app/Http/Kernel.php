@@ -66,5 +66,6 @@ class Kernel extends HttpKernel
         'permission' => \App\Http\Middleware\CheckPermission::class,
         'cors' => \App\Http\Middleware\AddAllowCorsHeaders::class,
         'authenticate.access_token' => \App\Http\Middleware\AuthenticateAccessToken::class,
+        'ensure-uuid' => \App\Http\Middleware\EnsureUuid::class,
     ];
 }

@@ -47,7 +47,7 @@
         </div>
     </div>
 
-    @if(Auth::user()->hasPermission('polls.edit'))
+    @if(Auth::user()->hasPermission('polls.create'))
         @include('backoffice.partial.add_model_button', ['route' => route('polls.create')])
     @endif
 
