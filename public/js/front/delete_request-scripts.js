@@ -1,4 +1,4 @@
-console.log('ASdasd');
+
 
 $('#delete_request_form input[type=checkbox]').on('change', understandCheckboxChanged);
 

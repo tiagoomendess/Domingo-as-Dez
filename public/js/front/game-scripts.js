@@ -33,8 +33,6 @@ function start() {
 
 function countdown(countDownDate) {
 
-    console.log("inicia countdown");
-
     var x = setInterval(function() {
 
         var now = new Date().getTime();
@@ -92,7 +90,6 @@ function updateGameInfo(response) {
     if (finished) {
 
         if (response.data.penalties) {
-            console.log('Entrou no if penalties');
             var gp = $('#penalties');
             gp.text(response.data.penalties);
             gp.removeClass('hide');
