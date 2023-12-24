@@ -67,6 +67,10 @@
                             <li><a class="waves-effect"
                                    href="{{ route('users.index') }}">{{ trans('models.users') }}</a></li>
                         @endif
+                        @if(Auth::user()->hasPermission('score-report-bans'))
+                            <li><a class="waves-effect"
+                                   href="{{ route('score_report_bans.index') }}">{{ trans('models.score_report_bans') }}</a></li>
+                        @endif
                     </ul>
                 </div>
             </li>

@@ -67,4 +67,15 @@ class ScoreReport extends BaseModel
 
         return $inArray[1];
     }
+
+    public function getGoogleMapsLink()
+    {
+        $latitude = $this->getLatitude();
+        $longitude = $this->getLongitude();
+
+        if (empty($latitude) || empty($longitude))
+            return null;
+
+        return "https://www.google.com/maps/search/?api=1&query=$latitude,$longitude";
+    }
 }

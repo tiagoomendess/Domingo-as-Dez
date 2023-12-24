@@ -11,7 +11,7 @@
                 </div>
                 @foreach($partners as $partner)
                     <div class="col s6 m3">
-                        <a href="{{ $partner->url }}" target="_blank">
+                        <a href="{{ route('front.partners.track_click', ['partner' => $partner->id ]) }}" target="_blank">
                             <img style="max-width: 100%" src="{{ $partner->picture }}" alt="{{ $partner->name }}"/>
                         </a>
                     </div>

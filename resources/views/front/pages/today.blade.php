@@ -36,7 +36,7 @@
         <div class="row">
             <div class="col s12 m12 l8">
                 <div class="card">
-                    <div class="card-content group-games">
+                    <div class="card-content group-games" style="padding: 10px">
                         @if (count($games) < 1)
                             <p class="flow-text text-center">
                                 Não existem jogos marcados para hoje.
@@ -67,8 +67,7 @@
                                                      style="text-align: center; margin-top: 6px; padding: 0">
                                                         <span style="background-color: #989898; padding: 0.2rem 0.5rem; color: white; font-weight: bold">
                                                             @if ($game->finished)
-                                                                {{ $game->getHomeScore() }}
-                                                                - {{ $game->getAwayScore() }}
+                                                                {{ $game->getHomeScore() }} - {{ $game->getAwayScore() }}
                                                             @else
                                                                 @if($game->postponed)
                                                                     ADI
@@ -106,7 +105,7 @@
                 </div>
             </div>
 
-            @if(has_permission('games.edit'))
+            @if(has_permission('score_update'))
                 <div class="row">
                     <div class="col s12">
                         <a href="{{ route('games.today_edit') }}"

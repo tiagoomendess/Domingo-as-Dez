@@ -20,8 +20,19 @@ use Illuminate\Support\Str;
 
 class GamesController extends Controller
 {
+    public function __construct() {
+        $this->middleware('ensure-uuid')->only(['show', 'liveMatches', 'today']);
+        $this->middleware('permission:score_update')->only(['todayEdit', 'todayUpdateScore', 'listScoreReports']);
+    }
 
     public function show($competition_slug, $season_slug, $group_slug, $round, $clubs_slug) {
+
+        $cache_key = "game-cache-$competition_slug-$season_slug-$group_slug-$round-$clubs_slug";
+        $cached_data = Cache::get($cache_key);
+        if (!empty($cached_data))
+            return view('front.pages.game', $cached_data);
+        else
+            Log::debug("Cache miss for game: $cache_key, generating new one");
 
         $competition = Competition::getCompetitionBySlug($competition_slug);
 
@@ -106,16 +117,54 @@ class GamesController extends Controller
             $away_team_last_games = [];
         }
 
+        // Build stats for direct confrontations
+        $past_result_stats = [
+            'home_win_total' => 0,
+            'home_win_percent' => 0,
+            'draw_total' => 0,
+            'draw_percent' => 0,
+            'away_win_total' => 0,
+            'away_win_percent' => 0,
+            'total_games' => count($past_games),
+        ];
+
+        /**
+         * @var Game $past_game
+         */
+        foreach ($past_games as $past_game) {
+            if ($past_game->isDraw()) {
+                $past_result_stats['draw_total']++;
+                continue;
+            }
+
+            if ($past_game->winner()->id == $game->home_team_id) {
+                $past_result_stats['home_win_total']++;
+            } else {
+                $past_result_stats['away_win_total']++;
+            }
+        }
+
+        if ($past_result_stats['total_games'] > 0) {
+            $past_result_stats['home_win_percent'] = $past_result_stats['home_win_total'] / $past_result_stats['total_games'] * 100;
+            $past_result_stats['away_win_percent'] = $past_result_stats['away_win_total'] / $past_result_stats['total_games'] * 100;
+            $past_result_stats['draw_percent'] = $past_result_stats['draw_total'] / $past_result_stats['total_games'] * 100;
+        }
+
+        $view_data = [
+            'game' => $game,
+            'mvp' => $mvp,
+            'mvp_vote' => $mvpVote,
+            'past_games' => $past_games,
+            'home_team_last_games' => $home_team_last_games,
+            'away_team_last_games' => $away_team_last_games,
+            'past_result_stats' => $past_result_stats
+        ];
+
+        Cache::store('file')->add($cache_key, $view_data, 60);
+
         return view(
             'front.pages.game',
-            [
-                'game' => $game,
-                'mvp' => $mvp,
-                'mvp_vote' => $mvpVote,
-                'past_games' => $past_games,
-                'home_team_last_games' => $home_team_last_games,
-                'away_team_last_games' => $away_team_last_games,
-            ]
+            $view_data
         );
     }
 
@@ -124,6 +173,12 @@ class GamesController extends Controller
     }
 
     public function today() {
+        $cache_key = "today_games_cache";
+        $cached_data = Cache::store('file')->get($cache_key);
+        if (!empty($cached_data))
+            return view('front.pages.today', $cached_data);
+        else
+            Log::debug("Cache miss for today games, generating new one");
 
         $now = Carbon::now();
         $begin = clone($now)->startOfDay();
@@ -140,15 +195,18 @@ class GamesController extends Controller
             ->orderBy('date', 'asc')
             ->first();
 
-        return view('front.pages.today', [
+        $view_data = [
             'games' => $games,
             'closest' => $closest
-        ]);
+        ];
+        Cache::store('file')->add($cache_key, $view_data, 60);
+
+        return view('front.pages.today', $view_data);
     }
 
     public function todayEdit()
     {
-        if (!has_permission('games.edit'))
+        if (!has_permission('score_update'))
             return abort(404);
 
         $now = Carbon::now();
@@ -184,7 +242,7 @@ class GamesController extends Controller
                 if (!isset($score_reports[$game_id][$key]))
                     $score_reports[$game_id][$key] = 0;
 
-                if (count($score_reports[$game_id]) > 3)
+                if (count($score_reports[$game_id]) > 4)
                     break;
 
                 $score_reports[$game_id][$key]++;
@@ -199,7 +257,7 @@ class GamesController extends Controller
 
     public function todayUpdateScore(Request $request) {
 
-        if (!has_permission('games.edit'))
+        if (!has_permission('score_update'))
             return abort(404);
 
         $request->validate([
@@ -223,6 +281,21 @@ class GamesController extends Controller
         //$this->createScoreReport($game); -> Removed for now, maybe will add later
 
         return redirect()->route('games.today_edit');
+    }
+
+    public function listScoreReports(Request $request, Game $game) {
+
+        $backUrl = $request->query('back_to', url()->previous());
+
+        $reports = ScoreReport::where('game_id', $game->id)
+            ->orderBy('id', 'desc')
+            ->paginate(200);
+
+        return view('front.pages.game_reports_list', [
+            'game' => $game,
+            'reports' => $reports,
+            'backUrl' => $backUrl
+        ]);
     }
 
     private function createScoreReport(Game $game) {

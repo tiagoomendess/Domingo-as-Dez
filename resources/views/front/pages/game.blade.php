@@ -21,6 +21,100 @@
         <meta property="og:image" content="{{ url($game->game_group->season->competition->picture) }}">
     @endif
 
+    <style>
+        .result-stats-graph {
+            width: 100%;
+            height: 80px;
+            display: flex;
+            flex-direction: row;
+            background-color: #a4a4a4;
+            overflow: hidden;
+        }
+
+        .result-stats-graph span {
+            font-weight: 600;
+            font-size: 20pt;
+        }
+
+        .result-stats-graph small {
+            font-weight: 200;
+        }
+
+        .result-stat-bar-home {
+            height: 80px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #8f2222;
+            overflow: hidden;
+        }
+
+        .result-stat-bar-home > div {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+        }
+
+        .result-stat-bar-draw {
+            height: 80px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #4b4b4b;
+            overflow: hidden;
+        }
+
+        .result-stat-bar-draw > div {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+        }
+
+        .result-stat-bar-away {
+            height: 80px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #274480;
+            overflow: hidden;
+        }
+
+        .result-stat-bar-away > div {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+        }
+
+        .stats-legend {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+        }
+
+        .stats-legend > div {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            margin: 10px 10px 0 0;
+            background-color: #e8e8e8;
+
+        }
+
+        .stats-legend > div > span {
+            margin: 0 10px 0 10px;
+            color: #3d3d3d;
+            font-size: 11pt;
+        }
+
+    </style>
+
 @endsection
 
 @section('content')
@@ -374,6 +468,12 @@
                         @endif
                     </div>
                 </div>
+
+                @if(has_permission('score_update'))
+                <div class="col s12 center">
+                    <p><a href="{{ route('front.games.show_score_reports', ['game' => $game]) }}">Resultados Enviados</a></p>
+                </div>
+                @endif
             </section>
 
             <section class="col xs12 s12 m12 l4 xl4">
@@ -433,9 +533,54 @@
 
         </div>
 
+        @if(count($past_games) > 0)
+            <div class="row">
+                <div class="col s12">
+                    <h2 class="over-card-title">Resumo Histórico</h2>
+                    <div class="result-stats-graph">
+                        <div class="result-stat-bar-home" style="width: {{ $past_result_stats['home_win_percent'] }}%">
+                            <div>
+                                <span>{{ $past_result_stats['home_win_total'] }}</span>
+                                <small>{{ round($past_result_stats['home_win_percent'], 2) }}%</small>
+                            </div>
+                        </div>
+                        <div class="result-stat-bar-draw" style="width: {{ $past_result_stats['draw_percent'] }}%">
+                            <div>
+                                <span>{{ $past_result_stats['draw_total'] }}</span>
+                                <small>{{ round($past_result_stats['draw_percent'], 2) }}%</small>
+                            </div>
+                        </div>
+                        <div class="result-stat-bar-away" style="width: {{ $past_result_stats['away_win_percent'] }}%">
+                            <div>
+                                <span>{{ $past_result_stats['away_win_total'] }}</span>
+                                <small>{{ round($past_result_stats['away_win_percent'], 2) }}%</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="stats-legend">
+                        <div>
+                            <div style="width: 27px; height: 27px; background-color: #8f2222"></div>
+                            <span>Vitórias de {{ $game->home_team->club->name }}</span>
+                        </div>
+
+                        <div>
+                            <div style="width: 27px; height: 27px; background-color: #4b4b4b"></div>
+                            <span>Empates</span>
+                        </div>
+
+                        <div>
+                            <div style="width: 27px; height: 27px; background-color: #274480"></div>
+                            <span>Vitórias de {{ $game->away_team->club->name }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endif
+
         <div class="row">
             <section class="col xs12 s12 m12 l12 xl12">
                 <h2 class="over-card-title">Confrontos Anteriores</h2>
+
                 <div class="card">
                     <div class="card-content">
                         @if(count($past_games) == 0)
@@ -552,6 +697,7 @@
                                 class="material-icons right">cloud_download</i>Download Imagem
                     </button>
                 </form>
+
             </div>
         </div>
     @endif

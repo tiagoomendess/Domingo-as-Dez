@@ -26,6 +26,7 @@ return [
     'permissions' => 'Permissões',
     'user' => 'Utilizador',
     'users' => 'Utilizadores',
+    'score_report_bans' => 'Bloqueios',
     'group_rule' => 'Regra de Grupo',
     'group_rules' => 'Regras de Grupo',
     'no_group_rules' => 'Não existem Regras de Grupo',

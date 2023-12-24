@@ -71,7 +71,8 @@ Route::resources([
     'pages' => 'Resources\PageController',
     'partners' => 'Resources\PartnerController',
     'info_reports' => 'Resources\InfoReportController',
-    'polls' => 'Resources\PollController'
+    'polls' => 'Resources\PollController',
+    'score_report_bans' => 'Resources\ScoreReportBanController',
 ]);
 
 //Routes to javascript in backend
@@ -123,6 +124,7 @@ Route::get('/competicoes/{competition_slug}/{season_slug}/{group_slug}/{round}/{
         'round' => '[0-9]+',
         'clubs_slug' => '[a-z0-9\-]+-vs-[a-z0-9\-]+',
     ]);
+Route::get('/jogos/{game}/resultados-enviados', 'Front\GamesController@listScoreReports')->name('front.games.show_score_reports');
 
 Route::get('/perfil/editar', 'Front\UserProfileController@edit')->name('front.userprofile.edit');
 Route::post('/perfil/editar', 'Front\UserProfileController@updateProfileInfo')->name('front.userprofile.update');
@@ -147,6 +149,7 @@ Route::post('/perfil/apagar/verificar', 'Resources\DeleteRequestsController@veri
 
 Route::get('/perfil/apagar/cancelar', 'Resources\DeleteRequestsController@cancellationPage')->name('front.userprofile.delete.cancel.show');
 Route::post('/perfil/apagar/cancelar', 'Resources\DeleteRequestsController@cancelDeleteRequest')->name('front.userprofile.delete.cancel.store');
+Route::get('/parceiros/{partner}', 'Front\PartnersController@trackClick')->name('front.partners.track_click');
 
 // END --------------
 

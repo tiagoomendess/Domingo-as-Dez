@@ -11,4 +11,9 @@ class Partner extends Model
     protected $guarded = [];
 
     protected $hidden = [];
+
+    public function clicks()
+    {
+        return $this->hasMany('App\PartnerClick');
+    }
 }

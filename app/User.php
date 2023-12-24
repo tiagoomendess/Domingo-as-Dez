@@ -110,6 +110,11 @@ class User extends Authenticatable
         return $this->hasMany(ArticleComment::class);
     }
 
+    public function userUuids()
+    {
+        return $this->hasMany(UserUuid::class);
+    }
+
     public function hasPermission($permission)
     {
 

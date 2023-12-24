@@ -6,6 +6,7 @@ use App\Notifications\ScoreReportBanNotification;
 use App\ScoreReport;
 use App\ScoreReportBan;
 use App\User;
+use App\UserUuid;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
@@ -79,6 +80,7 @@ class ProcessScoreReportBans implements ShouldQueue
 
                     if ($scoreReport->home_score > $scoreReport->game->getHomeScore() || $scoreReport->away_score > $scoreReport->game->getAwayScore()) {
                         $totalFakes++;
+
                         $banKey = implode("_", [$scoreReport->user_id, $scoreReport->ip_address, $scoreReport->uuid]);
 
                         if (in_array($banKey, $banKeys)) {
@@ -86,12 +88,17 @@ class ProcessScoreReportBans implements ShouldQueue
                             continue;
                         }
 
+                        $user_id = $scoreReport->user_id;
+                        if (empty($user_id)) {
+                            $user_id = UserUuid::getLastKnownUserId($scoreReport->uuid);
+                        }
+
                         $matchName = $scoreReport->game->home_team->club->name . " vs " . $scoreReport->game->away_team->club->name;
                         $reason = "Envio de um resultado falso no jogo $matchName";
 
                         try {
                             ScoreReportBan::create([
-                                'user_id' => $scoreReport->user_id,
+                                'user_id' => $user_id,
                                 'score_report_id' => $scoreReport->id,
                                 'ip_address' => Str::limit($scoreReport->ip_address, 40, ''),
                                 'user_agent' => Str::limit($scoreReport->user_agent, 255, ''),

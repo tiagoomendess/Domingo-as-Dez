@@ -6,6 +6,8 @@ use App\Audit;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Resources\MediaController;
 use App\UserProfile;
+use App\UserUuid;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
@@ -50,14 +52,23 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+        $this->middleware('ensure-uuid')->only(['showLoginForm', 'logout']);
     }
 
     public function logout(Request $request)
     {
         setcookie('rgpd_all_data_collect', 'false', time() - 3400, "/");
-        $user = Auth::user()->toArray();
-        Audit::add(Audit::ACTION_LOGOUT, 'User', $user, null);
+        $user = Auth::user();
+
+        $user_data = [];
+        if (!empty($user)) {
+            UserUuid::addIfNotExist($user->id, $request->cookie('uuid'));
+            $user_data = $user->toArray();
+        }
+
+        Audit::add(Audit::ACTION_LOGOUT, 'User', $user_data, null);
         Auth::logout();
+
         return redirect()->route('home');
     }
 
@@ -106,6 +117,7 @@ class LoginController extends Controller
 
         if ($this->attemptLogin($request)) {
             Audit::add(Audit::ACTION_LOGIN, 'User', null, $user->toArray());
+            UserUuid::addIfNotExist($user->id, $request->cookie('uuid'));
             return $this->sendLoginResponse($request);
         }
 
@@ -189,7 +201,6 @@ class LoginController extends Controller
                 'user_id' => $user->id,
             ]);
 
-
             //Create the socialProvider
             $user->socialProviders()->create([
                 'provider_id' => $socialUser->getId(),
@@ -214,11 +225,23 @@ class LoginController extends Controller
         }
 
         return redirect()->intended($this->redirectTo());
-
     }
 
     public function redirectTo() {
         return route('homePage');
+    }
+
+    public function showLoginForm(Request $request)
+    {
+        $uuid = $request->cookie('uuid');
+        $response = new Response(view('auth.login'));
+/*
+        if (empty($uuid) || Str::length($uuid) > 36) {
+            $uuid = Str::limit(Str::uuid(), 36, '');
+            $response->withCookie(cookie('uuid', $uuid, 525948));
+        }
+*/
+        return $response;
     }
 
     /**

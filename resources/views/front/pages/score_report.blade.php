@@ -39,7 +39,7 @@
                     </blockquote>
                 @endif
 
-                @if(!empty($ban))
+                @if(!empty($ban) && !$ban->shadow_ban && !$ban->shadow_ban)
                         <blockquote>
                             <ul style="color: red;">
                                 <li>
@@ -79,14 +79,14 @@
                         <div class="col s2">
                             <div class="col s12" style="margin-bottom: 10px">
                                 <a style="padding: 0; width: 36px"
-                                   class="@if(!$game->allowScoreReports() || !empty($ban))disabled @endif() waves-effect waves-light btn green"
+                                   class="@if(!$game->allowScoreReports() || !empty($ban) && !$ban->shadow_ban)disabled @endif() waves-effect waves-light btn green"
                                    onclick="handleHomeUp()">
                                     <i class="material-icons">arrow_upward</i>
                                 </a>
                             </div>
                             <div class="col s12">
                                 <a style="padding: 0; width: 36px"
-                                   class="@if(!$game->allowScoreReports() || !empty($ban))disabled @endif() waves-effect waves-light btn red"
+                                   class="@if(!$game->allowScoreReports() || !empty($ban) && !$ban->shadow_ban)disabled @endif() waves-effect waves-light btn red"
                                    onclick="handleHomeDown()">
                                     <i class="material-icons">arrow_downward</i>
                                 </a>
@@ -101,14 +101,14 @@
                         <div class="col s2">
                             <div class="col s12" style="margin-bottom: 10px">
                                 <a style="padding: 0; width: 36px"
-                                   class="@if(!$game->allowScoreReports() || !empty($ban))disabled @endif() waves-effect waves-light btn green right"
+                                   class="@if(!$game->allowScoreReports() || !empty($ban) && !$ban->shadow_ban)disabled @endif() waves-effect waves-light btn green right"
                                    onclick="handleAwayUp()">
                                     <i class="material-icons">arrow_upward</i>
                                 </a>
                             </div>
                             <div class="col s12">
                                 <a style="padding: 0; width: 36px"
-                                   class="@if(!$game->allowScoreReports() || !empty($ban))disabled @endif() waves-effect waves-light btn red right"
+                                   class="@if(!$game->allowScoreReports() || !empty($ban) && !$ban->shadow_ban)disabled @endif() waves-effect waves-light btn red right"
                                    onclick="handleAwayDown()">
                                     <i class="material-icons">arrow_downward</i>
                                 </a>
@@ -233,7 +233,7 @@
                     makeGetRequest("https://api.my-ip.io/v1/ip", (ip) => {
                         if (ip) {
                             $('#ip').val(ip)
-                            document.cookie = `ip=${ip};max-age=300;path=/`;
+                            document.cookie = `ip=${ip};max-age=60;path=/`;
                         }
                     })
                 } else {
