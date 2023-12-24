@@ -7,8 +7,6 @@ $(document).ready(function(){
 });
 
 const processNewComment = () => {
-    console.log("Clicked")
-
     if (allow) {
         allow = false
         let commentSelector = $('#comment')
@@ -21,8 +19,6 @@ const processNewComment = () => {
 
         $('#new_comment input').attr('disabled', true)
 
-        console.log("Comentario: "+ text)
-
         sendComment(text, articleId, callbackNewComment)
 
         setTimeout(() => {
@@ -34,7 +30,7 @@ const processNewComment = () => {
 }
 
 const callbackNewComment = (response) => {
-    console.log("Response: ", response)
+
 }
 
 const sendComment = (comment, articleId, callback, commentId = null) => {

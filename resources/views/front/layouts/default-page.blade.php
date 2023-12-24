@@ -19,13 +19,14 @@
     <meta property="og:site_name" content="{{ config('app.name') }}" />
     <meta property="fb:app_id" content="153482715435840" />
     @include('front.partial.google_analytics')
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3518000096682897"
-            crossorigin="anonymous"></script>
-
     @yield('head-content')
 @endsection
 
 @section('body')
+    @if(!has_permission('disable_ads'))
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3518000096682897"
+                crossorigin="anonymous"></script>
+    @endif
 
     @include('front.partial.navbar')
 
@@ -41,16 +42,13 @@
     <script type="text/javascript" src="/js/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="/materialize/js/materialize.min.js"></script>
     <script type="text/javascript" src="/js/front/default-page-scripts.js"></script>
-    @if(!has_permission('disable_ads'))
-        <script>
-            /*(adsbygoogle = window.adsbygoogle || []).push({
-                google_ad_client: "ca-pub-3518000096682897",
-                enable_page_level_ads: true,
-                overlays: { bottom: true }
-            });*/
-        </script>
-    @endif
     @yield('scripts')
+
+    <script async>
+        setTimeout(function () {
+            console.log("AdsByGoogle: ", window.adsbygoogle);
+        }, 2000);
+    </script>
 
     @if(Session::has('popup_message'))
         @include('backoffice.partial.popup_message')

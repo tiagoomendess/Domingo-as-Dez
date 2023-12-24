@@ -2,8 +2,6 @@ const news_time = 7000;
 var select_news = 0;
 
 function start() {
-
-    console.log('homepage-scripts loaded!');
     startSlideShow();
 }
 
