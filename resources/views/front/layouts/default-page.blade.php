@@ -43,12 +43,6 @@
     <script type="text/javascript" src="/js/front/default-page-scripts.js"></script>
     @yield('scripts')
 
-    <script async>
-        setTimeout(function () {
-            console.log("AdsByGoogle: ", window.adsbygoogle);
-        }, 2000);
-    </script>
-
     @if(Session::has('popup_message'))
         @include('backoffice.partial.popup_message')
     @endif

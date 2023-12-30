@@ -21,12 +21,14 @@
 
         @if(!has_permission('disable_ads'))
             <div class="hide-on-med-and-up" style="margin-top: 5px">
+                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3518000096682897"
+                        crossorigin="anonymous"></script>
                 <!-- Today Games Horizontal -->
                 <ins class="adsbygoogle"
                      style="display:block"
                      data-ad-client="ca-pub-3518000096682897"
                      data-ad-slot="2210321320"
-                     data-ad-format="horizontal"
+                     data-ad-format="auto"
                      data-full-width-responsive="true"></ins>
                 <script>
                     (adsbygoogle = window.adsbygoogle || []).push({});
@@ -115,13 +117,14 @@
             @endif
 
             <div class="col m12 l4">
-
+                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3518000096682897"
+                        crossorigin="anonymous"></script>
                 <!-- Today Games Page -->
                 <ins class="adsbygoogle"
                      style="display:block"
                      data-ad-client="ca-pub-3518000096682897"
                      data-ad-slot="8596939730"
-                     data-ad-format="vertical"
+                     data-ad-format="auto"
                      data-full-width-responsive="true"></ins>
                 <script>
                     (adsbygoogle = window.adsbygoogle || []).push({});

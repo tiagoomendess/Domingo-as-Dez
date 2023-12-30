@@ -22,6 +22,8 @@
 
         <div class="row no-margin-bottom">
             <div class="col s12 m12 l12">
+                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3518000096682897"
+                        crossorigin="anonymous"></script>
                 <!-- Poll -->
                 <ins class="adsbygoogle"
                      style="display:block"

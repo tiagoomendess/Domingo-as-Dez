@@ -129,13 +129,18 @@
                 @if(!has_permission('disable_ads'))
                     <div class="row" style="margin-top: 20px">
                         <div class="col s12 m12 l8 offset-l2">
+                            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3518000096682897"
+                                    crossorigin="anonymous"></script>
                             <!-- Article Description Horizontal -->
                             <ins class="adsbygoogle"
                                  style="display:block"
                                  data-ad-client="ca-pub-3518000096682897"
                                  data-ad-slot="7397948298"
-                                 data-ad-format="horizontal"
+                                 data-ad-format="auto"
                                  data-full-width-responsive="true"></ins>
+                            <script>
+                                (adsbygoogle = window.adsbygoogle || []).push({});
+                            </script>
                         </div>
                     </div>
                 @endif
@@ -163,12 +168,18 @@
             @if ($article->visible)
                 @if(!has_permission('disable_ads'))
                     <div class="col s12 m12 l12">
+                        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3518000096682897"
+                                crossorigin="anonymous"></script>
+                        <!-- Article Top Comments -->
                         <ins class="adsbygoogle"
                              style="display:block"
                              data-ad-client="ca-pub-3518000096682897"
                              data-ad-slot="9842679623"
                              data-ad-format="auto"
                              data-full-width-responsive="true"></ins>
+                        <script>
+                            (adsbygoogle = window.adsbygoogle || []).push({});
+                        </script>
                     </div>
                 @endif
             @else
@@ -226,8 +237,11 @@
                 $('#bottom_ads').removeClass("hide");
                 $('#comments_wrapper').removeClass("hide");
                 $('.parallax').parallax();
+            }, 10);
+
+            setTimeout(() => {
                 (adsbygoogle = window.adsbygoogle || []).push({});
-            }, 100);
+            }, 20);
         });
 
     </script>

@@ -166,6 +166,8 @@
         <div class="container">
             <div class="row">
                 <div class="col col-xs-12 s12 m12 l12">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3518000096682897"
+                            crossorigin="anonymous"></script>
                     <!-- Competitions -->
                     <ins class="adsbygoogle"
                          style="display:block"
@@ -173,6 +175,9 @@
                          data-ad-slot="6228552458"
                          data-ad-format="auto"
                          data-full-width-responsive="true"></ins>
+                    <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
                 </div>
             </div>
         </div>

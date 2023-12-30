@@ -34,6 +34,8 @@
 
             <div class="col m12 l4">
                 <div class="card">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3518000096682897"
+                            crossorigin="anonymous"></script>
                     <!-- Competitions List Square -->
                     <ins class="adsbygoogle"
                          style="display:block"

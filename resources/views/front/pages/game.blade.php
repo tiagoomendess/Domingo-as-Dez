@@ -371,13 +371,18 @@
         <div class="row">
             <div class="col s12 m12 l8 offset-l2">
                 <div style="margin-top: .5rem">
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3518000096682897"
+                            crossorigin="anonymous"></script>
                     <!-- Game -->
                     <ins class="adsbygoogle"
                          style="display:block"
                          data-ad-client="ca-pub-3518000096682897"
                          data-ad-slot="4747113072"
-                         data-ad-format="horizontal"
+                         data-ad-format="auto"
                          data-full-width-responsive="true"></ins>
+                    <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
                 </div>
             </div>
         </div>

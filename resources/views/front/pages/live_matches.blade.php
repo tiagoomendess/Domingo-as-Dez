@@ -20,12 +20,14 @@
                 <div class="container">
                     <div class="col s12">
                         <div style="margin-top: .5rem">
+                            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3518000096682897"
+                                    crossorigin="anonymous"></script>
                             <!-- Live Matches Horizontal -->
                             <ins class="adsbygoogle"
                                  style="display:block"
                                  data-ad-client="ca-pub-3518000096682897"
                                  data-ad-slot="3091605842"
-                                 data-ad-format="horizontal"
+                                 data-ad-format="auto"
                                  data-full-width-responsive="true"></ins>
                             <script>
                                 (adsbygoogle = window.adsbygoogle || []).push({});
@@ -45,12 +47,14 @@
             @if(!has_permission('disable_ads'))
                 <div class="col l3 hide-on-med-and-down">
                     <div style="margin-top: 1rem">
+                        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3518000096682897"
+                                crossorigin="anonymous"></script>
                         <!-- Live Matches Sidebar -->
                         <ins class="adsbygoogle"
                              style="display:block"
                              data-ad-client="ca-pub-3518000096682897"
                              data-ad-slot="9341798357"
-                             data-ad-format="vertical"
+                             data-ad-format="auto"
                              data-full-width-responsive="true"></ins>
                         <script>
                             (adsbygoogle = window.adsbygoogle || []).push({});
