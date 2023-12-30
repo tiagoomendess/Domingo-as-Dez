@@ -173,7 +173,7 @@
                              data-ad-format="auto"
                              data-full-width-responsive="true"></ins>
                         <script>
-                            (adsbygoogle = window.adsbygoogle || []).push({});
+                            //(adsbygoogle = window.adsbygoogle || []).push({});
                         </script>
                     </div>
 
@@ -185,7 +185,7 @@
                              data-ad-format="auto"
                              data-full-width-responsive="true"></ins>
                         <script>
-                            (adsbygoogle = window.adsbygoogle || []).push({});
+                            //(adsbygoogle = window.adsbygoogle || []).push({});
                         </script>
                     </div>
                 @endif
@@ -244,6 +244,7 @@
                 $('#bottom_ads').removeClass("hide");
                 $('#comments_wrapper').removeClass("hide");
                 $('.parallax').parallax();
+                (adsbygoogle = window.adsbygoogle || []).push({});
             }, 100);
         });
 
