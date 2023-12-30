@@ -55,7 +55,6 @@ function rightBtnClicked(event) {
     var newName = round_name.text().trim();
     newName = newName.replace(/[0-9]+/, parseInt(next.attr('round')));
     round_name.text(newName);
-
 }
 
 function start() {
@@ -266,9 +265,7 @@ function handleGetGamesRequest(response) {
         $('#stats_button').removeClass('hide');
     }
 
-    var spinner = $('#main_loading');
-    spinner.addClass('hide');
-
+    $('#main_loading').addClass('hide');
 }
 
 function showTable(group, round) {

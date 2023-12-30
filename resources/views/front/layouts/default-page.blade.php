@@ -1,6 +1,10 @@
 @extends('base')
 
 @section('head')
+    @if(!has_permission('disable_ads'))
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3518000096682897"
+                crossorigin="anonymous"></script>
+    @endif
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link type="text/css" rel="stylesheet" href="/materialize/css/materialize.min.css"  media="screen,projection"/>
@@ -23,11 +27,6 @@
 @endsection
 
 @section('body')
-    @if(!has_permission('disable_ads'))
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3518000096682897"
-                crossorigin="anonymous"></script>
-    @endif
-
     @include('front.partial.navbar')
 
     @include('front.partial.sidenav')
