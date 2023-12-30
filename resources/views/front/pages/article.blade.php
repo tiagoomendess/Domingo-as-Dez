@@ -136,9 +136,6 @@
                                  data-ad-slot="7397948298"
                                  data-ad-format="horizontal"
                                  data-full-width-responsive="true"></ins>
-                            <script>
-                                //(adsbygoogle = window.adsbygoogle || []).push({});
-                            </script>
                         </div>
                     </div>
                 @endif
@@ -165,28 +162,13 @@
         <div class="row">
             @if ($article->visible)
                 @if(!has_permission('disable_ads'))
-                    <div class="col s12 m12 l6">
+                    <div class="col s12 m12 l12">
                         <ins class="adsbygoogle"
                              style="display:block"
                              data-ad-client="ca-pub-3518000096682897"
                              data-ad-slot="9842679623"
                              data-ad-format="auto"
                              data-full-width-responsive="true"></ins>
-                        <script>
-                            //(adsbygoogle = window.adsbygoogle || []).push({});
-                        </script>
-                    </div>
-
-                    <div class="col col-xs-12 s12 m12 l6 hide-on-med-and-down">
-                        <ins class="adsbygoogle"
-                             style="display:block"
-                             data-ad-client="ca-pub-3518000096682897"
-                             data-ad-slot="9842679623"
-                             data-ad-format="auto"
-                             data-full-width-responsive="true"></ins>
-                        <script>
-                            //(adsbygoogle = window.adsbygoogle || []).push({});
-                        </script>
                     </div>
                 @endif
             @else
