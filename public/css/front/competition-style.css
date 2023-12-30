@@ -11,6 +11,18 @@ body {
     margin: 10px 0 0 0;
 }
 
+@media (max-width: 600px) {
+    .competition-season-selector {
+        min-height: 154px;
+    }
+}
+
+@media (min-width: 601px) {
+    .competition-season-selector {
+        min-height: 81px;
+    }
+}
+
 #loading_spinner {
     width: 100%;
     display: flex;

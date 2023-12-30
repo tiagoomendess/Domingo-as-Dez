@@ -27,10 +27,29 @@
 @endsection
 
 @section('content')
-    <article data-id="{{ $article->id }}">
+    <div id="main_loading" style="min-height: 100vh; width: 100%; background-color: #f5f5f5; z-index: 11;">
+        <div class="container" style="padding-top: 100px">
+            <div class="center">
+                <div class="preloader-wrapper big active">
+                    <div class="spinner-layer spinner-blue-only">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="gap-patch">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <article data-id="{{ $article->id }}" class="hide">
 
         @if($article->media)
-
             @if($article->media->media_type == 'image')
                 <div class="parallax-container">
                     <div class="parallax">
@@ -64,7 +83,6 @@
                 </div>
 
             @elseif($article->media->media_type == 'video')
-
                 <div class="">
                     <div class="container">
                         <video style="width: 100%" class="responsive-video" controls>
@@ -77,11 +95,8 @@
                             <h1 class="light" style="">{{ $article->title }}</h1>
                         </div>
                     </div>
-
-
                 </div>
             @endif
-
         @else
 
             <div class="parallax-container">
@@ -146,7 +161,7 @@
 
     </article>
 
-    <div class="container">
+    <div class="container hide" id="bottom_ads">
         <div class="row">
             @if ($article->visible)
                 @if(!has_permission('disable_ads'))
@@ -180,16 +195,16 @@
         </div>
     </div>
 
-    @include('front.partial.article_comments')
+    <div class="hide" id="comments_wrapper">
+        @include('front.partial.article_comments')
+    </div>
 
 @endsection
 
 @section('scripts')
 
     <script>
-
         $(document).ready(function () {
-            $('.parallax').parallax();
             $('.materialboxed').materialbox();
 
             $('.article-body p').each(function () {
@@ -205,7 +220,6 @@
             });
 
             $(function () {
-
                 var iframe = $('#media_youtube_video');
                 var height = iframe.height();
                 var width = height * 1.777;
@@ -220,9 +234,17 @@
                 } else {
                     iframe.attr('style', 'width: ' + width + 'px!important;');
                 }
-
-
             })
+        });
+
+        jQuery(window).on("load", function () {
+            setTimeout(() => {
+                $('#main_loading').addClass("hide");
+                $('article').removeClass("hide");
+                $('#bottom_ads').removeClass("hide");
+                $('#comments_wrapper').removeClass("hide");
+                $('.parallax').parallax();
+            }, 100);
         });
 
     </script>
