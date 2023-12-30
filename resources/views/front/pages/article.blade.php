@@ -137,7 +137,7 @@
                                  data-ad-format="horizontal"
                                  data-full-width-responsive="true"></ins>
                             <script>
-                                (adsbygoogle = window.adsbygoogle || []).push({});
+                                //(adsbygoogle = window.adsbygoogle || []).push({});
                             </script>
                         </div>
                     </div>
