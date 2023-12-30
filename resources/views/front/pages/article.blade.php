@@ -237,11 +237,7 @@
                 $('#bottom_ads').removeClass("hide");
                 $('#comments_wrapper').removeClass("hide");
                 $('.parallax').parallax();
-            }, 10);
-
-            setTimeout(() => {
-                (adsbygoogle = window.adsbygoogle || []).push({});
-            }, 20);
+            }, 1);
         });
 
     </script>
