@@ -31,7 +31,8 @@
 
     <div class="container">
         @if(!has_permission('disable_ads'))
-            <div class="row no-margin-bottom" style="margin-top: 10px">
+            <div class="row no-margin-bottom">
+                <div class="vertical-spacer hide-on-med-and-down"></div>
                 <div class="col s12 m10 l8 offset-m1 offset-l2">
                     <script async
                             src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3518000096682897"
