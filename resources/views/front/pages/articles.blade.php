@@ -22,24 +22,20 @@
         <div class="row no-margin-bottom">
             @foreach($articles as $index => $article)
                 @if($index === 4 && !has_permission('disable_ads'))
-                    <div class="col xs12 s12 m6 l6 xl4">
-                        <div class="square-ad" style="margin-top: 10px">
-                            <div style="width: 100%!important; height: 100%!important;">
-                                <script async
-                                        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3518000096682897"
-                                        crossorigin="anonymous"></script>
-                                <!-- News Page Card -->
-                                <ins class="adsbygoogle"
-                                     style="display:block"
-                                     data-ad-client="ca-pub-3518000096682897"
-                                     data-ad-slot="3616731365"
-                                     data-ad-format="auto"
-                                     data-full-width-responsive="true"></ins>
-                                <script>
-                                    (adsbygoogle = window.adsbygoogle || []).push({});
-                                </script>
-                            </div>
-                        </div>
+                    <div class="col xs12 s12 m6 l6 xl4" style="margin-top: 10px">
+                        <script async
+                                src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3518000096682897"
+                                crossorigin="anonymous"></script>
+                        <!-- News Page Card -->
+                        <ins class="adsbygoogle"
+                             style="display:block"
+                             data-ad-client="ca-pub-3518000096682897"
+                             data-ad-slot="3616731365"
+                             data-ad-format="auto"
+                             data-full-width-responsive="true"></ins>
+                        <script>
+                            (adsbygoogle = window.adsbygoogle || []).push({});
+                        </script>
                     </div>
                 @endif
                 <div class="col xs12 s12 m6 l6 xl4">
