@@ -266,10 +266,6 @@ function handleGetGamesRequest(response) {
     }
 
     $('#main_loading').addClass('hide');
-
-    setTimeout(() => {
-        (adsbygoogle = window.adsbygoogle || []).push({});
-    }, 100)
 }
 
 function showTable(group, round) {
