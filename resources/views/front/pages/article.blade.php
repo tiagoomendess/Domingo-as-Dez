@@ -108,7 +108,7 @@
             @if ($article->visible)
                 @if(!has_permission('disable_ads'))
                     <div class="row" style="margin-top: 20px">
-                        <div class="col s12 m6 l4 offset-l4 offset-m3">
+                        <div class="col s12 m8 l6 offset-l3 offset-m2">
                             <script async
                                     src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3518000096682897"
                                     crossorigin="anonymous"></script>
@@ -168,7 +168,7 @@
         <div class="row">
             @if ($article->visible)
                 @if(!has_permission('disable_ads'))
-                    <div class="col s12 m12 l12">
+                    <div class="col s12 m8 l6 offset-l3 offset-m2">
                         <script async
                                 src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3518000096682897"
                                 crossorigin="anonymous"></script>
@@ -177,7 +177,7 @@
                              style="display:block"
                              data-ad-client="ca-pub-3518000096682897"
                              data-ad-slot="9842679623"
-                             data-ad-format="auto"
+                             data-ad-format="horizontal"
                              data-full-width-responsive="true"></ins>
                         <script>
                             (adsbygoogle = window.adsbygoogle || []).push({});
