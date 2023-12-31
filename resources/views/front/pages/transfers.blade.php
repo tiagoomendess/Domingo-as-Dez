@@ -136,11 +136,10 @@
                     </div>
                 </div>
             @endif
-
         </div>
 
         <div class="row no-margin-bottom">
-            {{ $transfers->links() }}
+            {{ $transfers->onEachSide(1)->links() }}
         </div>
 
     </div>

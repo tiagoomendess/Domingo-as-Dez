@@ -71,7 +71,7 @@
     </div>
 
     <div class="row">
-        {{ $articles->links() }}
+        {{ $articles->onEachSide(1)->links() }}
     </div>
 
 @endsection
