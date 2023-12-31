@@ -390,6 +390,7 @@ p {
 }
 
 .horizontal-or-square-ad {
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -411,6 +412,7 @@ p {
 
     .thin-horizontal-rectangle-ad {
         padding-bottom: 25%;
+        width: 100%;
     }
 }
 
