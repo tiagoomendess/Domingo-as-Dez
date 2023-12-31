@@ -327,7 +327,8 @@
                             </div>
                         @else
                             <p class="flow-text text-justify" style="text-align: justify">
-                                A localização deste campo é desconhecida pelo sistema, logo não é possível obter indicações.
+                                A localização deste campo é desconhecida pelo sistema, logo não é possível obter
+                                indicações.
                             </p>
                         @endif
 
@@ -368,22 +369,21 @@
             @endif
         </div>
 
-        <div class="row">
+        <div class="row" style="margin-top: 7px">
             <div class="col s12 m6 l4 offset-l4 offset-m3">
-                <div style="margin-top: .5rem">
-                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3518000096682897"
-                            crossorigin="anonymous"></script>
-                    <!-- Game -->
-                    <ins class="adsbygoogle"
-                         style="display:block"
-                         data-ad-client="ca-pub-3518000096682897"
-                         data-ad-slot="4747113072"
-                         data-ad-format="auto"
-                         data-full-width-responsive="true"></ins>
-                    <script>
-                        (adsbygoogle = window.adsbygoogle || []).push({});
-                    </script>
-                </div>
+                <script async
+                        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3518000096682897"
+                        crossorigin="anonymous"></script>
+                <!-- Game -->
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-3518000096682897"
+                     data-ad-slot="4747113072"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
             </div>
         </div>
 
@@ -475,9 +475,10 @@
                 </div>
 
                 @if(has_permission('score_update'))
-                <div class="col s12 center">
-                    <p><a href="{{ route('front.games.show_score_reports', ['game' => $game]) }}">Resultados Enviados</a></p>
-                </div>
+                    <div class="col s12 center">
+                        <p><a href="{{ route('front.games.show_score_reports', ['game' => $game]) }}">Resultados
+                                Enviados</a></p>
+                    </div>
                 @endif
             </section>
 
