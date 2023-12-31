@@ -4,9 +4,9 @@
     <title>Clube {{ $club->name }}</title>
     <link rel="stylesheet" href="/css/front/club-page-style.css">
 
-    <meta property="og:title" content="{{ $club->name . ' - ' . config('app.name') }}" />
-    <meta property="og:type" content="website" />
-    <meta property="og:description" content="{{ trans('front.footer_desc') }}" />
+    <meta property="og:title" content="{{ $club->name . ' - ' . config('app.name') }}"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:description" content="{{ trans('front.footer_desc') }}"/>
     <meta property="og:image" content="{{ url($club->getEmblem()) }}">
 
 @endsection
@@ -31,26 +31,23 @@
 
     <div class="container">
         @if(!has_permission('disable_ads'))
-        <div class="row no-margin-bottom" style="margin-top: 10px">
-            <div class="col s12 m8 l6 offset-l3 offset-m2">
-                <div class="thin-horizontal-rectangle-ad">
-                    <div>
-                        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3518000096682897"
-                                crossorigin="anonymous"></script>
-                        <!-- Club Bellow Picture -->
-                        <ins class="adsbygoogle"
-                             style="display:block"
-                             data-ad-client="ca-pub-3518000096682897"
-                             data-ad-slot="2392223415"
-                             data-ad-format="auto"
-                             data-full-width-responsive="true"></ins>
-                        <script>
-                            (adsbygoogle = window.adsbygoogle || []).push({});
-                        </script>
-                    </div>
+            <div class="row no-margin-bottom" style="margin-top: 10px">
+                <div class="col s12 m6 l4 offset-l4 offset-m3">
+                    <script async
+                            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3518000096682897"
+                            crossorigin="anonymous"></script>
+                    <!-- Club Bellow Picture -->
+                    <ins class="adsbygoogle"
+                         style="display:block"
+                         data-ad-client="ca-pub-3518000096682897"
+                         data-ad-slot="2392223415"
+                         data-ad-format="auto"
+                         data-full-width-responsive="true"></ins>
+                    <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
                 </div>
             </div>
-        </div>
         @endif
 
         <div class="row">
@@ -78,7 +75,8 @@
                                             <div class="col s6 m6 l4 xl3">
                                                 <a href="{{ $player->getPublicURL() }}">
                                                     <div class="player">
-                                                        <img src="{{ $player->getPicture() }}" alt="{{ $player->name }}">
+                                                        <img src="{{ $player->getPicture() }}"
+                                                             alt="{{ $player->name }}">
                                                         <span>{{ $player->displayName() }}</span>
                                                     </div>
                                                 </a>
@@ -88,7 +86,9 @@
                                     </div>
                                     @if(has_permission('teams.edit.' . $team->id))
                                         <div class="row">
-                                                <a href="{{ route('teams.show', ['team' => $team]) }}" class="btn-floating btn-large waves-effect waves-light blue right"><i class="material-icons">edit</i></a>
+                                            <a href="{{ route('teams.show', ['team' => $team]) }}"
+                                               class="btn-floating btn-large waves-effect waves-light blue right"><i
+                                                        class="material-icons">edit</i></a>
                                         </div>
                                     @endif
 
@@ -116,11 +116,13 @@
                                 <div class="transfer">
                                     <a href="{{ $transfer->player->getPublicURL() }}">
                                         <figure>
-                                            <img src="{{ $transfer->player->getPicture() }}" alt="{{ $transfer->player->displayName() }}">
+                                            <img src="{{ $transfer->player->getPicture() }}"
+                                                 alt="{{ $transfer->player->displayName() }}">
                                         </figure>
 
                                         <div class="info">
-                                            <span style="line-height: 20px">{{ $transfer->player->displayName() }}<br/><small style="color: grey">{{ $transfer->team ? $transfer->team->name : 'Nenhuma Equipa' }}</small></span>
+                                            <span style="line-height: 20px">{{ $transfer->player->displayName() }}<br/><small
+                                                        style="color: grey">{{ $transfer->team ? $transfer->team->name : 'Nenhuma Equipa' }}</small></span>
 
                                             @if ($transfer->team && $transfer->team->club->id == $club->id)
                                                 <i class="material-icons green-text flow-text">arrow_back</i>
@@ -145,7 +147,8 @@
     @if(has_permission('clubs.edit.' . $club->id))
         <div class="row">
             <div class="container">
-                <a href="{{ route('clubs.show', ['club' => $club]) }}" class="btn-floating btn-large waves-effect waves-light blue right"><i class="material-icons">edit</i></a>
+                <a href="{{ route('clubs.show', ['club' => $club]) }}"
+                   class="btn-floating btn-large waves-effect waves-light blue right"><i class="material-icons">edit</i></a>
             </div>
         </div>
     @endif

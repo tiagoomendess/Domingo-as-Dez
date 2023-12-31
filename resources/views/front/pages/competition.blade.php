@@ -160,28 +160,26 @@
 
         <div class="row hide" id="stats_button">
             <div class="container center">
-                <a id="stats_link" class="waves-effect waves-light btn-large green darken-3" href=""><i class="material-icons left">insert_chart</i>{{ trans('front.statistics') }}</a></div>
+                <a id="stats_link" class="waves-effect waves-light btn-large green darken-3" href=""><i
+                            class="material-icons left">insert_chart</i>{{ trans('front.statistics') }}</a></div>
         </div>
 
         <div class="container">
             <div class="row">
-                <div class="col col-xs-12 s12 m12 l12">
-                    <div class="horizontal-or-square-ad">
-                        <div>
-                            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3518000096682897"
-                                    crossorigin="anonymous"></script>
-                            <!-- Competitions -->
-                            <ins class="adsbygoogle"
-                                 style="display:block"
-                                 data-ad-client="ca-pub-3518000096682897"
-                                 data-ad-slot="6228552458"
-                                 data-ad-format="auto"
-                                 data-full-width-responsive="true"></ins>
-                            <script>
-                                (adsbygoogle = window.adsbygoogle || []).push({});
-                            </script>
-                        </div>
-                    </div>
+                <div class="col col-xs-12 s12 m6 l4 offset-l4 offset-m3">
+                    <script async
+                            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3518000096682897"
+                            crossorigin="anonymous"></script>
+                    <!-- Competitions -->
+                    <ins class="adsbygoogle"
+                         style="display:block"
+                         data-ad-client="ca-pub-3518000096682897"
+                         data-ad-slot="6228552458"
+                         data-ad-format="auto"
+                         data-full-width-responsive="true"></ins>
+                    <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
                 </div>
             </div>
         </div>
