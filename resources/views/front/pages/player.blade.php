@@ -8,7 +8,6 @@
     <meta property="og:type" content="website" />
     <meta property="og:description" content="{{ trans('front.footer_desc') }}" />
     <meta property="og:image" content="{{ url($player->getPicture()) }}">
-
 @endsection
 
 @section('content')
@@ -67,7 +66,24 @@
             </div>
 
             <div class="col s12 m12 l4 xl4">
-
+                @if(!has_permission('disable_ads'))
+                    <div class="square-ad">
+                        <div>
+                            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3518000096682897"
+                                    crossorigin="anonymous"></script>
+                            <!-- Player Page -->
+                            <ins class="adsbygoogle"
+                                 style="display:block"
+                                 data-ad-client="ca-pub-3518000096682897"
+                                 data-ad-slot="8786241371"
+                                 data-ad-format="auto"
+                                 data-full-width-responsive="true"></ins>
+                            <script>
+                                (adsbygoogle = window.adsbygoogle || []).push({});
+                            </script>
+                        </div>
+                    </div>
+                @endif
                 <h2 class="over-card-title">{{ trans('front.history_club') }}</h2>
                 <div class="card">
                     <div class="card-content player-clubs">

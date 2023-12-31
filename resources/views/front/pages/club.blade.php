@@ -30,6 +30,29 @@
     </div>
 
     <div class="container">
+        @if(!has_permission('disable_ads'))
+        <div class="row no-margin-bottom" style="margin-top: 10px">
+            <div class="col s12 m8 l6 offset-l3 offset-m2">
+                <div class="thin-horizontal-rectangle-ad">
+                    <div>
+                        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3518000096682897"
+                                crossorigin="anonymous"></script>
+                        <!-- Club Bellow Picture -->
+                        <ins class="adsbygoogle"
+                             style="display:block"
+                             data-ad-client="ca-pub-3518000096682897"
+                             data-ad-slot="2392223415"
+                             data-ad-format="auto"
+                             data-full-width-responsive="true"></ins>
+                        <script>
+                            (adsbygoogle = window.adsbygoogle || []).push({});
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @endif
+
         <div class="row">
             <div class="col s12 m12 l8 xl8">
                 <h2>{{ trans('models.teams') }}</h2>

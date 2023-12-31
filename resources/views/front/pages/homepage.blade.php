@@ -129,7 +129,8 @@
                 <div class="col col-xs-12 s12 m12 l12" style="margin-top: 15px">
                     <div class="horizontal-or-square-ad">
                         <div>
-                            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3518000096682897"
+                            <script async
+                                    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3518000096682897"
                                     crossorigin="anonymous"></script>
                             <!-- Home page Horizontal -->
                             <ins class="adsbygoogle"
@@ -185,18 +186,63 @@
 
     </div>
 
-    <div class="col s12 m12 l12 center text-center" style="margin-top: 10px">
-        <div class="divider"></div>
-        <div class="vertical-spacer"></div>
-        <a class="waves-effect waves-light btn-large yellow darken-3" href="{{ route('info.create') }}">
-            <i class="large material-icons left">send</i>
-            Enviar Informação</a>
-        <div class="vertical-spacer"></div>
-        <div class="divider"></div>
+    <div class="container">
+        <div class="col s12 m12 l12 center text-center" style="margin-top: 10px">
+            <div class="divider"></div>
+            <div class="vertical-spacer"></div>
+            <a class="waves-effect waves-light btn-large yellow darken-3" href="{{ route('info.create') }}">
+                <i class="large material-icons left">send</i>
+                Enviar Informação</a>
+            <div class="vertical-spacer"></div>
+            <div class="divider"></div>
+        </div>
     </div>
 
     <div class="vertical-spacer"></div>
 
+    <div class="container">
+        <div class="row">
+            <div class="col s12">
+                <p class="flow-text text-center center">
+                    Siga-nos nas Redes Sociais
+                </p>
+            </div>
+            <div class="col s6 text-center" style="display: flex; justify-content: center; align-items: center">
+                <a target="_blank" href="https://www.facebook.com/domingoasdez.popular" style="width: 40%">
+                    <img src="/images/facebook-logo.svg" alt="" style="width: 100%">
+                </a>
+            </div>
+            <div class="col s6 text-center" style="display: flex; justify-content: center; align-items: center">
+                <a target="_blank" href="https://www.instagram.com/domingoasdez.popular" style="width: 40%">
+                    <img src="/images/instagram-logo.svg" alt="" style="width: 100%">
+                </a>
+            </div>
+        </div>
+
+        @if(!has_permission('disable_ads'))
+            <div class="row">
+                <div class="col col-xs-12 s12 m12 l12" style="margin-top: 15px">
+                    <div class="three-by-one-rectangle-ad">
+                        <div>
+                            <script async
+                                    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3518000096682897"
+                                    crossorigin="anonymous"></script>
+                            <!-- Home Page Bottom -->
+                            <ins class="adsbygoogle"
+                                 style="display:block"
+                                 data-ad-client="ca-pub-3518000096682897"
+                                 data-ad-slot="2870719656"
+                                 data-ad-format="auto"
+                                 data-full-width-responsive="true"></ins>
+                            <script>
+                                (adsbygoogle = window.adsbygoogle || []).push({});
+                            </script>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endif
+    </div>
 @endsection
 
 @section("scripts")

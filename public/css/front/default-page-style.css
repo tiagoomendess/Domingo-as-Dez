@@ -329,8 +329,19 @@ p {
     font-size: 1rem;
 }
 
+.thin-horizontal-rectangle-ad {
+    width: 100%;
+}
+
+.thin-horizontal-rectangle-ad > div {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .square-ad {
-    background-color: #c9c9c9;
     width: 100%;
     padding-bottom: 100%;
     display: flex;
@@ -341,10 +352,12 @@ p {
 .square-ad > div {
     height: 100%;
     width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .three-by-one-rectangle-ad {
-    background-color: #c9c9c9;
     width: 100%;
     padding-bottom: 33.33%;
     display: flex;
@@ -355,10 +368,12 @@ p {
 .three-by-one-rectangle-ad > div {
     height: 100%;
     width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .two-by-one-rectangle-ad {
-    background-color: #c9c9c9;
     width: 100%;
     padding-bottom: 50%;
     display: flex;
@@ -369,10 +384,12 @@ p {
 .two-by-one-rectangle-ad > div {
     height: 100%;
     width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .horizontal-or-square-ad {
-    background-color: #c9c9c9;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -381,12 +398,19 @@ p {
 .horizontal-or-square-ad > div {
     height: 100%;
     width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 @media only screen and (max-width: 600px) {
     .horizontal-or-square-ad {
         width: 100%;
         padding-bottom: 100%;
+    }
+
+    .thin-horizontal-rectangle-ad {
+        padding-bottom: 25%;
     }
 }
 
@@ -395,10 +419,20 @@ p {
         width: 100%;
         max-height: 281px;
     }
+
+    .thin-horizontal-rectangle-ad {
+        width: 100%;
+        max-height: 281px;
+    }
 }
 
 @media only screen and (min-width: 993px){
     .horizontal-or-square-ad {
+        width: 100%;
+        max-height: 91px;
+    }
+
+    .thin-horizontal-rectangle-ad {
         width: 100%;
         max-height: 91px;
     }
