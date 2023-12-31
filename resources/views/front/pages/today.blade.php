@@ -8,7 +8,7 @@
     <meta property="og:image" content="{{ url('/images/todays_games.jpg') }}">
     <meta property="og:image:width" content="1920">
     <meta property="og:image:height" content="1080">
-    <meta property="og:description" content="Lista de todos os jogos marcados para o dia de hoje" />
+    <meta property="og:description" content="Lista de todos os jogos marcados para o dia de hoje"/>
 
     <meta itemprop="name" content="Jogos de Hoje">
     <meta itemprop="description" content="Lista de todos os jogos marcados para o dia de hoje">
@@ -21,7 +21,8 @@
 
         @if(!has_permission('disable_ads'))
             <div class="hide-on-med-and-up" style="margin-top: 5px">
-                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3518000096682897"
+                <script async
+                        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3518000096682897"
                         crossorigin="anonymous"></script>
                 <!-- Today Games Horizontal -->
                 <ins class="adsbygoogle"
@@ -43,7 +44,8 @@
                             <p class="flow-text text-center">
                                 Não existem jogos marcados para hoje.
                                 @if($closest)
-                                    O <a href="{{ $closest->getPublicUrl() }}">jogo mais próximo </a>está marcado para dia
+                                    O <a href="{{ $closest->getPublicUrl() }}">jogo mais próximo </a>está marcado para
+                                    dia
                                     {{ (new \Carbon\Carbon($closest->date))->setTimezone('Europe/Lisbon')->format('d/m \d\e Y') }}
                                 @endif
                             </p>
@@ -54,13 +56,16 @@
                                         <a href="{{ $game->getPublicUrl() }}">
 
                                             <div class="row" style="margin-bottom: 0; width: 100%;">
-                                                <div class="col s4" style="text-align: right; vertical-align: middle; vert-align: middle">
+                                                <div class="col s4"
+                                                     style="text-align: right; vertical-align: middle; vert-align: middle">
                                                     <div style="display: flex; flex-direction: row; justify-content: end; align-items: center; height: 37px">
-                                                        <span style="" class="hide-on-med-and-down">{{ $game->home_team->club->name }}</span>
+                                                        <span style=""
+                                                              class="hide-on-med-and-down">{{ $game->home_team->club->name }}</span>
                                                         <span class="hide-on-large-only">
                                                             {{ mb_strtoupper(\Illuminate\Support\Str::limit($game->home_team->club->name, 3, '')) }}
                                                         </span>
-                                                        <img class="" style="width: 30px; margin-left: 5px; resize: none;"
+                                                        <img class=""
+                                                             style="width: 30px; margin-left: 5px; resize: none;"
                                                              src="{{ $game->home_team->club->getEmblem() }}">
                                                     </div>
                                                 </div>
@@ -69,7 +74,8 @@
                                                      style="text-align: center; margin-top: 6px; padding: 0">
                                                         <span style="background-color: #989898; padding: 0.2rem 0.5rem; color: white; font-weight: bold">
                                                             @if ($game->finished)
-                                                                {{ $game->getHomeScore() }} - {{ $game->getAwayScore() }}
+                                                                {{ $game->getHomeScore() }}
+                                                                - {{ $game->getAwayScore() }}
                                                             @else
                                                                 @if($game->postponed)
                                                                     ADI
@@ -84,7 +90,8 @@
                                                     <div style="display: flex; flex-direction: row; justify-content: start; align-items: center; height: 37px">
                                                         <img style="width: 30px; resize: none; margin-right: 5px"
                                                              src="{{ $game->away_team->club->getEmblem() }}">
-                                                        <span style="" class="hide-on-med-and-down">{{ $game->away_team->club->name }}</span>
+                                                        <span style=""
+                                                              class="hide-on-med-and-down">{{ $game->away_team->club->name }}</span>
                                                         <span class="hide-on-large-only">
                                                             {{ mb_strtoupper(\Illuminate\Support\Str::limit($game->away_team->club->name, 3, '')) }}
                                                         </span>
@@ -116,21 +123,25 @@
                 </div>
             @endif
 
-            <div class="col m12 l4">
-                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3518000096682897"
-                        crossorigin="anonymous"></script>
-                <!-- Today Games Page -->
-                <ins class="adsbygoogle"
-                     style="display:block"
-                     data-ad-client="ca-pub-3518000096682897"
-                     data-ad-slot="8596939730"
-                     data-ad-format="auto"
-                     data-full-width-responsive="true"></ins>
-                <script>
-                    (adsbygoogle = window.adsbygoogle || []).push({});
-                </script>
-            </div>
-
+            @if(!has_permission('disable_ads'))
+                <div class="row">
+                    <div class="col col-xs-12 s12 m10 l8 offset-m1 offset-l2">
+                        <script async
+                                src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3518000096682897"
+                                crossorigin="anonymous"></script>
+                        <!-- Today Games Page -->
+                        <ins class="adsbygoogle"
+                             style="display:block"
+                             data-ad-client="ca-pub-3518000096682897"
+                             data-ad-slot="8596939730"
+                             data-ad-format="auto"
+                             data-full-width-responsive="true"></ins>
+                        <script>
+                            (adsbygoogle = window.adsbygoogle || []).push({});
+                        </script>
+                    </div>
+                </div>
+            @endif
         </div>
 
     </div>

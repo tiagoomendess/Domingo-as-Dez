@@ -32,7 +32,7 @@
     <div class="container">
         @if(!has_permission('disable_ads'))
             <div class="row no-margin-bottom" style="margin-top: 10px">
-                <div class="col s12 m6 l4 offset-l4 offset-m3">
+                <div class="col s12 m10 l8 offset-m1 offset-l2">
                     <script async
                             src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3518000096682897"
                             crossorigin="anonymous"></script>

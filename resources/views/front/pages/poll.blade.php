@@ -20,8 +20,9 @@
 
         </div>
 
+        @if(!has_permission('disable_ads'))
         <div class="row no-margin-bottom">
-            <div class="col s12 m12 l12">
+            <div class="col col-xs-12 s12 m10 l8 offset-m1 offset-l2">
                 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3518000096682897"
                         crossorigin="anonymous"></script>
                 <!-- Poll -->
@@ -36,6 +37,7 @@
                 </script>
             </div>
         </div>
+        @endif
         <div class="row">
             <div class="col s12 m12 l12">
                 @include('front.partial.minimal_poll')

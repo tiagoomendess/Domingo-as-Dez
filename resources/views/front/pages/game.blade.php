@@ -369,23 +369,25 @@
             @endif
         </div>
 
-        <div class="row" style="margin-top: 7px">
-            <div class="col s12 m6 l4 offset-l4 offset-m3">
-                <script async
-                        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3518000096682897"
-                        crossorigin="anonymous"></script>
-                <!-- Game -->
-                <ins class="adsbygoogle"
-                     style="display:block"
-                     data-ad-client="ca-pub-3518000096682897"
-                     data-ad-slot="4747113072"
-                     data-ad-format="auto"
-                     data-full-width-responsive="true"></ins>
-                <script>
-                    (adsbygoogle = window.adsbygoogle || []).push({});
-                </script>
+        @if(!has_permission('disable_ads'))
+            <div class="row" style="margin-top: 7px">
+                <div class="col col-xs-12 s12 m10 l8 offset-m1 offset-l2">
+                    <script async
+                            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3518000096682897"
+                            crossorigin="anonymous"></script>
+                    <!-- Game -->
+                    <ins class="adsbygoogle"
+                         style="display:block"
+                         data-ad-client="ca-pub-3518000096682897"
+                         data-ad-slot="4747113072"
+                         data-ad-format="auto"
+                         data-full-width-responsive="true"></ins>
+                    <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
             </div>
-        </div>
+        @endif
 
         <div class="row">
 

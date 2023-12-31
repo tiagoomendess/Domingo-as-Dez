@@ -107,8 +107,8 @@
         <div class="container">
             @if ($article->visible)
                 @if(!has_permission('disable_ads'))
-                    <div class="row" style="margin-top: 20px">
-                        <div class="col s12 m8 l6 offset-l3 offset-m2">
+                    <div class="row no-margin-bottom" style="margin-top: 20px">
+                        <div class="col s12 m10 l8 offset-m1 offset-l2">
                             <script async
                                     src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3518000096682897"
                                     crossorigin="anonymous"></script>
@@ -125,9 +125,6 @@
                         </div>
                     </div>
                 @endif
-            @else
-                <p class="flow-text center text-center">Publicidade Google não está visivel porque o artigo está
-                    invisível</p>
             @endif
         </div>
 
@@ -161,14 +158,13 @@
                 </div>
             </div>
         </div>
-
     </article>
 
     <div class="container" id="bottom_ads">
-        <div class="row">
-            @if ($article->visible)
-                @if(!has_permission('disable_ads'))
-                    <div class="col s12 m8 l6 offset-l3 offset-m2">
+        @if ($article->visible)
+            @if(!has_permission('disable_ads'))
+                <div class="row">
+                    <div class="col col-xs-12 s12 m10 l8 offset-m1 offset-l2">
                         <script async
                                 src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3518000096682897"
                                 crossorigin="anonymous"></script>
@@ -183,12 +179,9 @@
                             (adsbygoogle = window.adsbygoogle || []).push({});
                         </script>
                     </div>
-                @endif
-            @else
-                <p class="flow-text center text-center">Publicidade Google não está visivel porque o artigo está
-                    invisível</p>
+                </div>
             @endif
-        </div>
+        @endif
     </div>
 
     <div class="hide" id="comments_wrapper">

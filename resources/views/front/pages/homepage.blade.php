@@ -126,7 +126,7 @@
 
         <div class="row no-margin-bottom">
             @if(!has_permission('disable_ads'))
-                <div class="col col-xs-12 s12 m6 l4 offset-m3 offset-l4" style="margin-top: 15px">
+                <div class="col col-xs-12 s12 m10 l8 offset-m1 offset-l2" style="margin-top: 15px">
                     <script async
                             src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3518000096682897"
                             crossorigin="anonymous"></script>
@@ -217,7 +217,7 @@
 
         @if(!has_permission('disable_ads'))
             <div class="row">
-                <div class="col col-xs-12 s12 m12 l12" style="margin-top: 15px">
+                <div class="col col-xs-12 s12 m10 l8 offset-m1 offset-l2" style="margin-top: 15px">
                     <script async
                             src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3518000096682897"
                             crossorigin="anonymous"></script>

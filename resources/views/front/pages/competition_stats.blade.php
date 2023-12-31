@@ -175,24 +175,25 @@
         </div>
     </div>
 
-
-    <div class="row">
-        <div class="col s12 m8 l6 offset-m2 offset-l3">
-            <script async
-                    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3518000096682897"
-                    crossorigin="anonymous"></script>
-            <!-- Competition Stats page -->
-            <ins class="adsbygoogle"
-                 style="display:block"
-                 data-ad-client="ca-pub-3518000096682897"
-                 data-ad-slot="6364283822"
-                 data-ad-format="auto"
-                 data-full-width-responsive="true"></ins>
-            <script>
-                (adsbygoogle = window.adsbygoogle || []).push({});
-            </script>
+    @if(!has_permission('disable_ads'))
+        <div class="row">
+            <div class="col col-xs-12 s12 m10 l8 offset-m1 offset-l2">
+                <script async
+                        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3518000096682897"
+                        crossorigin="anonymous"></script>
+                <!-- Competition Stats page -->
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-3518000096682897"
+                     data-ad-slot="6364283822"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            </div>
         </div>
-    </div>
+    @endif
 @endsection
 
 @section('scripts')
