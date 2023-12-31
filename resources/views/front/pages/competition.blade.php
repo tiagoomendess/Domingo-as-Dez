@@ -134,8 +134,8 @@
 
         </div>
 
-        <div id="main_loading">
-            <div class="container" style="padding-top: 100px">
+        <div id="main_loading" style="min-height: 80vh">
+            <div class="container" style="padding-top: 100px;">
                 <div class="center">
                     <div class="preloader-wrapper big active">
                         <div class="spinner-layer spinner-blue-only">
@@ -166,18 +166,22 @@
         <div class="container">
             <div class="row">
                 <div class="col col-xs-12 s12 m12 l12">
-                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3518000096682897"
-                            crossorigin="anonymous"></script>
-                    <!-- Competitions -->
-                    <ins class="adsbygoogle"
-                         style="display:block"
-                         data-ad-client="ca-pub-3518000096682897"
-                         data-ad-slot="6228552458"
-                         data-ad-format="auto"
-                         data-full-width-responsive="true"></ins>
-                    <script>
-                        (adsbygoogle = window.adsbygoogle || []).push({});
-                    </script>
+                    <div class="horizontal-or-square-ad">
+                        <div>
+                            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3518000096682897"
+                                    crossorigin="anonymous"></script>
+                            <!-- Competitions -->
+                            <ins class="adsbygoogle"
+                                 style="display:block"
+                                 data-ad-client="ca-pub-3518000096682897"
+                                 data-ad-slot="6228552458"
+                                 data-ad-format="auto"
+                                 data-full-width-responsive="true"></ins>
+                            <script>
+                                (adsbygoogle = window.adsbygoogle || []).push({});
+                            </script>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

@@ -27,27 +27,7 @@
 @endsection
 
 @section('content')
-    <div id="main_loading" style="min-height: 100vh; width: 100%; background-color: #f5f5f5; z-index: 11;">
-        <div class="container" style="padding-top: 100px">
-            <div class="center">
-                <div class="preloader-wrapper big active">
-                    <div class="spinner-layer spinner-blue-only">
-                        <div class="circle-clipper left">
-                            <div class="circle"></div>
-                        </div>
-                        <div class="gap-patch">
-                            <div class="circle"></div>
-                        </div>
-                        <div class="circle-clipper right">
-                            <div class="circle"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <article data-id="{{ $article->id }}" class="hide">
+    <article data-id="{{ $article->id }}">
 
         @if($article->media)
             @if($article->media->media_type == 'image')
@@ -129,61 +109,92 @@
                 @if(!has_permission('disable_ads'))
                     <div class="row" style="margin-top: 20px">
                         <div class="col s12 m12 l8 offset-l2">
-                            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3518000096682897"
-                                    crossorigin="anonymous"></script>
-                            <!-- Article Description Horizontal -->
-                            <ins class="adsbygoogle"
-                                 style="display:block"
-                                 data-ad-client="ca-pub-3518000096682897"
-                                 data-ad-slot="7397948298"
-                                 data-ad-format="auto"
-                                 data-full-width-responsive="true"></ins>
-                            <script>
-                                (adsbygoogle = window.adsbygoogle || []).push({});
-                            </script>
+                            <div class="horizontal-or-square-ad">
+                                <div>
+                                    <script async
+                                            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3518000096682897"
+                                            crossorigin="anonymous"></script>
+                                    <!-- Article Description Horizontal -->
+                                    <ins class="adsbygoogle"
+                                         style="display:block"
+                                         data-ad-client="ca-pub-3518000096682897"
+                                         data-ad-slot="7397948298"
+                                         data-ad-format="auto"
+                                         data-full-width-responsive="true"></ins>
+                                    <script>
+                                        (adsbygoogle = window.adsbygoogle || []).push({});
+                                    </script>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 @endif
             @else
-                <p class="flow-text center text-center">Publicidade Google não está visivel porque o artigo está invisível</p>
+                <p class="flow-text center text-center">Publicidade Google não está visivel porque o artigo está
+                    invisível</p>
             @endif
         </div>
 
-        <div class="container">
+        <div class="container hide" id="article_body">
 
             <section class="col s12 article-body">
                 {!! $article->text !!}
             </section>
-
 
             <section class="col s12 article-signature">
                 <p style="text-align: right">{{ trans('front.article_published', ['name' => $article->user->name, 'date' => \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $article->date)->format("d/m/Y")]) }}</p>
             </section>
         </div>
 
+        <div id="main_loading" style="min-height: 70vh;">
+            <div class="container" style="padding-top: 100px;">
+                <div class="center">
+                    <div class="preloader-wrapper big active">
+                        <div class="spinner-layer spinner-blue-only">
+                            <div class="circle-clipper left">
+                                <div class="circle"></div>
+                            </div>
+                            <div class="gap-patch">
+                                <div class="circle"></div>
+                            </div>
+                            <div class="circle-clipper right">
+                                <div class="circle"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </article>
 
-    <div class="container hide" id="bottom_ads">
+    <div class="container" id="bottom_ads">
         <div class="row">
             @if ($article->visible)
                 @if(!has_permission('disable_ads'))
                     <div class="col s12 m12 l12">
-                        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3518000096682897"
-                                crossorigin="anonymous"></script>
-                        <!-- Article Top Comments -->
-                        <ins class="adsbygoogle"
-                             style="display:block"
-                             data-ad-client="ca-pub-3518000096682897"
-                             data-ad-slot="9842679623"
-                             data-ad-format="auto"
-                             data-full-width-responsive="true"></ins>
-                        <script>
-                            (adsbygoogle = window.adsbygoogle || []).push({});
-                        </script>
+                        <div class="three-by-one-rectangle-ad">
+                            <div>
+                                <script async
+                                        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3518000096682897"
+                                        crossorigin="anonymous"></script>
+                                <!-- Article Top Comments -->
+                                <ins class="adsbygoogle"
+                                     style="display:block"
+                                     data-ad-client="ca-pub-3518000096682897"
+                                     data-ad-slot="9842679623"
+                                     data-ad-format="auto"
+                                     data-full-width-responsive="true"></ins>
+                                <script>
+                                    (adsbygoogle = window.adsbygoogle || []).push({});
+                                </script>
+                            </div>
+                        </div>
                     </div>
                 @endif
             @else
-                <p class="flow-text center text-center">Publicidade Google não está visivel porque o artigo está invisível</p>
+                <p class="flow-text center text-center">Publicidade Google não está visivel porque o artigo está
+                    invisível</p>
             @endif
         </div>
     </div>
@@ -231,11 +242,10 @@
         });
 
         jQuery(window).on("load", function () {
+            console.log('Everything Loaded');
+            $('#article_body').removeClass('hide');
+            $('#main_loading').addClass('hide');
             setTimeout(() => {
-                $('#main_loading').addClass("hide");
-                $('article').removeClass("hide");
-                $('#bottom_ads').removeClass("hide");
-                $('#comments_wrapper').removeClass("hide");
                 $('.parallax').parallax();
             }, 1);
         });
