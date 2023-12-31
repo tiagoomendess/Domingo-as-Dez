@@ -34,34 +34,25 @@
                     <div class="aspect-ratio-inside" id="news_snippets">
 
                         <div class="news-snippet-progress" style="width: 0%"></div>
-
                         @foreach($articles as $index => $article)
-
                             <a href="{{ $article->public_url }}" class="{{ $index > 0 ? 'hide': 'active' }}">
 
                                 <div class="news-thumbnail">
-
                                     <div>
                                         @if ($article->media)
-
                                             <img src="{{ $article->media->thumbnail_url }}"
                                                  alt="{{ $article->media->tags }}">
-
                                         @else
                                             <img src="{{ \App\Media::getPlaceholder('16:9', $article->id) }}" alt="">
                                         @endif
                                     </div>
-
                                     <span class="news-title">{{ $article->title }}</span>
-
                                 </div>
                             </a>
-
                         @endforeach
                     </div>
                 </div>
             </div>
-
         </div>
 
         @if (!Auth::check())
@@ -197,11 +188,31 @@
     <div class="vertical-spacer"></div>
 
     <div class="container">
+        <div class="col s12">
+            <div class="vertical-spacer"></div>
+            <h2 class="over-card-title">Últimas Sondagens</h2>
+            <div class="card">
+                <div class="card-content">
+                    <ul class="list-a">
+                        @foreach($last_polls as $poll)
+                            <li>
+                                <a href="{{ $poll->public_url }}">
+                                    <span>{{ $poll->question }}</span>
+                                </a>
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
         <div class="row">
             <div class="col s12">
-                <p class="flow-text text-center center">
-                    Siga-nos nas Redes Sociais
-                </p>
+                <div class="vertical-spacer"></div>
+                <h2 class="over-card-title">Siga-nos nas Redes Sociais</h2>
+                <div class="vertical-spacer"></div>
             </div>
             <div class="col s6 text-center" style="display: flex; justify-content: center; align-items: center">
                 <a target="_blank" href="https://www.facebook.com/domingoasdez.popular" style="width: 40%">

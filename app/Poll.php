@@ -26,4 +26,9 @@ class Poll extends Model
     {
         return $this->image ? $this->image : "/images/poll_default.png";
     }
+
+    public function getPublicUrl(): string
+    {
+        return route('polls.front.show', ['slug' => $this->slug]);
+    }
 }

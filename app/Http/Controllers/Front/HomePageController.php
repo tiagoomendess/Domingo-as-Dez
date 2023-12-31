@@ -43,6 +43,15 @@ class HomePageController extends Controller
         $total_goals = DB::table('goals')->count();
         $total_clubs = DB::table('clubs')->count();
         $pages = Page::where('visible', true)->orderBy('id', 'asc')->limit(10)->get();
+        $last_polls = DB::table('polls')
+            ->where('visible', true)
+            ->orderBy('id', 'desc')
+            ->limit(6)
+            ->get();
+
+        foreach ($last_polls as $poll) {
+            $poll->public_url = route('polls.front.show', ['slug' => $poll->slug]);
+        }
 
         $view_data = [
             'articles' => $articles,
@@ -53,6 +62,7 @@ class HomePageController extends Controller
             'total_goals' => $total_goals,
             'total_clubs' => $total_clubs,
             'pages' => $pages,
+            'last_polls' => $last_polls,
         ];
 
         Cache::store('file')->put('homepage_data', $view_data, 60);
