@@ -225,8 +225,10 @@ class Audit extends SearchableModel {
         }
 
         $ip = request()->getClientIp();
+        Log::info("Got IP From Request: $ip");
         if (empty($ip)) {
             $ip = !empty($_COOKIE['ip']) ? Str::limit($_COOKIE['ip'], 45, '') : '';
+            Log::info("Got IP From Cookie: $ip");
         }
 
         $lang = null;
