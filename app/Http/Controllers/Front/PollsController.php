@@ -138,7 +138,14 @@ class PollsController extends Controller
 
         $ip = $request->getClientIp();
         if (empty($ip)) {
-            $ip = $request->input('ip');
+            $ip = $request->input('ip', '');
+        }
+
+        // If ip is empty redirect back with error
+        if (empty($ip)) {
+            Log::info("Could not get user ip address for poll $poll->id");
+            return redirect()
+                ->back();
         }
 
         // Check if user has votes registered to IP address

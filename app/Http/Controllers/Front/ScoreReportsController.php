@@ -105,7 +105,12 @@ class ScoreReportsController extends Controller
         $url = $request->input('redirect_to', $game->getPublicUrl());
         $ip = $request->getClientIp();
         if (empty($ip)) {
-            $ip = $request->input('ip');
+            $ip = $request->input('ip', '');
+        }
+
+        if (empty($ip)) {
+            Log::warning("Could not get user ip address: uuid($uuid) user($user_id) game($game->id) score "
+                . $request->input('home_score') . " - " . $request->input('away_score'));
         }
 
         $ban = ScoreReportBan::findMatch(
