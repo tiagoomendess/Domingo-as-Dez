@@ -25,6 +25,22 @@ class GamesController extends Controller
         $this->middleware('permission:score_update')->only(['todayEdit', 'todayUpdateScore', 'listScoreReports']);
     }
 
+    public function index(Request $request) {
+
+        $games = Game::where('visible', true)
+            ->orderBy('date', 'desc')
+            ->where('date', '<=', Carbon::now())
+            ->paginate(10);
+
+        $competitions = Competition::where('visible', true)
+            ->orderBy('id', 'asc')->get();
+
+        return view('front.pages.games', [
+            'games' => $games,
+            'competitions' => $competitions
+        ]);
+    }
+
     public function show($competition_slug, $season_slug, $group_slug, $round, $clubs_slug) {
 
         $cache_key = "game-cache-$competition_slug-$season_slug-$group_slug-$round-$clubs_slug";

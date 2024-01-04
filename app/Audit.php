@@ -224,11 +224,9 @@ class Audit extends SearchableModel {
             Log::error("Error getting timezone: " . $e->getMessage());
         }
 
-        $ip = null;
-        try {
-            $ip = !empty($_COOKIE['ip']) ? Str::limit($_COOKIE['ip'], 45, '') : request()->getClientIp();
-        } catch (Exception $e) {
-            Log::error("Error getting ip: " . $e->getMessage());
+        $ip = request()->getClientIp();
+        if (empty($ip)) {
+            $ip = !empty($_COOKIE['ip']) ? Str::limit($_COOKIE['ip'], 45, '') : '';
         }
 
         $lang = null;

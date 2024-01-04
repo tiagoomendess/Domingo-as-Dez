@@ -103,7 +103,7 @@ class PollsController extends Controller
         $allIdsString = join(',', $idsArray);
         $rules = [
             'answer' => 'required|integer|in:' . $allIdsString,
-            'ip' => 'required|ip'
+            'ip' => 'string|nullable'
         ];
 
         $user = Auth::user();
@@ -136,13 +136,25 @@ class PollsController extends Controller
                 ->cookie($this->getCookie($poll->id, $cookieVote));
         }
 
+        $ip = $request->getClientIp();
+        if (empty($ip)) {
+            $ip = $request->input('ip', '');
+        }
+
+        // If ip is empty redirect back with error
+        if (empty($ip)) {
+            Log::info("Could not get user ip address for poll $poll->id");
+            return redirect()
+                ->back();
+        }
+
         // Check if user has votes registered to IP address
-        $ipVotes = PollAnswerVote::where('ip', $request->input('ip'))
+        $ipVotes = PollAnswerVote::where('ip', $ip)
             ->whereIn('poll_answer_id', $idsArray)
             ->get();
 
         if ($ipVotes->count() > 1 ) {
-            Log::info("User tried to vote twice in poll " . $poll->id . " - IP Check (" . $request->input('ip') . ")");
+            Log::info("User tried to vote twice in poll " . $poll->id . " - IP Check ($ip)");
 
             return redirect()
                 ->back()
