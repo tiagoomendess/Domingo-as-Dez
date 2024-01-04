@@ -103,11 +103,15 @@ class ScoreReportsController extends Controller
 
         $messages = new MessageBag();
         $url = $request->input('redirect_to', $game->getPublicUrl());
+        $ip = $request->getClientIp();
+        if (empty($ip)) {
+            $ip = $request->input('ip');
+        }
 
         $ban = ScoreReportBan::findMatch(
             $uuid,
             empty($user) ? null : $user->id,
-            $request->input('ip'),
+            $ip,
             $request->header('User-Agent')
         );
         if (!empty($ban)) {
@@ -168,7 +172,7 @@ class ScoreReportsController extends Controller
                 ->withInput();
         }
 
-        $recentTotalByIpAddress = ScoreReport::where('ip_address', $request->input('ip'))
+        $recentTotalByIpAddress = ScoreReport::where('ip_address', $ip)
             ->where('source', 'website')
             ->where('created_at', '>', $now->subMinutes(4))
             ->where('game_id', $game->id)
@@ -176,7 +180,7 @@ class ScoreReportsController extends Controller
 
         // if total equal or greater than 3 return error
         if ($recentTotalByIpAddress >= 3) {
-            Log::info("Score report blocked from ip " . $request->input('ip') . " for game " . $game->id . " because of too many reports");
+            Log::info("Score report blocked from ip $ip for game " . $game->id . " because of too many reports");
             return redirect()
                 ->back()
                 ->withErrors(['ip' => 'Já temos muitos registos vindos da sua rede nos últimos minutos. Por favor tente de novo mais tarde'])
@@ -187,7 +191,7 @@ class ScoreReportsController extends Controller
 
         $home_score = $request->input('home_score');
         $away_score = $request->input('away_score');
-        $ip = Str::limit($request->input('ip'), 45, '');
+        $ip = Str::limit($ip, 45, '');
 
         // If score is ridiculous, ban user
         if ($home_score > 20 || $away_score > 20) {

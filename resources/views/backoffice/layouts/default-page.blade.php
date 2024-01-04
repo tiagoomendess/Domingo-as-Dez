@@ -52,7 +52,7 @@
             if (document.cookie.indexOf("ip=") < 0) {
                 getIp("https://api.my-ip.io/v1/ip", async (ip) => {
                     if (ip) {
-                        document.cookie = `ip=${ip};max-age=60;path=/`;
+                        document.cookie = `ip=${ip};max-age=600;path=/`;
                     }
                 });
             }
