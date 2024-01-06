@@ -161,6 +161,14 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
+                                                    <td>
+                                                        <i class="material-icons grey-text text-darken-3">location_city</i>
+                                                    </td>
+                                                    <td>
+                                                        {{ $report->ip_country ?? 'Desconhecido' }}
+                                                    </td>
+                                                </tr>
+                                                <tr>
                                                     <td><i class="material-icons grey-text text-darken-3">system_update_alt</i>
                                                     </td>
                                                     <td>{{ $report->source }}</td>
