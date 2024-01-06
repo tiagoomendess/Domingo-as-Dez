@@ -102,6 +102,7 @@ class ScoreReportsController extends Controller
         }
 
         $messages = new MessageBag();
+        $ip_country = Str::limit($request->header('CF-IPCountry'), 155, '');
         $url = $request->input('redirect_to', $game->getPublicUrl());
         $ip = $request->getClientIp();
         if (empty($ip)) {
@@ -222,6 +223,7 @@ class ScoreReportsController extends Controller
             'away_score' => $away_score,
             'source' => 'website',
             'ip_address' => $ip,
+            'ip_country' => $ip_country,
             'user_agent' => Str::limit($request->header('User-Agent'), 255, ''),
             'location' => $location,
             'location_accuracy' => $request->input('accuracy') ? (int) $request->input('accuracy') : null,

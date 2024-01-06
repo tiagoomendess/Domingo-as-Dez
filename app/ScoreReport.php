@@ -14,6 +14,7 @@ class ScoreReport extends BaseModel
         'away_score',
         'source',
         'ip_address',
+        'ip_country',
         'user_agent',
         'location',
         'location_accuracy',

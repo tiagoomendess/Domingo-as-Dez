@@ -18,6 +18,7 @@ class Audit extends SearchableModel {
         'old_values',
         'new_values',
         'ip_address',
+        'ip_country',
         'user_agent',
         'timezone',
         'language',
@@ -249,6 +250,7 @@ class Audit extends SearchableModel {
         $audit->old_values = $oldValues ? Str::limit($oldValues, 65531) : null;
         $audit->new_values = $newValues ? Str::limit($newValues, 65531) : null;
         $audit->ip_address = $ip;
+        $audit->ip_country = Str::limit(request()->header('CF-IPCountry'), 155, '');
         $audit->user_agent = Str::limit(request()->userAgent(), 255, '');
         $audit->timezone = $timezone;
         $audit->language = $lang;
