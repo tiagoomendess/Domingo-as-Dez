@@ -2,8 +2,8 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\DB;
 
 class ScoreReport extends BaseModel
 {
@@ -78,5 +78,15 @@ class ScoreReport extends BaseModel
             return null;
 
         return "https://www.google.com/maps/search/?api=1&query=$latitude,$longitude";
+    }
+
+    public static function GetAlreadySent(int $game_id, string $uuid, $user_id) {
+        if (empty($user_id))
+            $user_id = 0;
+
+        $query = DB::table('score_reports')
+            ->whereRaw("game_id = ? and (uuid = ? OR user_id = ?)", [$game_id, $uuid, $user_id]);
+
+        return $query->get();
     }
 }

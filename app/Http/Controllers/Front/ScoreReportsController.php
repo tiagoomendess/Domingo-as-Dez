@@ -30,11 +30,15 @@ class ScoreReportsController extends Controller
             $backUrl = $game->getPublicUrl();
         }
 
+        $ip_address = $request->getClientIp() ?? 'N/A';
+        $ip_country = Str::limit($request->header('CF-IPCountry', 'N/A'), 155, '');
         $uuid = $request->cookie('uuid');
         if (empty($uuid) || Str::length($uuid) > 36) {
             $uuid = Str::limit(Str::uuid(), 36, '');
             $request->cookies->add(['uuid' => $uuid]);
         }
+
+        Log::debug("Score Report page opened for game $game->id by ip $ip_address country $ip_country uuid $uuid");
 
         $ban = ScoreReportBan::findMatch(
             $uuid,
@@ -43,10 +47,18 @@ class ScoreReportsController extends Controller
             $request->header('User-Agent')
         );
 
+        $user_id = null;
+        $user = Auth::user();
+        if (!empty($user)) {
+            $user_id = Auth::user()->id;
+        }
+        $already_sent = ScoreReport::GetAlreadySent($game->id, $uuid, $user_id);
+
         $response = new Response(view('front.pages.score_report', [
             'game' => $game,
             'backUrl' => $backUrl,
             'ban' => $ban,
+            'already_sent' => $already_sent,
         ]));
         $response->withCookie(cookie('uuid', $uuid, 525948));
 

@@ -5,21 +5,20 @@ namespace App\Http\Controllers\Auth;
 use App\Audit;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Resources\MediaController;
-use App\UserProfile;
-use App\UserUuid;
-use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Cookie;
-use Illuminate\Support\Str;
-use Intervention\Image\Facades\Image;
-use Socialite;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Illuminate\Support\MessageBag;
 use App\SocialProvider;
 use App\User;
+use App\UserProfile;
+use App\UserUuid;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\MessageBag;
+use Illuminate\Support\Str;
+use Intervention\Image\Facades\Image;
 use League\Flysystem\Exception;
+use Socialite;
 
 class LoginController extends Controller
 {
@@ -89,39 +88,47 @@ class LoginController extends Controller
             $sneak_peak_password.= '*';
         }
         $extra_info = $request->get('email') . ' e password ' . $sneak_peak_password;
+        $email = $request->get('email');
+        $ip_address = $request->getClientIp() ?? 'N/A';
+        $ip_country = $request->header('CF-IPCountry', 'N/A');
 
         // If the class is using the ThrottlesLogins trait, we can automatically throttle
         // the login attempts for this application. We'll key this by the username and
         // the IP address of the client making these requests into this application.
         if ($this->hasTooManyLoginAttempts($request)) {
             $this->fireLockoutEvent($request);
+            Log::info("User with email $email tried to login too many times from ip $ip_address and country $ip_country");
 
             return $this->sendLockoutResponse($request);
         }
 
         //check if the user is verified
-        $user = User::where('email', $request->get('email'))->first();
+        $user = User::where('email', $email)->first();
         $user_array = !empty($user) ? $user->toArray() : null;
 
         if (!$user || !$user->verified) {
             Audit::add(Audit::ACTION_LOGIN_FAILED, 'User', null, $user_array, $extra_info);
             $this->incrementLoginAttempts($request);
+            Log::info("User $user->id tried to login but is not verified yet");
             return $this->sendFailedLoginResponse($request);
         }
 
         //check if the user is banned
         if ($user->isBanned()) {
             $this->incrementLoginAttempts($request);
+            Log::info("User $user->id tried to login but is banned. IP $ip_address and country $ip_country");
             return $this->sendFailedLoginResponse($request);
         }
 
         if ($this->attemptLogin($request)) {
             Audit::add(Audit::ACTION_LOGIN, 'User', null, $user->toArray());
             UserUuid::addIfNotExist($user->id, $request->cookie('uuid'));
+            Log::info("User $user->id logged in with email($user->email) and password from $ip_address in country $ip_country");
             return $this->sendLoginResponse($request);
         }
 
         Audit::add(Audit::ACTION_LOGIN_FAILED, 'User', null, $user_array, $extra_info);
+        Log::info("User $user->id tried and failed to login with email($user->email) and password from $ip_address in country $ip_country");
 
         // If the login attempt was unsuccessful we will increment the number of attempts
         // to login and redirect the user back to the login form. Of course, when this
@@ -149,18 +156,12 @@ class LoginController extends Controller
      */
     public function handleProviderCallback($provider)
     {
-
         try {
-
             $socialUser = Socialite::driver($provider)->user();
-
         } catch(\Exception $e) {
 
             $errors = new MessageBag();
-
-            // add your error messages:
             $errors->add('login', trans('auth.failed'));
-
             return redirect()->route('login')->withErrors($errors);
         }
 
@@ -175,7 +176,6 @@ class LoginController extends Controller
 
         //If there is not a social provider
         if (!$socialProvider) {
-
             if (count(User::where('email', $socialUser->getEmail())->get()) > 0) {
                 $errors = new MessageBag();
                 $errors->add('login', trans('auth.email_already_exists'));
@@ -213,15 +213,14 @@ class LoginController extends Controller
 
         //If the user is banned
         if ($user->isBanned()) {
-
             $errors = new MessageBag();
             $errors->add('login', trans('auth.banned'));
             return redirect()->route('login')->withErrors($errors);
-
         } else { //let him in
-
             Auth::login($user);
-
+            Audit::add(Audit::ACTION_LOGIN, 'User', null, $user->toArray());
+            UserUuid::addIfNotExist($user->id, request()->cookie('uuid'));
+            Log::info("User $user->id logged in with $provider");
         }
 
         return redirect()->intended($this->redirectTo());
@@ -235,12 +234,15 @@ class LoginController extends Controller
     {
         $uuid = $request->cookie('uuid');
         $response = new Response(view('auth.login'));
-/*
+        $ip_address = $request->getClientIp() ?? 'N/A';
+        $ip_country = $request->header('CF-IPCountry', 'N/A');
         if (empty($uuid) || Str::length($uuid) > 36) {
             $uuid = Str::limit(Str::uuid(), 36, '');
             $response->withCookie(cookie('uuid', $uuid, 525948));
         }
-*/
+
+        Log::debug("Login page loaded for uuid $uuid from ip $ip_address in country $ip_country");
+
         return $response;
     }
 

@@ -471,3 +471,11 @@ p {
         max-height: 91px;
     }
 }
+
+.score-badge {
+    padding: 3px 7px;
+    font-weight: 600;
+    color: #ffffff;
+    background-color: grey;
+    margin: 3px;
+}

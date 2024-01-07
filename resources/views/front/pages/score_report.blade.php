@@ -53,19 +53,20 @@
 
                 <form action="{{ route('score_reports.store', ['game' => $game]) }}" method="POST"
                       id="score_report_form">
+
+                    <div class="row">
+                        <div class="col s12">
+                            <h2 class="center over-card-title">{{ $game->home_team->club->name }}
+                                vs {{ $game->away_team->club->name }}</h2>
+                        </div>
+                    </div>
+
                     <div class="row">
                         <div class="col s6 center">
                             <img width="80%" src="{{ $game->home_team->club->getEmblem() }}" alt="">
                         </div>
                         <div class="col s6 center">
                             <img width="80%" src="{{ $game->away_team->club->getEmblem() }}" alt="">
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col s12">
-                            <p class="center flow-text">{{ $game->home_team->club->name }}
-                                vs {{ $game->away_team->club->name }}</p>
                         </div>
                     </div>
 
@@ -156,6 +157,24 @@
                             </div>
                         </div>
                     </div>
+
+                    @if($already_sent->count() > 0)
+                        <div class="row">
+                            <div class="col s12">
+                                <div class="divider"></div>
+                                <p class="center flow-text">Já enviou os seguintes resultados:</p>
+                                <div style="display: flex; justify-content: center; align-items: center; flex-wrap: wrap">
+                                    @foreach($already_sent as $report)
+                                        <span class="score-badge">
+                                            {{ $report->home_score }} - {{ $report->away_score }}
+                                        </span>
+                                    @endforeach
+                                </div>
+                                <div class="vertical-spacer"></div>
+                                <div class="divider"></div>
+                            </div>
+                        </div>
+                    @endif
 
                     <div class="row">
                         <div class="col s12 center">
