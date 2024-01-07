@@ -120,7 +120,7 @@
                                                             disabled type="submit"
                                                             style="padding: 0; width: 36px"
                                                             class="waves-effect waves-light btn blue center"
-                                                            onClick="showLoadingAnimation({{ $game->id }})">
+                                                            >
                                                         <i class="material-icons">send</i>
                                                     </button>
                                                 </div>
