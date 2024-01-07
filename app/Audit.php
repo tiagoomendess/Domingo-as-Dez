@@ -209,9 +209,12 @@ class Audit extends SearchableModel {
             return;
         }
 
+        $request = request();
+        $ip_address = Str::limit($request->getClientIp(), 45, '');
+        $ip_country = Str::limit($request->header('CF-IPCountry', 'Unknown'), 45, '');
         $user = Auth::user();
-
         $model_id = null;
+
         if (is_array($oldValues) && isset($oldValues["id"])) {
             $model_id = $oldValues["id"];
         } else if (is_array($newValues) && isset($newValues["id"])) {
@@ -225,10 +228,9 @@ class Audit extends SearchableModel {
             Log::error("Error getting timezone: " . $e->getMessage());
         }
 
-        $ip = request()->getClientIp();
-        if (empty($ip)) {
-            $ip = !empty($_COOKIE['ip']) ? Str::limit($_COOKIE['ip'], 45, '') : '';
-            Log::info("Got IP From Cookie: $ip");
+        if (empty($ip_address)) {
+            $ip_address = !empty($_COOKIE['ip']) ? Str::limit($_COOKIE['ip'], 45, '') : 'Unknown';
+            Log::info("Got IP From Cookie: $ip_address");
         }
 
         $lang = null;
@@ -248,13 +250,15 @@ class Audit extends SearchableModel {
         $audit->model_id = $model_id;
         $audit->old_values = $oldValues ? Str::limit($oldValues, 65531) : null;
         $audit->new_values = $newValues ? Str::limit($newValues, 65531) : null;
-        $audit->ip_address = $ip;
-        $audit->ip_country = Str::limit(request()->header('CF-IPCountry'), 155, '');
-        $audit->user_agent = Str::limit(request()->userAgent(), 255, '');
+        $audit->ip_address = $ip_address;
+        $audit->ip_country = $ip_country;
+        $audit->user_agent = Str::limit($request->userAgent(), 255, '');
         $audit->timezone = $timezone;
         $audit->language = $lang;
         $audit->extra_info = $extraInfo ? Str::limit($extraInfo, 155, '') : null;
 
         $audit->save();
+
+        Log::debug("Audit Registered: $action $model id($model_id) from $ip_address in country $ip_country");
     }
 }

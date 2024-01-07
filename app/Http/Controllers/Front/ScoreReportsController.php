@@ -30,8 +30,8 @@ class ScoreReportsController extends Controller
             $backUrl = $game->getPublicUrl();
         }
 
-        $ip_address = $request->getClientIp() ?? 'N/A';
-        $ip_country = Str::limit($request->header('CF-IPCountry', 'N/A'), 155, '');
+        $ip_address = $request->getClientIp() ?? 'Unknown';
+        $ip_country = Str::limit($request->header('CF-IPCountry', 'Unknown'), 155, '');
         $uuid = $request->cookie('uuid');
         if (empty($uuid) || Str::length($uuid) > 36) {
             $uuid = Str::limit(Str::uuid(), 36, '');

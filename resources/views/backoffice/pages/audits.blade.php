@@ -104,11 +104,11 @@
                                         <div class="row">
                                             <div class="col s12">
                                                 <ul>
-                                                    <li><b>IP:</b> {{ $audit->ip_address ?? 'N/A' }}</li>
+                                                    <li><b>IP:</b> {{ $audit->ip_address ?? 'Desconhecido' }}</li>
                                                     <li><b>País:</b> {{ $audit->ip_country ?? 'Desconhecido' }}</li>
                                                     <li><b>User Agent:</b> {{ $audit->user_agent }}</li>
-                                                    <li><b>Timezone:</b> {{ $audit->timezone ?? 'N/A' }}</li>
-                                                    <li><b>Idioma:</b> {{ $audit->language ?? 'N/A' }}</li>
+                                                    <li><b>Timezone:</b> {{ $audit->timezone ?? 'Desconhecida' }}</li>
+                                                    <li><b>Idioma:</b> {{ $audit->language ?? 'Desconhecido' }}</li>
                                                     <li><b>Info Extra:</b> {{ $audit->extra_info }}</li>
                                                     <li><b>Data: </b> {{ $audit->created_at }}</li>
                                                 </ul>

