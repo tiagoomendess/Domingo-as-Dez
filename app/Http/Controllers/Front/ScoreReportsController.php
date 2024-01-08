@@ -54,6 +54,10 @@ class ScoreReportsController extends Controller
         }
         $already_sent = ScoreReport::GetAlreadySent($game->id, $uuid, $user_id);
 
+        if (!empty($ban)) {
+            Log::info("A Banned user($user_id) is trying to submit a score report from $ip_address in country $ip_country uuid $uuid");
+        }
+
         $response = new Response(view('front.pages.score_report', [
             'game' => $game,
             'backUrl' => $backUrl,

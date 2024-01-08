@@ -120,7 +120,7 @@
                                                             disabled type="submit"
                                                             style="padding: 0; width: 36px"
                                                             class="waves-effect waves-light btn blue center"
-                                                            >
+                                                            onClick="showLoadingAnimation({{ $game->id }})">
                                                         <i class="material-icons">send</i>
                                                     </button>
                                                 </div>
@@ -164,6 +164,7 @@
             $(`#pre_loader_placeholder_${game_id}`).addClass('hide')
             $(`#pre_loader_${game_id}`).removeClass('hide')
             $(`#submit_button_${game_id}`).attr('disabled', 'disabled')
+            $(`#game_${game_id}`).submit()
         }
 
         $(document).ready(function () {

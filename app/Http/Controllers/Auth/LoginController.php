@@ -109,7 +109,14 @@ class LoginController extends Controller
         if (!$user || !$user->verified) {
             Audit::add(Audit::ACTION_LOGIN_FAILED, 'User', null, $user_array, $extra_info);
             $this->incrementLoginAttempts($request);
-            Log::info("User $user->id tried to login but is not verified yet");
+            if (!empty($user)) {
+                Log::info("User $user->id with email $email, tried to login but is not verified. 
+                IP $ip_address and country $ip_country");
+            } else {
+                Log::info("User with email $email tried to login but account does not exist. 
+                IP $ip_address and country $ip_country");
+            }
+
             return $this->sendFailedLoginResponse($request);
         }
 

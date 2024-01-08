@@ -124,11 +124,10 @@ class ScoreReportConsumer implements ShouldQueue
                 // If location is set then add 1 point
                 if ($report->location != null) {
                     $reportPoints++;
-                    Log::debug("Has Location, +1 point ($reportPoints points)");
-
-                    // If the location is accurate then add 1 point
                     $accuracy = $report->location_accuracy != null ? (int) $report->location_accuracy : null;
-                    if ($accuracy != null && $accuracy < 300) {
+                    Log::debug("Has Location with accuracy $accuracy, +1 point ($reportPoints points)");
+
+                    if ($accuracy != null && $accuracy <= 300) {
                         // If the location is up to 150m from the game location
                         $distance = $this->haversineGreatCircleDistance(
                             $report->getLatitude(), $report->getLongitude(),
@@ -152,17 +151,11 @@ class ScoreReportConsumer implements ShouldQueue
                     $reportPoints++;
                     Log::debug("Has user_id, +1 point ($reportPoints points)");
                 }
-                
-                // If the score report is the same as the current score then add 1 point
-                if ($currentScoreKey == $scoreKey) {
-                    $reportPoints++;
-                    Log::debug("Report score is the same as current one, +1 point ($reportPoints points)");
-                }
 
                 // If the report is of source 'api_afpb_crawler' then add 2 points
                 if ($report->source == 'api_afpb_crawler') {
-                    $reportPoints += 2;
-                    Log::debug("Report is from source api_afpb_crawler, +2 points ($reportPoints points)");
+                    $reportPoints += 3;
+                    Log::debug("Report is from source api_afpb_crawler, +3 points ($reportPoints points)");
                 }
 
                 $scorePoints += $reportPoints;
