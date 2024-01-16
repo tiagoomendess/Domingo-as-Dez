@@ -168,6 +168,9 @@
                         <span>{{ trans('front.see_all_competitions') }}</span>
                     </div>
                 </a>
+                <a href="/badbottrap" style="display: none">
+                    Click Here
+                </a>
             </div>
         </div>
 
