@@ -1,2 +1,6 @@
 User-agent: *
-Disallow:
+
+Disallow: /wp-admin/
+Disallow: /badbottrap
+
+Sitemap: https://domingoasdez.com/sitemap.xml

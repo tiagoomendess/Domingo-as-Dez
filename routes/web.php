@@ -151,3 +151,18 @@ Route::get('teams/{id}/current_players', 'Resources\TeamController@getCurrentPla
 Route::get('games/{id}/teams', 'Resources\GameController@getTeams')->name('getGameTeams');
 Route::get('seasons/{id}/game_groups', 'Resources\SeasonController@getGameGroups')->name('getGameGroups');
 //======================================================================================================================
+
+// HoneyPot Routes, POC, will think of better and more scalable solution later =========================================
+$honeyPotRoutes = [
+    "/phpma",
+    "/phpmyadmin",
+    "/admin",
+    "/wp-login",
+    "/wp-admin",
+    "/wp-admin/css",
+    "/badbottrap",
+];
+
+foreach ($honeyPotRoutes as $route) {
+    Route::get($route, 'Front\HoneyPotController@Get');
+}

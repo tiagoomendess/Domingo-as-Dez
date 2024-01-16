@@ -181,8 +181,12 @@
                                                 </tr>
 
                                                 <tr>
-                                                    <td></td>
-                                                    <td></td>
+                                                    <td>
+                                                        <i class="material-icons grey-text text-darken-3">assistant_photo</i>
+                                                    </td>
+                                                    <td>
+                                                        {{ $report->uuid ?? 'Sem UUID' }}
+                                                    </td>
                                                 </tr>
 
                                                 </tbody>

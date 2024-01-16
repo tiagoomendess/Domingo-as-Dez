@@ -217,9 +217,6 @@ class ScoreReportConsumer implements ShouldQueue
         if ($canUpdateScore) {
             Log::info("Game $gameId will update score to $highestScoreKey: $finalStats");
             $updated = $this->updateGameScore($game, $highestScoreKey);
-            if ($updated) {
-                $this->games_updated++;
-            }
         } else {
             Log::info("Game $gameId will NOT update score: $finalStats");
         }
@@ -240,6 +237,7 @@ class ScoreReportConsumer implements ShouldQueue
         $game->goals_away = $awayScore;
         $game->save();
         Log::info("Updated score for game " . $game->id . " from $previousScore to $scoreKey");
+        $this->games_updated++;
 
         return true;
     }
