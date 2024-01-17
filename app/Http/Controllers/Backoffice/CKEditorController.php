@@ -22,14 +22,14 @@ class CKEditorController extends Controller
     public function upload(Request $request)
     {
         $request->validate([
-            'upload' => 'image|max:20000',
+            'upload' => 'file|mimes:jpeg,jpg,png|max:20000',
         ]);
 
         if ($request->hasFile('upload')) {
             $originName = $request->file('upload')->getClientOriginalName();
             $existingPhoto = Media::where('tags', 'ckeditor-upload,' . $originName)->first();
 
-            // Only upload ne wfile if it does not exist already
+            // Only upload new file if it does not exist already
             if ($existingPhoto) {
                 $url = $existingPhoto->url;
             } else {
