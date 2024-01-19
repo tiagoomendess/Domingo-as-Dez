@@ -161,6 +161,22 @@ $honeyPotRoutes = [
     "/wp-admin",
     "/wp-admin/css",
     "/badbottrap",
+    "/site/wp-includes/wlwmanifest.xml",
+    "/wp/wp-includes/wlwmanifest.xml",
+    "/news/wp-includes/wlwmanifest.xml",
+    "/wordpress/wp-includes/wlwmanifest.xml",
+    "/wp-stad.php",
+    "/wp-content/themes/twentystd/index.php",
+    "/wp-content/themes/kernel-theme/style.css",
+    "/wp-content/themes/satoshi/styles/functions.css",
+    "/task.php",
+    "/wp-cron.php",
+    "/upload/server/php/",
+    "/server/php/",
+    "/fileupload/server/php/",
+    "/admin/server/php/",
+    "/assets/jquery-file-upload/server/php/",
+    "/assets/global/plugins/jquery-file-upload/server/php/",
 ];
 
 foreach ($honeyPotRoutes as $route) {
