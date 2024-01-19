@@ -4,9 +4,12 @@ namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
 use App\InfoReport;
+use App\Mail\ExceptionMail;
+use App\Mail\InfoReportNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\MessageBag;
 use Illuminate\Support\Str;
 
@@ -28,14 +31,14 @@ class InfoReportsController extends Controller
 
         $request->validate([
             'content' => 'string|required|min:10|max:500',
-            'source' => 'string|required|min:10|max:155',
+            'source' => 'string|required|min:5|max:155',
             'anonymous' => 'required',
             'g-recaptcha-response' => 'required|recaptcha',
         ]);
 
         $tries = 0;
         do {
-            $code = strtoupper(Str::random(9));
+            $code = Str::upper(Str::random(9));
             $tries++;
             $existingInfo = InfoReport::where('code', $code)->first();
 
@@ -56,7 +59,7 @@ class InfoReportsController extends Controller
             $user_id = $user->id;
         }
 
-        InfoReport::create([
+        $report = InfoReport::create([
             'code' => $code,
             'user_id' => $user_id,
             'status' => 'sent',
@@ -67,11 +70,12 @@ class InfoReportsController extends Controller
         if (!empty($user_id)) {
             $message = "Informação enviada com sucesso, pode consultar o estado da informação no seu perfil de utilizador";
         } else {
-            $message = "Informação enviada com sucesso, guarde o código « $code » para consultar o estado da informação no futuro";
+            $message = "Informação anónima enviada com sucesso, guarde o código '$code' para consultar o estado da informação no futuro";
         }
 
         $messages->add('success', $message);
         Log::info("Info report created with code $code");
+        $this->notify($report);
 
         return redirect(route('info.create'))->with('popup_message', $messages);
     }
@@ -107,5 +111,15 @@ class InfoReportsController extends Controller
         }
 
         return redirect(route('front.userprofile.edit'))->with('popup_message', $messages);
+    }
+
+    private function notify(InfoReport $report) {
+        Log::info("Sending notification email for info report with code $report->code");
+        try {
+            Mail::to(config('custom.exception_notification_email'))
+                ->send(new InfoReportNotification($report));
+        } catch (\Exception $e) {
+            Log::error("Could not send email for info report with code $report->code: " . $e->getMessage());
+        }
     }
 }

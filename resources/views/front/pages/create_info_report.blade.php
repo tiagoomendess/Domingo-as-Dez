@@ -84,7 +84,7 @@
                                     <div class="row">
                                         <div class="input-field col s12">
                                             <input id="source" name="source" type="text" class="validate"
-                                                   data-length="155" autocomplete="off" value="{{ old('content') }}"
+                                                   data-length="155" autocomplete="off" value="{{ old('source') }}"
                                                    required>
                                             <label for="source">Fonte</label>
                                         </div>
