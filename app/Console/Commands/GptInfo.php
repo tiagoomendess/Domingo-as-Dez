@@ -110,8 +110,6 @@ class GptInfo extends Command
         $small_facts = [
             "Esta competição promove $competition_promotes equipas e despromove $competition_relegates equipas",
             "Esta é uma competição de Barcelos organizada pela Associação de Futebol Popular de Barcelos (AFPB)",
-            "Estas notícias são publicadas geralmente através das redes sociais, facebook principalmente",
-            "As equipas com mais títulos são: Carapeços, Leocadenses, Carvalhal entre outros"
         ];
 
         $custom_keys = [
@@ -125,10 +123,9 @@ class GptInfo extends Command
 
     private function printInfo(array $game_infos, array $table, array $custom_keys = null, array $small_facts = null)
     {
-        // Barcelos: 41.53100 -8.61997
         $oneOrMore = count($game_infos) > 1 ? "alguns jogos de futebol" : "um jogo de futebol";
         $this->info("=== Informações Geradas ======================\n");
-        $this->info("Imagina que és um jornalista de um jornal online do norte de Portugal, e tens de escrever um artigo a fazer a antevisão de $oneOrMore. Para escrever esse artigo tens ao teu dispôr as seguintes informações:");
+        $this->info("És um jornalista de um jornal online português, e tens de escrever um artigo a fazer a antevisão de $oneOrMore. Utiliza as seguintes informações para escrever o artigo:");
 
         foreach ($custom_keys as $key => $custom_info) {
             $this->line("$key: $custom_info");
@@ -142,17 +139,15 @@ class GptInfo extends Command
         $this->printStandingsTable($table);
         foreach ($game_infos as $key => $game_info) {
             $data = Carbon::parse($game_info['date'])->timezone("Europe/Lisbon")->format("d/m/Y \à\s H:i");
-            $this->info("\nJogo entre " . $game_info['fixture'] . " da jornada " . $game_info['round'] . " da competição " . $game_info['competition'] . ":");
-            $this->line("Data: $data;");
+            $this->info("\nJogo " . $game_info['fixture'] . " da jornada " . $game_info['round'] . " da competição " . $game_info['competition'] . ":");
+            $this->line("Data e hora: $data;");
             $this->line("Recinto de jogo: " . $game_info['venue'] . ";");
             $this->line("Equipa visitada: " . $game_info['home_club'] . ";");
-            $this->line("Últimos 5 resultados de " . $game_info['home_club'] . ": " . $game_info['home_team_form'] . ";");
-            $this->line("Equipa visitante: " . $game_info['away_club']);
-            $this->line("Últimos 5 resultados de " . $game_info['away_club'] .": " . $game_info['away_team_form'] . ";");
-            $this->line("Últimos jogos entre as duas equipas em todas as competições: " . $game_info['last_games_between'] . ";");
+            $this->line("Equipa visitante: " . $game_info['away_club'] . ";");
+            $this->line("Últimos 5 jogos de " . $game_info['home_club'] . ": " . $game_info['home_team_form'] . ";");
+            $this->line("Últimos 5 jogos de " . $game_info['away_club'] .": " . $game_info['away_team_form'] . ";");
+            $this->line("Histórico entre as duas equipas: " . $game_info['last_games_between'] . ";");
         }
-
-        $this->info("Escreve um artigo em português de portugal, interessante e que cative o leitor. Baseia-te nos factos apresentados anteriormente.");
     }
 
     private function getTeamForm($team_id, $date): string {
@@ -166,16 +161,7 @@ class GptInfo extends Command
 
         $form = [];
         foreach ($home_team_last_games as $game) {
-
-            $form[] = $game->home_team->club->name . " " . $game->getHomeScore() . "-" . $game->getAwayScore() . " " . $game->away_team->club->name . " para a " . $game->game_group->season->competition->name;
-/*
-            if ($game->isDraw()) {
-                $form[] = "Empate a " . $game->getHomeScore() . "-" . $game->getAwayScore();
-            } else if ($game->winner()->id == $team_id) {
-                $form[] = "Vitória por " . $game->getHomeScore() . "-" . $game->getAwayScore();
-            } else {
-                $form[] = "Derrota por " . $game->getHomeScore() . "-" . $game->getAwayScore();
-            }*/
+            $form[] = $game->home_team->club->name . " " . $game->getHomeScore() . "-" . $game->getAwayScore() . " " . $game->away_team->club->name;
         }
 
         return implode($form, ", ");
@@ -325,13 +311,13 @@ class GptInfo extends Command
         $winsHeader = $this->txtWidth("Vitórias", 8, "center");
         $drawsHeader = $this->txtWidth("Empates", 7, "center");
         $lossesHeader = $this->txtWidth("Derrotas", 8, "center");
-        $goalsScoredHeader = $this->txtWidth("Marcados", 8, "center");
-        $goalsConcededHeader = $this->txtWidth("Sofridos", 8, "center");
+        $goalsScoredHeader = $this->txtWidth("Golos Marcados", 14, "center");
+        $goalsConcededHeader = $this->txtWidth("Golos Sofridos", 14, "center");
         $pointsHeader = $this->txtWidth("Pontos", 6, "center");
-        $this->info("Tabela Classificativa atualmente:");
-        $this->info("+---------------------------------------------------------------------------------------------------------+");
+        $this->info("Tabela Classificativa:");
+        $this->info("+---------------------------------------------------------------------------------------------------------------------+");
         $this->info("| $positionHeader | $teamHeader | $gamesHeader | $winsHeader | $drawsHeader | $lossesHeader | $goalsScoredHeader | $goalsConcededHeader | $pointsHeader |");
-        $this->info("+---------+----------------------+---------+----------+---------+----------+----------+----------+--------+");
+        $this->info("+---------+----------------------+---------+----------+---------+----------+----------------+----------------+--------+");
         $position = 1;
         foreach ($table as $equipa => $row) {
 
@@ -341,14 +327,14 @@ class GptInfo extends Command
             $winsStr = $this->txtWidth($row['vitorias'], 8, "center");
             $drawsStr = $this->txtWidth($row['empates'], 7, "center");
             $lossesStr = $this->txtWidth($row['derrotas'], 8, "center");
-            $goalsScoredStr = $this->txtWidth($row['Golos Marcados'], 8, "center");
-            $goalsConcededStr = $this->txtWidth($row['Golos Sofridos'], 8, "center");
+            $goalsScoredStr = $this->txtWidth($row['Golos Marcados'], 14, "center");
+            $goalsConcededStr = $this->txtWidth($row['Golos Sofridos'], 14, "center");
             $pointsStr = $this->txtWidth($row['pontos'], 6, "right");
 
             $this->info("| $positionStr | $teamStr | $gamesStr | $winsStr | $drawsStr | $lossesStr | $goalsScoredStr | $goalsConcededStr | $pointsStr |");
             $position++;
         }
-        $this->info("+---------+----------------------+---------+----------+---------+----------+----------+----------+--------+");
+        $this->info("+---------+----------------------+---------+----------+---------+----------+----------------+----------------+--------+");
     }
 
     private function buildStandingsTable(GameGroup $game_group) : array
