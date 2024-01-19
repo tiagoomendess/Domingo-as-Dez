@@ -5,6 +5,7 @@ namespace App\Exceptions;
 use App\Mail\ExceptionMail;
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class Handler extends ExceptionHandler
@@ -38,6 +39,15 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $exception)
     {
+        if (config('custom.send_exception_to_mail')) {
+            try {
+                $request = request();
+                $this->sendExceptionToMail($request, $exception);
+            } catch (Exception $e) {
+                Log::error("Tried to send exception to mail, but failed. Exception: " . $e->getMessage());
+            }
+        }
+
         parent::report($exception);
     }
 
@@ -49,18 +59,9 @@ class Handler extends ExceptionHandler
     public function render($request, Exception $exception)
     {
         $supportedCodes = [403, 404, 500];
-        $notifiableCodes = [500, 501, 502, 503, 504];
 
         if ($this->isHttpException($exception)) {
             $statusCode = $exception->getStatusCode();
-            if (in_array($statusCode, $notifiableCodes) && config('custom.send_exception_to_mail')) {
-                try {
-                    $this->sendExceptionToMail($request, $exception);
-                } catch (Exception $e) {
-                    // do nothing
-                }
-            }
-
             if (in_array($statusCode, $supportedCodes)) {
                 $vars = [
                     'request' => $request,
@@ -73,7 +74,7 @@ class Handler extends ExceptionHandler
         return parent::render($request, $exception);
     }
 
-    private function sendExceptionToMail($request, $exception): void
+    private function sendExceptionToMail($request, $exception)
     {
         Mail::to(config('custom.exception_notification_email'))
             ->send(new ExceptionMail($request, $exception));
