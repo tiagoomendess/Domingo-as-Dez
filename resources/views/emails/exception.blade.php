@@ -5,7 +5,7 @@
     <li>Metodo: {{ $request->method() }}</li>
     <li>URL: {{ $request->fullUrl() }}</li>
     <li>HTTPS: {{ $request->secure() ? 'Sim' : 'Não' }}</li>
-    <li>IP: {{ $request->ip() }}</li>
+    <li>IP: {{ $request->getClientIp()() }}</li>
     <li>Body: <code>{{ json_encode($request->json()) }}</code></li>
 </ul>
 
