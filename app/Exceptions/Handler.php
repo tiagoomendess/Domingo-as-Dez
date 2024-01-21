@@ -7,6 +7,7 @@ use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -39,7 +40,13 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $exception)
     {
+        parent::report($exception);
+
         if (config('custom.send_exception_to_mail')) {
+            if ($exception instanceof NotFoundHttpException) {
+                return;
+            }
+
             try {
                 $request = request();
                 $this->sendExceptionToMail($request, $exception);
@@ -48,7 +55,9 @@ class Handler extends ExceptionHandler
             }
         }
 
-        parent::report($exception);
+        $code = $exception->getCode();
+        $message = $exception->getMessage();
+        Log::error("Exception $code thrown: $message");
     }
 
     /**
