@@ -2,15 +2,15 @@
 
 namespace App\Mail;
 
-use http\Exception;
+use Illuminate\Http\Request;
 use Illuminate\Mail\Mailable;
 
 class ExceptionMail extends Mailable
 {
-    /** @var Request  */
+    /** @var Request */
     private $request;
 
-    /** @var Exception */
+    /** @var \Exception */
     private $exception;
 
     public function __construct($request, $exception)
@@ -26,11 +26,17 @@ class ExceptionMail extends Mailable
      */
     public function build()
     {
-        $httpStatusCode = $this->exception->getStatusCode();
+        $httpStatusCode = "N/A";
+        if (method_exists($this->exception, 'getStatusCode')) {
+            $httpStatusCode = $this->exception->getStatusCode();
+        }
 
-        return $this->from(config('custom.site_email'), config('app.name'))->subject("Erro $httpStatusCode no website")->view('emails.exception')->with([
-            'request' => $this->request,
-            'exception' => $this->exception
-        ]);
+        return $this->from(config('custom.site_email'), config('app.name'))
+            ->subject("Erro $httpStatusCode no website")
+            ->view('emails.exception')
+            ->with([
+                'request' => $this->request,
+                'exception' => $this->exception
+            ]);
     }
 }
