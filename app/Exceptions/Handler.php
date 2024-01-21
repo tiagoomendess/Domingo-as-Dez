@@ -53,7 +53,7 @@ class Handler extends ExceptionHandler
     {
         $statusCode = method_exists($exception, 'getStatusCode') ? $exception->getStatusCode() : 500;
         $supportedCodes = [403, 404, 500];
-        $ignoreCodesForNotification = [404];
+        $ignoreCodesForNotification = [404, 503];
 
         if (config('custom.send_exception_to_mail') && !in_array($statusCode, $ignoreCodesForNotification)) {
             try {
