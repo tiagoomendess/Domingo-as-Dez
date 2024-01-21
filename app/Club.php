@@ -3,6 +3,8 @@
 namespace App;
 
 
+use Illuminate\Support\Str;
+
 class Club extends SearchableModel
 {
     protected $fillable = ['name', 'emblem', 'website', 'visible'];
@@ -84,7 +86,7 @@ class Club extends SearchableModel
 
     public function getPublicURL()
     {
-        return route('front.club.show', ['club_slug' => str_slug($this->name)]);
+        return route('front.club.show', ['club_slug' => Str::slug($this->name)]);
     }
 
     public function getThreeLetterName() {

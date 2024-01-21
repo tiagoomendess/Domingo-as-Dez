@@ -76,7 +76,7 @@
                                             <div class="col s6 m6 l4 xl3">
                                                 <a href="{{ $player->getPublicURL() }}">
                                                     <div class="player">
-                                                        <img src="{{ $player->getPicture() }}"
+                                                        <img src="{{ $player->getAgeSafePicture() }}"
                                                              alt="{{ $player->name }}">
                                                         <span>{{ $player->displayName() }}</span>
                                                     </div>

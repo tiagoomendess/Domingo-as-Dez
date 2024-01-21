@@ -3,6 +3,7 @@
 namespace App;
 
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 
 class Player extends SearchableModel
 {
@@ -160,6 +161,17 @@ class Player extends SearchableModel
     }
 
     /**
+     * Gets the picture if the player has more than 18 years old, or the default icon if not
+     */
+    public function getAgeSafePicture()
+    {
+        if ($this->getAge() >= 18)
+            return $this->getPicture();
+        else
+            return config('custom.default_profile_pic');
+    }
+
+    /**
      * Gets the name and nickname if exists
      */
     public function displayName()
@@ -172,12 +184,11 @@ class Player extends SearchableModel
 
     public function getPublicURL()
     {
-        return route('front.player.show', ['id' => $this->id, 'name_slug' => str_slug($this->name)]);
+        return route('front.player.show', ['id' => $this->id, 'name_slug' => Str::slug($this->name)]);
     }
 
     public function getAge()
     {
-
         if (!$this->birth_date)
             return null;
 

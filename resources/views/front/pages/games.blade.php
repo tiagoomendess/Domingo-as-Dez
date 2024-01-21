@@ -82,28 +82,30 @@
                         <ul class="list-a">
                             @foreach($games as $game)
                                 <li>
-                                    <a href="{{ $game->getPublicUrl() }}" style="padding: 7px 0">
+                                    <a href="{{ $game->public_url }}" style="padding: 7px 0">
                                         <div class="row no-margin-bottom" style="width: 100%">
                                             <div class="col s4 m4 l4 game-home-side">
                                                 <span class="hide-on-med-and-down">{{ $game->home_team->club->name }}</span>
-                                                <span class="hide-on-large-only">{{ $game->home_team->club->getThreeLetterName() }}</span>
-                                                <img class="emblem" src="{{ $game->home_team->club->getEmblem() }}" alt="{{ $game->home_team->club->name }}">
+                                                <span class="hide-on-large-only">{{ $game->home_team_three_letters }}</span>
+                                                <img class="emblem" src="{{ $game->home_team_emblem }}" alt="{{ $game->home_team->club->name }}">
                                             </div>
 
                                             <div class="col s3 m2 l2 center" style="padding: 5px 0 0 0">
                                                 <span class="game-score">
                                                 @if($game->postponed)
                                                     ADI
+                                                @elseif ($game->started)
+                                                    {{ $game->home_score }} - {{ $game->away_score }}
                                                 @else
-                                                    {{ $game->getHomeScore() }} - {{ $game->getAwayScore() }}
+                                                    {{ \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $game->date)->timezone('Europe/Lisbon')->format('d\/m') }}
                                                 @endif
                                                 </span>
                                             </div>
 
                                             <div class="col s4 m4 l4 game-away-side">
-                                                <img class="emblem" src="{{ $game->away_team->club->getEmblem() }}" alt="{{ $game->away_team->club->name }}">
+                                                <img class="emblem" src="{{ $game->away_team_emblem }}" alt="{{ $game->away_team->club->name }}">
                                                 <span class="hide-on-med-and-down">{{ $game->away_team->club->name }}</span>
-                                                <span class="hide-on-large-only">{{ $game->away_team->club->getThreeLetterName() }}</span>
+                                                <span class="hide-on-large-only">{{ $game->away_team_three_letters }}</span>
                                             </div>
 
                                             <div class="col s1 m2 l2 right">

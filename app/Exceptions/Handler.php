@@ -7,6 +7,7 @@ use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Handler extends ExceptionHandler
@@ -41,23 +42,6 @@ class Handler extends ExceptionHandler
     public function report(Exception $exception)
     {
         parent::report($exception);
-
-        if (config('custom.send_exception_to_mail')) {
-            if ($exception instanceof NotFoundHttpException) {
-                return;
-            }
-
-            try {
-                $request = request();
-                $this->sendExceptionToMail($request, $exception);
-            } catch (Exception $e) {
-                Log::error("Tried to send exception to mail, but failed. Exception: " . $e->getMessage());
-            }
-        }
-
-        $code = $exception->getCode();
-        $message = $exception->getMessage();
-        Log::error("Exception $code thrown: $message");
     }
 
     /**
@@ -67,10 +51,19 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        $statusCode = method_exists($exception, 'getStatusCode') ? $exception->getStatusCode() : 500;
         $supportedCodes = [403, 404, 500];
+        $ignoreCodesForNotification = [404];
+
+        if (config('custom.send_exception_to_mail') && !in_array($statusCode, $ignoreCodesForNotification)) {
+            try {
+                $this->sendExceptionToMail($request, $exception);
+            } catch (Exception $e) {
+                Log::error("Tried to send exception to mail, but failed. Exception: " . $e->getMessage());
+            }
+        }
 
         if ($this->isHttpException($exception)) {
-            $statusCode = $exception->getStatusCode();
             if (in_array($statusCode, $supportedCodes)) {
                 $vars = [
                     'request' => $request,

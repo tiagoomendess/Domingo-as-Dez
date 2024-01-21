@@ -26,19 +26,38 @@ class GamesController extends Controller
     }
 
     public function index(Request $request) {
+        $cacheKey = "all-games-page-" . $request->query('page', 1);
+        $cached_data = Cache::store('file')->get($cacheKey);
+        if (!empty($cached_data))
+            return view('front.pages.games', $cached_data);
+
+        Log::debug("Cache miss for $cacheKey, generating new one");
 
         $games = Game::where('visible', true)
             ->orderBy('date', 'desc')
-            ->where('date', '<=', Carbon::now())
             ->paginate(10);
+
+        foreach ($games as $game) {
+            $game->public_url = $game->getPublicUrl();
+            $game->started = $game->started();
+            $game->home_team_three_letters = $game->home_team->club->getThreeLetterName();
+            $game->away_team_three_letters = $game->away_team->club->getThreeLetterName();
+            $game->home_team_emblem = $game->home_team->club->getEmblem();
+            $game->away_team_emblem = $game->away_team->club->getEmblem();
+            $game->home_score = $game->getHomeScore();
+            $game->away_score = $game->getAwayScore();
+        }
 
         $competitions = Competition::where('visible', true)
             ->orderBy('id', 'asc')->get();
 
-        return view('front.pages.games', [
+        $data = [
             'games' => $games,
             'competitions' => $competitions
-        ]);
+        ];
+        Cache::store('file')->add($cacheKey, $data, 240);
+
+        return view('front.pages.games', $data);
     }
 
     public function show($competition_slug, $season_slug, $group_slug, $round, $clubs_slug) {

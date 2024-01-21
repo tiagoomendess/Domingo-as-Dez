@@ -7,7 +7,7 @@
     <meta property="og:title" content="{{ $player->name . ' - ' . config('app.name') }}"/>
     <meta property="og:type" content="website"/>
     <meta property="og:description" content="{{ trans('front.footer_desc') }}"/>
-    <meta property="og:image" content="{{ url($player->getPicture()) }}">
+    <meta property="og:image" content="{{ url($player->getAgeSafePicture()) }}">
 @endsection
 
 @section('content')
@@ -23,7 +23,7 @@
                     {{ trans('front.photograph') }}
                 </h2>
                 <figure>
-                    <img src="{{ $player->getPicture() }}" alt="{{$player->displayName()}}">
+                    <img src="{{ $player->getAgeSafePicture() }}" alt="{{$player->displayName()}}">
                 </figure>
             </section>
 

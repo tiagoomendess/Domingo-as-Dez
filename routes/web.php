@@ -96,7 +96,9 @@ Route::post('/article_comments/{article_id}', 'Front\ArticleCommentsController@c
     ->where(['article_id' => '[0-9]+']);
 Route::post('/article_comments/{comment_id}/delete', 'Front\ArticleCommentsController@delete')->name('article_comments.delete')
     ->where(['id' => '[0-9]+']);
-ROute::get('/jogos', 'Front\GamesController@index')->name('front.games.index');
+Route::get('/jogos', 'Front\GamesController@index')->name('front.games.index');
+Route::get('/clubes', 'Front\ClubController@index')->name('front.clubs.index');
+Route::get('/jogadores', 'Front\PlayersController@index')->name('front.players.index');
 // =====================================================================================================================
 
 // === Backoffice Adhoc Routes =========================================================================================

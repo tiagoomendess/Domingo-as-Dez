@@ -87,24 +87,30 @@
         <div class="row no-margin-bottom">
 
             <div class="col s6 m6 l3">
-                <div class="front-page-facts">
-                    <span>{{ $total_clubs }}</span>
-                    <span>{{ trans('models.clubs') }}</span>
-                </div>
+                <a href="/clubes">
+                    <div class="front-page-facts">
+                        <span>{{ $total_clubs }}</span>
+                        <span>{{ trans('models.clubs') }}</span>
+                    </div>
+                </a>
             </div>
 
             <div class="col s6 m6 l3">
-                <div class="front-page-facts">
-                    <span>{{ $total_games }}</span>
-                    <span>{{ trans('models.games') }}</span>
-                </div>
+                <a href="/jogos">
+                    <div class="front-page-facts">
+                        <span>{{ $total_games }}</span>
+                        <span>{{ trans('models.games') }}</span>
+                    </div>
+                </a>
             </div>
 
             <div class="col s6 m6 l3">
-                <div class="front-page-facts">
-                    <span>{{ $total_players }}</span>
-                    <span>{{ trans('models.players') }}</span>
-                </div>
+                <a href="/jogadores">
+                    <div class="front-page-facts">
+                        <span>{{ $total_players }}</span>
+                        <span>{{ trans('models.players') }}</span>
+                    </div>
+                </a>
             </div>
 
             <div class="col s6 m6 l3">
@@ -194,18 +200,14 @@
         <div class="col s12">
             <div class="vertical-spacer"></div>
             <h2 class="over-card-title">Últimas Sondagens</h2>
-            <div class="card">
-                <div class="card-content">
-                    <ul class="list-a">
-                        @foreach($last_polls as $poll)
-                            <li>
-                                <a href="{{ $poll->public_url }}">
-                                    <span>{{ $poll->question }}</span>
-                                </a>
-                            </li>
-                        @endforeach
-                    </ul>
-                </div>
+            <div class="row">
+                @foreach($last_polls as $poll)
+                    <div class="col s12 m6 l4">
+                        <a href="{{ $poll->public_url }}">
+                            <img style="width: 100%" src="{{ $poll->image }}" alt="{{ $poll->question }}">
+                        </a>
+                    </div>
+                @endforeach
             </div>
         </div>
     </div>

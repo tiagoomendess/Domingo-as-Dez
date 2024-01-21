@@ -298,7 +298,7 @@
                         @if($game->finished && !$game->isMvpVoteOpen() && $mvp && $mvp->amount >= 1)
                             <span>Homem do Jogo:</span>
                             <div class="chip">
-                                <img src="{{ $mvp->player->getPicture() }}"
+                                <img src="{{ $mvp->player->getAgeSafePicture() }}"
                                      alt="{{ $mvp->player->displayName() }}, homem do jogo">
                                 {{ $mvp->player->displayName() }}
                             </div>
@@ -351,7 +351,7 @@
                     <div style="margin-top: 20px">
                         Votou em
                         <div class="chip">
-                            <img src="{{ $mvp_vote->player->getPicture() }}" alt="Contact Person">
+                            <img src="{{ $mvp_vote->player->getAgeSafePicture() }}" alt="Contact Person">
                             {{ $mvp_vote->player->name }}
                         </div>
                         para homem do Jogo!
@@ -655,7 +655,7 @@
                             @foreach($game->home_team->getCurrentPlayers() as $player)
                                 <li>
                                     <a href="#" class="mvp_player" data-content="{{ $player->id }}">
-                                        <img src="{{ $player->getPicture() }}" alt="">
+                                        <img src="{{ $player->getAgeSafePicture() }}" alt="">
                                         <span>{{ $player->displayName() }}</span>
                                     </a>
                                 </li>
@@ -668,7 +668,7 @@
                             @foreach($game->away_team->getCurrentPlayers() as $player)
                                 <li>
                                     <a href="#" class="mvp_player" data-content="{{ $player->id }}">
-                                        <img src="{{ $player->getPicture() }}" alt="">
+                                        <img src="{{ $player->getAgeSafePicture() }}" alt="">
                                         <span>{{ $player->displayName() }}</span>
                                     </a>
                                 </li>

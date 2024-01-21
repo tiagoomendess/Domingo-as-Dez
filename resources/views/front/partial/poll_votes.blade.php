@@ -1,6 +1,6 @@
-<div>
+<div id="answers_container" class="transparent">
     @foreach($answers as $index => $answer)
-        <div style="width: 100%">
+        <div class="answer-wrapper" data-total-votes="{{ $votes[$index] }}" style="width: 100%">
             <div class="row no-margin-bottom">
                 <div class="col s9"><span class="flow-text">{{ $answer->answer }}</span></div>
                 <div class="col s3">
@@ -38,3 +38,20 @@
         </div>
     </div>
 </div>
+
+<script>
+    setTimeout(() => {
+        $(document).ready(function () {
+            // Order the answers by number of votes, most voted at the top
+            let answers = $(".answer-wrapper");
+            answers.sort((a, b) => {
+                return $(b).data("total-votes") - $(a).data("total-votes");
+            });
+
+            // Append the answers to the container
+            answers.each((index, answer) => {
+                $("#answers_container").append(answer);
+            });
+        });
+    }, 5)
+</script>

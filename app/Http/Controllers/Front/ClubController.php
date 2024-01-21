@@ -6,9 +6,38 @@ use App\Club;
 use App\Transfer;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 
 class ClubController extends Controller
 {
+    public function index(Request $request) {
+        $cacheKey = "all-clubs-page-" . $request->get('page', 1);
+        $cached_data = Cache::store('file')->get($cacheKey);
+        if (!empty($cached_data)) {
+            return view('front.pages.clubs', $cached_data);
+        }
+
+        Log::debug("Cache miss for $cacheKey, generating new data");
+
+        $clubs = Club::where('visible', true)
+            ->orderByDesc('id')
+            ->paginate(10);
+
+        foreach ($clubs as $club) {
+            $club->emblem = $club->getEmblem();
+            $club->public_url = $club->getPublicUrl();
+        }
+
+        $data = [
+            'clubs' => $clubs
+        ];
+
+        Cache::store('file')->put($cacheKey, $data, 3600);
+
+        return view('front.pages.clubs', $data);
+    }
+
     public function show($club_slug) {
 
         $club = Club::findByNameSlug($club_slug);
