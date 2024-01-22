@@ -5,10 +5,13 @@ namespace App\Exceptions;
 use App\Mail\ExceptionMail;
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -53,9 +56,8 @@ class Handler extends ExceptionHandler
     {
         $statusCode = method_exists($exception, 'getStatusCode') ? $exception->getStatusCode() : 500;
         $supportedCodes = [403, 404, 500];
-        $ignoreCodesForNotification = [404, 503];
 
-        if (config('custom.send_exception_to_mail') && !in_array($statusCode, $ignoreCodesForNotification)) {
+        if ($this->shouldSendMail($exception)) {
             try {
                 $this->sendExceptionToMail($request, $exception);
             } catch (Exception $e) {
@@ -74,6 +76,27 @@ class Handler extends ExceptionHandler
         }
 
         return parent::render($request, $exception);
+    }
+
+    private function shouldSendMail(Exception $exception): bool {
+        if (!config('custom.send_exception_to_mail')) {
+            return false;
+        }
+
+        $ignoreExceptions = [
+            ValidationException::class,
+            NotFoundHttpException::class,
+            AccessDeniedHttpException::class,
+            UnauthorizedHttpException::class,
+        ];
+
+        if (Arr::first($ignoreExceptions, function ($value) use ($exception) {
+            return $exception instanceof $value;
+        })) {
+            return false;
+        }
+
+        return true;
     }
 
     private function sendExceptionToMail($request, $exception)
