@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
@@ -88,6 +89,7 @@ class Handler extends ExceptionHandler
             NotFoundHttpException::class,
             AccessDeniedHttpException::class,
             UnauthorizedHttpException::class,
+            MethodNotAllowedHttpException::class,
         ];
 
         if (Arr::first($ignoreExceptions, function ($value) use ($exception) {
