@@ -27,6 +27,11 @@ class GptInfo extends Command
     protected $description = 'Generates info for Chat Gpt';
 
     /**
+     * @var array Game[]
+     */
+    private $all_games = [];
+
+    /**
      * Create a new command instance.
      *
      * @return void
@@ -80,7 +85,29 @@ class GptInfo extends Command
                 $competition_type = "Amigável";
         }
 
-        $table = $this->buildStandingsTable($game_group);
+        $small_facts = [];
+
+        $minMaxAndCurrentRounds = $this->getMinMaxAndCurrentRound($this->all_games);
+        $this->line(json_encode($minMaxAndCurrentRounds));
+
+        if ($competition_type_en == 'points') {
+            $table = $this->buildStandingsTable($game_group);
+            $small_facts[] = "Esta competição promove $competition_promotes equipas e despromove $competition_relegates equipas";
+            $small_facts[] = "Esta competição é por pontos e tem " . $minMaxAndCurrentRounds[1] . " jornadas";
+            if ($minMaxAndCurrentRounds[2] > 0) {
+                $small_facts[] = "Já se jogaram " . $minMaxAndCurrentRounds[2] . " jornadas até agora";
+            }
+        }
+        else {
+            $table = [];
+        }
+
+        if ($competition_type_en == 'elimination') {
+            $small_facts[] = "Esta competição é a eliminar e tem " . $minMaxAndCurrentRounds[1] . " eliminatórias";
+            if ($minMaxAndCurrentRounds[2] > 0) {
+                $small_facts[] = "Já se jogaram " . $minMaxAndCurrentRounds[2] . " eliminatórias até agora";
+            }
+        }
 
         $game_infos = [];
         foreach ($games as $key => $game) {
@@ -107,10 +134,6 @@ class GptInfo extends Command
             $game_infos[$key] = $game_info;
         }
 
-        $small_facts = [
-            "Esta competição promove $competition_promotes equipas e despromove $competition_relegates equipas",
-            "Esta é uma competição de Barcelos organizada pela Associação de Futebol Popular de Barcelos (AFPB)",
-        ];
 
         $custom_keys = [
             "Hoje é dia" => Carbon::now("Europe/Lisbon")->format("d/m/Y"),
@@ -125,21 +148,16 @@ class GptInfo extends Command
     {
         $oneOrMore = count($game_infos) > 1 ? "alguns jogos de futebol" : "um jogo de futebol";
         $this->info("=== Informações Geradas ======================\n");
-        $this->info("És um jornalista de um jornal online português, e tens de escrever um artigo a fazer a antevisão de $oneOrMore. Utiliza as seguintes informações para escrever o artigo:");
+        $this->info("Imagina que és um jornalista de um jornal online português, e tens de escrever um artigo a fazer a antevisão de $oneOrMore. Utiliza as seguintes informações para escrever o artigo:");
 
-        foreach ($custom_keys as $key => $custom_info) {
-            $this->line("$key: $custom_info");
-        }
-
-        if (!empty($small_facts)) {
-            $str = implode("; ", $small_facts);
-            $this->line("Curiosidades: " . $str);
-        }
-
-        $this->printStandingsTable($table);
         foreach ($game_infos as $key => $game_info) {
+            if (empty($table))
+                $roundName = $game_info['round'] . "ª eliminatória";
+            else
+                $roundName = $game_info['round'] . "ª jornada";
+
             $data = Carbon::parse($game_info['date'])->timezone("Europe/Lisbon")->format("d/m/Y \à\s H:i");
-            $this->info("\nJogo " . $game_info['fixture'] . " da jornada " . $game_info['round'] . " da competição " . $game_info['competition'] . ":");
+            $this->info("\nJogo " . $game_info['fixture'] . " para a $roundName da " . $game_info['competition'] . ":");
             $this->line("Data e hora: $data;");
             $this->line("Recinto de jogo: " . $game_info['venue'] . ";");
             $this->line("Equipa visitada: " . $game_info['home_club'] . ";");
@@ -148,6 +166,18 @@ class GptInfo extends Command
             $this->line("Últimos 5 jogos de " . $game_info['away_club'] .": " . $game_info['away_team_form'] . ";");
             $this->line("Histórico entre as duas equipas: " . $game_info['last_games_between'] . ";");
         }
+        $this->line("");
+        foreach ($custom_keys as $key => $custom_info) {
+            $this->line("$key: $custom_info;");
+        }
+
+        if (!empty($small_facts)) {
+            $str = implode("; ", $small_facts);
+            $this->line("Curiosidades: " . $str);
+        }
+
+        if (!empty($table))
+            $this->printStandingsTable($table);
     }
 
     private function getTeamForm($team_id, $date): string {
@@ -196,12 +226,32 @@ class GptInfo extends Command
         return implode($items, ", ");
     }
 
+    private function getMinMaxAndCurrentRound($games): array {
+        $min = 1000;
+        $max = 0;
+        $current = 0;
+        foreach ($games as $game) {
+            if ($game->round < $min)
+                $min = $game->round;
+
+            if ($game->round > $max)
+                $max = $game->round;
+
+            if ($game->round > $current && $game->finished)
+                $current = $game->round;
+        }
+
+        return [$min, $max, $current];
+    }
+
     private function getGames(int $game_group_id)
     {
         $games = Game::where('visible', true)
             ->where('game_group_id', $game_group_id)
             ->orderBy('id', 'asc')
             ->get();
+
+        $this->all_games = $games;
 
         // Group By Round Array
         $games_grouped_by_round = [];
@@ -217,24 +267,24 @@ class GptInfo extends Command
                 $lowest_round = $game->round;
         }
 
-        $answer = (int) $this->ask("Escolhe uma jornada entre $lowest_round e $highest_round");
+        $answer = (int) $this->ask("Escolhe uma ronda entre $lowest_round e $highest_round");
         if ($answer < $lowest_round || $answer > $highest_round)
             return null;
 
-        $this->info("Jornada '$answer' escolhida\n");
-        $this->info("=== Jogos da Jornada $answer ======================\n");
+        $this->info("Ronda '$answer' escolhida\n");
+        $this->info("=== Jogos da Ronda $answer ======================\n");
         $filtered_games = $games_grouped_by_round[$answer];
         foreach ($filtered_games as $key => $game) {
             $this->info($key + 1 . ") " . $game->home_team->club->name ." vs " . $game->away_team->club->name);
         }
-        $this->info(count($filtered_games) + 1 . ") Todos os jogos desta jornada");
+        $this->info(count($filtered_games) + 1 . ") Todos os jogos desta ronda");
 
         $answer = (int) $this->ask('Qual Jogo?');
         if ($answer == 0)
             return null;
 
         if ($answer >= count($filtered_games) + 1) {
-            $this->info("Todos os jogos da jornada $answer selecionados\n");
+            $this->info("Todos os jogos da ronda $answer selecionados\n");
             return $filtered_games;
         } else {
             $game = $filtered_games[$answer - 1];
