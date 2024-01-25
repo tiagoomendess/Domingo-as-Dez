@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use App\Mail\ExceptionMail;
 use Exception;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
@@ -90,6 +91,7 @@ class Handler extends ExceptionHandler
             AccessDeniedHttpException::class,
             UnauthorizedHttpException::class,
             MethodNotAllowedHttpException::class,
+            AuthenticationException::class,
         ];
 
         if (Arr::first($ignoreExceptions, function ($value) use ($exception) {
