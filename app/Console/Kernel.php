@@ -36,7 +36,7 @@ class Kernel extends ConsoleKernel
         $schedule->job(new GenerateGameImage())->everyMinute();
         $schedule->job(new ProcessPolls())->everyMinute();
         $schedule->job(new ProcessScoreReportBans())->dailyAt('22:59');
-        $schedule->job(new ScoreReportConsumer())->everyFiveMinutes();
+        $schedule->job(new ScoreReportConsumer())->everyMinute();
     }
 
     /**
