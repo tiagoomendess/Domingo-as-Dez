@@ -223,15 +223,17 @@
                     iframe.attr('style', 'width: ' + width + 'px!important;');
                 }
             })
+
+            $('#comments_wrapper').removeClass('hide');
         });
 
         jQuery(window).on("load", function () {
             console.log('Everything Loaded');
             $('#article_body').removeClass('hide');
-            $('#comments_wrapper').removeClass('hide');
             $('#main_loading').addClass('hide');
             setTimeout(() => {
                 $('.parallax').parallax();
+                $('#comments_wrapper').removeClass('hide');
             }, 1);
         });
 
