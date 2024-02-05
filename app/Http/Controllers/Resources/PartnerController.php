@@ -22,7 +22,7 @@ class PartnerController extends Controller
         $this->middleware('auth');
         $this->middleware('permission:partners')->only(['index', 'show']);
         $this->middleware('permission:partners.edit')->only(['edit', 'update']);
-        $this->middleware('permission:partners.create')->only(['create', 'store', 'destroy']);
+        $this->middleware('permission:partners.create')->only(['create', 'store', 'destroy', 'showGenerateImage', 'doGenerateImage']);
         $this->imageManager = $manager;
     }
 
