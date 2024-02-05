@@ -5,7 +5,9 @@ namespace App\Exceptions;
 use App\Mail\ExceptionMail;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Session\TokenMismatchException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
@@ -92,6 +94,8 @@ class Handler extends ExceptionHandler
             UnauthorizedHttpException::class,
             MethodNotAllowedHttpException::class,
             AuthenticationException::class,
+            ModelNotFoundException::class,
+            TokenMismatchException::class,
         ];
 
         if (Arr::first($ignoreExceptions, function ($value) use ($exception) {
