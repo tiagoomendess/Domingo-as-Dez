@@ -165,6 +165,9 @@ class Player extends SearchableModel
      */
     public function getAgeSafePicture()
     {
+        if (empty($this->birth_date))
+            $this->getPicture();
+
         if ($this->getAge() >= 18)
             return $this->getPicture();
         else

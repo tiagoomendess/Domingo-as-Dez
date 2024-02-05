@@ -215,12 +215,10 @@
                 var width = height * 1.777;
 
                 if (height < 350) {
-
                     iframe.attr('style', 'width: 100%;');
                     width = iframe.width();
                     height = width * 0.5624;
                     iframe.attr('style', 'width: ' + width + 'px!important; height: ' + height + 'px!important;');
-
                 } else {
                     iframe.attr('style', 'width: ' + width + 'px!important;');
                 }
@@ -230,6 +228,7 @@
         jQuery(window).on("load", function () {
             console.log('Everything Loaded');
             $('#article_body').removeClass('hide');
+            $('#comments_wrapper').removeClass('hide');
             $('#main_loading').addClass('hide');
             setTimeout(() => {
                 $('.parallax').parallax();
