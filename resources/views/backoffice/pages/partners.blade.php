@@ -23,6 +23,7 @@
                         <th>Prioridade</th>
                         <th>{{trans('general.visible')}}</th>
                         <th>{{ trans('general.created_at') }}</th>
+                        <th>Imagem</th>
                     </tr>
                     </thead>
 
@@ -37,6 +38,7 @@
                             <td>{{ $partner->priority }}</td>
                             <td>{{ $partner->visible ? 'Sim' : 'Não' }}</td>
                             <td>{{ $partner->created_at }}</td>
+                            <td><a class="waves-effect waves-light btn blue-grey" style="padding: 0; width: 36px" href="{{ route('partners.show_generate_image', ['partner' => $partner->id]) }}"><i class="material-icons">image</i></a></td>
                         </tr>
 
                     @endforeach

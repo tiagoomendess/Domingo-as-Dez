@@ -101,6 +101,7 @@ return [
     'no_pages' => 'Não existem páginas criadas',
     'partners' => 'Parceiros',
     'partner' => 'Parceiro',
+    'generate_partner_image' => 'Gerar Imagem de Parceiro',
     'no_partners' => 'Não existem parceiros criados',
     'info_reports' => 'Informações',
     'info_report' => 'Informação',

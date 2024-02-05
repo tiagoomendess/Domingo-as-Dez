@@ -111,6 +111,10 @@ Route::post('/articles/{article}/post-on-facebook', 'Resources\ArticleController
     ->name('articles.post_on_facebook');
 Route::get('/audit', 'Backoffice\AuditController@index')->name('audit.index');
 Route::post('/ckeditor/upload', 'Backoffice\CKEditorController@upload')->name('ckeditor.upload');
+Route::get('/partners/{partner}/generate-image', 'Resources\PartnerController@showGenerateImage')
+    ->name('partners.show_generate_image');
+Route::post('/partners/{partner}/generate-image', 'Resources\PartnerController@doGenerateImage')
+    ->name('partners.do_generate_image');
 // =====================================================================================================================
 
 // === Backoffice CRUD =================================================================================================
