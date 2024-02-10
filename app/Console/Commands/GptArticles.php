@@ -5,10 +5,9 @@ namespace App\Console\Commands;
 use App\Article;
 use Barryvdh\DomPDF\Facade as PDF;
 use Carbon\Carbon;
-use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
 
-class GptArticles extends Command
+class GptArticles extends BaseExportCommand
 {
 
     /**
@@ -66,33 +65,16 @@ class GptArticles extends Command
 
     private function handleMultipleArticles() {
 
-        $start_date = $this->getDate('start');
-        $end_date = $this->getDate('end');
+        $start_date = $this->getRangeDateFromInput('start');
+        $end_date = $this->getRangeDateFromInput('end');
 
-        $this->info("Generating articles from " . $start_date->format('Y-m-d') . " to " . $end_date->format('Y-m-d') . "...");
+        $this->info("Generating articles from " . $start_date->format('Y-m-d H:i:s') . " to " . $end_date->format('Y-m-d H:i:s') . "...");
 
         foreach (Article::where('date', '>=', $start_date)->where('date', '<=', $end_date)->where('visible', true)->cursor() as $article) {
             $date = Carbon::createFromFormat('Y-m-d H:i:s', $article->date)->format('Y-m-d');
             $this->generateArticle($article);
             $this->info("Article $article->id - $date - generated.");
         }
-    }
-
-    private function getDate($date_type): Carbon {
-        $time = $date_type == 'start' ? '00:00:00' : '23:59:59';
-        do {
-            $date_str = $this->ask("What is the $date_type date? (ex: 2023-10-18)");
-            try {
-                $date = Carbon::createFromFormat('Y-m-d H:i:s', "$date_str $time");
-            } catch (\Exception $e) {
-                $date = null;
-                $this->error("Invalid date '$date_str' provided. Please try again.");
-                continue;
-            }
-
-        } while (!$date);
-
-        return $date;
     }
 
     private function handleSingleArticle($article_id)
