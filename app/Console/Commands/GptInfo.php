@@ -90,6 +90,7 @@ class GptInfo extends Command
         $minMaxAndCurrentRounds = $this->getMinMaxAndCurrentRound($this->all_games);
 
         if ($competition_type_en == 'points') {
+            $small_facts[] = "Se uma competição não promover ou não despromover ninguém, não é preciso mencionar esse facto.";
             $table = $this->buildStandingsTable($game_group);
             $small_facts[] = "Esta competição promove $competition_promotes equipas e despromove $competition_relegates equipas";
             $small_facts[] = "Esta competição é por pontos e tem " . $minMaxAndCurrentRounds[1] . " jornadas";
@@ -161,9 +162,9 @@ class GptInfo extends Command
             $this->line("Recinto de jogo: " . $game_info['venue'] . ";");
             $this->line("Equipa visitada: " . $game_info['home_club'] . ";");
             $this->line("Equipa visitante: " . $game_info['away_club'] . ";");
-            $this->line("Últimos 5 jogos de " . $game_info['home_club'] . ": " . $game_info['home_team_form'] . ";");
-            $this->line("Últimos 5 jogos de " . $game_info['away_club'] .": " . $game_info['away_team_form'] . ";");
-            $this->line("Histórico entre as duas equipas: " . $game_info['last_games_between'] . ";");
+            $this->line("Últimos 5 jogos de " . $game_info['home_club'] . " (Mais recente para mais antigo): " . $game_info['home_team_form'] . ";");
+            $this->line("Últimos 5 jogos de " . $game_info['away_club'] ." (Mais recente para mais antigo): " . $game_info['away_team_form'] . ";");
+            $this->line("Histórico entre as duas equipas (Mais recente primeiro): " . $game_info['last_games_between'] . ";");
         }
         $this->line("");
         foreach ($custom_keys as $key => $custom_info) {
@@ -172,11 +173,16 @@ class GptInfo extends Command
 
         if (!empty($small_facts)) {
             $str = implode("; ", $small_facts);
-            $this->line("Curiosidades: " . $str);
+            $this->line($str);
         }
 
-        if (!empty($table))
+        if (!empty($table)) {
             $this->printStandingsTable($table, $game_info['competition']);
+            $this->line("Escreve o artigo em português europeu e por outras palavras, mas usa as informações dadas acima. Menciona a forma atual das equipas, os confrontos anteriores entre elas, podes até dar exemplos de resultados ocasionalmente. Fala também de possíveis mudanças na tabela classificativa caso possam acontecer");
+        } else {
+            $this->line("Escreve o artigo em português europeu e por outras palavras, mas usa as informações dadas acima. Menciona a forma atual das equipas, os confrontos anteriores entre elas, e até podes dar exemplos de resultados ocasionalmente.");
+        }
+
     }
 
     private function getTeamForm($team_id, $date): string {
@@ -190,7 +196,8 @@ class GptInfo extends Command
 
         $form = [];
         foreach ($home_team_last_games as $game) {
-            $form[] = $game->home_team->club->name . " " . $game->getHomeScore() . "-" . $game->getAwayScore() . " " . $game->away_team->club->name;
+            $dateStr = Carbon::parse($game->date)->format("d/m/Y");
+            $form[] = $game->home_team->club->name . " " . $game->getHomeScore() . "-" . $game->getAwayScore() . " " . $game->away_team->club->name . " dia $dateStr";
         }
 
         return implode($form, ", ");
@@ -216,7 +223,7 @@ class GptInfo extends Command
             $awayScore = $past_game->getAwayScore();
             $homeName = $past_game->home_team->club->name;
             $awayName = $past_game->away_team->club->name;
-            $year = Carbon::parse($past_game->date)->format("Y");
+            $year = Carbon::parse($past_game->date)->format("d/m/Y");
             $competition = $past_game->game_group->season->competition->name;
 
             $items[] = "$homeName $homeScore-$awayScore $awayName em $year para $competition";
