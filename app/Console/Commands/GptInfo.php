@@ -88,7 +88,6 @@ class GptInfo extends Command
         $small_facts = [];
 
         $minMaxAndCurrentRounds = $this->getMinMaxAndCurrentRound($this->all_games);
-        $this->line(json_encode($minMaxAndCurrentRounds));
 
         if ($competition_type_en == 'points') {
             $table = $this->buildStandingsTable($game_group);
@@ -112,10 +111,11 @@ class GptInfo extends Command
         $game_infos = [];
         foreach ($games as $key => $game) {
             $this->info("A Gerar informações para o jogo " . $game->home_team->club->name . " vs " . $game->away_team->club->name);
+            $season_name = $season->start_year != $season->end_year ? $season->start_year . "/" . $season->end_year : $season->start_year;
 
             $game_info = [
                 'fixture' => $game->home_team->club->name . " vs " . $game->away_team->club->name,
-                'competition' => $game->game_group->season->competition->name,
+                'competition' => $game_group->name . " da " . $competition->name . " $season_name",
                 'date' => $game->date,
                 'venue' => $game->playground->name,
                 'round' => $game->round,
@@ -133,7 +133,6 @@ class GptInfo extends Command
 
             $game_infos[$key] = $game_info;
         }
-
 
         $custom_keys = [
             "Hoje é dia" => Carbon::now("Europe/Lisbon")->format("d/m/Y"),
@@ -157,7 +156,7 @@ class GptInfo extends Command
                 $roundName = $game_info['round'] . "ª jornada";
 
             $data = Carbon::parse($game_info['date'])->timezone("Europe/Lisbon")->format("d/m/Y \à\s H:i");
-            $this->info("\nJogo " . $game_info['fixture'] . " para a $roundName da " . $game_info['competition'] . ":");
+            $this->info("\nJogo " . $game_info['fixture'] . " | $roundName | " . $game_info['competition'] . ":");
             $this->line("Data e hora: $data;");
             $this->line("Recinto de jogo: " . $game_info['venue'] . ";");
             $this->line("Equipa visitada: " . $game_info['home_club'] . ";");
@@ -177,7 +176,7 @@ class GptInfo extends Command
         }
 
         if (!empty($table))
-            $this->printStandingsTable($table);
+            $this->printStandingsTable($table, $game_info['competition']);
     }
 
     private function getTeamForm($team_id, $date): string {
@@ -353,7 +352,7 @@ class GptInfo extends Command
         return $competition;
     }
 
-    private function printStandingsTable(array $table)
+    private function printStandingsTable(array $table, string $competition_name)
     {
         $positionHeader = $this->txtWidth("Posição", 7, "center");
         $teamHeader = $this->txtWidth("Equipa", 20);
@@ -364,7 +363,7 @@ class GptInfo extends Command
         $goalsScoredHeader = $this->txtWidth("Golos Marcados", 14, "center");
         $goalsConcededHeader = $this->txtWidth("Golos Sofridos", 14, "center");
         $pointsHeader = $this->txtWidth("Pontos", 6, "center");
-        $this->info("Tabela Classificativa:");
+        $this->info("\nTabela Classificativa de $competition_name:");
         $this->info("+---------------------------------------------------------------------------------------------------------------------+");
         $this->info("| $positionHeader | $teamHeader | $gamesHeader | $winsHeader | $drawsHeader | $lossesHeader | $goalsScoredHeader | $goalsConcededHeader | $pointsHeader |");
         $this->info("+---------+----------------------+---------+----------+---------+----------+----------------+----------------+--------+");
