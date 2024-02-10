@@ -115,6 +115,9 @@ Route::get('/partners/{partner}/generate-image', 'Resources\PartnerController@sh
     ->name('partners.show_generate_image');
 Route::post('/partners/{partner}/generate-image', 'Resources\PartnerController@doGenerateImage')
     ->name('partners.do_generate_image');
+Route::get('/export', 'Backoffice\ExportController@create')->name('export.create');
+Route::post('/exports', 'Backoffice\ExportController@store')->name('export.store');
+Route::get('/exports', 'Backoffice\ExportController@list')->name('export.list');
 // =====================================================================================================================
 
 // === Backoffice CRUD =================================================================================================
