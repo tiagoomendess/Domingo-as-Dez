@@ -170,6 +170,7 @@ return [
         Laravel\Socialite\SocialiteServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         Greggilbert\Recaptcha\RecaptchaServiceProvider::class,
+        Barryvdh\DomPDF\ServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -231,7 +232,6 @@ return [
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
         'Image' => Intervention\Image\Facades\Image::class,
         'Recaptcha' => Greggilbert\Recaptcha\Facades\Recaptcha::class,
-
+        'PDF' => Barryvdh\DomPDF\Facade::class,
     ],
-
 ];
