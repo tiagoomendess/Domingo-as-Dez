@@ -25,7 +25,7 @@ class GptGames extends BaseExportCommand
 
     protected $fileType = null;
 
-    protected $fileTypes = ['csv', 'json'];
+    protected $fileTypes = ['csv', 'json', 'txt'];
 
     /**
      * Create a new command instance.
@@ -82,9 +82,34 @@ class GptGames extends BaseExportCommand
                 return $this->getCsvLine($game);
             case 'json':
                 return $this->getJsonLine($game);
+                case 'txt':
+                return $this->getTxtLine($game);
             default:
                 return "invalid file type";
         }
+    }
+
+    private function getTxtLine(Game $game): string {
+        $dateObj = Carbon::createFromFormat('Y-m-d H:i:s', $game->date);
+        $dia = $dateObj->setTimezone("Europe/Lisbon")->format("d/m/Y");
+        $hora = $dateObj->setTimezone("Europe/Lisbon")->format("H:i");
+        $recinto = !empty($game->playground) ? $game->playground->name : "Recinto Desconhecido";
+        $competicao = $game->game_group->name . " da " . $game->game_group->season->competition->name;
+        $epoca = $game->game_group->season->getName();
+        $equipa_visitada = $game->home_team->club->name;
+        $equipa_visitante = $game->away_team->club->name;
+
+        if ($game->started() && $game->finished) {
+            $resultado = $game->getHomeScore() . "-" . $game->getAwayScore();
+
+            return "$equipa_visitada jogou contra $equipa_visitante no dia $dia às $hora no $recinto para a competição $competicao, da época $epoca, e o resultado final foi de $resultado";
+        }
+
+        if ($game->postponed) {
+            return "$equipa_visitada jogaria contra $equipa_visitante no dia $dia às $hora no $recinto para a competição $competicao, da época $epoca, mas o jogo foi adiado";
+        }
+
+        return "$equipa_visitada vai jogar contra $equipa_visitante no dia $dia às $hora no $recinto para a competição $competicao da época $epoca";
     }
 
     private function getCsvLine(Game $game): string {
