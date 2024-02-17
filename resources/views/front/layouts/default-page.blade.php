@@ -37,6 +37,10 @@
 
     @include('front.partial.footer')
 
+    @if(!has_permission('disable_ads'))
+        @include('front.partial.footer_ads')
+    @endif
+
     <!-- End of page, load scripts -->
     <script type="text/javascript" src="/js/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="/materialize/js/materialize.min.js"></script>

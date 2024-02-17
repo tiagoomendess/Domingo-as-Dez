@@ -54,4 +54,8 @@
             </div>
         </div>
     </div>
+
+    @if(!has_permission('disable_ads'))
+        <div class="hide-on-med-and-up footer-ad-spacer" style="height: 90px; width: 100%;"></div>
+    @endif
 </footer>

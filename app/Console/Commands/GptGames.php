@@ -99,6 +99,8 @@ class GptGames extends BaseExportCommand
         $equipa_visitada = $game->home_team->club->name;
         $equipa_visitante = $game->away_team->club->name;
 
+        $ronda = $game->round;
+
         if ($game->started() && $game->finished) {
             $resultado = $game->getHomeScore() . "-" . $game->getAwayScore();
 
