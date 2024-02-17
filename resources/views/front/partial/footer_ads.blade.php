@@ -1,6 +1,6 @@
 <style>
     .footer-ad-wrapper {
-        height: 90px;
+        max-height: 90px;
         width: 100%;
         display: flex;
         justify-content: center;
