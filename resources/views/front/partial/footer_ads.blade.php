@@ -73,10 +73,9 @@
 
         setTimeout(() => {
             adWrapper.style.display = 'none';
-            document.querySelector('.footer-ad-spacer').style.display = 'none';
             document.querySelector('.footer-ad-wrapper').innerHTML = '';
             document.cookie = "ad_closed=true; max-age=500";
-        }, 500); // The timeout should match the CSS transition duration
+        }, 500);
     }
 
     // wait for document load
@@ -88,7 +87,6 @@
         if (document.cookie.indexOf('ad_closed=true') > -1) {
             document.querySelector('.footer-ad-outer-wrapper').style.display = 'none';
             document.querySelector('.footer-ad-wrapper').innerHTML = '';
-            document.querySelector('.footer-ad-spacer').classList.add('hide');
         } else {
             // change ins width to window width
             document.querySelector('.footer-ad-wrapper > ins').style.width = windowWidth + 'px';
@@ -102,7 +100,6 @@
 
             const timeoutIdTwo = setTimeout(() => {
                 const innerHeight = document.querySelector('.footer-ad-wrapper').offsetHeight;
-                document.querySelector('.footer-ad-spacer').style.height = innerHeight + 'px';
                 clearTimeout(timeoutIdTwo);
             }, 300);
         }
