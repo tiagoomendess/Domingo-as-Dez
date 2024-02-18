@@ -1,12 +1,15 @@
 <style>
     .footer-ad-wrapper {
+        height: auto;
         max-height: 90px;
         width: 100%;
         display: flex;
         justify-content: center;
         align-items: center;
         background-color: rgba(255, 255, 255, 1);
-        box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.3); /* optional, for better visibility */
+        box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.3);
+        border-top: #ffffff 3px solid;
+        overflow: hidden;
     }
 
     .footer-ad-outer-wrapper {
@@ -14,9 +17,11 @@
         bottom: 0;
         left: 0;
         right: 0;
+        height: auto;
         max-height: 110px;
-        z-index: 1000; /* high value to ensure it's above other content */
-        overflow: auto; /* in case the content exceeds 100px in height */
+        z-index: 1000;
+        overflow: hidden;
+        transition: bottom 0.5s ease-in-out;
     }
 
     .footer-ad-close {
@@ -38,6 +43,9 @@
         align-items: center;
         right: 0;
         cursor: pointer;
+        border-top: #ffffff 3px solid;
+        border-left: #ffffff 3px solid;
+        border-radius: 6px 0 0 0;
     }
 </style>
 
@@ -60,10 +68,15 @@
 
 <script>
     const handleCloseAd = () => {
-        document.querySelector('.footer-ad-outer-wrapper').classList.add('hide');
-        document.querySelector('.footer-ad-spacer').style.display = 'none';
-        document.querySelector('.footer-ad-wrapper').innerHTML = '';
-        document.cookie = "ad_closed=true; max-age=300";
+        const adWrapper = document.querySelector('.footer-ad-outer-wrapper');
+        adWrapper.style.bottom = `-${adWrapper.offsetHeight}px`;
+
+        setTimeout(() => {
+            adWrapper.style.display = 'none';
+            document.querySelector('.footer-ad-spacer').style.display = 'none';
+            document.querySelector('.footer-ad-wrapper').innerHTML = '';
+            document.cookie = "ad_closed=true; max-age=500";
+        }, 500); // The timeout should match the CSS transition duration
     }
 
     // wait for document load
@@ -82,10 +95,16 @@
 
             (adsbygoogle = window.adsbygoogle || []).push({});
             // Only show close button after 7 seconds
-            const timoutId = setTimeout(() => {
+            const timoutIdOne = setTimeout(() => {
                 document.querySelector('.footer-ad-close > div').classList.remove('hide');
-                clearTimeout(timoutId);
+                clearTimeout(timoutIdOne);
             }, 7000);
+
+            const timeoutIdTwo = setTimeout(() => {
+                const innerHeight = document.querySelector('.footer-ad-wrapper').offsetHeight;
+                document.querySelector('.footer-ad-spacer').style.height = innerHeight + 'px';
+                clearTimeout(timeoutIdTwo);
+            }, 300);
         }
     });
 </script>
