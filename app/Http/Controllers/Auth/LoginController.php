@@ -226,7 +226,7 @@ class LoginController extends Controller
         } else { //let him in
             Auth::login($user);
             Audit::add(Audit::ACTION_LOGIN, 'User', null, $user->toArray());
-            UserUuid::addIfNotExist($user->id, request()->cookie('uuid'));
+            UserUuid::addIfNotExist($user->id, request()->cookie('uuid', ''));
             Log::info("User $user->id logged in with $provider");
         }
 
