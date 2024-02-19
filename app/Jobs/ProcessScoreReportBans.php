@@ -113,7 +113,7 @@ class ProcessScoreReportBans implements ShouldQueue
                         $banKeys[] = $banKey;
 
                         if (!empty($user_id)) {
-                            $this->banUser($scoreReport->user, $reason, $banExpiration->format("d/m/Y \à\s H:i"));
+                            $this->banUser($user_id, $reason, $banExpiration->format("d/m/Y \à\s H:i"));
                         } else {
                             Log::info("Report with no user associated. Skipping notification...");
                         }
@@ -127,9 +127,10 @@ class ProcessScoreReportBans implements ShouldQueue
         Log::info("$totalFakes fake scores, $totalBans bans created out of a total of $totalProcessed reports processed");
     }
 
-    private function banUser(User $user, string $reason, string $expiration)
+    private function banUser(int $userId, string $reason, string $expiration)
     {
         try {
+            $user = User::where('id', $userId)->get();
             Log::info("Notifying user " . $user->email . " via email about the ban...");
             $user->notify(
                 new ScoreReportBanNotification(
