@@ -130,7 +130,7 @@ class ProcessScoreReportBans implements ShouldQueue
     private function banUser(int $userId, string $reason, string $expiration)
     {
         try {
-            $user = User::where('id', $userId)->get();
+            $user = User::where('id', $userId)->first();
             Log::info("Notifying user " . $user->email . " via email about the ban...");
             $user->notify(
                 new ScoreReportBanNotification(
