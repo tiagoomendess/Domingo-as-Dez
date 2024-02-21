@@ -39,7 +39,7 @@
                             crossorigin="anonymous"></script>
                     <!-- Club Bellow Picture -->
                     <ins class="adsbygoogle"
-                         style="display:block"
+                         style="display:block; width: 100%; max-height: 100px;"
                          data-ad-client="ca-pub-3518000096682897"
                          data-ad-slot="2392223415"
                          data-ad-format="auto"
