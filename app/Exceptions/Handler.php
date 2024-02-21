@@ -7,6 +7,7 @@ use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Foundation\Http\Exceptions\MaintenanceModeException;
 use Illuminate\Session\TokenMismatchException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
@@ -96,7 +97,18 @@ class Handler extends ExceptionHandler
             AuthenticationException::class,
             ModelNotFoundException::class,
             TokenMismatchException::class,
+            MaintenanceModeException::class,
         ];
+
+        $ignoreHttpCodes = [
+            403, 404, 405, 422, 429, 503
+        ];
+
+        if ($this->isHttpException($exception)) {
+            if (in_array($exception->getStatusCode(), $ignoreHttpCodes)) {
+                return false;
+            }
+        }
 
         if (Arr::first($ignoreExceptions, function ($value) use ($exception) {
             return $exception instanceof $value;
