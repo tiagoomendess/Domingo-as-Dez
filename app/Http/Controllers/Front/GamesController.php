@@ -23,6 +23,7 @@ class GamesController extends Controller
     public function __construct() {
         $this->middleware('ensure-uuid')->only(['show', 'liveMatches', 'today']);
         $this->middleware('permission:score_update')->only(['todayEdit', 'todayUpdateScore', 'listScoreReports']);
+        $this->middleware('permission:admin')->only(['updateIsFake']);
     }
 
     public function index(Request $request) {
@@ -313,9 +314,20 @@ class GamesController extends Controller
         Cache::store('file')->forget('live_matches');
 
         Audit::add(Audit::ACTION_UPDATE, 'Game', $old_game, $game->toArray());
-        //$this->createScoreReport($game); -> Removed for now, maybe will add later
 
         return redirect()->route('games.today_edit');
+    }
+
+    public function updateIsFake(Request $request, ScoreReport $report) {
+        $this->validate($request, [
+            'is_fake' => 'nullable|string|max:10'
+        ]);
+
+        $is_fake = $request->input('is_fake', "off") == "on";
+        $report->is_fake = $is_fake;
+        $report->save();
+
+        return redirect()->back();
     }
 
     public function listScoreReports(Request $request, Game $game) {
@@ -331,24 +343,6 @@ class GamesController extends Controller
             'reports' => $reports,
             'backUrl' => $backUrl
         ]);
-    }
-
-    private function createScoreReport(Game $game) {
-        try {
-            $user = Auth::user();
-            ScoreReport::create([
-                'user_id' => $user ? $user->id : null,
-                'game_id' => $game->id,
-                'home_score' => $game->getHomeScore(),
-                'away_score' => $game->getAwayScore(),
-                'source' => 'today_edit',
-                'ip_address' => Str::limit(request()->getClientIp(), 255, ''),
-                'user_agent' => Str::limit(request()->userAgent(), 255, ''),
-                'uuid' => $this->guidv4(),
-            ]);
-        } catch (\Exception $e) {
-            Log::error("Error creating score report on today edit: " . $e->getMessage());
-        }
     }
 
     private function guidv4($data = null) {

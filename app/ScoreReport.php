@@ -19,6 +19,8 @@ class ScoreReport extends BaseModel
         'location',
         'location_accuracy',
         'uuid',
+        'finished',
+        'is_fake',
     ];
 
     protected $guarded = [];

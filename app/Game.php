@@ -241,7 +241,10 @@ class Game extends Model
         $begin_today = Carbon::create($now->year, $now->month, $now->day, 0,0,0);
         $end_today = Carbon::create($now->year, $now->month, $now->day, 23,59,59);
 
-        $today_games = Game::where('date', '>', $begin_today)->where('date', '<', $end_today)->get();
+        $today_games = Game::where('date', '>', $begin_today)
+            ->where('date', '<', $end_today)
+            ->where('visible', true)
+            ->get();
 
         $games = collect();
 
@@ -253,11 +256,10 @@ class Game extends Model
             $game_warmup_date = Carbon::createFromTimestamp($game_date->timestamp);
             $game_warmup_date->subMinutes(30);
             $game_end_date = Carbon::createFromTimestamp($game_date->timestamp);
-            $game_end_date->addHours(2)->addMinutes(30);
+            $game_end_date->addHours(3);
 
             if ($now->timestamp > $game_warmup_date->timestamp && $now->timestamp < $game_end_date->timestamp)
                 $games->push($game);
-
         }
 
         return $games;

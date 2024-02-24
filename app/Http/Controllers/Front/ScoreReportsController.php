@@ -58,11 +58,17 @@ class ScoreReportsController extends Controller
             Log::info("A Banned user($user_id) is trying to submit a score report from $ip_address in country $ip_country uuid $uuid");
         }
 
+        // if passed 105 minutes from kickoff, can_finish is true
+        $now = Carbon::now();
+        $game_start_date = Carbon::createFromFormat("Y-m-d H:i:s", $game->date);
+        $can_finish = $now->diffInMinutes($game_start_date) > 105;
+
         $response = new Response(view('front.pages.score_report', [
             'game' => $game,
             'backUrl' => $backUrl,
             'ban' => $ban,
             'already_sent' => $already_sent,
+            'can_finish' => $can_finish,
         ]));
         $response->withCookie(cookie('uuid', $uuid, 525948));
 
@@ -92,6 +98,7 @@ class ScoreReportsController extends Controller
             'accuracy' => 'numeric|nullable',
             'ip' => 'string|max:155|nullable',
             'redirect_to' => 'string|max:255|nullable',
+            'finished' => 'nullable|string|max:7|min:3',
         ];
 
         $user = Auth::user();
@@ -121,6 +128,7 @@ class ScoreReportsController extends Controller
         $ip_country = Str::limit($request->header('CF-IPCountry'), 155, '');
         $url = $request->input('redirect_to', $game->getPublicUrl());
         $ip = $request->getClientIp();
+        $finished = $request->input('finished', false) === 'true';
         if (empty($ip)) {
             $ip = $request->input('ip', '');
         }
@@ -154,10 +162,11 @@ class ScoreReportsController extends Controller
         }
 
         $sameReportFromSameUser = DB::table('score_reports')
-            ->whereRaw('game_id = ? AND home_score = ? AND away_score = ? AND (user_id = ? OR uuid = ?)', [
+            ->whereRaw('game_id = ? AND home_score = ? AND away_score = ? AND finished = ? AND (user_id = ? OR uuid = ?)', [
                 $game->id,
                 $request->input('home_score'),
                 $request->input('away_score'),
+                $finished,
                 empty($user) ? null : $user->id,
                 $uuid,
             ])->count();
@@ -244,6 +253,7 @@ class ScoreReportsController extends Controller
             'location' => $location,
             'location_accuracy' => $request->input('accuracy') ? (int) $request->input('accuracy') : null,
             'uuid' => Str::limit($uuid, 36, ''),
+            'finished' => $finished,
         ]);
 
         $successMessage = "Resultado de $home_score-$away_score enviado, obrigado pelo seu contributo. ";

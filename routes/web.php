@@ -71,6 +71,7 @@ Route::get('/competicoes/{competition_slug}/{season_slug}/{group_slug}/{round}/{
         'clubs_slug' => '[a-z0-9\-]+-vs-[a-z0-9\-]+',
     ]);
 Route::get('/jogos/{game}/resultados-enviados', 'Front\GamesController@listScoreReports')->name('front.games.show_score_reports');
+Route::put('/score-reports/{report}', 'Front\GamesController@updateIsFake')->name('score_reports.update_is_fake');
 Route::get('/perfil/editar', 'Front\UserProfileController@edit')->name('front.userprofile.edit');
 Route::post('/perfil/editar', 'Front\UserProfileController@updateProfileInfo')->name('front.userprofile.update');
 Route::post('/perfil/foto/alterar', 'Front\UserProfileController@updateProfilePicture')->name('front.userprofilephoto.update');

@@ -56,8 +56,8 @@
 
                     <div class="row">
                         <div class="col s12">
-                            <h2 class="center over-card-title">{{ $game->home_team->club->name }}
-                                vs {{ $game->away_team->club->name }}</h2>
+                            <h3 class="over-card-title">{{ $game->home_team->club->name }}
+                                vs {{ $game->away_team->club->name }}</h3>
                         </div>
                     </div>
 
@@ -122,6 +122,29 @@
                             <div class="divider" style="margin: 0 10px"></div>
                         </div>
                     </div>
+
+                    @if($can_finish)
+                        <div class="row">
+                            <div class="col s12">
+                                <div style="width:100%; display: flex; flex-direction: row; align-items: center; justify-content: center">
+                                    <span style="margin-right: 20px;" class="flow-text">Terminou?</span>
+                                    <div class="switch" onclick="finnishSwitchTouched()">
+                                        <label>
+                                            Não
+                                            <input name="finished" type="checkbox" value="true" @if($game->finished)checked="checked"@endif>
+                                            <span class="lever"></span>
+                                            Sim
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s12">
+                                <div class="divider" style="margin: 0 10px"></div>
+                            </div>
+                        </div>
+                    @endif
 
                     {{ csrf_field() }}
 
@@ -302,6 +325,11 @@
             } else {
                 $('#master_send').addClass('disabled')
             }
+        }
+
+        const finnishSwitchTouched = () => {
+            $('#master_send').removeClass('disabled')
+            $('#captcha_row').removeClass('hide')
         }
 
         const handleSendForm = () => {

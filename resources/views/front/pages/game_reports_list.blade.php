@@ -65,7 +65,7 @@
                                                 </div>
                                             </div>
                                             <div class="col s3 center">
-                                                <div style="background-color: grey; font-weight: 800; color: white; padding: 5px">
+                                                <div style="font-weight: 800; color: white; padding: 5px; background-color: @if($report->finished) #a50303 @else grey @endif">
                                                 <span>
                                                     {{ $report->home_score }} - {{ $report->away_score }}
                                                 </span>
@@ -117,13 +117,13 @@
                                     </li>
                                     <div class="divider"></div>
 
-                                    <div id="modal_report_{{ $report->id }}" class="modal">
+                                    <div id="modal_report_{{ $report->id }}" class="modal" style="width: 90%; max-height: 90%!important;">
                                         <div class="modal-content" style="padding: 15px">
                                             <p class="text-bold" style="font-size: 20pt; margin-bottom: 10px;">
                                                 Informação {{ $report->id }}</p>
                                             <div class="divider"></div>
 
-                                            <table class="highlight">
+                                            <table class="bordered">
                                                 <tbody>
                                                 <tr>
                                                     <td>
@@ -157,15 +157,7 @@
                                                         <i class="material-icons grey-text text-darken-3">signal_wifi_4_bar</i>
                                                     </td>
                                                     <td>
-                                                        {{ $report->ip_address ?? 'Desconhecido' }}
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <i class="material-icons grey-text text-darken-3">location_city</i>
-                                                    </td>
-                                                    <td>
-                                                        {{ $report->ip_country ?? 'Desconhecido' }}
+                                                        {{ $report->ip_address ?? 'Sem IP' }} - {{ $report->ip_country ?? 'Sem País' }}
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -188,9 +180,31 @@
                                                         {{ $report->uuid ?? 'Sem UUID' }}
                                                     </td>
                                                 </tr>
-
                                                 </tbody>
                                             </table>
+
+                                            @if($report->source == "website")
+                                            <div>
+                                                <form action="{{ route('score_reports.update_is_fake', ['report' => $report]) }}" method="POST" style="width: 100%; display: flex; align-items: center; justify-content: space-between; flex-direction: row; padding: 10px 0">
+                                                    <div>
+                                                        {{ csrf_field() }}
+                                                        {{ method_field('PUT') }}
+                                                        <p onclick="fakeCheckboxClicked({{ $report->id }})">
+                                                            <input type="checkbox" name="is_fake" class="filled-in checkbox-blue" id="is_fake_{{ $report->id }}" @if($report->is_fake)checked="checked"@endif />
+                                                            <label for="is_fake_{{ $report->id }}">Resultado Falso</label>
+                                                        </p>
+                                                    </div>
+                                                    <div>
+                                                        <button id="is_fake_submit_button_{{ $report->id }}"
+                                                                disabled type="submit"
+                                                                style="padding: 0; width: 36px"
+                                                                class="waves-effect waves-light btn blue center">
+                                                            <i class="material-icons">send</i>
+                                                        </button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            @endif
                                             <div class="divider"></div>
                                         </div>
                                         <div class="modal-footer">
@@ -265,5 +279,12 @@
             // the "href" attribute of the modal trigger must specify the modal ID that wants to be triggered
             $('.modal').modal();
         });
+
+        const fakeCheckboxClicked = (reportId) => {
+            // enable submit button
+            const submitButton = document.getElementById('is_fake_submit_button_' + reportId);
+            submitButton.disabled = false;
+        }
+
     </script>
 @endsection

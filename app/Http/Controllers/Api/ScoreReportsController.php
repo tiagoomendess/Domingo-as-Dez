@@ -54,6 +54,7 @@ class ScoreReportsController extends Controller
             'location' => $location,
             'location_accuracy' => $request->input('accuracy') ? (int) $request->input('accuracy') : null,
             'uuid' => $request->input('uuid'),
+            'finished' => $request->input('finished', false)
         ]);
 
         return response()->json([

@@ -68,38 +68,36 @@ class ScoreReportConsumer implements ShouldQueue
 
     private function process_game(Game $game)
     {
-        Log::debug("Start processing game " . $game->id);
+        $game_name = $game->home_team->club->name . " vs " . $game->away_team->club->name;
+        Log::debug("Start processing game " . $game->id . " $game_name");
         if ($game->finished) {
             Log::debug("Game " . $game->id . " is finished, skipping");
             return;
         }
 
         $now = Carbon::now();
-        $listenFrom = $now->subMinutes(10);
+        $listenFrom = $now->subMinutes(7);
 
         $reports = ScoreReport::where('game_id', '=', $game->id)
-            ->where('created_at', '>', $listenFrom->format("Y-m-d H:i:s"))
+            ->where('created_at', '>=', $listenFrom->format("Y-m-d H:i:s"))
             ->orderBy('created_at', 'asc')
             ->get();
 
+        Log::debug(count($reports) . " reports were found for game $game->id $game_name");
+
         // At least 2 reports are needed to process
-        if ($reports->count() <= 1) {
-            Log::debug("Not enough reports were found for game " . $game->id);
+        if ($reports->count() < 1) {
+            Log::debug("Not enough reports were found for game $game->id $game_name");
             return;
         }
 
-        Log::debug(count($reports) . " reports were found for game " . $game->id);
-
         // Current Score
-        $currentHomeScore = $game->getHomeScore();
-        $currentAwayScore = $game->getAwayScore();
-        $currentScoreKey  = "$currentHomeScore-$currentAwayScore";
         $groupedByScore = [];
         $competingScoresPoints = null;
 
         // Group reports by score
         foreach ($reports as $report) {
-            $scoreKey = $report->home_score . '-' . $report->away_score;
+            $scoreKey = $report->home_score . '-' . $report->away_score . '-' . ($report->finished ? 'true' : 'false');
             $groupedByScore[$scoreKey][] = $report;
         }
 
@@ -127,7 +125,7 @@ class ScoreReportConsumer implements ShouldQueue
                     $accuracy = $report->location_accuracy != null ? (int) $report->location_accuracy : null;
                     Log::debug("Has Location with accuracy $accuracy, +1 point ($reportPoints points)");
 
-                    if ($accuracy != null && $accuracy <= 300) {
+                    if ($accuracy != null && $accuracy <= 400) {
                         // If the location is up to 150m from the game location
                         $distance = $this->haversineGreatCircleDistance(
                             $report->getLatitude(), $report->getLongitude(),
@@ -140,7 +138,7 @@ class ScoreReportConsumer implements ShouldQueue
                             Log::debug("Distance ($distance) for game IS NOT inside range ($reportPoints points)");
                         }
                     } else {
-                        Log::debug("Location is NOT accurate, is $accuracy but needs to be NOT NULL and less than 300. Skipping distance calculation");
+                        Log::debug("Location is NOT accurate, is $accuracy but needs to be less than 400. Skipping distance calculation");
                     }
                 } else {
                     Log::debug("Does NOT have location");
@@ -152,10 +150,10 @@ class ScoreReportConsumer implements ShouldQueue
                     Log::debug("Has user_id, +1 point ($reportPoints points)");
                 }
 
-                // If the report is of source 'api_afpb_crawler' then add 2 points
+                // If the report is of source 'api_afpb_crawler' then add 4 points
                 if ($report->source == 'api_afpb_crawler') {
-                    $reportPoints += 3;
-                    Log::debug("Report is from source api_afpb_crawler, +3 points ($reportPoints points)");
+                    $reportPoints += 4;
+                    Log::debug("Report is from source api_afpb_crawler, +4 points ($reportPoints points)");
                 }
 
                 $scorePoints += $reportPoints;
@@ -191,7 +189,7 @@ class ScoreReportConsumer implements ShouldQueue
             }
 
             return;
-        } else if ($amountOfCompetingScores > 4) {
+        } else if ($amountOfCompetingScores >= 4) {
             Log::debug("Got $amountOfCompetingScores competing scores, too risky to update score");
             return;
         }
@@ -210,31 +208,38 @@ class ScoreReportConsumer implements ShouldQueue
 
         $canUpdateScore = $highestScorePoints >= 4.0
             && ($highestScorePoints / 2.0) >= $secondHighestScorePoints
-            && ($highestScorePoints / 3.0) > $lowestScorePoints;
+            && ($highestScorePoints / 2.0) > $lowestScorePoints;
 
         $gameId = $game->id;
         $finalStats = "1st: $highestScoreKey($highestScorePoints) | 2nd: $secondHighestScoreKey($secondHighestScorePoints) | lowest: $lowestScoreKey($lowestScorePoints)";
         if ($canUpdateScore) {
             Log::info("Game $gameId will update score to $highestScoreKey: $finalStats");
             $updated = $this->updateGameScore($game, $highestScoreKey);
+            if ($updated) {
+                Log::info("Game $gameId updated score to $highestScoreKey successfully");
+            } else {
+                Log::info("Game $gameId did not update score");
+            }
         } else {
             Log::info("Game $gameId will NOT update score: $finalStats");
         }
     }
 
     function updateGameScore(Game $game, string $scoreKey): bool {
-        $previousScore = $game->getHomeScore() . '-' . $game->getAwayScore();
+        $previousScore = $game->getHomeScore() . '-' . $game->getAwayScore() . '-' . ($game->finished ? 'true' : 'false');
         if ($previousScore == $scoreKey) {
-            Log::info("Score for game " . $game->id . " is already $scoreKey, not updating");
+            Log::info("Score for game " . $game->id . " is already $scoreKey");
             return false;
         }
 
         $scores = explode('-', $scoreKey);
         $homeScore = $scores[0];
         $awayScore = $scores[1];
+        $finished = $scores[2];
 
         $game->goals_home = $homeScore;
         $game->goals_away = $awayScore;
+        $game->finished = $finished == 'true';
         $game->save();
         Log::info("Updated score for game " . $game->id . " from $previousScore to $scoreKey");
         $this->games_updated++;
