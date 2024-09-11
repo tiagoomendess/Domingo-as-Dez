@@ -65,7 +65,7 @@ class PlayerController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:155|min:3',
-            'picture' => 'nullable|image',
+            'picture' => 'nullable|file|mimes:png,jpg|max:2000',
             'picture_url' => 'nullable|string|max:280|url',
             'association_id' => 'string|max:155|nullable',
             'nickname' => 'nullable|string|max:155|min:2',
@@ -188,7 +188,7 @@ class PlayerController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:155|min:3',
-            'picture' => 'nullable|image',
+            'picture' => 'nullable|file|mimes:png,jpg|max:2000',
             'picture_url' => 'nullable|string|max:280|url',
             'association_id' => 'string|max:155|nullable',
             'nickname' => 'nullable|string|max:155|min:2',
