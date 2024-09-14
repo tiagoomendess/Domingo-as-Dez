@@ -70,7 +70,7 @@
 
         <p>
             Esta mensagem foi enviada para este email porque foi identificado como sendo a pessoa ideal para falar pelo
-            {{ $recipientClubName }} nestas questões. Se não for o caso, por favor entre em contacto pelas redes nossas sociais,
+            {{ $recipientName }} nestas questões. Se não for o caso, por favor entre em contacto pelas redes nossas sociais,
             ou enviando um email para <a href="mailto:geraldomingoasdez@gmail.com">geraldomingoasdez@gmail.com</a>.
             Não responda a este email, foi enviado de forma automática e não obterá resposta.
         </p>
