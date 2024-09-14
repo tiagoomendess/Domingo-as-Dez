@@ -48,6 +48,17 @@
     </div>
 
     <div class="row">
+        <div class="input-field col s12 m4 l3">
+            <input name="contact_email" id="contact_email" type="email" class="validate" value="{{ $club->contact_email }}" disabled>
+            <label for="contact_email">Email de Contacto</label>
+        </div>
+        <div class="input-field col s12 m4 l3">
+            <input name="admin_user_id" id="admin_user_id" type="number" class="validate" value="{{ $club->admin_user_id }}" disabled>
+            <label for="admin_user_id">Admin User ID</label>
+        </div>
+    </div>
+
+    <div class="row">
         <div class="col s12">
             <div class="switch">
                 <label>

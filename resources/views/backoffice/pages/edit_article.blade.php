@@ -29,7 +29,7 @@
 
             <div class="row">
                 <div class="input-field col s12">
-                    <input disabled required id="title" name="title" type="text" class="validate" data-length="155" value="{{ $article->title }}">
+                    <input @if($article->visible) disabled @endif required id="title" name="title" type="text" class="validate" data-length="155" value="{{ $article->title }}">
                     <label for="title">{{ trans('general.title') }}</label>
                 </div>
             </div>

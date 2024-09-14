@@ -7,7 +7,7 @@ use Illuminate\Support\Str;
 
 class Club extends SearchableModel
 {
-    protected $fillable = ['name', 'emblem', 'website', 'visible'];
+    protected $fillable = ['name', 'emblem', 'website', 'contact_email', 'admin_user_id', 'visible'];
 
     protected $guarded = [];
 
@@ -52,6 +52,11 @@ class Club extends SearchableModel
     public function teams()
     {
         return $this->hasMany('App\Team');
+    }
+
+    public function adminUser()
+    {
+        return $this->belongsTo('App\User', 'admin_user_id');
     }
 
     /**

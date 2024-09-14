@@ -66,6 +66,8 @@ class ClubController extends Controller
             'name' => 'required|string|max:155|unique:clubs,name',
             'emblem' => 'nullable|file|mimes:png,svg|max:1000',
             'website' => 'string|max:280|nullable|url',
+            'contact_email' => 'string|max:155|nullable|email',
+            'admin_user_id' => 'integer|nullable|exists:users,id',
             'visible' => 'required',
 
         ]);
@@ -77,6 +79,8 @@ class ClubController extends Controller
 
         $name = $request->input('name');
         $website = $request->input('website');
+        $contact_email = $request->input('contact_email');
+        $admin_user_id = $request->input('admin_user_id');
 
         if($request->hasFile('emblem')) {
 
@@ -93,17 +97,16 @@ class ClubController extends Controller
             ]);
 
             $media->generateThumbnail();
-
         } else {
-
             $url = null;
-
         }
 
         $club = Club::create([
             'name' => $name,
             'website' => $website,
             'emblem' => $url,
+            'contact_email' => $contact_email,
+            'admin_user_id' => $admin_user_id,
             'visible' => $visible,
         ]);
 
@@ -152,8 +155,9 @@ class ClubController extends Controller
             'name' => 'required|string|max:155',
             'emblem' => 'nullable|file|mimes:png,svg|max:1000',
             'website' => 'string|max:280|nullable|url',
+            'contact_email' => 'string|max:155|nullable|email',
+            'admin_user_id' => 'integer|nullable|exists:users,id',
             'visible' => 'required',
-
         ]);
 
         $club = Club::findOrFail($id);
@@ -166,6 +170,8 @@ class ClubController extends Controller
 
         $name = $request->input('name');
         $website = $request->input('website');
+        $contact_email = $request->input('contact_email');
+        $admin_user_id = $request->input('admin_user_id');
 
         if($request->hasFile('emblem')) {
 
@@ -191,6 +197,8 @@ class ClubController extends Controller
         $club->name = $name;
         $club->emblem = $url;
         $club->website = $website;
+        $club->contact_email = $contact_email;
+        $club->admin_user_id = $admin_user_id;
         $club->visible = $visible;
         $club->save();
 

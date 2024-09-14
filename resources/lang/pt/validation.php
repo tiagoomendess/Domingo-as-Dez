@@ -52,9 +52,9 @@ return [
     'ipv6'                 => 'The :attribute must be a valid IPv6 address.',
     'json'                 => 'The :attribute must be a valid JSON string.',
     'max'                  => [
-        'numeric' => 'The :attribute may not be greater than :max.',
-        'file'    => 'The :attribute may not be greater than :max kilobytes.',
-        'string'  => 'The :attribute may not be greater than :max characters.',
+        'numeric' => 'O campo :attribute não pode ser maior que :max.',
+        'file'    => 'O campo :attribute não pode ser maior do que :max kilobytes.',
+        'string'  => 'O campo :attribute não pode ser maior do que :max caracteres.',
         'array'   => 'The :attribute may not have more than :max items.',
     ],
     'mimes'                => 'The :attribute must be a file of type: :values.',

@@ -100,6 +100,9 @@ Route::post('/article_comments/{comment_id}/delete', 'Front\ArticleCommentsContr
 Route::get('/jogos', 'Front\GamesController@index')->name('front.games.index');
 Route::get('/clubes', 'Front\ClubController@index')->name('front.clubs.index');
 Route::get('/jogadores', 'Front\PlayersController@index')->name('front.players.index');
+Route::get('/flash-interview/{uuid}', 'Front\GameCommentsController@edit')->name('front.game_comment');
+Route::post('/flash-interview/{uuid}', 'Front\GameCommentsController@update')->name('front.game_comment_update');
+Route::get('/flash-interview/{uuid}/pin', 'Front\GameCommentsController@pin')->name('front.game_comment_pin');
 // =====================================================================================================================
 
 // === Backoffice Adhoc Routes =========================================================================================

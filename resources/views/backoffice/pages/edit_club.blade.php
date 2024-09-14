@@ -51,7 +51,6 @@
                 @else
                     <img style="max-height: 60px" src="{{ config('custom.default_emblem') }}" alt="" class="responsive-img"/>
                 @endif
-
             </div>
         </div>
 
@@ -59,6 +58,17 @@
             <div class="input-field col s12 m8 l6">
                 <input name="website" id="website" type="text" class="validate" value="{{ old('website', $club->website) }}">
                 <label for="website">{{ trans('models.website') }}</label>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="input-field col s12 m4 l3">
+                <input name="contact_email" id="contact_email" type="email" class="validate" value="{{ old('contact_email', $club->contact_email) }}">
+                <label for="contact_email">Email de Contacto</label>
+            </div>
+            <div class="input-field col s12 m4 l3">
+                <input name="admin_user_id" id="admin_user_id" type="number" class="validate" value="{{ old('admin_user_id', $club->admin_user_id) }}">
+                <label for="admin_user_id">Admin User ID</label>
             </div>
         </div>
 

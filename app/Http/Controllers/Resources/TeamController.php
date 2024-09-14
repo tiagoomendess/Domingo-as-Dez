@@ -51,6 +51,7 @@ class TeamController extends Controller
         $request->validate([
             'club_id' => 'integer|exists:clubs,id|required',
             'name' => 'string|max:155|required',
+            'contact_email' => 'string|max:155|nullable|email',
             'visible' => 'required',
         ]);
 
@@ -61,10 +62,12 @@ class TeamController extends Controller
 
         $club_id = $request->input('club_id');
         $name = $request->input('name');
+        $contact_email = $request->input('contact_email');
 
         $team = Team::create([
             'name' => $name,
             'club_id' => $club_id,
+            'contact_email' => $contact_email,
             'visible' => $visible,
         ]);
 
@@ -107,6 +110,7 @@ class TeamController extends Controller
         $request->validate([
             'club_id' => 'integer|exists:clubs,id|required',
             'name' => 'string|max:155|required',
+            'contact_email' => 'string|max:155|nullable|email',
             'visible' => 'required',
         ]);
 
@@ -119,10 +123,12 @@ class TeamController extends Controller
 
         $club_id = $request->input('club_id');
         $name = $request->input('name');
+        $contact_email = $request->input('contact_email');
 
         $team->name = $name;
         $team->club_id = $club_id;
         $team->visible = $visible;
+        $team->contact_email = $contact_email;
         $team->save();
 
         $messages = new MessageBag();
