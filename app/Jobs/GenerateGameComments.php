@@ -84,19 +84,26 @@ class GenerateGameComments implements ShouldQueue
         }
     }
 
-    private function createComment(Game $game, Team $team) {
+    private function createComment(Game $game, Team $team)
+    {
         $uuid = Str::uuid();
         $pin = $this->generateRandomPinNumber(4);
 
         // End of day in Lisbon Time
-        $endOfToday = Carbon::now()->endOfDay();
+        $lisbonTime = Carbon::now('Europe/Lisbon');
+
+        // Set the time to the end of the day in Lisbon time (23:59:59)
+        $endOfDayLisbon = $lisbonTime->endOfDay();
+
+        // Convert the time to UTC
+        $endOfDayUTC = $endOfDayLisbon->setTimezone('UTC');
 
         $gameComment = GameComment::create([
             'uuid' => $uuid,
             'pin' => $pin,
             'game_id' => $game->id,
             'team_id' => $team->id,
-            'deadline' => $endOfToday,
+            'deadline' => $endOfDayUTC->format('Y-m-d H:i:s'),
             'content' => '',
         ]);
 
@@ -109,7 +116,8 @@ class GenerateGameComments implements ShouldQueue
         $this->sendNotificationEmail($notification_email, $game, $gameComment, $team);
     }
 
-    private function getNotificationEmail(Team $team) {
+    private function getNotificationEmail(Team $team)
+    {
         $notification_email = $team->contact_email;
         if (empty($notification_email)) {
             $notification_email = $team->club->contact_email;
@@ -122,7 +130,8 @@ class GenerateGameComments implements ShouldQueue
         return $notification_email;
     }
 
-    private function generateRandomPinNumber(int $digits): string {
+    private function generateRandomPinNumber(int $digits): string
+    {
         $pin = '';
         for ($i = 0; $i < $digits; $i++) {
             $pin = $pin . mt_rand(0, 9);
@@ -131,7 +140,8 @@ class GenerateGameComments implements ShouldQueue
         return $pin;
     }
 
-    private function sendNotificationEmail(string $email, Game $game, GameComment $gameComment, Team $team) {
+    private function sendNotificationEmail(string $email, Game $game, GameComment $gameComment, Team $team)
+    {
         // Send email
         Log::info("Sending email to $email for game $game->id with uuid $gameComment->uuid and pin $gameComment->pin");
 

@@ -52,7 +52,7 @@
     <div class="content">
         <h2>Olá {{ $recipientName }},</h2>
         <p>
-            O Domingo às Dez pede a vossa colaboração para recolher informações sobre o jogo entre
+            O Domingo às Dez pede a sua colaboração para recolher informações sobre o jogo entre
             {{ $homeClubName }} e {{ $awayClubName }}, no dia {{ $day }} de {{ $month }} de {{ $year }}.
         </p>
         <p>
@@ -63,24 +63,21 @@
         <!-- Action Button -->
         <a href="{{ $action }}" class="button" style="color: white">Flash Interview</a>
 
-        <p style="margin-top: 30px;">
+        <p style="margin-top: 25px;">
             Se pedir um PIN insira o seguinte <strong>{{ $pin }}</strong>. Por favor preencha até {{ $deadline }},
             não serão aceites respostas após esta data.
         </p>
 
         <p>
-            Para qualquer dúvida ou questão, contactar pelos canais habituais. Não responda a este email, foi enviado
-            de forma automática e não obterá resposta.
+            Esta mensagem foi enviada para este email porque foi identificado como sendo a pessoa ideal para falar pelo
+            {{ $recipientClubName }} nestas questões. Se não for o caso, por favor entre em contacto pelas redes nossas sociais,
+            ou enviando um email para <a href="mailto:geraldomingoasdez@gmail.com">geraldomingoasdez@gmail.com</a>.
+            Não responda a este email, foi enviado de forma automática e não obterá resposta.
         </p>
 
         <p>
             Se o botão não funcionar, copie e cole o seguinte link no seu navegador: <br>
             <a href="{{ $action }}">{{ $action }}</a>
-        </p>
-
-        <p>
-            Desde já obrigado,<br>
-            A equipa do Domingo às Dez!
         </p>
 
         <h2 style="margin-top: 20px;">O que é isto?</h2>
@@ -98,6 +95,11 @@
             As informações escritas pelos clubes serão usadas nos artigos diretamente, assim como a atribuição de golos no website. Desta forma
             espera-se acabar com os erros e meias verdades. Quem não quiser participar não pode reclamar, serão usadas
             as informações de quem participar.
+        </p>
+
+        <p>
+            Desde já obrigado,<br>
+            A equipa do Domingo às Dez!
         </p>
     </div>
 </div>
