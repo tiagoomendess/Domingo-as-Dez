@@ -102,6 +102,7 @@ class GenerateGameComments implements ShouldQueue
 
         $notification_email = $this->getNotificationEmail($team);
         if (empty($notification_email)) {
+            Log::info("No notification email found for team $team->id");
             return;
         }
 
@@ -115,7 +116,7 @@ class GenerateGameComments implements ShouldQueue
         }
 
         if (empty($notification_email) && !empty($team->club->admin_user)) {
-            $notification_email = $team->club->admin_user->email;
+            $notification_email = $team->club->adminUser->email;
         }
 
         return $notification_email;

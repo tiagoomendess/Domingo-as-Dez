@@ -14,7 +14,6 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
 
 class ProcessGameComments implements ShouldQueue
 {
@@ -53,6 +52,8 @@ class ProcessGameComments implements ShouldQueue
         $totalCount = 0;
         $gameComments = $this->getUnprocessedGameComments();
         $gamesByGroup = $this->getGamesByGameGroup($gameComments);
+
+        Log::info("Found " . $gameComments->count() . " unprocessed game comments");
 
         foreach ($gamesByGroup as $games) {
             $gameGroupName = $games->first()->game_group->name;
@@ -122,6 +123,8 @@ class ProcessGameComments implements ShouldQueue
                 'tags' => "$gameGroupName, $competitionName, crónica",
                 'visible' => false,
             ]);
+
+            Log::info("Created article for game group $gameGroupName of $competitionName");
         }
 
         return $totalCount;

@@ -99,7 +99,7 @@ class GameCommentsController extends Controller
         }
 
         // Deal with comment
-        $content = Str::limit($request->input('content'), 500);
+        $content = Str::limit($request->input('content'), 1000);
         $content = strip_tags($content);
         $gameComment->content = $content;
         $gameComment->save();
