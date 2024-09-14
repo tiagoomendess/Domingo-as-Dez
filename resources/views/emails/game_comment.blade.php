@@ -45,7 +45,7 @@
 <div class="container">
     <!-- Your Logo -->
     <div class="logo">
-        <img src="{{ url('/images/domingo.png') }}" alt="Domingo às Dez" style="max-width: 150px;">
+        <img src="{{ url('/images/domingo.png') }}" alt="Domingo às Dez" style="max-width: 100px;">
     </div>
 
     <!-- Email Content -->
@@ -53,7 +53,7 @@
         <h2>Olá {{ $recipientName }},</h2>
         <p>
             O Domingo às Dez pede a vossa colaboração para recolher informações sobre o jogo entre
-            {{ $homeClubName }} e {{ $awayClubName }}, no passado dia {{ $day }} de {{ $month }} de {{ $year }}.
+            {{ $homeClubName }} e {{ $awayClubName }}, no dia {{ $day }} de {{ $month }} de {{ $year }}.
         </p>
         <p>
             Clique no botão abaixo para preencher as informações dos eventuais marcadores de golos e
@@ -61,10 +61,10 @@
         </p>
 
         <!-- Action Button -->
-        <a href="{{ $action }}" class="button">Flash Interview</a>
+        <a href="{{ $action }}" class="button" style="color: white">Flash Interview</a>
 
-        <p style="margin-top: 20px;">
-            Se pedir um PIN insira o seguinte: <strong>{{ $pin }}</strong>. Por favor preencha até {{ $deadline }},
+        <p style="margin-top: 30px;">
+            Se pedir um PIN insira o seguinte <strong>{{ $pin }}</strong>. Por favor preencha até {{ $deadline }},
             não serão aceites respostas após esta data.
         </p>
 
@@ -82,8 +82,6 @@
             Desde já obrigado,<br>
             A equipa do Domingo às Dez!
         </p>
-
-        <span>---</span>
 
         <h2 style="margin-top: 20px;">O que é isto?</h2>
         <p>

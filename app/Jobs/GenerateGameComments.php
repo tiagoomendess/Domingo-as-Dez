@@ -89,7 +89,7 @@ class GenerateGameComments implements ShouldQueue
         $pin = $this->generateRandomPinNumber(4);
 
         // End of day in Lisbon Time
-        $endOfToday = Carbon::now('Europe/Lisbon')->endOfDay();
+        $endOfToday = Carbon::now()->endOfDay();
 
         $gameComment = GameComment::create([
             'uuid' => $uuid,
