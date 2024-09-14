@@ -67,6 +67,11 @@ class Game extends Model
         return $this->hasMany(GameReferee::class);
     }
 
+    public function gameComments()
+    {
+        return $this->hasMany(GameComment::class);
+    }
+
     public function decidedByPenalties() {
         if ($this->isDraw()) {
             if (!is_null($this->penalties_home) && !is_null($this->penalties_away))

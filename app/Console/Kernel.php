@@ -3,6 +3,7 @@
 namespace App\Console;
 
 use App\Jobs\DeleteNotVerifiedAccounts;
+use App\Jobs\GenerateGameComments;
 use App\Jobs\GenerateGameImage;
 use App\Jobs\ProcessDeleteRequest;
 use App\Jobs\ProcessPolls;
@@ -37,6 +38,7 @@ class Kernel extends ConsoleKernel
         $schedule->job(new ProcessPolls())->everyMinute();
         $schedule->job(new ProcessScoreReportBans())->dailyAt('22:59');
         $schedule->job(new ScoreReportConsumer())->everyMinute();
+        $schedule->job(new GenerateGameComments())->everyMinute();
     }
 
     /**

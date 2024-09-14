@@ -28,6 +28,7 @@
                 <table class="bordered">
                     <thead>
                     <tr>
+                        <th>Id</th>
                         <th>{{ trans('general.name') }}</th>
                         <th>{{ trans('general.email') }}</th>
                         <th>{{ trans('general.created_at') }}</th>
@@ -36,6 +37,7 @@
 
                     @foreach($users as $user)
                         <tr>
+                            <td>{{ $user->id }}</td>
                             <td><a href="{{ route('users.show', ['user' => $user]) }}">{{ $user->name }}</a></td>
                             <td>{{ $user->email }}</td>
                             <td>{{ $user->created_at }}</td>

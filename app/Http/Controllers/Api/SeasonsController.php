@@ -97,7 +97,7 @@ class SeasonsController extends Controller
                     $game_object = new \stdClass();
 
                     $game_object->date = $game->date;
-                    $game_object->playground = $game->playground->name;
+                    $game_object->playground = $game->playground ? $game->playground->name : 'Desconhecido';
                     $game_object->finished = $game->finished;
                     $game_object->game_link = $game->getPublicUrl();
                     $game_object->postponed = $game->postponed;

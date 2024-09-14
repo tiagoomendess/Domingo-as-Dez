@@ -37,6 +37,13 @@
     </div>
 
     <div class="row">
+        <div class="input-field col s12 m8 l6">
+            <input disabled id="contact_email" name="contact_email" type="email" value="{{ $team->contact_email }}">
+            <label for="contact_email">Email de Contacto</label>
+        </div>
+    </div>
+
+    <div class="row">
         <div class="col s12">
             <div class="switch">
                 <label>

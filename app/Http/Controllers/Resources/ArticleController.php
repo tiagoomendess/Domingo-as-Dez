@@ -150,6 +150,7 @@ class ArticleController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
+            'title' => 'required|max:155|string',
             'description' => 'nullable|max:280|string',
             'selected_media_id' => 'nullable|integer',
             'editor1' => 'required|max:65000|string',
@@ -172,6 +173,11 @@ class ArticleController extends Controller
             }
         }
 
+        $title = $request->input('title');
+        if (str_ends_with($title, '.') || str_ends_with($title, '!') || str_ends_with($title, '?')) {
+            $title = substr($title, 0, -1);
+        }
+
         if($request->input('visible') == 'true')
             $visible = true;
         else
@@ -182,6 +188,10 @@ class ArticleController extends Controller
 
         if (count($media) != 1)
             $media_id = null;
+
+        if (!$visible) {
+            $article->title = $title;
+        }
 
         $article->description = $request->input('description');
         $article->media_id = $media_id;
