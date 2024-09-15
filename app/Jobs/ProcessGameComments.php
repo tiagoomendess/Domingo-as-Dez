@@ -118,7 +118,7 @@ class ProcessGameComments implements ShouldQueue
                 'media_id' => $mediaId,
                 'description' => 'Esta descrição tem de ser alterada antes de publicar o artigo.',
                 'text' => $articleText,
-                'user_id' => 1,
+                'user_id' => 2,
                 'date' => $now->format('Y-m-d'),
                 'tags' => "$gameGroupName, $competitionName, crónica",
                 'visible' => false,

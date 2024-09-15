@@ -10,7 +10,7 @@
             background-color: #f4f4f4;
             margin: 0;
             padding: 0;
-            text-align: center;
+            text-align: justify;
         }
         .container {
             background-color: #ffffff;
@@ -22,7 +22,7 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
         .logo {
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
         .content {
             font-size: 16px;
