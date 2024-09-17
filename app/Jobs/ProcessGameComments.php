@@ -64,7 +64,9 @@ class ProcessGameComments implements ShouldQueue
             foreach ($games as $game) {
                 $homeClubName = $game->home_team->club->name;
                 $awayClubName = $game->away_team->club->name;
-                $score = $game->goals_home . ' - ' . $game->goals_away;
+                $goals_home = empty($game->goals_home) ? '0' : $game->goals_home;
+                $goals_away = empty($game->goals_away) ? '0' : $game->goals_away;
+                $score = "$goals_home-$goals_away";
                 if ($game->decidedByPenalties()) {
                     $score .= ' (' . $game->penalties_home . '-' . $game->penalties_away . ' g.p.)';
                 }
@@ -74,7 +76,7 @@ class ProcessGameComments implements ShouldQueue
 
                 // find game comment for home team
                 $homeTeamComment = $gameComments->where('team_id', $game->home_team_id)->first();
-                $gameText .= "<p><strong>$homeClubName:</strong><br/>";
+                $gameText .= "<p><strong>Comentário de $homeClubName:</strong><br/>";
                 if ($homeTeamComment && !empty($homeTeamComment->content)) {
                     $gameText .= "$homeTeamComment->content</p>";
                 } else {
