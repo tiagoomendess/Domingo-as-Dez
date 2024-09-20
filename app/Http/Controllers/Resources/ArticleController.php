@@ -150,7 +150,7 @@ class ArticleController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'title' => 'required|max:155|string',
+            'title' => 'nullable|max:155|string',
             'description' => 'nullable|max:280|string',
             'selected_media_id' => 'nullable|integer',
             'editor1' => 'required|max:65000|string',
