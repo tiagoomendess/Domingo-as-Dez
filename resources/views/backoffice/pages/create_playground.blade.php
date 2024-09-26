@@ -82,6 +82,13 @@
         </div>
 
         <div class="row">
+            <div class="input-field col s12 m4 l3">
+                <input required name="priority" id="priority" type="number" class="validate" value="{{ old('priority', 1) }}">
+                <label for="priority">Prioridade</label>
+            </div>
+        </div>
+
+        <div class="row">
             <div class="input-field col s12 m8 l6">
                 <textarea id="obs" name="obs" class="materialize-textarea" rows="1">{{ old('obs') }}</textarea>
                 <label for="obs">{{ trans('models.obs') }}</label>

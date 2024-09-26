@@ -68,6 +68,7 @@ class PlaygroundController extends Controller
             'picture' => 'nullable|mimes:jpeg,jpg,png|max:20000',
             'obs' => 'nullable|string|max:1000|min:1',
             'visible' => 'required',
+            'priority' => 'integer|min:0|max:100|nullable',
         ]);
 
         if($request->input('visible') == 'true')
@@ -81,6 +82,7 @@ class PlaygroundController extends Controller
         $width = $request->input('width');
         $height = $request->input('height');
         $capacity = $request->input('capacity');
+        $priority = $request->input('priority', 0);
         $obs = $request->input('obs');
 
         if($request->hasFile('picture')) {
@@ -102,6 +104,7 @@ class PlaygroundController extends Controller
             'obs' => $obs,
             'picture' => $url,
             'visible' => $visible,
+            'priority' => $priority,
         ]);
 
         return redirect(route('playgrounds.show', ['playground' => $playground]));
@@ -157,6 +160,7 @@ class PlaygroundController extends Controller
             'visible' => 'required',
             'address_latitude' => 'numeric|nullable',
             'address_longitude' => 'numeric|nullable',
+            'priority' => 'integer|min:0|max:100|nullable',
         ]);
 
         $playground = Playground::findOrFail($id);
@@ -173,6 +177,7 @@ class PlaygroundController extends Controller
         $height = $request->input('height');
         $capacity = $request->input('capacity');
         $obs = $request->input('obs');
+        $priority = $request->input('priority', 0);
 
         if($request->hasFile('picture')) {
 
@@ -192,6 +197,7 @@ class PlaygroundController extends Controller
         $playground->capacity = $capacity;
         $playground->obs = $obs;
         $playground->visible = $visible;
+        $playground->priority = $priority;
         $playground->location = $playground->toPoint($request->input('address_latitude'), $request->input('address_longitude'));
         $playground->save();
 

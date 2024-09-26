@@ -51,7 +51,7 @@
                 <label>{{ trans('general.away_club') }}</label>
                 <select onchange="updateTeamList('away_club_id', 'away_team_id')" id="away_club_id" name="club_id" class="browser-default" required>
                     <option disabled value="0" selected>{{ trans('general.choose_option') }}</option>
-                    @foreach(App\Club::all()->sortBy('name') as $club)
+                    @foreach(App\Club::orderBy('priority', 'desc')->orderBy('name')->get() as $club)
                         <option value="{{ $club->id }}">{{ $club->name }}</option>
                     @endforeach
                 </select>
@@ -150,7 +150,7 @@
                 <label>{{ trans('models.playground') }}</label>
                 <select id="playground_id" name="playground_id" class="browser-default">
                     <option value="" selected>{{ trans('general.none') }}</option>
-                    @foreach(App\Playground::all()->sortBy('name') as $playground)
+                    @foreach(App\Playground::orderBy('priority', 'desc')->orderBy('name', 'asc')->get() as $playground)
                         <option value="{{ $playground->id }}">{{ $playground->name }}</option>
                     @endforeach
                 </select>

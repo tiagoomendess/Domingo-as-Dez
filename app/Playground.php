@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\DB;
 
 class Playground extends SearchableModel
 {
-    protected $fillable = ['club_id', 'name', 'surface', 'width', 'height', 'capacity', 'picture', 'visible', 'location'];
+    protected $fillable = ['club_id', 'name', 'surface', 'width', 'height', 'capacity', 'picture', 'visible', 'priority', 'location'];
 
     protected $guarded = [];
 
