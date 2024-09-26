@@ -69,7 +69,7 @@ class ClubController extends Controller
             'contact_email' => 'string|max:155|nullable|email',
             'admin_user_id' => 'integer|nullable|exists:users,id',
             'visible' => 'required',
-
+            'priority' => 'integer|min:0|max:100|nullable',
         ]);
 
         if($request->input('visible') == 'true')
@@ -81,6 +81,7 @@ class ClubController extends Controller
         $website = $request->input('website');
         $contact_email = $request->input('contact_email');
         $admin_user_id = $request->input('admin_user_id');
+        $priority = $request->input('priority', 0);
 
         if($request->hasFile('emblem')) {
 
@@ -108,6 +109,7 @@ class ClubController extends Controller
             'contact_email' => $contact_email,
             'admin_user_id' => $admin_user_id,
             'visible' => $visible,
+            'priority' => $priority,
         ]);
 
         Audit::add(Audit::ACTION_CREATE, 'Club', null, $club->toArray());
@@ -158,6 +160,7 @@ class ClubController extends Controller
             'contact_email' => 'string|max:155|nullable|email',
             'admin_user_id' => 'integer|nullable|exists:users,id',
             'visible' => 'required',
+            'priority' => 'integer|min:0|max:100|nullable',
         ]);
 
         $club = Club::findOrFail($id);
@@ -172,6 +175,7 @@ class ClubController extends Controller
         $website = $request->input('website');
         $contact_email = $request->input('contact_email');
         $admin_user_id = $request->input('admin_user_id');
+        $priority = $request->input('priority', $club->priority);
 
         if($request->hasFile('emblem')) {
 
@@ -200,6 +204,7 @@ class ClubController extends Controller
         $club->contact_email = $contact_email;
         $club->admin_user_id = $admin_user_id;
         $club->visible = $visible;
+        $club->priority = $priority;
         $club->save();
 
         $messages = new MessageBag();

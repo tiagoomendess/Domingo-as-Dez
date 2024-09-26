@@ -62,6 +62,13 @@
         </div>
 
         <div class="row">
+            <div class="input-field col s12 m4 l3">
+                <input required name="priority" id="priority" type="number" class="validate" value="{{ old('priority', 1) }}">
+                <label for="priority">Prioridade</label>
+            </div>
+        </div>
+
+        <div class="row">
             <div class="col s12">
                 <div class="switch">
                     <label>
