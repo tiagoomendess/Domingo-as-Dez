@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Resources;
 
 use App\Audit;
 use App\Competition;
+use App\Season;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Media;
@@ -209,8 +210,9 @@ class CompetitionController extends Controller
     public function getSeasons($id) {
 
         $competition = Competition::findOrFail($id);
+        $seasons = Season::where('competition_id', $competition->id)->orderByDesc('start_year')->get();
 
-        return response()->json($competition->seasons);
+        return response()->json($seasons);
 
     }
 }

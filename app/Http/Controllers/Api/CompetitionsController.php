@@ -13,7 +13,7 @@ class CompetitionsController extends Controller
 {
 
     public function getCompetitionSeasons($id) {
-
+        // This is not being used, it's going to the resources Controller
         $competition = Competition::findOrFail($id);
 
         if(!$competition || !$competition->visible)

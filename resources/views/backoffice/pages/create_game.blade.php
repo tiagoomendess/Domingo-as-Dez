@@ -72,7 +72,7 @@
                 <label>{{ trans('models.competition') }}</label>
                 <select onchange="updateSeasonList('competition_id', 'season_id')" id="competition_id" name="competition_id" class="browser-default" required>
                     <option disabled value="0" selected>{{ trans('general.choose_option') }}</option>
-                    @foreach(App\Competition::all() as $competition)
+                    @foreach(App\Competition::all()->sortBy('name') as $competition)
                         <option value="{{ $competition->id }}">{{ $competition->name }}</option>
                     @endforeach
                 </select>
