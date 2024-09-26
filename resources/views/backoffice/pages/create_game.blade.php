@@ -30,7 +30,7 @@
                 <label>{{ trans('general.home_club') }}</label>
                 <select onchange="updateTeamList('home_club_id', 'home_team_id')" id="home_club_id" name="club_id" class="browser-default" required>
                     <option disabled value="0" selected>{{ trans('general.choose_option') }}</option>
-                    @foreach(App\Club::all()->sortBy('name') as $club)
+                    @foreach(App\Club::orderBy('priority', 'desc')->orderBy('name')->get() as $club)
                         <option value="{{ $club->id }}">{{ $club->name }}</option>
                     @endforeach
                 </select>
