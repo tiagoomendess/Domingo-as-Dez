@@ -1,0 +1,155 @@
+html, body {
+    background: rgb(34,34,36);
+    background: -moz-linear-gradient(333deg, rgba(34,34,36,1) 0%, rgba(2,32,68,1) 100%);
+    background: -webkit-linear-gradient(333deg, rgba(34,34,36,1) 0%, rgba(2,32,68,1) 100%);
+    background: linear-gradient(333deg, rgba(34,34,36,1) 0%, rgba(2,32,68,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#222224",endColorstr="#022044",GradientType=1);
+    border: 0;
+    height: 100%;
+    margin: 0;
+    overflow: hidden; /* Disable scrolling */
+    display: flex;
+    justify-content: left;
+    align-items: start;
+    color: #ffffff;
+    font-family: "Roboto", sans-serif;
+}
+
+main {
+    padding: 50px;
+}
+
+header {
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    width: 100%;
+}
+
+header > img {
+    width: 50px;
+    height: 50px;
+    margin-left: 10px;
+}
+
+#all_matches {
+    margin-top: 50px;
+}
+
+.footer-match {
+    display: inline-block; /* Display each match inline */
+    margin-right: 20px;    /* Add some spacing between matches */
+    vertical-align: middle; /* Align items vertically */
+    background-color: #c89d68;
+}
+
+.inner-match {
+    display: flex; /* Align items horizontally */
+    justify-content: space-between; /* Space out the inner elements */
+    align-items: center; /* Align items vertically */
+}
+
+.home-team {
+    display: flex;
+    align-items: center;
+    margin: 5px 10px 5px 20px;
+    font-weight: 400;
+    font-size: 1.5rem;
+}
+
+.away-team {
+    display: flex;
+    align-items: center;
+    margin: 5px 20px 5px 10px;
+    font-weight: 400;
+    font-size: 1.5rem;
+}
+
+.score {
+    display: flex;
+    align-items: center;
+    font-weight: bold; /* Make the score stand out */
+    background-color: rgba(1,1,1,0.2); /* Add a background color to the score */
+    font-size: 2rem;
+    height: 60px;
+    padding: 0 15px;
+}
+
+marquee {
+    white-space: nowrap; /* Prevent the marquee content from breaking into new lines */
+}
+
+.competition-container {
+    margin: 0 0 50px 0;
+}
+
+.competition-container > h2 {
+    display: block;
+    margin: 0 0 10px 0;
+}
+
+#highlight {
+    width: 100%;
+    display: inline-block;
+    margin: 20px 0 60px 0;
+}
+
+.main-game {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#highlighted_match {
+    width: 50%;
+}
+
+#sponsor {
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.scrolling-container {
+    overflow: hidden;
+    white-space: nowrap;
+    width: 100%;
+    position: relative;
+    height: 100px; /* Adjust as needed */
+}
+
+.scrolling-content {
+    display: inline-flex;
+    position: absolute;
+    animation: scrollLeft 30s linear infinite;
+}
+
+@keyframes scrollLeft {
+    0% {
+        transform: translateX(100%);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+.footer-match {
+    display: inline-block; /* Display each match inline */
+    margin-right: 20px;    /* Add some spacing between matches */
+    vertical-align: middle; /* Align items vertically */
+    background-color: #c89d68;
+}
+
+.goal {
+    animation: goal 0.6s infinite alternate;
+}
+
+@keyframes goal {
+    0% {
+        color: red;
+    }
+    100% {
+        color: white;
+    }
+}

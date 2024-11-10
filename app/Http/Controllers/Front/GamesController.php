@@ -6,6 +6,7 @@ use App\Audit;
 use App\Competition;
 use App\Game;
 use App\MvpVotes;
+use App\Partner;
 use App\Player;
 use App\ScoreReport;
 use App\User;
@@ -342,6 +343,16 @@ class GamesController extends Controller
             'game' => $game,
             'reports' => $reports,
             'backUrl' => $backUrl
+        ]);
+    }
+
+    public function scoresAggregator(Request $request) {
+        $partners = Partner::where('visible', true)
+            ->orderBy('priority', 'asc')
+            ->get();
+
+        return view('front.pages.scores_aggregator', [
+            'partners' => $partners
         ]);
     }
 

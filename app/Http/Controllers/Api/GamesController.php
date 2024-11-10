@@ -96,6 +96,7 @@ class GamesController extends Controller
 
             $return_object->data[$i] = new \stdClass();
             $return_object->data[$i]->competition_name = $group[0]->game_group->season->competition->name;
+            $return_object->data[$i]->game_group_name = $group[0]->game_group->name;
             $return_object->data[$i]->competition_logo = $group[0]->game_group->season->competition->picture;
             $return_object->data[$i]->season_name = $group[0]->game_group->season->getName();
             $return_object->data[$i]->games = [];

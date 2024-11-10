@@ -103,6 +103,7 @@ Route::get('/jogadores', 'Front\PlayersController@index')->name('front.players.i
 Route::get('/flash-interview/{uuid}', 'Front\GameCommentsController@edit')->name('front.game_comment');
 Route::post('/flash-interview/{uuid}', 'Front\GameCommentsController@update')->name('front.game_comment_update');
 Route::get('/flash-interview/{uuid}/pin', 'Front\GameCommentsController@pin')->name('front.game_comment_pin');
+Route::get('/scores', 'Front\GamesController@scoresAggregator')->name('scores-aggregator');
 // =====================================================================================================================
 
 // === Backoffice Adhoc Routes =========================================================================================
