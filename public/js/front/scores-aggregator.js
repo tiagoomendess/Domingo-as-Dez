@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", function() {
 
+    let currentPartnerIndex = 0;
     let lastAutoHighlightedMatchPosition = 0;
     const scoreChangedAt = []
     const highlightMatchDiv = document.getElementById("highlighted_match");
@@ -40,7 +41,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     </div>
                     <div class="main-game">
                         <div><img src="${match.home_club_emblem}" alt="${match.home_club_name}" width="100px"></div>
-                        <div style="margin: 0 20px"><p style="font-size: 3.5rem" class="${goalClass}">${match.home_score}-${match.away_score}</p></div>
+                        <div style="margin: 0 20px"><p style="font-size: 3.5rem; margin: 0" class="${goalClass}">${match.home_score}-${match.away_score}</p></div>
                         <div><img src="${match.away_club_emblem}" alt="${match.away_club_name}" width="100px"></div>
                     </div>
                 </div>
@@ -63,6 +64,11 @@ document.addEventListener("DOMContentLoaded", function() {
             const competitionTitle = document.createElement("h2");
             competitionTitle.textContent = `${competition.competition_name} - ${competition.game_group_name}`;
             competitionContainer.appendChild(competitionTitle);
+
+            // create another element to make a divider
+            const divider = document.createElement("div");
+            divider.classList.add("divider");
+            competitionContainer.appendChild(divider);
 
             const marquee = document.createElement("marquee");
             marquee.setAttribute("behavior", "scroll");
@@ -142,6 +148,11 @@ document.addEventListener("DOMContentLoaded", function() {
                         changedAtLeastOne = true;
                     }
 
+                    // if match finished, add green-text class if it does not have it already
+                    if (match.finished) {
+                        scoreElement.classList.add('green-text');
+                    }
+
                     // remove goal indicator after 30 seconds
                     if (scoreChangedAt[matchId] && Date.now() - scoreChangedAt[matchId] > 30000) {
                         scoreElement.classList.remove('goal');
@@ -168,6 +179,31 @@ document.addEventListener("DOMContentLoaded", function() {
             });
     }
 
+    /**
+     * A list of images of logos are loaded via PHP in the DOM
+     * Then, we display only one at a time, rotating every 10 seconds.
+     * The images have partner-image class to be able to select them.
+     */
+    function rotatePartners() {
+        const partners = document.getElementsByClassName("partner-image");
+        if (partners.length === 0) {
+            return;
+        }
+
+        // add hide class to current partner
+        partners[currentPartnerIndex].classList.add("hide");
+
+        // increment current partner index
+        currentPartnerIndex = (currentPartnerIndex + 1) % partners.length;
+
+        // remove hide class from next partner
+        partners[currentPartnerIndex].classList.remove("hide");
+
+        // call this function again after 10 seconds
+        setTimeout(rotatePartners, 10000);
+    }
+
     // Initial load
     updateMatches();
+    rotatePartners();
 });

@@ -82,35 +82,45 @@ marquee {
 }
 
 .competition-container {
-    margin: 0 0 50px 0;
+    margin: 0 0 25px 0;
 }
 
 .competition-container > h2 {
     display: block;
-    margin: 0 0 10px 0;
+    margin: 0;
 }
 
 #highlight {
     width: 100%;
-    display: inline-block;
-    margin: 5px 0 20px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 0 20px 0;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 15px 0;
+    border-radius: 15px;
 }
 
 .main-game {
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-top: 10px;
 }
 
 #highlighted_match {
-    width: 50%;
+    width: 33%;
 }
 
 #sponsor {
-    width: 50%;
+    width: 33%;
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+#sponsor img {
+    border-radius: 15px;
 }
 
 .scrolling-container {
@@ -141,6 +151,7 @@ marquee {
     margin-right: 20px;    /* Add some spacing between matches */
     vertical-align: middle; /* Align items vertically */
     background-color: #c89d68;
+    border-radius: 30px;
 }
 
 .goal {
@@ -154,4 +165,27 @@ marquee {
     100% {
         color: white;
     }
+}
+
+.hide {
+    display: none;
+}
+
+.green-text {
+    color: #00e800;
+}
+
+.divider {
+    margin: 15px 0;
+    border-bottom: 1px solid #ffffff;
+}
+
+.brand {
+    width: 33%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
 }

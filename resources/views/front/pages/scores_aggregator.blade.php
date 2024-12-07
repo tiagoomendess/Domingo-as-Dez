@@ -8,18 +8,18 @@
 </head>
 <body>
     <main>
-        <header>
-            <h1 style="font-weight: 200; margin-left: 10px">Domingo às Dez</h1>
-            <img src="/images/domingo_as_dez_logo_mono.png" alt="Domingo às Dez">
-        </header>
-
         <div id="highlight">
             <div id="highlighted_match">
 
             </div>
+            <div class="brand">
+                <small style="opacity: 0.5">Desenvolvido por:</small>
+                <img src="/images/domingo_as_dez_logo_mono.png" alt="Domingo às Dez" style="width: 100px; margin: 10px 0 5px">
+                <h1 style="font-weight: 200; margin: 0;">Domingo às Dez</h1>
+            </div>
             <div id="sponsor">
                 @foreach($partners as $partner)
-                    <img style="display: none; width: 100%" src="{{ $partner->picture }}" alt="{{ $partner->name }}">
+                    <img class="hide partner-image" style="height: 200px" src="{{ $partner->picture }}" alt="{{ $partner->name }}">
                 @endforeach
             </div>
         </div>
