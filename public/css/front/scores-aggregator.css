@@ -29,13 +29,13 @@ header {
 }
 
 header > img {
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     margin-left: 10px;
 }
 
 #all_matches {
-    margin-top: 25px;
+    margin-top: 0;
 }
 
 .footer-match {
@@ -93,7 +93,7 @@ marquee {
 #highlight {
     width: 100%;
     display: inline-block;
-    margin: 20px 0 20px 0;
+    margin: 5px 0 20px 0;
 }
 
 .main-game {

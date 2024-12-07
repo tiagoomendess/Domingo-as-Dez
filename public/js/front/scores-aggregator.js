@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", function() {
         highlightMatchDiv.innerHTML = `
                 <div class="">
                     <div style="width: 100%">
-                       <h2 style="text-align: center">${match.home_club_name} vs ${match.away_club_name}</h2>
+                       <h2 style="text-align: center; margin: 0">${match.home_club_name} vs ${match.away_club_name}</h2>
                     </div>
                     <div class="main-game">
                         <div><img src="${match.home_club_emblem}" alt="${match.home_club_name}" width="100px"></div>
