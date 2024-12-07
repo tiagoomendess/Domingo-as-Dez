@@ -39,9 +39,9 @@ document.addEventListener("DOMContentLoaded", function() {
                        <h2 style="text-align: center">${match.home_club_name} vs ${match.away_club_name}</h2>
                     </div>
                     <div class="main-game">
-                        <div><img src="${match.home_club_emblem}" alt="${match.home_club_name}" width="150px"></div>
+                        <div><img src="${match.home_club_emblem}" alt="${match.home_club_name}" width="100px"></div>
                         <div style="margin: 0 20px"><p style="font-size: 3.5rem" class="${goalClass}">${match.home_score}-${match.away_score}</p></div>
-                        <div><img src="${match.away_club_emblem}" alt="${match.away_club_name}" width="150px"></div>
+                        <div><img src="${match.away_club_emblem}" alt="${match.away_club_name}" width="100px"></div>
                     </div>
                 </div>
             `;
@@ -143,7 +143,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     }
 
                     // remove goal indicator after 30 seconds
-                    if (scoreChangedAt[matchId] && Date.now() - scoreChangedAt[matchId] > 60000) {
+                    if (scoreChangedAt[matchId] && Date.now() - scoreChangedAt[matchId] > 30000) {
                         scoreElement.classList.remove('goal');
                         delete scoreChangedAt[matchId];
                     }

@@ -6,6 +6,7 @@ html, body {
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#222224",endColorstr="#022044",GradientType=1);
     border: 0;
     height: 100%;
+    width: 100%;
     margin: 0;
     overflow: hidden; /* Disable scrolling */
     display: flex;
@@ -33,7 +34,7 @@ header > img {
 }
 
 #all_matches {
-    margin-top: 50px;
+    margin-top: 25px;
 }
 
 .footer-match {
@@ -91,7 +92,7 @@ marquee {
 #highlight {
     width: 100%;
     display: inline-block;
-    margin: 20px 0 60px 0;
+    margin: 20px 0 20px 0;
 }
 
 .main-game {
