@@ -91,6 +91,7 @@ class GenerateGameComments implements ShouldQueue
 
         // End of day in Lisbon Time
         $lisbonTime = Carbon::now('Europe/Lisbon');
+        $lisbonTime = $lisbonTime->addDay();
 
         // Set the time to the end of the day in Lisbon time (23:59:59)
         $endOfDayLisbon = $lisbonTime->endOfDay();

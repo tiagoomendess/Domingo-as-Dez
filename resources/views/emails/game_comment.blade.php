@@ -57,7 +57,7 @@
         </p>
         <p>
             Clique no botão abaixo para preencher as informações dos eventuais marcadores de golos e
-            fazer uma pequena análise da partida.
+            fazer uma pequena análise da partida. Pode preencher parcialmente, nenhum campo é obrigatório.
         </p>
 
         <!-- Action Button -->
@@ -69,38 +69,27 @@
         </p>
 
         <p>
-            Esta mensagem foi enviada para este email porque foi identificado como sendo a pessoa ideal para falar pelo
-            {{ $recipientName }} nestas questões. Se não for o caso, por favor entre em contacto pelas redes nossas sociais,
-            ou enviando um email para <a href="mailto:geraldomingoasdez@gmail.com">geraldomingoasdez@gmail.com</a>.
-            Não responda a este email, foi enviado de forma automática e não obterá resposta.
-        </p>
-
-        <p>
             Se o botão não funcionar, copie e cole o seguinte link no seu navegador: <br>
             <a href="{{ $action }}">{{ $action }}</a>
         </p>
 
-        <h2 style="margin-top: 20px;">O que é isto?</h2>
         <p>
-            Temos recebido várias criticas sobre algumas informações nas analises semanais estarem erradas, de que
-            as declarações nas crónicas não coorespondem à verdade, e apesar de se tratarem de erros pontuais e sem
-            intenção, eles acontecem e queremos melhorar esse aspeto.
-        </p>
-        <p>
-            Por isso criamos esta forma automática e fácil de dar voz aos intervenientes diretos no jogo. Sem ambiguidades e sem
-            erros. Ambas as equipas têm agora um espaço onde podem atribuir os golos da sua equipa e dizer o que acharam da partida,
-            ao estilo de uma flash interview, mas online.
-        </p>
-        <p>
-            As informações escritas pelos clubes serão usadas nos artigos diretamente, assim como a atribuição de golos no website. Desta forma
-            espera-se acabar com os erros e meias verdades. Quem não quiser participar não pode reclamar, serão usadas
-            as informações de quem participar.
+            Se já passou o prazo para responder, pode ainda enviar as informações para o email
+            <a href="mailto:geraldomingoasdez@gmail.com">geraldomingoasdez@gmail.com</a> se o artigo ainda não foi
+            publicado.
         </p>
 
         <p>
-            Desde já obrigado,<br>
-            A equipa do Domingo às Dez!
+            Agradecemos desde já a sua disponibilidade, ficamos à espera do seu contributo. Com os melhores cumprimentos,<br>
+            A equipa do Domingo às Dez.
         </p>
+
+        <small>
+            Esta mensagem foi enviada para este email porque foi identificado como sendo a pessoa ideal para falar pelo
+            {{ $recipientName }} nestas questões. Se não for o caso, por favor entre em contacto pelas redes nossas sociais,
+            ou enviando um email para <a href="mailto:geraldomingoasdez@gmail.com">geraldomingoasdez@gmail.com</a>.
+            Não responda a este email diretamente, foi enviado de forma automática e não obterá resposta.
+        </small>
     </div>
 </div>
 </body>
