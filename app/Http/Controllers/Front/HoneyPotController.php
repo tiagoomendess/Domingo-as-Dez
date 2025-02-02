@@ -13,12 +13,12 @@ class HoneyPotController extends Controller
     public function Get(Request $request)
     {
         try {
-            $ip_address = $request->getClientIp();
-            $user_agent = $request->userAgent();
-            $route = $request->route()->uri();
-            $query_params = $request->all();
-            $headers = $request->headers->all();
-            $cookies = $request->cookies->all();
+            $ip_address = $request->getClientIp() ?? '-';
+            $user_agent = $request->userAgent() ?? '-';
+            $route = $request->route()->uri() ?? '-';
+            $query_params = $request->all() ?? [];
+            $headers = $request->headers->all() ?? [];
+            $cookies = $request->cookies->all() ?? [];
             $ip_country = $request->header('CF-IPCountry', '-');
 
             HoneyPotCatch::create([

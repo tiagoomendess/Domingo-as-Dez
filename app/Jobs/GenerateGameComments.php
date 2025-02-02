@@ -143,6 +143,11 @@ class GenerateGameComments implements ShouldQueue
 
     private function sendNotificationEmail(string $email, Game $game, GameComment $gameComment, Team $team)
     {
+        if (!$team->club->notifications_enabled) {
+            Log::info("Game comment notification disabled for team $team->id");
+            return;
+        }
+
         // Send email
         Log::info("Sending email to $email for game $game->id with uuid $gameComment->uuid and pin $gameComment->pin");
 

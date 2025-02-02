@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Front;
 
-use App\Game;
 use App\GameComment;
 use App\Goal;
 use App\Http\Controllers\Controller;
@@ -160,5 +159,48 @@ class GameCommentsController extends Controller
             'error' => $error,
             'uuid' => $uuid,
         ]);
+    }
+
+    public function manageNotifications(Request $request, string $uuid) {
+
+        $gameComment = GameComment::where('uuid', $uuid)->first();
+        if (!$gameComment)
+            abort(404);
+
+        // Query pin from query parameter
+        $pin = $request->query('pin');
+        if (empty($pin) || $pin !== $gameComment->pin)
+            abort(404);
+
+        $club = $gameComment->team->club;
+
+        return view('front.pages.manage_notifications', [
+            'club' => $club,
+            'uuid' => $uuid,
+            'pin' => $pin,
+        ]);
+    }
+
+    public function saveManageNotifications(Request $request, string $uuid) {
+        $gameComment = GameComment::where('uuid', $uuid)->first();
+        if (!$gameComment)
+            abort(404);
+
+        $messages = new MessageBag();
+
+        // Query pin from query parameter
+        $pin = $request->input('pin');
+        if (empty($pin) || $pin !== $gameComment->pin) {
+            $messages->add('error', 'Pin inválido!');
+            return redirect()->back()->with(['popup_message' => $messages]);
+        }
+
+        $club = $gameComment->team->club;
+        $club->notifications_enabled = $request->filled('notifications_enabled');
+        $club->save();
+
+        $messages->add('success', 'Guardado com sucesso!');
+
+        return redirect()->back()->with(['popup_message' => $messages]);
     }
 }
