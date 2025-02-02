@@ -69,6 +69,11 @@
         </p>
 
         <p>
+            Se não deseja receber mais estes emails, <b>por favor não marque como SPAM</b>, clique no seguinte link para
+            <a href="{{ $unsubscribe }}" style="color: red">desativar o envio destes emails</a>.
+        </p>
+
+        <p>
             Se o botão não funcionar, copie e cole o seguinte link no seu navegador: <br>
             <a href="{{ $action }}">{{ $action }}</a>
         </p>
@@ -88,7 +93,8 @@
             Esta mensagem foi enviada para este email porque foi identificado como sendo a pessoa ideal para falar pelo
             {{ $recipientName }} nestas questões. Se não for o caso, por favor entre em contacto pelas redes nossas sociais,
             ou enviando um email para <a href="mailto:geraldomingoasdez@gmail.com">geraldomingoasdez@gmail.com</a>.
-            Não responda a este email diretamente, foi enviado de forma automática e não obterá resposta.
+            Não responda a este email diretamente, foi enviado de forma automática e não obterá resposta. Para parar de
+            receber estes emails, clique no seguinte link para <a href="{{ $unsubscribe }}">cancelar a subscrição</a>.
         </small>
     </div>
 </div>

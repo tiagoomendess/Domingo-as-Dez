@@ -48,6 +48,10 @@ class GameCommentEmail extends Mailable
             'uuid' => $this->gameComment->uuid,
         ]);
         $action .= "?pin=" . $this->gameComment->pin;
+        $unsubscribe = route('front.manage_notifications', [
+            'uuid' => $this->gameComment->uuid,
+        ]);
+        $unsubscribe .= "?pin=" . $this->gameComment->pin;
 
         return $this->from(config('custom.site_email'), config('app.name'))
             ->subject("Por favor comente o jogo $homeClubName vs $awayClubName")
@@ -61,6 +65,7 @@ class GameCommentEmail extends Mailable
                 'year' => $year,
                 'pin' => $this->gameComment->pin,
                 'action' => $action,
+                'unsubscribe' => $unsubscribe,
                 'deadline' => $deadline->timezone('Europe/Lisbon')->format("d/m/Y H:i"),
             ]);
     }
