@@ -341,7 +341,6 @@
 
             </div>
         </div>
-
     </div>
 
     <div class="container">
@@ -368,6 +367,13 @@
                 @endif
             @endif
         </div>
+
+        @if(isset($flash_interview_link))
+        <div class="row center">
+            <a class="btn blue darken-2 waves-effect waves-light" href="{{$flash_interview_link}}"
+               style="margin-top: 15px">Flash Interview</a>
+        </div>
+        @endif
 
         @if(!has_permission('disable_ads'))
             <div class="row no-margin-bottom">

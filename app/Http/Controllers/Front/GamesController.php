@@ -63,13 +63,15 @@ class GamesController extends Controller
     }
 
     public function show($competition_slug, $season_slug, $group_slug, $round, $clubs_slug) {
-
         $cache_key = "game-cache-$competition_slug-$season_slug-$group_slug-$round-$clubs_slug";
         $cached_data = Cache::get($cache_key);
-        if (!empty($cached_data))
+        if (!empty($cached_data)) {
+            // flash interview is not cached
+            $flash_interview_link = $this->getFlashInterviewLink($cached_data['game']);
+
+            $cached_data['flash_interview_link'] = $flash_interview_link;
             return view('front.pages.game', $cached_data);
-        else
-            Log::debug("Cache miss for game: $cache_key, generating new one");
+        }
 
         $competition = Competition::getCompetitionBySlug($competition_slug);
 
@@ -199,10 +201,43 @@ class GamesController extends Controller
 
         Cache::store('file')->add($cache_key, $view_data, 60);
 
+        // flash interview link
+        $view_data['flash_interview_link'] = $this->getFlashInterviewLink($game);
+
         return view(
             'front.pages.game',
             $view_data
         );
+    }
+
+    /**
+     * @return string|null
+     */
+    private function getFlashInterviewLink(Game $game) {
+        $user = Auth::user();
+        if (empty($user)) {
+            return null;
+        }
+
+        $gameComment = null;
+        // Check if home team email is same as user email
+        if ($user->email == $game->getHomeTeamContactEmail()) {
+            $gameComment = $game->gameComments()->where('team_id', $game->home_team_id)->first();
+        }
+
+        // Check if away team email is same as user email
+        if ($user->email == $game->getAwayTeamContactEmail()) {
+            $gameComment = $game->gameComments()->where('team_id', $game->away_team_id)->first();
+        }
+
+        if (empty($gameComment)) {
+            return null;
+        }
+
+        $url = route('front.game_comment', $gameComment->uuid);
+        $url .= "?pin=" . $gameComment->pin;
+
+        return $url;
     }
 
     public function liveMatches() {

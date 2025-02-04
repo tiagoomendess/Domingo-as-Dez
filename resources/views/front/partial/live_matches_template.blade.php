@@ -69,7 +69,8 @@
                 <p id="score_update_modal_desc"></p>
             </div>
             <div class="col s12 center">
-                <a id="send_score_report_btn" href="#" class="waves-effect green darken-3 waves-light btn">Enviar Resultado <i class="material-icons left">event</i></a>
+                <a style="margin-bottom: 10px" id="game_details_btn" href="#" class="waves-effect blue waves-light btn">Detalhe do jogo<i class="material-icons left">info</i></a>
+                <a style="margin-bottom: 10px" id="send_score_report_btn" href="#" class="waves-effect green darken-3 waves-light btn">Enviar Resultado <i class="material-icons left">event</i></a>
             </div>
         </div>
 

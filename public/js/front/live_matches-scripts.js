@@ -84,6 +84,8 @@ function handleGameClick(game_id) {
     let current_url = encodeURIComponent(window.location.href);
 
     $('#send_score_report_btn').attr('href', `/score-reports/${game_id}?returnTo=${current_url}`);
+    $('#game_details_btn').attr('href', `${game.game_link}`);
+
     $('#score_update_modal_home_team_img').attr('src', game.home_club_emblem);
     $('#score_update_modal_away_team_img').attr('src', game.away_club_emblem);
 

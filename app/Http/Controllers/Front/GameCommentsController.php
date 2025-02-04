@@ -173,11 +173,13 @@ class GameCommentsController extends Controller
             abort(404);
 
         $club = $gameComment->team->club;
+        $contact_email = $gameComment->team->contact_email ?? $club->contact_email;
 
         return view('front.pages.manage_notifications', [
             'club' => $club,
             'uuid' => $uuid,
             'pin' => $pin,
+            'contact_email' => $contact_email,
         ]);
     }
 
@@ -195,7 +197,20 @@ class GameCommentsController extends Controller
             return redirect()->back()->with(['popup_message' => $messages]);
         }
 
+        $request->validate([
+            'contact_email' => 'string|max:64|min:10|required|email',
+        ]);
+
         $club = $gameComment->team->club;
+
+        $newEmail = $request->input('contact_email');
+        if ($gameComment->team->contact_email) {
+            $gameComment->team->contact_email = $newEmail;
+            $gameComment->team->save();
+        } else {
+            $club->contact_email = $newEmail;
+        }
+
         $club->notifications_enabled = $request->filled('notifications_enabled');
         $club->save();
 

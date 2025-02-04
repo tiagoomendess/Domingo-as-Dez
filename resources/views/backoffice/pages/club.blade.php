@@ -69,6 +69,23 @@
         <div class="col s12">
             <div class="switch">
                 <label>
+                    Notificações por email
+                    <input name="notifications_enabled" type="hidden" value="false">
+                    @if($club->notifications_enabled)
+                        <input disabled name="notifications_enabled" type="checkbox" value="true" checked>
+                    @else
+                        <input disabled name="notifications_enabled" type="checkbox" value="true">
+                    @endif
+                    <span class="lever"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col s12">
+            <div class="switch">
+                <label>
                     {{ trans('general.visible') }}
                     <input name="visible" type="hidden" value="false">
                     @if($club->visible)

@@ -62,13 +62,13 @@ class ClubController extends Controller
     {
 
         $request->validate([
-
             'name' => 'required|string|max:155|unique:clubs,name',
             'emblem' => 'nullable|file|mimes:png,svg|max:1000',
             'website' => 'string|max:280|nullable|url',
             'contact_email' => 'string|max:155|nullable|email',
             'admin_user_id' => 'integer|nullable|exists:users,id',
             'visible' => 'required',
+
             'priority' => 'integer|min:0|max:100|nullable',
         ]);
 
@@ -160,6 +160,7 @@ class ClubController extends Controller
             'contact_email' => 'string|max:155|nullable|email',
             'admin_user_id' => 'integer|nullable|exists:users,id',
             'visible' => 'required',
+            'notifications_enabled' => 'required',
             'priority' => 'integer|min:0|max:100|nullable',
         ]);
 
@@ -176,6 +177,7 @@ class ClubController extends Controller
         $contact_email = $request->input('contact_email');
         $admin_user_id = $request->input('admin_user_id');
         $priority = $request->input('priority', $club->priority);
+        $notifications_enabled = $request->input('notifications_enabled', false) == 'true';
 
         if($request->hasFile('emblem')) {
 
@@ -205,6 +207,7 @@ class ClubController extends Controller
         $club->admin_user_id = $admin_user_id;
         $club->visible = $visible;
         $club->priority = $priority;
+        $club->notifications_enabled = $notifications_enabled;
         $club->save();
 
         $messages = new MessageBag();

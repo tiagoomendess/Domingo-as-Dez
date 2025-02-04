@@ -9,6 +9,14 @@
         <h1 class="hide-on-med-and-down">Gerir Notificações</h1>
         <p class="flow-text">Está a gerir as definições de notificação do clube  <strong>{{ $club->name }}</strong>.</p>
 
+        @if(count($errors) > 0)
+            <div class="row">
+                <div class="col s12">
+                    @include('front.partial.form_errors')
+                </div>
+            </div>
+        @endif
+
         <form action="{{ route('front.save_manage_notifications', ['uuid' => $uuid]) }}" method="POST">
             {{ csrf_field() }}
 
@@ -30,6 +38,17 @@
                                 Sim
                             </label>
                         </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="divider" style="margin-bottom: 20px"></div>
+
+            <div class="row">
+                <div class="col s12">
+                    <div class="input-field">
+                        <input name="contact_email" id="contact_email" type="email" class="validate" value="{{ old('contact_email', $contact_email) }}" required>
+                        <label for="contact_email">Email de Contacto</label>
                     </div>
                 </div>
             </div>

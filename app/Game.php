@@ -292,4 +292,26 @@ class Game extends Model
 
         return $this->started() && $now < $kickOffAt->addHours(3);
     }
+
+    public function getHomeTeamContactEmail() {
+        // try at team level
+        $email = $this->home_team->contact_email;
+
+        // try at club level
+        if (empty($email))
+            $email = $this->home_team->club->contact_email;
+
+        return $email;
+    }
+
+    public function getAwayTeamContactEmail() {
+        // try at team level
+        $email = $this->away_team->contact_email;
+
+        // try at club level
+        if (empty($email))
+            $email = $this->away_team->club->contact_email;
+
+        return $email;
+    }
 }
