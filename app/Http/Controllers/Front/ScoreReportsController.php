@@ -241,6 +241,12 @@ class ScoreReportsController extends Controller
                 ->back();
         }
 
+        $location_accuracy = $request->input('accuracy');
+        if (!empty($location_accuracy)) {
+            // max accuracy is 1000 meters
+            $location_accuracy = min($location_accuracy, 1000);
+        }
+
         ScoreReport::create([
             'user_id' => empty($user) ? null : $user->id,
             'game_id' => $game->id,
@@ -251,7 +257,7 @@ class ScoreReportsController extends Controller
             'ip_country' => $ip_country,
             'user_agent' => Str::limit($request->header('User-Agent'), 255, ''),
             'location' => $location,
-            'location_accuracy' => $request->input('accuracy') ? (int) $request->input('accuracy') : null,
+            'location_accuracy' => $location_accuracy,
             'uuid' => Str::limit($uuid, 36, ''),
             'finished' => $finished,
         ]);

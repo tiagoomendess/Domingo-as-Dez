@@ -63,7 +63,7 @@ class ProcessScoreReportBans implements ShouldQueue
 
         $totalProcessed = 0;
         $totalFakes = 0;
-        $banExpiration = Carbon::now()->addDays(8);
+        $banExpiration = Carbon::now()->addDays(15);
         $banKeys = [];
 
         ScoreReport::where('updated_at', '>', $startFrom->format("Y-m-d H:i:s"))
