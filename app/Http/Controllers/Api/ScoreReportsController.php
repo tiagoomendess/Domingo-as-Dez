@@ -43,6 +43,12 @@ class ScoreReportsController extends Controller
         $source = $request->input('source', 'unknown');
         $location = $this->getMysqlPoint($request->input('latitude'), $request->input('longitude'));
 
+        $location_accuracy = $request->input('accuracy');
+        if (!empty($location_accuracy)) {
+            // max accuracy is 1000 meters
+            $location_accuracy = min($location_accuracy, 1000);
+        }
+
         ScoreReport::create([
             'user_id' => $request->input('user_id'),
             'game_id' => $game->id,
@@ -52,7 +58,7 @@ class ScoreReportsController extends Controller
             'ip_address' => Str::limit($request->input('ip_address'), 45, ''),
             'user_agent' => Str::limit($request->header('User-Agent'), 255, ''),
             'location' => $location,
-            'location_accuracy' => $request->input('accuracy') ? (int) $request->input('accuracy') : null,
+            'location_accuracy' => $location_accuracy,
             'uuid' => $request->input('uuid'),
             'finished' => $request->input('finished', false)
         ]);

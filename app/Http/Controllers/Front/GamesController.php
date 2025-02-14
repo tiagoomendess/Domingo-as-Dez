@@ -363,7 +363,16 @@ class GamesController extends Controller
         $report->is_fake = $is_fake;
         $report->save();
 
-        return redirect()->back();
+        // If it was not fake, we don't need to do anything
+        if (!$is_fake) {
+            return redirect()->back();
+        }
+
+        try {
+            $report->banUser();
+        } catch (\Exception $e) {
+            Log::error("Error while trying to ban user: " . $e->getMessage());
+        }
     }
 
     public function listScoreReports(Request $request, Game $game) {
