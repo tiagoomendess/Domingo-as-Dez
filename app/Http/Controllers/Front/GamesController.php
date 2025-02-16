@@ -372,6 +372,8 @@ class GamesController extends Controller
             $report->banUser();
         } catch (\Exception $e) {
             Log::error("Error while trying to ban user: " . $e->getMessage());
+        } finally {
+            return redirect()->back();
         }
     }
 
