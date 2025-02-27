@@ -1,5 +1,6 @@
 <!-- Google tag (gtag.js) -->
 <script>
+    window.gtag_enable_tcf_support = true;
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
 
