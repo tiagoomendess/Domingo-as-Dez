@@ -1,18 +1,44 @@
 <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-PPBRM1T8VZ"></script>
 <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
 
-    // Initialize default consent state for both ad and analytics storage
     gtag('consent', 'default', {
-        'ad_storage': 'granted',
-        'analytics_storage': 'granted'
+        'ad_storage': 'denied',
+        'ad_user_data': 'denied',
+        'ad_personalization': 'denied',
+        'analytics_storage': 'denied'
     });
-
+</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-PPBRM1T8VZ"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-
-    // Configure your Google Analytics tag
     gtag('config', 'G-PPBRM1T8VZ');
+
+    function consentGrantedAdStorage() {
+        gtag('consent', 'update', {
+            'ad_storage': 'granted'
+        });
+    }
+
+    function consentGrantedAdUserData() {
+        gtag('consent', 'update', {
+            'ad_user_data': 'granted'
+        });
+    }
+
+    function consentGrantedAdPersonalization() {
+        gtag('consent', 'update', {
+            'ad_personalization': 'granted'
+        });
+    }
+
+    function consentGrantedAnalyticsStorage() {
+        gtag('consent', 'update', {
+            'analytics_storage': 'granted'
+        });
+    }
 </script>
 <!-- END Google tag (gtag.js) -->
