@@ -91,7 +91,7 @@ return [
     |
     */
 
-    'fallback_locale' => 'en',
+    'fallback_locale' => 'pt',
 
     /*
     |--------------------------------------------------------------------------
@@ -123,7 +123,7 @@ return [
 
     'log' => env('APP_LOG', 'daily'),
     'log_max_files' => env('LOG_MAX_FILES', 30),
-    'log_level' => env('APP_LOG_LEVEL', 'debug'),
+    'log_level' => env('APP_LOG_LEVEL', 'info'),
 
     /*
     |--------------------------------------------------------------------------
