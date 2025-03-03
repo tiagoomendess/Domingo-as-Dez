@@ -20,6 +20,10 @@
                 <b>{{ trans('general.id') }} : </b> {{ $user->id }} <br>
                 <b>{{ trans('general.name') }} : </b> {{ $user->name }} <br>
                 <b>Email:</b> {{ $user->email }} <br>
+                <b>Login Externo?</b> {{ $user->isSocial() ? 'Sim' : 'Não' }}<br>
+                @foreach($user->socialProviders as $p)
+                    <b>&nbsp;{{ $p->provider }}:</b> {{ $p->provider_id }}<br>
+                @endforeach
                 <b>{{ trans('general.verified') }} : </b> {{ $user->verified }} <br>
                 <b>{{ trans('general.created_at') }} : </b> {{ $user->created_at }} <br>
                 <b>{{ trans('general.updated_at') }} : </b> {{ $user->updated_at }} <br>
