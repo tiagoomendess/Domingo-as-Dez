@@ -19,6 +19,7 @@
             <p class="flow-text">
                 <b>{{ trans('general.id') }} : </b> {{ $user->id }} <br>
                 <b>{{ trans('general.name') }} : </b> {{ $user->name }} <br>
+                <b>Email:</b> {{ $user->email }} <br>
                 <b>{{ trans('general.verified') }} : </b> {{ $user->verified }} <br>
                 <b>{{ trans('general.created_at') }} : </b> {{ $user->created_at }} <br>
                 <b>{{ trans('general.updated_at') }} : </b> {{ $user->updated_at }} <br>
