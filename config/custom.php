@@ -6,7 +6,7 @@ return [
     'site_name' => 'Domingo às Dez',
     'site_domain' => 'domingoasdez.com',
     'site_url' => 'http://domingoasdez.com',
-    'site_email' => 'no-reply@domingoasdez.com',
+    'site_email' => 'geral@domingoasdez.com',
     'register_enable' => true,
     'login_enable' => true,
     'social_logins' => true,
