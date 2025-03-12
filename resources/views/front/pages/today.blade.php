@@ -19,7 +19,7 @@
     <div class="container">
         <h1 class="hide-on-med-and-down">Jogos de Hoje</h1>
 
-        @if(!has_permission('disable_ads'))
+        @if(!has_permission('disable_ads') && \Config::get('custom.adsense_enabled'))
             <div class="hide-on-med-and-up" style="margin-top: 5px">
                 <script async
                         src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3518000096682897"
@@ -123,7 +123,7 @@
                 </div>
             @endif
 
-            @if(!has_permission('disable_ads'))
+            @if(!has_permission('disable_ads') && \Config::get('custom.adsense_enabled'))
                 <div class="row">
                     <div class="col col-xs-12 s12 m10 l8 offset-m1 offset-l2">
                         <script async

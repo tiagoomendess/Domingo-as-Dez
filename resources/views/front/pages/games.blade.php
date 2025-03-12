@@ -54,7 +54,7 @@
             </div>
         </div>
 
-        @if(!has_permission('disable_ads'))
+        @if(!has_permission('disable_ads') && \Config::get('custom.adsense_enabled'))
             <div class="row no-margin-bottom">
                 <div class="vertical-spacer hide-on-med-and-down"></div>
                 <div class="col s12 m10 l8 offset-m1 offset-l2">

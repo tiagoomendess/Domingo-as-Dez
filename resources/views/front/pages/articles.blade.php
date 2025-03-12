@@ -21,7 +21,7 @@
 
         <div class="row no-margin-bottom">
             @foreach($articles as $index => $article)
-                @if($index === 4 && !has_permission('disable_ads'))
+                @if($index === 4 && !has_permission('disable_ads') && \Config::get('custom.adsense_enabled'))
                     <div class="col xs12 s12 m6 l6 xl4" style="margin-top: 10px">
                         <script async
                                 src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3518000096682897"

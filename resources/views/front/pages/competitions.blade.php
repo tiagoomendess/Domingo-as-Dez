@@ -32,7 +32,7 @@
                 </div>
             </div>
 
-            @if(!has_permission('disable_ads'))
+            @if(!has_permission('disable_ads') && \Config::get('custom.adsense_enabled'))
                 <div class="row">
                     <div class="col col-xs-12 s12 m10 l8 offset-m1 offset-l2">
                         <div class="card">

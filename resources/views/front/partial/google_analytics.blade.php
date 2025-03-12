@@ -1,4 +1,4 @@
-<!-- Google tag (gtag.js) -->
+<!-- Google Analytics -->
 <script>
     window.gtag_enable_tcf_support = true;
     window.dataLayer = window.dataLayer || [];
@@ -50,4 +50,4 @@
         });
     }
 </script>
-<!-- END Google tag (gtag.js) -->
+<!-- END Google Analytics -->

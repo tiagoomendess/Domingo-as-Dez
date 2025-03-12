@@ -12,7 +12,7 @@
 
                     <div class="col xs6 s6 center">
                         <a href="{{ route('social.redirect', ['provider' => 'google']) }}" class="social-login-link">
-                            <img src="/images/google-plus-logo.svg" alt="">
+                            <img src="/images/google_icon.png" alt="">
                         </a>
                     </div>
 

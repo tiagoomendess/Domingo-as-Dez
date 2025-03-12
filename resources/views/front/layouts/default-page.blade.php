@@ -1,17 +1,18 @@
 @extends('base')
 
 @section('head')
-    @if(!has_permission('disable_ads'))
+    @if(!has_permission('disable_ads') && \Config::get('custom.adsense_enabled'))
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3518000096682897"
                 crossorigin="anonymous"></script>
     @endif
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="/css/material-icons.css" rel="stylesheet">
     <link type="text/css" rel="stylesheet" href="/materialize/css/materialize.min.css"  media="screen,projection"/>
     <link type="text/css" rel="stylesheet" href="/css/front/default-page-style.css"  media="screen,projection"/>
     <link type="text/css" rel="stylesheet" href="/css/front/navbar-style.css"  media="screen,projection"/>
     <link type="text/css" rel="stylesheet" href="/css/front/footer-style.css"  media="screen,projection"/>
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&amp;subset=latin-ext" rel="stylesheet">
+    <!-- <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&amp;subset=latin-ext" rel="stylesheet"> -->
+    <link href="/css/roboto-font.css" rel="stylesheet">
     <!-- FAVICON-->
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -22,7 +23,11 @@
     <meta name="theme-color" content="#ffffff">
     <meta property="og:site_name" content="{{ config('app.name') }}" />
     <meta property="fb:app_id" content="153482715435840" />
-    @include('front.partial.google_analytics')
+
+    @if(\Config::get('custom.google_analytics_enabled'))
+        @include('front.partial.google_analytics')
+    @endif
+
     @yield('head-content')
 @endsection
 
@@ -37,7 +42,7 @@
 
     @include('front.partial.footer')
 
-    @if(!has_permission('disable_ads'))
+    @if(!has_permission('disable_ads') && \Config::get('custom.adsense_enabled'))
         @include('front.partial.footer_ads')
     @endif
 

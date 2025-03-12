@@ -14,7 +14,7 @@
             </div>
         </div>
 
-        @if(!has_permission('disable_ads'))
+        @if(!has_permission('disable_ads') && \Config::get('custom.adsense_enabled'))
             <div class="row no-margin-bottom">
                 <div class="vertical-spacer hide-on-med-and-down"></div>
                 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3518000096682897"

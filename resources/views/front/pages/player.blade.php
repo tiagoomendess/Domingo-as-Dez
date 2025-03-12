@@ -66,7 +66,7 @@
             </div>
 
             <div class="col s12 m12 l4 xl4">
-                @if(!has_permission('disable_ads'))
+                @if(!has_permission('disable_ads') && \Config::get('custom.adsense_enabled'))
                     <script async
                             src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3518000096682897"
                             crossorigin="anonymous"></script>

@@ -15,7 +15,7 @@
     <div class="container">
         <h1 class="hide-on-med-and-down">{{ trans('front.live_matches') }}</h1>
 
-        @if(!has_permission('disable_ads'))
+        @if(!has_permission('disable_ads') && \Config::get('custom.adsense_enabled'))
             <div class="row hide-on-large-only">
                 <div class="container">
                     <div class="col s12">
@@ -44,7 +44,7 @@
                 @include('front.partial.live_matches_template')
             </div>
 
-            @if(!has_permission('disable_ads'))
+            @if(!has_permission('disable_ads') && \Config::get('custom.adsense_enabled'))
                 <div class="col l3 hide-on-med-and-down">
                     <div style="margin-top: 1rem">
                         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3518000096682897"

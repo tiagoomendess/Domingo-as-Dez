@@ -28,7 +28,7 @@
                 @endif
 
                 @foreach($transfers as $index => $transfer)
-                    @if($index % 3 == 0 && $index != 0 && !has_permission('disable_ads'))
+                    @if($index % 3 == 0 && $index != 0 && !has_permission('disable_ads') && \Config::get('custom.adsense_enabled'))
                         <div class="col col-xs-12 s12">
                             <script async
                                     src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3518000096682897"
@@ -117,7 +117,7 @@
 
             </div>
 
-            @if(!has_permission('disable_ads'))
+            @if(!has_permission('disable_ads') && \Config::get('custom.adsense_enabled'))
                 <div class="col s12 m12 l4 xl4">
                     <div style="margin-top: .5rem">
                         <script async

@@ -2,16 +2,15 @@
 
 @section('head-content')
     <title>{{ trans('auth.login') }} {{ config('custom.site_name') }}</title>
-    <link type="text/css" rel="stylesheet" href="/css/front/auth-style.css"  media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="/css/front/auth-style.css" media="screen,projection"/>
 @endsection
 
 @section('content')
-<?php
-if(!session()->has('url.intended'))
-{
-    session(['url.intended' => url()->previous()]);
-}
-?>
+    <?php
+    if (!session()->has('url.intended')) {
+        session(['url.intended' => url()->previous()]);
+    }
+    ?>
     <div class="vertical-centered">
         <div class="container">
             <div class="row no-margin-bottom">
@@ -28,7 +27,6 @@ if(!session()->has('url.intended'))
                                         @include('front.partial.form_errors')
                                     </div>
                                 </div>
-
                             @endif
 
                             <form class="form-horizontal" method="POST" action="{{ route('login') }}">
@@ -45,49 +43,43 @@ if(!session()->has('url.intended'))
                                 <div class="row">
                                     <div class="input-field col s12">
                                         <i class="material-icons prefix">vpn_key</i>
-                                        <input name="password" id="password" type="password" required autocomplete="off">
+                                        <input name="password" id="password" type="password" required
+                                               autocomplete="off">
                                         <label for="password">{{ trans('auth.password') }}</label>
                                     </div>
                                 </div>
 
                                 <div class="row">
-
                                     <div class="col s6">
                                         <p>
-                                            <input class="filled-in checkbox-blue" type="checkbox" id="remember" name="remember" {{ old('remember') ? 'checked' : '' }}>
+                                            <input class="filled-in checkbox-blue" type="checkbox" id="remember"
+                                                   name="remember" {{ old('remember') ? 'checked' : '' }}>
                                             <label for="remember">{{ trans('auth.remember_me') }}</label>
                                         </p>
-
                                     </div>
 
                                     <div class="col s6">
-
-                                        <button class="btn waves-effect waves-light green darken-1 right" type="submit" name="action">{{ trans('auth.login') }}
+                                        <button class="btn waves-effect waves-light green darken-1 right" type="submit"
+                                                name="action">{{ trans('auth.login') }}
                                             <i class="material-icons right">send</i>
                                         </button>
-
                                     </div>
-
                                 </div>
 
                                 <div class="row no-margin-bottom">
-
                                     <div class="col xs7 s7">
                                         <a href="{{ route('password.request') }}">
                                             {{ trans('auth.forgot_password') }}
                                         </a>
                                     </div>
-
                                     <div class="col xs5 s5">
                                         <a href="{{ route('register') }}" class="right">
                                             {{ trans('auth.create_account') }}
                                         </a>
                                     </div>
-
                                 </div>
 
                             </form>
-
                         </div>
                     </div>
                 </div>
@@ -95,10 +87,24 @@ if(!session()->has('url.intended'))
 
             @if(config('custom.social_logins') == true)
                 @include('auth.social')
+            @else
+                <div class="row">
+                    <div class="col xs12 s12 m10 l8 xl6 offset-m1 offset-l2 offset-xl3">
+                        <div class="card">
+                            <div class="card-content">
+                                <p>
+                                    Logins através de Facebook e Google estão desativados. Se registaste uma conta
+                                    através de um desses métodos, deves simplesmente recuperar a password. Clica em
+                                    <a href="{{ route('password.request') }}">
+                                        {{ trans('auth.forgot_password') }}
+                                    </a> e utiliza o mesmo email da conta
+                                    de facebook ou google para fazer o pedido de recuperação.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             @endif
-
         </div>
-
     </div>
-
 @endsection

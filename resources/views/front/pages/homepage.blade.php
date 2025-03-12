@@ -122,7 +122,7 @@
         </div>
 
         <div class="row no-margin-bottom">
-            @if(!has_permission('disable_ads'))
+            @if(!has_permission('disable_ads') && \Config::get('custom.adsense_enabled'))
                 <div class="col col-xs-12 s12 m10 l8 offset-m1 offset-l2" style="margin-top: 15px">
                     <script async
                             src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3518000096682897"
@@ -231,7 +231,7 @@
             </div>
         </div>
 
-        @if(!has_permission('disable_ads'))
+        @if(!has_permission('disable_ads') && \Config::get('custom.adsense_enabled'))
             <div class="row">
                 <div class="col col-xs-12 s12 m10 l8 offset-m1 offset-l2" style="margin-top: 15px">
                     <script async
