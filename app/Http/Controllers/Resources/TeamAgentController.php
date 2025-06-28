@@ -36,11 +36,20 @@ class TeamAgentController extends Controller
      */
     public function index(Request $request): View
     {
-        $teamAgents = TeamAgent::with(['team', 'player'])
-            ->orderBy('created_at', 'desc')
-            ->paginate(config('custom.results_per_page'));
+        if ($request->query->get('search')) {
+            $teamAgents = TeamAgent::search($request->query->all());
+            $teamAgents->load(['team', 'player']);
+        } else {
+            $teamAgents = TeamAgent::with(['team', 'player'])
+                ->orderBy('created_at', 'desc')
+                ->paginate(config('custom.results_per_page'));
+        }
 
-        return view('backoffice.pages.team_agents', compact('teamAgents'));
+        return view('backoffice.pages.team_agents', [
+            'teamAgents' => $teamAgents,
+            'searchFields' => TeamAgent::SEARCH_FIELDS,
+            'queryParams' => $request->query->all()
+        ]);
     }
 
     /**

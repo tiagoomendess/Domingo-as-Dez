@@ -2,12 +2,12 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use App\SearchableModel;
 use Illuminate\Support\Str;
 use App\Team;
 use App\Player;
 
-class TeamAgent extends Model
+class TeamAgent extends SearchableModel
 {
     protected $fillable = [
         'player_id', 
@@ -24,6 +24,37 @@ class TeamAgent extends Model
     protected $guarded = [];
 
     protected $hidden = [];
+
+    public const SEARCH_FIELDS = [
+        'name' => [
+            'name' => 'name',
+            'type' => 'string',
+            'trans' => 'Nome',
+            'allowSearch' => true,
+            'compare' => 'like',
+            'validation' => 'nullable|min:3|max:30|string'
+        ],
+        'id' => [
+            'name' => 'id',
+            'type' => 'integer',
+            'trans' => 'Id',
+            'allowSearch' => true,
+            'compare' => '=',
+            'validation' => 'nullable|integer'
+        ],
+        'created_at' => [
+            'name' => 'created_at',
+            'type' => 'date',
+            'trans' => 'Data de Criação',
+            'allowSearch' => false
+        ],
+        'updated_at' => [
+            'name' => 'updated_at',
+            'type' => 'date',
+            'trans' => 'Ultima Atualização',
+            'allowSearch' => false
+        ]
+    ];
 
     /**
      * Get the team this agent belongs to

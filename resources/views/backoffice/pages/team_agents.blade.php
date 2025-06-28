@@ -78,7 +78,7 @@
 
     <div class="row">
         <div class="col s12">
-            {{ $teamAgents->links() }}
+            {{ $teamAgents->appends(request()->query())->links() }}
         </div>
     </div>
 
