@@ -102,4 +102,12 @@ return [
     'best' => 'Melhor',
     'worst' => 'Pior',
     'scoreboard_updates' => 'Atualizações de Placard',
+    'change_picture' => 'Alterar Fotografia',
+    'optional' => 'Opcional',
+    'type_to_search' => 'Digite para pesquisar',
+    'started_at' => 'Data de Início',
+    'are_you_sure' => 'Tem a certeza?',
+    'actions' => 'Ações',
+    'history' => 'Histórico',
+    'no_history_available' => 'Sem histórico disponível',
 ];

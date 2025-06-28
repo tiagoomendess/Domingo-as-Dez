@@ -285,4 +285,35 @@ class PlayerController extends Controller
 
         return redirect(route('players.index'))->with(['popup_message' => $messages]);
     }
+
+    /**
+     * Search players for autocomplete
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function autocomplete(Request $request)
+    {
+        $request->validate([
+            'term' => 'required|string|min:2|max:100'
+        ]);
+
+        $term = $request->get('term');
+        
+        $players = Player::where('name', 'LIKE', '%' . $term . '%')
+            ->orWhere('nickname', 'LIKE', '%' . $term . '%')
+            ->orderBy('name')
+            ->limit(10)
+            ->get(['id', 'name', 'nickname', 'picture']);
+
+        $results = $players->map(function($player) {
+            return [
+                'id' => $player->id,
+                'text' => $player->nickname ? $player->name . ' (' . $player->nickname . ')' : $player->name,
+                'picture' => $player->picture ?: config('custom.default_profile_pic')
+            ];
+        });
+
+        return response()->json($results);
+    }
 }

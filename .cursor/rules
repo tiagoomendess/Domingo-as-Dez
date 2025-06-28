@@ -1,0 +1,10 @@
+---
+description: Website written in PHP 7+ with Laravel 5.8. This is a website for an online newspaper that also tracks results and other information about team, players and competitions.
+globs: 
+alwaysApply: true
+---
+
+- Always leave an empty line before a return statement.
+- Always leave an empty line at the end of the file.
+- Prefer using using camelCase ofer snake_case for variable names.
+- This is an old app, new code should use new standards, old code should remove the same unless told otherwise.

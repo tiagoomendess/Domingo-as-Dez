@@ -128,4 +128,8 @@ return [
     'info_report_status_archived' => 'Arquivada',
     'info_report_status_seen' => 'Vista',
     'info_report_status_used' => 'Utilizada',
+    'technical_staff' => 'Técnicos',
+    'players' => 'Jogadores',
+    'no_technical_staff_in_team' => 'Não existem técnicos na equipa :team_name',
+    'agent_type' => 'Tipo de Técnico',
 ];

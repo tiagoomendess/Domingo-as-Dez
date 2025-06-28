@@ -108,4 +108,12 @@ return [
     'no_info_reports' => 'Não existem informações criadas',
     'audit' => 'Auditoria',
     'no_audits' => 'Não existem auditorias',
+    'team_agent' => 'Técnico',
+    'team_agents' => 'Técnicos',
+    'no_team_agents' => 'Não existem Técnicos',
+    'external_id' => 'ID Externo',
+    'agent_type' => 'Tipo de Agente',
+    'team_agent_history' => 'Histórico de Técnico',
+    'team_agent_histories' => 'Históricos de Técnico',
+    'no_team_agent_histories' => 'Não existem históricos de Técnico',
 ];

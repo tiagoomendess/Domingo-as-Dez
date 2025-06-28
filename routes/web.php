@@ -79,6 +79,7 @@ Route::post('/perfil/password/change', 'Front\UserProfileController@changePasswo
 Route::get('/utilizador/perfil/download', 'Front\DefaultController@downloadUserInfo')->name('front.userprofile.download');
 Route::get('/clubes/{club_slug}', 'Front\ClubController@show')->name('front.club.show');
 Route::get('/jogadores/{id}/{name_slug}', 'Front\PlayersController@show')->name('front.player.show');
+Route::get('/tecnicos/{id}/{name_slug}', 'Front\TeamAgentController@show')->name('front.team_agent.show');
 Route::get('/arbitros/{id}/{name_slug}', 'Front\RefereesController@show')->name('front.referee.show');
 Route::get('/politica-de-privacidade', 'Front\DefaultController@showPrivacyPolicyPage')->name('privacy_policy');
 Route::get('/termos-e-condicoes', 'Front\DefaultController@showTermsPage')->name('terms_and_conditions');
@@ -149,6 +150,8 @@ Route::resources([
     'info_reports' => 'Resources\InfoReportController',
     'polls' => 'Resources\PollController',
     'score_report_bans' => 'Resources\ScoreReportBanController',
+    'team_agents' => 'Resources\TeamAgentController',
+    'team_agent_history' => 'Resources\TeamAgentHistoryController',
 ]);
 // =====================================================================================================================
 
@@ -163,6 +166,7 @@ Route::get('gamegroups/{id}/games', 'Resources\GameGroupController@getGames')->n
 Route::get('teams/{id}/current_players', 'Resources\TeamController@getCurrentPlayers')->name('getTeamCurrentPlayers');
 Route::get('games/{id}/teams', 'Resources\GameController@getTeams')->name('getGameTeams');
 Route::get('seasons/{id}/game_groups', 'Resources\SeasonController@getGameGroups')->name('getGameGroups');
+Route::get('api/players/search', 'Resources\PlayerController@autocomplete')->name('api.players.search');
 //======================================================================================================================
 
 // HoneyPot Routes, POC, will think of better and more scalable solution later =========================================
