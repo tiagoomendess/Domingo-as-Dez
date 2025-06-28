@@ -20,12 +20,12 @@
         console.log(id);
 
         //Disable 2nd dropdown
-        if (id == 0) {
+        if (id == 0 || id == '' || id == null) {
 
-            var op = $("<option> Primeiro escolhe Clube</option>");
-            op.attr('value', '0');
+            var op = $("<option>{{ trans('general.none') }}</option>");
+            op.attr('value', '');
             op.appendTo(team_dropdown);
-            team_dropdown.prop('disabled', true);
+            team_dropdown.prop('disabled', false);
             return;
         }
 
@@ -33,16 +33,20 @@
 
             team_dropdown.prop('disabled', false);
 
+            // Always add None option first
+            var noneOp = $("<option>{{ trans('general.none') }}</option>");
+            noneOp.attr('value', '');
+            noneOp.appendTo(team_dropdown);
+
             if(data.length == 0) {
-                var op = $("<option>Nenhuma</option>");
-                op.attr('value', 0);
-                op.appendTo(team_dropdown);
+                // If no teams, None is the only option
+                noneOp.prop('selected', true);
             } else {
-                var op = $("<option>Escolha uma opção</option>");
-                op.attr('value', 0);
-                op.prop('disabled', true);
-                op.prop('selected', true);
-                op.appendTo(team_dropdown);
+                // If there are teams, add choose option
+                var chooseOp = $("<option>{{ trans('general.choose_option') }}</option>");
+                chooseOp.attr('value', '');
+                chooseOp.prop('disabled', true);
+                chooseOp.appendTo(team_dropdown);
             }
 
             for (i = 0; i < data.length; i++) {

@@ -67,7 +67,33 @@
 
                         <div class="card-content grey lighten-4">
                             @foreach($teams as $team)
-                                <div id="team{{ $team->id }}">
+                                <div id="team{{ $team->id }}">               
+                                    <!-- Technical Staff Section -->
+                                    <h5>{{ trans('front.technical_staff') }}</h5>
+                                    <div class="row">
+                                        @if(count($team->teamAgents) < 1)
+                                            <p class="center">{{ trans('front.no_technical_staff_in_team', ['team_name' => $team->name]) }}</p>
+                                        @endif
+                                        @foreach($team->teamAgents as $agent)
+                                            <div class="col s6 m6 l4 xl3">
+                                                <a href="{{ $agent->getPublicURL() }}">
+                                                    <div class="player">
+                                                        <img src="{{ $agent->picture ?: config('custom.default_profile_pic') }}"
+                                                             alt="{{ $agent->name }}">
+                                                        <span>
+                                                            {{ $agent->name }}
+                                                            <small style="display: block; color: white; font-size: 0.9em;">
+                                                                {{ $agent->getAgentTypeTranslated() }}
+                                                            </small>
+                                                        </span>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        @endforeach
+                                    </div>
+
+                                    <!-- Players Section -->
+                                    <h5>{{ trans('front.players') }}</h5>
                                     <div class="row">
                                         @if(count($team->getCurrentPlayers()) < 1)
                                             <p class="center">{{ trans('front.no_players_in_team', ['team_name' => $team->name]) }}</p>

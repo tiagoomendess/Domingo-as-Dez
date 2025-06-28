@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Front;
 
 use App\Club;
 use App\Transfer;
+use App\Models\TeamAgent;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Cache;
@@ -52,6 +53,20 @@ class ClubController extends Controller
                 $teams->forget($index);
         }
 
+        // Load team agents for each team ordered by agent type priority
+        foreach ($teams as $team) {
+            $team->teamAgents = TeamAgent::where('team_id', $team->id)
+                ->with(['player'])
+                ->orderByRaw("CASE 
+                    WHEN agent_type = 'manager' THEN 1
+                    WHEN agent_type = 'assistant_manager' THEN 2
+                    WHEN agent_type = 'goalkeeper_manager' THEN 3
+                    WHEN agent_type = 'director' THEN 4
+                    ELSE 5
+                END")
+                ->get();
+        }
+
         $transfers = collect();
 
         foreach ($teams as $team) {
@@ -78,7 +93,9 @@ class ClubController extends Controller
         else
             $playground = null;
 
-        return view('front.pages.club', ['club' => $club, 'teams' => $teams, 'playground' => $playground, 'transfers' => $transfers]);
-
+        return view(
+            'front.pages.club',
+            ['club' => $club, 'teams' => $teams, 'playground' => $playground, 'transfers' => $transfers]
+        );
     }
 }
