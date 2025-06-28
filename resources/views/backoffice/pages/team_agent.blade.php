@@ -176,4 +176,4 @@
         ])
     @endif
 
-@endsection 
+@endsection

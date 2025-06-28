@@ -83,4 +83,4 @@
 @section('scripts')
     @include('backoffice.partial.update_team_list_js')
     @include('backoffice.partial.pick_a_date_js')
-@endsection 
+@endsection

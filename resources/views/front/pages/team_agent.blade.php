@@ -140,4 +140,4 @@
 
 @section('scripts')
     <script src="/js/front/player-scripts.js"></script>
-@endsection 
+@endsection

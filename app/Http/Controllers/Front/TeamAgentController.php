@@ -24,4 +24,4 @@ class TeamAgentController extends Controller
             'history' => $history
         ]);
     }
-} 
+}

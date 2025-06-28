@@ -10,4 +10,4 @@ return [
     'history' => 'History',
     'no_history_available' => 'No history available',
     'unknown' => 'Unknown',
-]; 
+];

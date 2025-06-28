@@ -140,4 +140,4 @@
     @include('backoffice.partial.update_team_list_js')
     @include('backoffice.partial.pick_a_date_js')
     @include('backoffice.partial.player_autocomplete_js')
-@endsection 
+@endsection

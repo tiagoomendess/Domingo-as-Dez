@@ -86,4 +86,4 @@
         @include('backoffice.partial.add_model_button', ['route' => route('team_agents.create')])
     @endif
 
-@endsection 
+@endsection
