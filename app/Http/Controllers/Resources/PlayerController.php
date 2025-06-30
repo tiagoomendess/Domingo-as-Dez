@@ -85,7 +85,7 @@ class PlayerController extends Controller
         else
             $visible = false;
 
-        $name = $request->input('name');
+        $name = ucwords(strtolower($request->input('name')));
         $association_id = $request->input('association_id');
         $nickname = $request->input('nickname');
         $phone = $request->input('phone');
@@ -209,7 +209,7 @@ class PlayerController extends Controller
         else
             $visible = false;
 
-        $name = $request->input('name');
+        $name = ucwords(strtolower($request->input('name')));
         $association_id = $request->input('association_id');
         $nickname = $request->input('nickname');
         $phone = $request->input('phone');
