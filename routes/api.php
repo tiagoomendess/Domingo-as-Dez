@@ -31,3 +31,5 @@ Route::put('/games/{game}/scoreboard-updated', 'Api\GamesController@scoreboardUp
 Route::post('/score-reports/{game}', 'Api\ScoreReportsController@store')->name('api.game_reports.store');
 Route::get('/players', 'Api\PlayersController@index')->name('api.players.index');
 Route::get('/clubs/search', 'Api\ClubsController@search')->name('api.clubs.search');
+Route::post('/player-update-requests', 'Api\PlayerUpdateRequestsController@store')->name('api.player_update_requests.store');
+Route::get('/player-update-requests/{id}', 'Api\PlayerUpdateRequestsController@show')->name('api.player_update_requests.show');

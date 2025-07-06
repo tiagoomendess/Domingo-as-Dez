@@ -32,7 +32,10 @@ class ClubsController extends Controller
 
         // Load all clubs with their teams into memory
         $clubs = Club::with('teams')->where('visible', true)->get();
-        
+
+        // Remove Clube de Testes A and Clube de Testes B
+        $clubs = $clubs->where('name', '!=', 'Clube de Testes A')->where('name', '!=', 'Clube de Testes B');
+
         $results = [];
         
         foreach ($clubs as $club) {
