@@ -29,3 +29,7 @@ Route::get('/games/is_live', 'Api\GamesController@isLive')->name('api.games.is_l
 Route::get('/games/next/{team_id}', 'Api\GamesController@getNextTeamGame')->name('api.games.next');
 Route::put('/games/{game}/scoreboard-updated', 'Api\GamesController@scoreboardUpdated')->name('api.games.scoreboard_updated');
 Route::post('/score-reports/{game}', 'Api\ScoreReportsController@store')->name('api.game_reports.store');
+Route::get('/players', 'Api\PlayersController@index')->name('api.players.index');
+Route::get('/clubs/search', 'Api\ClubsController@search')->name('api.clubs.search');
+Route::post('/player-update-requests', 'Api\PlayerUpdateRequestsController@store')->name('api.player_update_requests.store');
+Route::get('/player-update-requests/{id}', 'Api\PlayerUpdateRequestsController@show')->name('api.player_update_requests.show');

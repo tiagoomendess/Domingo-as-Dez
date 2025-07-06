@@ -53,7 +53,6 @@
                 console.log('Navbar title not found, title not aplied.');
             }
         });
-
     </script>
 
 </body>

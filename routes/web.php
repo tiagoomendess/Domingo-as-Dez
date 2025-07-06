@@ -152,7 +152,14 @@ Route::resources([
     'score_report_bans' => 'Resources\ScoreReportBanController',
     'team_agents' => 'Resources\TeamAgentController',
     'team_agent_history' => 'Resources\TeamAgentHistoryController',
+    'player_update_requests' => 'Resources\PlayerUpdateRequestController',
 ]);
+
+// === Player Update Request Custom Routes ========================================================================
+Route::post('/player_update_requests/{id}/approve', 'Resources\PlayerUpdateRequestController@approve')
+    ->name('player_update_requests.approve');
+Route::post('/player_update_requests/{id}/deny', 'Resources\PlayerUpdateRequestController@deny')
+    ->name('player_update_requests.deny');
 // =====================================================================================================================
 
 // === Backend Javascript Routes =================================================================================
