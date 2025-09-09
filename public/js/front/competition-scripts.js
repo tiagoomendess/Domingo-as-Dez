@@ -1,5 +1,4 @@
-$(document).ready(function () {
-    console.log("competition-scripts loaded!");
+$(function () {
     $('#competition_selector').on('change', competitionChanged);
     $('#season_selector').on('change', seasonChanged);
 
@@ -63,28 +62,23 @@ function start() {
 }
 
 function seasonChanged() {
-    console.log('SeasonChanged');
     $('#stats_button').addClass('hide');
     var season_selector = $('#season_selector');
     var season_id = parseInt(season_selector.val());
+
     $('#groups').empty();
     $('#main_loading').removeClass('hide');
-
     $('#season_obs > span').addClass('hide');
-
     $('#season_obs_' + season_id).removeClass('hide');
 
     makeGetRequest('/api/seasons/' + season_id + '/games', {}, handleGetGamesRequest);
 }
 
 function competitionChanged() {
-
     var competition_selector = $('#competition_selector');
     var id_selected = parseInt(competition_selector.val());
 
-    var title = $('title');
     var url = document.URL;
-
     var new_title = undefined;
     var slug = undefined;
 
@@ -97,7 +91,7 @@ function competitionChanged() {
 
     document.title = new_title;
 
-    url = url.substr(0, url.lastIndexOf('/') + 1);
+    url = url.substring(0, url.lastIndexOf('/') + 1);
     url += slug;
 
     history.pushState({
@@ -130,7 +124,7 @@ function addSeasonsToOptions(response) {
     }
 
     $('select').material_select();
-    season_selector.change();
+    season_selector.trigger('change');
 
 }
 
@@ -157,13 +151,11 @@ function addCompetitionSelectorOptions(response) {
 }
 
 function handleGetGamesRequest(response) {
-
-    console.log("handleGetGamesRequest");
     data = response.data;
 
     var groups = $('#groups');
 
-    //Se não houver grupos
+    // Se não houver grupos
     if (!response.data) {
         groups.append($('<p class="center">Ainda nada foi adicionado a esta época.</p>'));
         $('#main_loading').addClass('hide');
@@ -343,19 +335,25 @@ function buildTableDOM(table, group, round) {
     table_element.attr('id', 'group_' + group +'_table_' + round);
     table_element.attr('round', round);
     table_element.append('<tbody></tbody>');
+    let gameGroup = data.groups[group];
 
     for (var k = 0; k < table.length; k++) {
         var line = $('<tr></tr>');
 
-        if (k === 0)
-            line.attr("id", "champion");
-
-        if (k > 0 && k < data.groups[group].promotes) {
-            line.addClass("promotion");
-        }
-
-        if (k > 0 && k >= (table.length - data.groups[group].relegates)) {
-            line.addClass("relegate");
+        // Legacy promotes and relegates logic
+        if (!gameGroup.positions || gameGroup.positions.length === 0) {
+            if (k === 0)
+                line.attr("id", "champion");
+    
+            if (k > 0 && k < data.groups[group].promotes) {
+                line.addClass("promotion");
+            }
+    
+            if (k > 0 && k >= (table.length - data.groups[group].relegates)) {
+                line.addClass("relegate");
+            }
+        } else {
+            line = setLineStyle(line, k+1, gameGroup.positions);
         }
 
         var position = $('<td class="number">' + (k + 1) + '</td>');
@@ -389,6 +387,26 @@ function buildTableDOM(table, group, round) {
     table_element.appendTo(tables);
     table_element.addClass('active');
     table_element.removeClass('hide');
+
+    let legendElement = buildLegendElement(gameGroup.positions, gameGroup);
+    legendElement.appendTo(group_element.find(tables));
+}
+
+function setLineStyle(line, position, positions) {
+
+    if (!positions || !Array.isArray(positions)) {
+        return line;
+    }
+
+    for (var i = 0; i < positions.length; i++) {
+        if (positions[i].positions.includes(position)) {
+            line.attr('style', `background-color: ${positions[i].color};`);
+            line.attr('data-label', positions[i].label);
+            break;
+        }
+    }
+
+    return line;
 }
 
 function addLine(table, club_name, club_emblem, club_url) {
@@ -481,6 +499,20 @@ function orderTable(table, rules_name, group, round) {
 
     table = orderTableByPoints(table);
 
+    // Check if there's a custom tie breaker script
+    if (data.groups[group].tie_breaker_script && data.groups[group].tie_breaker_script.trim() !== '') {
+        try {
+            // Create a function from the stored script
+            const customTieBreaker = new Function('table', 'group', 'round', data.groups[group].tie_breaker_script.trim());
+            customTieBreaker(table, group, round);
+            return;
+        } catch (error) {
+            console.error('Error executing custom tie breaker script:', error);
+            console.log('Falling back to legacy rules...');
+        }
+    }
+
+    // Fallback to legacy rules system
     switch (rules_name) {
         case 'Default Points':
             buildTableDOM(table, group, round);
@@ -507,4 +539,143 @@ function orderTableByPoints(table) {
     });
 
     return table;
+}
+
+function buildLegendElement(positions, group) {
+
+    if (!positions || !Array.isArray(positions) || positions.length === 0) {
+        return buildLegacyStaticLegendElement(group);
+    }
+
+    let legendElement = $(`
+        <div class="legend-container" style="margin-top: 20px; padding: 10px; border-radius: 4px; background-color: #f5f5f5; border-left: 4px solid #107db7;">
+            <h6 style="margin: 0 0 8px 0; font-size: 14px; font-weight: 500; color: #424242;">Legenda</h6>
+            <div class="legend-items" style="display: flex; flex-wrap: wrap; gap: 8px;"></div>
+        </div>
+    `);
+    
+    let legendItems = legendElement.find('.legend-items');
+    
+    for (var i = 0; i < positions.length; i++) {
+        let legendItem = $(`
+            <div class="legend-item" style="
+                display: inline-flex; 
+                align-items: center; 
+                padding: 4px 8px; 
+                border-radius: 12px; 
+                font-size: 12px; 
+                font-weight: 500; 
+                color: #fff; 
+                text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+                box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+                background-color: ${positions[i].color};
+            ">
+                <span class="legend-dot" style="
+                    width: 8px; 
+                    height: 8px; 
+                    border-radius: 50%; 
+                    background-color: rgba(255,255,255,0.3); 
+                    margin-right: 6px;
+                "></span>
+                ${positions[i].label}
+            </div>
+        `);
+        legendItems.append(legendItem);
+    }
+    
+    return legendElement;
+}
+
+function buildLegacyStaticLegendElement (group) {
+    let legendElement = $(`
+        <div class="legend-container" style="margin-top: 20px; padding: 10px; border-radius: 4px; background-color: #f5f5f5; border-left: 4px solid #107db7;">
+            <h6 style="margin: 0 0 8px 0; font-size: 14px; font-weight: 500; color: #424242;">Legenda</h6>
+            <div class="legend-items" style="display: flex; flex-wrap: wrap; gap: 8px;"></div>
+        </div>
+    `);
+
+    let legendItems = legendElement.find('.legend-items');
+
+    // if has promotion spots add promotion legend
+    if (group.promotes > 0) {
+        let promotionLegend = $(`
+            <div class="legend-item" style="
+                display: inline-flex; 
+                align-items: center; 
+                padding: 4px 8px; 
+                border-radius: 12px; 
+                font-size: 12px; 
+                font-weight: 500; 
+                color: #fff; 
+                text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+                box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+                background-color: #bbdcb1cc;
+            ">
+            <span class="legend-dot" style="
+                    width: 8px; 
+                    height: 8px; 
+                    border-radius: 50%; 
+                    background-color: rgba(255,255,255,0.3); 
+                    margin-right: 6px;
+                "></span>
+                Promoção
+            </div>
+        `);
+        legendItems.append(promotionLegend);
+    }
+
+    if (group.promotes == 0) {
+        legendItems.append($(`
+            <div class="legend-item" style="
+                display: inline-flex; 
+                align-items: center; 
+                padding: 4px 8px; 
+                border-radius: 12px; 
+                font-size: 12px; 
+                font-weight: 500; 
+                color: #fff; 
+                text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+                box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+                background-color: #80cf6ecc;
+            ">
+            <span class="legend-dot" style="
+                    width: 8px; 
+                    height: 8px; 
+                    border-radius: 50%; 
+                    background-color: rgba(255,255,255,0.3); 
+                    margin-right: 6px;
+                "></span>
+                Campeão
+            </div>
+        `));
+    }
+
+    if (group.relegates > 0) {
+        let relegationLegend = $(`
+            <div class="legend-item" style="
+                display: inline-flex; 
+                align-items: center; 
+                padding: 4px 8px; 
+                border-radius: 12px; 
+                font-size: 12px; 
+                font-weight: 500; 
+                color: #fff; 
+                text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+                box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+                background-color: #f08d8dcc;
+            ">
+            <span class="legend-dot" style="
+                    width: 8px; 
+                    height: 8px; 
+                    border-radius: 50%; 
+                    background-color: rgba(255,255,255,0.3); 
+                    margin-right: 6px;
+                "></span>
+                Despromoção
+            </div>
+        `);
+        legendItems.append(relegationLegend);
+    }
+
+    return legendElement;
 }

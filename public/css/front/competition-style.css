@@ -206,13 +206,13 @@ body {
 }
 
 #champion {
-    background-color: rgba(133, 201, 117, 0.65);
+    background-color: #80cf6ecc;
 }
 
 .tables .positions-table tbody .relegate {
-    background-color: rgba(255, 0, 0, 0.23);
+    background-color: #f08d8dcc;
 }
 
 .tables .positions-table tbody .promotion {
-    background-color: rgba(187, 220, 177, 0.65);
+    background-color: #bbdcb1cc;
 }

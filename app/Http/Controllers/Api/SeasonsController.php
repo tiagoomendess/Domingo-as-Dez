@@ -81,6 +81,8 @@ class SeasonsController extends Controller
             $data_object->data->groups[$i]->rules_name = $game_group->group_rules->name;
             $data_object->data->groups[$i]->relegates = $game_group->group_rules->relegates;
             $data_object->data->groups[$i]->promotes = $game_group->group_rules->promotes;
+            $data_object->data->groups[$i]->tie_breaker_script = $game_group->group_rules->tie_breaker_script;
+            $data_object->data->groups[$i]->positions = $this->buildPositionsArray($game_group->group_rules->positions);
             $data_object->data->groups[$i]->rounds = [];
 
             $game_rounds = $game_group->games->groupBy('round');
@@ -128,5 +130,24 @@ class SeasonsController extends Controller
         Cache::store('file')->put($key, $serializedObj, 120);
 
         return response()->json($data_object);
+    }
+
+    private function buildPositionsArray($positions) {
+
+        if (empty($positions)) {
+            return [];
+        }
+
+        $positionsArray = [];
+        foreach ($positions as $position) {
+            $finalPositions = array_map('intval', explode(',', $position->positions));
+            $positionsArray[] = [
+                'positions' => $finalPositions,
+                'color' => $position->color,
+                'label' => $position->label,
+            ];
+        }
+
+        return $positionsArray;
     }
 }

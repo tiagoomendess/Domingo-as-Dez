@@ -103,6 +103,10 @@
                             <li><a class="waves-effect"
                                    href="{{ route('gamegroups.index') }}">{{ trans('models.game_groups') }}</a></li>
                         @endif
+                        @if(Auth::user()->hasPermission('group_rules'))
+                            <li><a class="waves-effect"
+                                   href="{{ route('group_rules.index') }}">Regras</a></li>
+                        @endif
                     </ul>
                 </div>
             </li>
