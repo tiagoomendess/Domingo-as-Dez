@@ -15,7 +15,7 @@ class CreateGroupRulesPositionsTable extends Migration
     {
         Schema::create('group_rules_positions', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('group_rules_id');
+            $table->unsignedInteger('group_rules_id');
             $table->string('positions');
             $table->string('color');
             $table->string('label');
