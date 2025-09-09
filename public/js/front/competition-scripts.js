@@ -255,6 +255,9 @@ function handleGetGamesRequest(response) {
         //stats button
         $('#stats_link').attr('href', data.stats_link);
         $('#stats_button').removeClass('hide');
+
+        let legendElement = buildLegendElement(response.data.groups[i]);
+        $(legendElement).appendTo(group.find('.group-table'));
     }
 
     $('#main_loading').addClass('hide');
@@ -387,9 +390,6 @@ function buildTableDOM(table, group, round) {
     table_element.appendTo(tables);
     table_element.addClass('active');
     table_element.removeClass('hide');
-
-    let legendElement = buildLegendElement(gameGroup.positions, gameGroup);
-    legendElement.appendTo(group_element.find(tables));
 }
 
 function setLineStyle(line, position, positions) {
@@ -541,12 +541,13 @@ function orderTableByPoints(table) {
     return table;
 }
 
-function buildLegendElement(positions, group) {
+function buildLegendElement(gameGroup) {
 
-    if (!positions || !Array.isArray(positions) || positions.length === 0) {
-        return buildLegacyStaticLegendElement(group);
+    if (!gameGroup.positions || !Array.isArray(gameGroup.positions) || gameGroup.positions.length === 0) {
+        return buildLegacyStaticLegendElement(gameGroup);
     }
 
+    const positions = gameGroup.positions;
     let legendElement = $(`
         <div class="legend-container" style="margin-top: 20px; padding: 10px; border-radius: 4px; background-color: #f5f5f5; border-left: 4px solid #107db7;">
             <h6 style="margin: 0 0 8px 0; font-size: 14px; font-weight: 500; color: #424242;">Legenda</h6>
