@@ -256,8 +256,11 @@ function handleGetGamesRequest(response) {
         $('#stats_link').attr('href', data.stats_link);
         $('#stats_button').removeClass('hide');
 
-        let legendElement = buildLegendElement(response.data.groups[i]);
-        $(legendElement).appendTo(group.find('.group-table'));
+        // Only show legend for points groups
+        if (response.data.groups[i].type === 'points') {
+            let legendElement = buildLegendElement(response.data.groups[i]);
+            $(legendElement).appendTo(group.find('.group-table'));
+        }
     }
 
     $('#main_loading').addClass('hide');
