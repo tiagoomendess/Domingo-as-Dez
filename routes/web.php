@@ -145,6 +145,7 @@ Route::resources([
     'goals' => 'Resources\GoalController',
     'referees' => 'Resources\RefereeController',
     'gamegroups' => 'Resources\GameGroupController',
+    'group_rules' => 'Resources\GroupRulesController',
     'pages' => 'Resources\PageController',
     'partners' => 'Resources\PartnerController',
     'info_reports' => 'Resources\InfoReportController',
