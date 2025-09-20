@@ -26,14 +26,10 @@
 
         <div class="row">
 
-            <div class="col s6 m4 l3">
-                <label>{{ trans('general.home_club') }}</label>
-                <select onchange="updateTeamList('home_club_id', 'home_team_id')" id="home_club_id" name="club_id" class="browser-default" required>
-                    <option disabled value="0" selected>{{ trans('general.choose_option') }}</option>
-                    @foreach(App\Club::orderBy('priority', 'desc')->orderBy('name')->get() as $club)
-                        <option value="{{ $club->id }}">{{ $club->name }}</option>
-                    @endforeach
-                </select>
+            <div class="input-field col s6 m4 l3">
+                <input name="home_club_name" type="text" id="home-club-autocomplete" class="autocomplete" autocomplete="off" value="{{ old('home_club_name') }}" required>
+                <label for="home-club-autocomplete">{{ trans('general.home_club') }}</label>
+                <input name="home_club_id" type="hidden" id="home_club_id" value="{{ old('home_club_id') }}">
             </div>
 
             <div class="col s6 m4 l3">
@@ -47,14 +43,10 @@
 
         <div class="row">
 
-            <div class="col s6 m4 l3">
-                <label>{{ trans('general.away_club') }}</label>
-                <select onchange="updateTeamList('away_club_id', 'away_team_id')" id="away_club_id" name="club_id" class="browser-default" required>
-                    <option disabled value="0" selected>{{ trans('general.choose_option') }}</option>
-                    @foreach(App\Club::orderBy('priority', 'desc')->orderBy('name')->get() as $club)
-                        <option value="{{ $club->id }}">{{ $club->name }}</option>
-                    @endforeach
-                </select>
+            <div class="input-field col s6 m4 l3">
+                <input name="away_club_name" type="text" id="away-club-autocomplete" class="autocomplete" autocomplete="off" value="{{ old('away_club_name') }}" required>
+                <label for="away-club-autocomplete">{{ trans('general.away_club') }}</label>
+                <input name="away_club_id" type="hidden" id="away_club_id" value="{{ old('away_club_id') }}">
             </div>
 
             <div class="col s6 m4 l3">
@@ -146,14 +138,10 @@
 
         <div class="row">
 
-            <div class="col s12 m8 l6">
-                <label>{{ trans('models.playground') }}</label>
-                <select id="playground_id" name="playground_id" class="browser-default">
-                    <option value="" selected>{{ trans('general.none') }}</option>
-                    @foreach(App\Playground::orderBy('priority', 'desc')->orderBy('name', 'asc')->get() as $playground)
-                        <option value="{{ $playground->id }}">{{ $playground->name }}</option>
-                    @endforeach
-                </select>
+            <div class="input-field col s12 m8 l6">
+                <input name="playground_name" type="text" id="playground-autocomplete" class="autocomplete" autocomplete="off" value="{{ old('playground_name') }}">
+                <label for="playground-autocomplete">{{ trans('models.playground') }}</label>
+                <input name="playground_id" type="hidden" id="playground_id" value="{{ old('playground_id') }}">
             </div>
 
         </div>
@@ -256,4 +244,97 @@
     @include('backoffice.partial.update_game_groups_js')
     @include('backoffice.partial.pick_a_date_js')
     @include('backoffice.partial.pick_a_time_js')
+
+    <script>
+        $(function () {
+            // Home Club Autocomplete
+            $('#home-club-autocomplete').autocomplete({
+                data: {
+                    @foreach(App\Club::orderBy('priority', 'desc')->orderBy('name')->get() as $club)
+                        "{{ $club->name }}": '{{ $club->getEmblem() }}',
+                    @endforeach
+                },
+                limit: 20,
+                onAutocomplete: function(val) {
+                    // Find the club by name to get its ID
+                    var clubData = {
+                        @foreach(App\Club::orderBy('priority', 'desc')->orderBy('name')->get() as $club)
+                            "{{ $club->name }}": {{ $club->id }},
+                        @endforeach
+                    };
+                    
+                    var clubId = clubData[val];
+                    if (clubId) {
+                        var homeClubId = $("#home_club_id");
+                        homeClubId.val(clubId);
+                        
+                        // Update team list for home club
+                        updateTeamList('home_club_id', 'home_team_id');
+                    }
+                },
+                minLength: 1
+            });
+
+            // Away Club Autocomplete
+            $('#away-club-autocomplete').autocomplete({
+                data: {
+                    @foreach(App\Club::orderBy('priority', 'desc')->orderBy('name')->get() as $club)
+                        "{{ $club->name }}": '{{ $club->getEmblem() }}',
+                    @endforeach
+                },
+                limit: 20,
+                onAutocomplete: function(val) {
+                    // Find the club by name to get its ID
+                    var clubData = {
+                        @foreach(App\Club::orderBy('priority', 'desc')->orderBy('name')->get() as $club)
+                            "{{ $club->name }}": {{ $club->id }},
+                        @endforeach
+                    };
+                    
+                    var clubId = clubData[val];
+                    if (clubId) {
+                        var awayClubId = $("#away_club_id");
+                        awayClubId.val(clubId);
+                        
+                        // Update team list for away club
+                        updateTeamList('away_club_id', 'away_team_id');
+                    }
+                },
+                minLength: 1
+            });
+
+            // Playground Autocomplete
+            $('#playground-autocomplete').autocomplete({
+                data: {
+                    "{{ trans('general.none') }}": null,
+                    @foreach(App\Playground::orderBy('priority', 'desc')->orderBy('name', 'asc')->get() as $playground)
+                        "{{ $playground->name }}": '{{ $playground->getPicture() }}',
+                    @endforeach
+                },
+                limit: 20,
+                onAutocomplete: function(val) {
+                    // Handle "None" option
+                    if (val === "{{ trans('general.none') }}") {
+                        var playgroundId = $("#playground_id");
+                        playgroundId.val('');
+                        return;
+                    }
+                    
+                    // Find the playground by name to get its ID
+                    var playgroundData = {
+                        @foreach(App\Playground::orderBy('priority', 'desc')->orderBy('name', 'asc')->get() as $playground)
+                            "{{ $playground->name }}": {{ $playground->id }},
+                        @endforeach
+                    };
+                    
+                    var playgroundId = playgroundData[val];
+                    if (playgroundId) {
+                        var playgroundIdField = $("#playground_id");
+                        playgroundIdField.val(playgroundId);
+                    }
+                },
+                minLength: 1
+            });
+        })
+    </script>
 @endsection

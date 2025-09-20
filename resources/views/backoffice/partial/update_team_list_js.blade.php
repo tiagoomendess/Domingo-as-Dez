@@ -17,11 +17,8 @@
 
         var id = selected.val();
 
-        console.log(id);
-
         //Disable 2nd dropdown
         if (id == 0 || id == '' || id == null) {
-
             var op = $("<option>{{ trans('general.none') }}</option>");
             op.attr('value', '');
             op.appendTo(team_dropdown);
@@ -32,15 +29,12 @@
         $.get("/clubs/" + id + "/teams", function (data) {
 
             team_dropdown.prop('disabled', false);
-
-            // Always add None option first
-            var noneOp = $("<option>{{ trans('general.none') }}</option>");
-            noneOp.attr('value', '');
-            noneOp.appendTo(team_dropdown);
-
             if(data.length == 0) {
                 // If no teams, None is the only option
+                var noneOp = $("<option>{{ trans('general.none') }}</option>");
+                noneOp.attr('value', '');
                 noneOp.prop('selected', true);
+                noneOp.appendTo(team_dropdown);
             } else {
                 // If there are teams, add choose option
                 var chooseOp = $("<option>{{ trans('general.choose_option') }}</option>");
