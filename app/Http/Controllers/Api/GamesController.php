@@ -136,6 +136,7 @@ class GamesController extends Controller
                 $new_game->away_club_emblem = $game->away_team->club->getEmblem();
                 $new_game->away_team_name = $game->away_team->name;
                 $new_game->away_score = $game->getAwayScore();
+                $new_game->round = $game->round;
 
                 if ($game->decidedByPenalties()) {
                     $new_game->penalties = '(' . trans('front.after_penalties', ['penalties_home' => $game->penalties_home, 'penalties_away' => $game->penalties_away]) . ')';
