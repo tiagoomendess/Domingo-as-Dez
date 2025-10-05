@@ -47,8 +47,12 @@ function afpb_points_2018(table, group, round) {
                                     if (table[i].ga > table[j].ga) {
                                         table = switchPlacesWithNext(table, i, j);
                                     } else if (table[i].ga === table[j].ga) {
-                                        //End of rules, maybe alphabetically next?
-                                        console.log("End of rule list. Cannot resolve conflict!");
+                                        console.log("End of rule list. Cannot resolve conflict, alphabetically now!");
+
+                                        // order alphabetically now
+                                        if (table[i].club_name > table[j].club_name) {
+                                            table = switchPlacesWithNext(table, i, j);
+                                        }
                                     }
                                 }
                             }
