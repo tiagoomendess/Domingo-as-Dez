@@ -29,6 +29,7 @@
                         <th>{{ trans('general.id') }}</th>
                         <th>{{ trans('models.picture')  }}</th>
                         <th>{{ trans('general.name') }}</th>
+                        <th>Data de Nascimento</th>
                         <th>{{ trans('general.created_at') }}</th>
                         <th>{{ trans('general.updated_at') }}</th>
                     </tr>
@@ -50,7 +51,7 @@
                                     {{ $player->name }}
                                 </a>
                             </td>
-
+                            <td>{{ $player->birth_date ? \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $player->birth_date)->format("d/m/Y") : '-' }}</td>
                             <td>{{ $player->created_at }}</td>
                             <td>{{ $player->updated_at }}</td>
 
