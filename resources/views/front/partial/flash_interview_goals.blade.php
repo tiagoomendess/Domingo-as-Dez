@@ -26,7 +26,7 @@
                                     class="text-left circle"
                                     value="{{ $player->id }}"
                                     @if($goals && !empty($goals[$i]) && $goals[$i]->player_id == $player->id) selected @endif
-                            >{{ !empty($player->nickname) ? "$player->name ($player->nickname)" : $player->name }}</option>
+                            >{{ $player->displayName() }}</option>
                         @endforeach
                         <option value="0" @if(!empty($goals) && isset($goals[$i]) && $goals[$i]->player_id == null && !$goals[$i]->own_goal) selected @endif>Jogador em Falta</option>
                     </select>
