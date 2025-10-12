@@ -180,6 +180,18 @@ class Player extends SearchableModel
      */
     public function displayName()
     {
+        $name = $this->firstAndLastName();
+
+        if ($this->nickname)
+            return "$name ($this->nickname)";
+        else
+            return $name;
+    }
+
+    public function firstAndLastName() {
+        if (empty($this->name)) {
+            return "";
+        }
 
         // Get first and last name from full name that is on name field
         $nameParts = explode(' ', $this->name);
@@ -187,18 +199,13 @@ class Player extends SearchableModel
         // Check if at least 2 parts are present
         $partsCount = count($nameParts);
         if ($partsCount < 2) {
-            return $this->nickname ? "$this->name ($this->nickname)" : $this->name;
+            return $this->name;
         }
 
         $firstName = $nameParts[0];
         $lastName = $nameParts[$partsCount - 1];
-        
-        $toReturn = "$firstName $lastName";
 
-        if ($this->nickname)
-            return "$toReturn ($this->nickname)";
-        else
-            return $toReturn;
+        return "$firstName $lastName";
     }
 
     public function getPublicURL()

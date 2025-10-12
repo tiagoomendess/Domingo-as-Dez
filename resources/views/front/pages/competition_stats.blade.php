@@ -55,7 +55,7 @@
                                                     <div class="scorer-info">
                                                         <div class="names">
                                                 <span class="scorer-name">
-                                                    {{ $scorer['player']->displayName() }}</span>
+                                                    {{ $scorer['player']->firstAndLastName() }}</span>
                                                             <span class="scorer-nickname">
                                                     {{ $scorer['player']->nickname }}
                                                 </span>
