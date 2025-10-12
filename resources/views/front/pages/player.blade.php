@@ -61,6 +61,11 @@
                             </span>
                         </div>
 
+                        <div class="full-info">
+                            <span>Total de Golos</span>
+                            <span>{{ $player->goals()->count() }}</span>
+                        </div>
+
                     </div>
                 </div>
             </div>
