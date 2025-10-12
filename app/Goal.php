@@ -27,7 +27,7 @@ class Goal extends Model
     public function getPlayerName() {
 
         if ($this->player) {
-            return $this->player->name;
+            return $this->player->displayName();
         } else {
             return trans('general.unknown');
         }
