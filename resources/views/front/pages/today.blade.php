@@ -38,9 +38,9 @@
         @endif
         <div class="row">
             <div class="col s12 m12 l8">
-                <div class="card">
-                    <div class="card-content group-games" style="padding: 10px">
-                        @if (count($games) < 1)
+                @if (count($games) < 1)
+                    <div class="card">
+                        <div class="card-content group-games" style="padding: 10px">
                             <p class="flow-text text-center">
                                 Não existem jogos marcados para hoje.
                                 @if($closest)
@@ -49,69 +49,79 @@
                                     {{ (new \Carbon\Carbon($closest->date))->setTimezone('Europe/Lisbon')->format('d/m \d\e Y') }}
                                 @endif
                             </p>
-                        @else
-                            <ul class="list-a">
-                                @foreach($games as $game)
-                                    <li>
-                                        <a href="{{ $game->getPublicUrl() }}">
-
-                                            <div class="row" style="margin-bottom: 0; width: 100%;">
-                                                <div class="col s4"
-                                                     style="text-align: right; vertical-align: middle; vert-align: middle">
-                                                    <div style="display: flex; flex-direction: row; justify-content: end; align-items: center; height: 37px">
-                                                        <span style=""
-                                                              class="hide-on-med-and-down">{{ $game->home_team->club->name }}</span>
-                                                        <span class="hide-on-large-only">
-                                                            {{ mb_strtoupper(\Illuminate\Support\Str::limit($game->home_team->club->name, 3, '')) }}
-                                                        </span>
-                                                        <img class=""
-                                                             style="width: 30px; margin-left: 5px; resize: none;"
-                                                             src="{{ $game->home_team->club->getEmblem() }}">
-                                                    </div>
-                                                </div>
-
-                                                <div class="col s2"
-                                                     style="text-align: center; margin-top: 6px; padding: 0">
-                                                        <span style="background-color: #989898; padding: 0.2rem 0.5rem; color: white; font-weight: bold">
-                                                            @if ($game->finished)
-                                                                {{ $game->getHomeScore() }}
-                                                                - {{ $game->getAwayScore() }}
-                                                            @else
-                                                                @if($game->postponed)
-                                                                    ADI
-                                                                @else
-                                                                    {{ (new \Carbon\Carbon($game->date))->setTimezone('Europe/Lisbon')->format('H:i') }}
-                                                                @endif
-                                                            @endif
-                                                        </span>
-                                                </div>
-
-                                                <div class="col s4">
-                                                    <div style="display: flex; flex-direction: row; justify-content: start; align-items: center; height: 37px">
-                                                        <img style="width: 30px; resize: none; margin-right: 5px"
-                                                             src="{{ $game->away_team->club->getEmblem() }}">
-                                                        <span style=""
-                                                              class="hide-on-med-and-down">{{ $game->away_team->club->name }}</span>
-                                                        <span class="hide-on-large-only">
-                                                            {{ mb_strtoupper(\Illuminate\Support\Str::limit($game->away_team->club->name, 3, '')) }}
-                                                        </span>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col s2" style="text-align: right">
-                                                    <img style="width: 25px; right: 0; margin-top: 5px"
-                                                         src="{{ $game->game_group->season->competition->picture }}"
-                                                         alt="{{ $game->game_group->season->competition->name }}">
-                                                </div>
-                                            </div>
-
-                                        </a>
-                                    </li>
-                                @endforeach
-                            </ul>
-                        @endif
+                        </div>
                     </div>
-                </div>
+                @else
+                    @foreach($grouped_games as $group_data)
+                        <div class="card" style="margin-bottom: 20px">
+                            <div class="card-content" style="padding: 10px">
+                                <div style="display: flex; align-items: center; margin-bottom: 10px; padding: 10px; background-color: #f5f5f5; border-radius: 4px">
+                                    <img style="width: 35px; height: 35px; object-fit: contain; margin-right: 10px"
+                                         src="{{ $group_data['game_group']->season->competition->picture }}"
+                                         alt="{{ $group_data['game_group']->season->competition->name }}">
+                                    <div>
+                                        <h6 style="margin: 0; font-weight: bold">{{ $group_data['game_group']->name }}</h6>
+                                        <span style="font-size: 0.9rem; color: #666">{{ $group_data['game_group']->season->competition->name }}</span>
+                                    </div>
+                                </div>
+
+                                <ul class="list-a">
+                                    @foreach($group_data['games'] as $game)
+                                        <li>
+                                            <a href="{{ $game->getPublicUrl() }}">
+
+                                                <div class="row" style="margin-bottom: 0; width: 100%;">
+                                                    <div class="col s5"
+                                                         style="text-align: right; vertical-align: middle; vert-align: middle">
+                                                        <div style="display: flex; flex-direction: row; justify-content: end; align-items: center; height: 37px">
+                                                            <span style=""
+                                                                  class="hide-on-med-and-down">{{ $game->home_team->club->name }}</span>
+                                                            <span class="hide-on-large-only">
+                                                                {{ mb_strtoupper(\Illuminate\Support\Str::limit($game->home_team->club->name, 3, '')) }}
+                                                            </span>
+                                                            <img class=""
+                                                                 style="width: 30px; margin-left: 5px; resize: none;"
+                                                                 src="{{ $game->home_team->club->getEmblem() }}">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col s2"
+                                                         style="text-align: center; margin-top: 6px; padding: 0">
+                                                            <span style="background-color: #989898; padding: 0.2rem 0.5rem; color: white; font-weight: bold">
+                                                                @if ($game->finished)
+                                                                    {{ $game->getHomeScore() }}
+                                                                    - {{ $game->getAwayScore() }}
+                                                                @else
+                                                                    @if($game->postponed)
+                                                                        ADI
+                                                                    @else
+                                                                        {{ (new \Carbon\Carbon($game->date))->setTimezone('Europe/Lisbon')->format('H:i') }}
+                                                                    @endif
+                                                                @endif
+                                                            </span>
+                                                    </div>
+
+                                                    <div class="col s5">
+                                                        <div style="display: flex; flex-direction: row; justify-content: start; align-items: center; height: 37px">
+                                                            <img style="width: 30px; resize: none; margin-right: 5px"
+                                                                 src="{{ $game->away_team->club->getEmblem() }}">
+                                                            <span style=""
+                                                                  class="hide-on-med-and-down">{{ $game->away_team->club->name }}</span>
+                                                            <span class="hide-on-large-only">
+                                                                {{ mb_strtoupper(\Illuminate\Support\Str::limit($game->away_team->club->name, 3, '')) }}
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </a>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        </div>
+                    @endforeach
+                @endif
             </div>
 
             @if(has_permission('score_update'))

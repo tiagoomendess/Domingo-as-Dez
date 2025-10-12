@@ -4,6 +4,8 @@ namespace App;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Str;
 
 class Game extends Model
 {
@@ -313,5 +315,25 @@ class Game extends Model
             $email = $this->away_team->club->contact_email;
 
         return $email;
+    }
+
+    public function invalidateCache() {
+        $competition_slug = Str::slug($this->game_group->season->competition->name);
+        $season_slug = $this->game_group->season->getNameSlug();
+        $group_slug = Str::slug($this->game_group->name);
+        $round = $this->round;
+        $clubs_slug = Str::slug($this->home_team->club->name . '-vs-' . $this->away_team->club->name);
+
+        $thisGameCache = "game-cache-$competition_slug-$season_slug-$group_slug-$round-$clubs_slug";
+
+        $cachesToInvalidate = [
+            $thisGameCache,
+            "today_games_cache",
+            "live_matches",
+        ];
+
+        foreach ($cachesToInvalidate as $cache) {
+            Cache::store('file')->forget($cache);
+        }
     }
 }

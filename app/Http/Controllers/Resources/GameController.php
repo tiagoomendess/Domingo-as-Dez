@@ -243,6 +243,9 @@ class GameController extends Controller
 
         $game->save();
 
+        // Invalidate caches
+        $game->invalidateCache();
+
         $game_referees = $game->game_referees;
 
         //If there were referees set
@@ -308,9 +311,6 @@ class GameController extends Controller
 
         $messages = new MessageBag();
         $messages->add('success', trans('success.model_edited', ['model_name' => trans('models.game')]));
-
-        // invalidate cache for live games because score was updated
-        Cache::store('file')->forget('live_matches');
 
         Audit::add(Audit::ACTION_UPDATE, 'Game', $old_game, $game->toArray());
 

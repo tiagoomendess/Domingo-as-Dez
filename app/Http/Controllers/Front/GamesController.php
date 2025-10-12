@@ -267,7 +267,21 @@ class GamesController extends Controller
             ->orderBy('date', 'asc')
             ->first();
 
+        // Group games by game_group
+        $grouped_games = [];
+        foreach ($games as $game) {
+            $group_id = $game->game_group_id;
+            if (!isset($grouped_games[$group_id])) {
+                $grouped_games[$group_id] = [
+                    'game_group' => $game->game_group,
+                    'games' => []
+                ];
+            }
+            $grouped_games[$group_id]['games'][] = $game;
+        }
+
         $view_data = [
+            'grouped_games' => $grouped_games,
             'games' => $games,
             'closest' => $closest
         ];
@@ -346,8 +360,7 @@ class GamesController extends Controller
         $game->finished = (bool)$request->input('finished', false);
         $game->save();
 
-        // invalidate cache for live games because score was updated
-        Cache::store('file')->forget('live_matches');
+        $game->invalidateCache();
 
         Audit::add(Audit::ACTION_UPDATE, 'Game', $old_game, $game->toArray());
 
