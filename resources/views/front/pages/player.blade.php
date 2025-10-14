@@ -66,6 +66,11 @@
                             <span>{{ $player->goals()->count() }}</span>
                         </div>
 
+                        <div class="full-info">
+                            <span>Total de Votos Homem do Jogo</span>
+                            <span>{{ $player->mvpVotes()->count() }}</span>
+                        </div>
+
                     </div>
                 </div>
             </div>

@@ -105,6 +105,11 @@ class Player extends SearchableModel
         return $this->hasMany(Transfer::class);
     }
 
+    public function mvpVotes()
+    {
+        return $this->hasMany(MvpVotes::class);
+    }
+
     public function getTeam()
     {
 
