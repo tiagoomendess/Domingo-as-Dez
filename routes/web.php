@@ -142,6 +142,7 @@ Route::resources([
     'transfers' => 'Resources\TransferController',
     'playgrounds' => 'Resources\PlaygroundController',
     'games' => 'Resources\GameController',
+    'game_comments' => 'Resources\GameCommentController',
     'goals' => 'Resources\GoalController',
     'referees' => 'Resources\RefereeController',
     'gamegroups' => 'Resources\GameGroupController',

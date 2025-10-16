@@ -123,6 +123,10 @@
                             <li><a class="waves-effect"
                                    href="{{ route('games.index') }}">{{ trans('models.games') }}</a></li>
                         @endif
+                        @if(Auth::user()->hasPermission('games'))
+                            <li><a class="waves-effect"
+                                   href="{{ route('game_comments.index') }}">Flash Interview</a></li>
+                        @endif
                         @if(Auth::user()->hasPermission('goals'))
                             <li><a class="waves-effect"
                                    href="{{ route('goals.index') }}">{{ trans('models.goals') }}</a></li>
