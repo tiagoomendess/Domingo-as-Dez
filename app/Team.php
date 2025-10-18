@@ -28,9 +28,8 @@ class Team extends Model
         return $this->hasMany(Goal::class);
     }
 
-    //returns all the players that passed through that club
     public function players() {
-        return $this->belongsToMany(Player::class, 'transfers');
+        return $this->hasMany(Player::class);
     }
 
     public function transfers() {
@@ -39,8 +38,9 @@ class Team extends Model
 
     public function getCurrentPlayers() {
 
-        $all_players = $this->players;
+        return $this->players;
 
+        // old dead code
         $current_players = collect();
 
         foreach($all_players as $player) {

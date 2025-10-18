@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Resources;
 
 use App\Audit;
+use App\Player;
 use App\Transfer;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\MessageBag;
 
 class TransferController extends Controller
@@ -117,40 +119,34 @@ class TransferController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request->validate([
+        $validated = $request->validate([
             'player_id' => 'required|integer|exists:players,id',
             'date' => 'required|date',
             'team_id' => 'nullable|integer|exists:teams,id',
-            'visible' => 'required',
+            'visible' => 'required|boolean',
         ]);
 
         $transfer = Transfer::findOrFail($id);
-        $old_transfer = $transfer->toArray();
+        $oldTransfer = $transfer->toArray();
 
-        if($request->input('visible') == 'true')
-            $visible = true;
-        else
-            $visible = false;
+        DB::transaction(function () use ($transfer, $validated) {
+            // Update transfer
+            $transfer->update([
+                'player_id' => $validated['player_id'],
+                'team_id' => $validated['team_id'] ?: null,
+                'date' => $validated['date'],
+                'visible' => $validated['visible'],
+            ]);
 
-        if($request->input('team_id') == null || $request->input('team_id') == 0)
-            $team_id = null;
-        else
-            $team_id = $request->input('team_id');
+            // Update player's current team_id
+            $player = Player::findOrFail($validated['player_id']);
+            $player->update(['team_id' => $validated['team_id'] ?: null]);
+        });
 
-        $date = $request->input('date');
-        $player_id = $request->input('player_id');
-
-        $transfer->player_id = $player_id;
-        $transfer->team_id = $team_id;
-        $transfer->date = $date;
-        $transfer->visible = $visible;
-
-        $transfer->save();
+        Audit::add(Audit::ACTION_UPDATE, 'Transfer', $oldTransfer, $transfer->fresh()->toArray());
 
         $messages = new MessageBag();
         $messages->add('success', trans('success.model_edited', ['model_name' => trans('models.transfer')]));
-
-        Audit::add(Audit::ACTION_UPDATE, 'Transfer', $old_transfer, $transfer->toArray());
 
         return redirect(route('transfers.show', ['transfer' => $transfer]))->with(['popup_message' => $messages]);
     }

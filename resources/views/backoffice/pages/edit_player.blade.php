@@ -68,16 +68,24 @@
 
             <div class="col s6 m4 l3">
                 <label>{{ trans('models.club') }}</label>
-                <select id="club_id" name="club_id" class="browser-default" disabled>
-                    <option disabled value="0" selected>{{ trans('general.choose_option') }}</option>
-                    <option value="0">{{ trans('general.none') }}</option>
+                <select id="club_id" name="club_id" class="browser-default" onchange="updateTeamList('club_id', 'team_id')">
+                    <option value="0" {{ !$player->team_id ? 'selected' : '' }}>{{ trans('general.none') }}</option>
+                    @foreach(App\Club::all()->sortBy('name') as $club)
+                        <option value="{{ $club->id }}" {{ $player->team && $player->team->club_id == $club->id ? 'selected' : '' }}>
+                            {{ $club->name }}
+                        </option>
+                    @endforeach
                 </select>
             </div>
 
             <div class="col s6 m4 l3">
                 <label>{{ trans('models.team') }}</label>
-                <select id="team_id" name="team_id" class="browser-default" disabled>
-                    <option value="0" disabled selected>{{ trans('general.choose_first', ['name' => trans('models.club')]) }}</option>
+                <select id="team_id" name="team_id" class="browser-default" {{ !$player->team_id ? 'disabled' : '' }}>
+                    @if($player->team_id)
+                        <option value="{{ $player->team_id }}" selected>{{ $player->team->name }}</option>
+                    @else
+                        <option value="" disabled selected>{{ trans('general.choose_first', ['name' => trans('models.club')]) }}</option>
+                    @endif
                 </select>
             </div>
 

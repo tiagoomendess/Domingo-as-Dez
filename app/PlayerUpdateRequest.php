@@ -4,8 +4,10 @@ namespace App;
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Intervention\Image\Facades\Image;
 use App\Http\Controllers\Resources\MediaController;
+use Illuminate\Support\Facades\Log;
 
 class PlayerUpdateRequest extends SearchableModel
 {
@@ -250,7 +252,7 @@ class PlayerUpdateRequest extends SearchableModel
             }
         } catch (\Exception $e) {
             // Log the error but don't throw - we don't want to fail the approval just because we can't delete old files
-            \Log::warning('Failed to delete old picture: ' . $e->getMessage());
+            Log::warning('Failed to delete old picture: ' . $e->getMessage());
         }
     }
 
@@ -428,29 +430,40 @@ class PlayerUpdateRequest extends SearchableModel
             $team = $teams->first();
         }
 
-        // Create the transfer using the request's creation date
-        $transfer = Transfer::create([
-            'player_id' => $player->id,
-            'team_id' => $team->id,
-            'date' => $this->created_at->format('Y-m-d H:i:s'),
-            'visible' => true
-        ]);
+        DB::transaction(function () use ($player, $team) {
+            // Create the transfer using the request's creation date
+            $transfer = Transfer::create([
+                'player_id' => $player->id,
+                'team_id' => $team->id,
+                'date' => $this->created_at->format('Y-m-d H:i:s'),
+                'visible' => true
+            ]);
 
-        // Create audit entry for the transfer
-        Audit::add(Audit::ACTION_CREATE, 'Transfer', null, $transfer->toArray());
+            // Update the player's team_id
+            $player->update(['team_id' => $team->id]);
+
+            // Create audit entry for the transfer
+            Audit::add(Audit::ACTION_CREATE, 'Transfer', null, $transfer->toArray());
+        });
     }
 
     private function createTransferToNoClub($player)
     {
-        $transfer = Transfer::create([
-            'player_id' => $player->id,
-            'team_id' => null,
-            'date' => $this->created_at->format('Y-m-d H:i:s'),
-            'visible' => true
-        ]);
+        DB::transaction(function () use ($player) {
+            // Create the transfer using the request's creation date
+            $transfer = Transfer::create([
+                'player_id' => $player->id,
+                'team_id' => null,
+                'date' => $this->created_at->format('Y-m-d H:i:s'),
+                'visible' => true
+            ]);
 
-        // Create audit entry for the transfer
-        Audit::add(Audit::ACTION_CREATE, 'Transfer', null, $transfer->toArray());
+            // Update the player's team_id
+            $player->update(['team_id' => null]);
+
+            // Create audit entry for the transfer
+            Audit::add(Audit::ACTION_CREATE, 'Transfer', null, $transfer->toArray());
+        });
     }
 
     /**

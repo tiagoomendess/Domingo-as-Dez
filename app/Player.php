@@ -7,7 +7,7 @@ use Illuminate\Support\Str;
 
 class Player extends SearchableModel
 {
-    protected $fillable = ['name', 'picture', 'association_id', 'nickname', 'phone', 'email', 'facebook_profile', 'birth_date', 'obs', 'position', 'visible'];
+    protected $fillable = ['name', 'picture', 'association_id', 'nickname', 'phone', 'email', 'facebook_profile', 'birth_date', 'obs', 'position', 'team_id', 'visible'];
 
     protected $guarded = [];
 
@@ -93,6 +93,11 @@ class Player extends SearchableModel
     public function goals()
     {
         return $this->hasMany('App\Goal');
+    }
+
+    public function team()
+    {
+        return $this->belongsTo(Team::class);
     }
 
     public function teams()

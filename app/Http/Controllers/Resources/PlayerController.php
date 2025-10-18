@@ -9,6 +9,7 @@ use App\Transfer;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\MessageBag;
 use Illuminate\View\View;
 use Intervention\Image\Facades\Image;
@@ -120,35 +121,43 @@ class PlayerController extends Controller
             $media->generateThumbnail();
         }
 
-        $player = Player::create([
+        if($request->input('team_id') == null || $request->input('team_id') == 0)
+            $team_id = null;
+        else
+            $team_id = $request->input('team_id');
 
-            'name' => $name,
-            'nickname' => $nickname,
-            'picture' => $url,
-            'association_id' => $association_id,
-            'phone' => $phone,
-            'email' => $email,
-            'facebook_profile' => $facebook_profile,
-            'obs' => $obs,
-            'position' => $position,
-            'visible' => $visible,
-            'birth_date' => $birth_date,
-
-        ]);
-
-        //create new transfer if user defined a club to that player
-        if ($request->input('team_id')) {
-
-            Transfer::create([
-                'player_id' => $player->id,
-                'team_id' => $request->input('team_id'),
-                'date' => Carbon::now()->format("Y-m-d"),
-                'visible' => true,
+        $player = DB::transaction(function () use ($name, $nickname, $url, $association_id, $phone, $email, $facebook_profile, $obs, $position, $visible, $birth_date, $team_id) {
+            $player = Player::create([
+                'name' => $name,
+                'nickname' => $nickname,
+                'picture' => $url,
+                'association_id' => $association_id,
+                'phone' => $phone,
+                'email' => $email,
+                'facebook_profile' => $facebook_profile,
+                'obs' => $obs,
+                'position' => $position,
+                'visible' => $visible,
+                'birth_date' => $birth_date,
+                'team_id' => $team_id,
             ]);
 
-        }
+            // Create new transfer if user defined a team to that player
+            if ($team_id) {
+                $transfer = Transfer::create([
+                    'player_id' => $player->id,
+                    'team_id' => $team_id,
+                    'date' => Carbon::now()->format('Y-m-d'),
+                    'visible' => true,
+                ]);
 
-        Audit::add(Audit::ACTION_CREATE, 'Player', null, $player->toArray());
+                Audit::add(Audit::ACTION_CREATE, 'Transfer', null, $transfer->toArray());
+            }
+
+            Audit::add(Audit::ACTION_CREATE, 'Player', null, $player->toArray());
+
+            return $player;
+        });
 
         return redirect(route('players.show', ['player' => $player]));
     }
@@ -198,6 +207,7 @@ class PlayerController extends Controller
             'obs' => 'string|max:3000|min:6|nullable',
             'position' => 'required|string|min:3|max:10',
             'visible' => 'required',
+            'team_id' => 'nullable|integer|exists:teams,id',
             'birth_date' => 'nullable|date',
         ]);
 
@@ -245,18 +255,41 @@ class PlayerController extends Controller
             $player->picture = $url;
         }
 
-        $player->name = $name;
-        $player->association_id = $association_id;
-        $player->nickname =  $nickname;
-        $player->phone = $phone;
-        $player->email = $email;
-        $player->facebook_profile = $facebook_profile;
-        $player->obs = $obs;
-        $player->position = $position;
-        $player->visible = $visible;
-        $player->birth_date = $birth_date;
+        // Check if team changed
+        if($request->input('team_id') == null || $request->input('team_id') == 0)
+            $team_id = null;
+        else
+            $team_id = $request->input('team_id');
 
-        $player->save();
+        $team_changed = $player->team_id != $team_id;
+
+        DB::transaction(function () use ($player, $name, $association_id, $nickname, $phone, $email, $facebook_profile, $obs, $position, $visible, $birth_date, $team_id, $team_changed) {
+            $player->name = $name;
+            $player->association_id = $association_id;
+            $player->nickname = $nickname;
+            $player->phone = $phone;
+            $player->email = $email;
+            $player->facebook_profile = $facebook_profile;
+            $player->obs = $obs;
+            $player->position = $position;
+            $player->visible = $visible;
+            $player->birth_date = $birth_date;
+            $player->team_id = $team_id;
+
+            $player->save();
+
+            // Create transfer if team changed
+            if ($team_changed) {
+                $transfer = Transfer::create([
+                    'player_id' => $player->id,
+                    'team_id' => $team_id,
+                    'date' => Carbon::now()->format('Y-m-d'),
+                    'visible' => true,
+                ]);
+
+                Audit::add(Audit::ACTION_CREATE, 'Transfer', null, $transfer->toArray());
+            }
+        });
 
         $messages = new MessageBag();
         $messages->add('success', trans('success.model_edited', ['model_name' => trans('models.player')]));
