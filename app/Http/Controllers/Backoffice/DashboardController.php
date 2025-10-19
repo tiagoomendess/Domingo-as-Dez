@@ -91,7 +91,7 @@ class DashboardController extends Controller
 
         // Get the GameComments created in the past 24h that have the updated_at different from the created_at
         $gameCommentsCount = Cache::remember($gameCommentsCacheKey, 60, function () {
-            return GameComment::where('created_at', '>=', now()->subHours(48))->where('updated_at', '!=', 'created_at')->count();
+            return GameComment::where('created_at', '>=', now()->subHours(48))->where('updated_at', '>', 'created_at')->count();
         });
 
         $usersWithPermissions = DB::table('user_permissions')->selectRaw('DISTINCT user_permissions.user_id as id, users.name')->join('users', 'user_permissions.user_id', '=', 'users.id')->get();
