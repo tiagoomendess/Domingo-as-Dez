@@ -420,9 +420,9 @@
                                 <span class="player-name">
                                     {{ $goal->getPlayerName() }}
                                     @if ($goal->own_goal)
-                                    <small>{{ trans('models.own_goal') }}</small>
+                                        <small>{{ trans('models.own_goal') }}</small>
                                     @elseif($goal->penalty)
-                                    <small>{{ trans('models.penalty') }}</small>
+                                        <small>{{ trans('models.penalty') }}</small>
                                     @endif
                                 </span>
                                 @if ($goal->minute)

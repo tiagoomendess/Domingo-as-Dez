@@ -117,13 +117,7 @@ class Player extends SearchableModel
 
     public function getTeam()
     {
-
-        $last_transfer = $this->getLastTransfer();
-
-        if ($last_transfer != null)
-            return $last_transfer->team;
-        else
-            return null;
+        return $this->team;
     }
 
     public function getClub()
@@ -141,7 +135,10 @@ class Player extends SearchableModel
     public function getLastTransfer()
     {
 
-        return Transfer::where('player_id', $this->id)->orderBy('date', 'desc')->first();
+        return Transfer::where('player_id', $this->id)
+        ->orderBy('date', 'desc')
+        ->orderBy('id', 'desc')
+        ->first();
     }
 
     public function getPreviousTeam()
