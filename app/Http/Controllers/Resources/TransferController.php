@@ -72,16 +72,22 @@ class TransferController extends Controller
         $date = $request->input('date');
         $player_id = $request->input('player_id');
 
-        $transfer = Transfer::create([
+        $transfer = DB::transaction(function () use ($player_id, $team_id, $date, $visible) {
+            $player = Player::findOrFail($player_id);
+            $player->team_id = $team_id;
+            $player->save();
 
-            'player_id' => $player_id,
-            'team_id' => $team_id,
-            'date' => $date,
-            'visible' => $visible,
+            $transfer = Transfer::create([
+                'player_id' => $player_id,
+                'team_id' => $team_id,
+                'date' => $date,
+                'visible' => $visible,
+            ]);
 
-        ]);
+            Audit::add(Audit::ACTION_CREATE, 'Transfer', null, $transfer->toArray());
 
-        Audit::add(Audit::ACTION_CREATE, 'Transfer', null, $transfer->toArray());
+            return $transfer;
+        });
 
         return redirect(route('transfers.show', ['transfer' => $transfer]));
     }
