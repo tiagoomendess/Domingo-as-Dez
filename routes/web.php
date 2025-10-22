@@ -178,6 +178,12 @@ Route::get('seasons/{id}/game_groups', 'Resources\SeasonController@getGameGroups
 Route::get('api/players/search', 'Resources\PlayerController@autocomplete')->name('api.players.search');
 //======================================================================================================================
 
+// Frontend Redirects ================
+// Permanently redirect /competicoes/1a-divisao-afpb to competicoes/1a-divisao-agribar
+Route::get('/competicoes/1a-divisao-afpb', function () {
+    return redirect('/competicoes/1a-divisao-agribar', 301);
+});
+
 // HoneyPot Routes, POC, will think of better and more scalable solution later =========================================
 $honeyPotRoutes = [
     "/phpma",
