@@ -28,6 +28,12 @@ Route::get('/login/{provider}/callback','Auth\LoginController@handleProviderCall
     ->where('provider','facebook|google');
 // =====================================================================================================================
 
+// Frontend Redirects ================
+// Permanently redirect /competicoes/1a-divisao-afpb to competicoes/1a-divisao-agribar
+Route::get('/competicoes/1a-divisao-afpb', function () {
+    return redirect('/competicoes/1a-divisao-agribar', 301);
+});
+
 // === Front Routes =================================================================================================
 Route::get('/', 'Front\HomePageController@index')->name('homePage');
 Route::post('/vote', 'Front\MvpVotesController@vote')->name('mvp_vote');
@@ -177,12 +183,6 @@ Route::get('games/{id}/teams', 'Resources\GameController@getTeams')->name('getGa
 Route::get('seasons/{id}/game_groups', 'Resources\SeasonController@getGameGroups')->name('getGameGroups');
 Route::get('api/players/search', 'Resources\PlayerController@autocomplete')->name('api.players.search');
 //======================================================================================================================
-
-// Frontend Redirects ================
-// Permanently redirect /competicoes/1a-divisao-afpb to competicoes/1a-divisao-agribar
-Route::get('/competicoes/1a-divisao-afpb', function () {
-    return redirect('/competicoes/1a-divisao-agribar', 301);
-});
 
 // HoneyPot Routes, POC, will think of better and more scalable solution later =========================================
 $honeyPotRoutes = [
