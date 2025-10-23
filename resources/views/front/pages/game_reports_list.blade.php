@@ -130,10 +130,10 @@
                                             <table class="bordered">
                                                 <tbody>
                                                 <tr>
-                                                    <td style="width: 40px;">
+                                                    <td style="width: 30px; padding: 8px 5px;">
                                                         <i class="material-icons grey-text text-darken-3" style="font-size: 18px;">person</i>
                                                     </td>
-                                                    <td>
+                                                    <td style="padding: 8px 5px;">
                                                         @if($report->user_id)
                                                             <a href="{{ route('users.show', ['user' => $report->user]) }}">{{ $report->user->name }}</a>
                                                             &nbsp;({{ $report->user_id }})
@@ -141,10 +141,10 @@
                                                             Não
                                                         @endif
                                                     </td>
-                                                    <td style="width: 40px;">
+                                                    <td style="width: 30px; padding: 8px 5px;">
                                                         <i class="material-icons grey-text text-darken-3" style="font-size: 18px;">location_on</i>
                                                     </td>
-                                                    <td>
+                                                    <td style="padding: 8px 5px;">
                                                         @if(!empty($report->location))
                                                             <a target="_blank"
                                                                href="{{ $report->getGoogleMapsLink() }}">Sim, {{ (int) $report->location_accuracy }}m</a>
@@ -152,25 +152,41 @@
                                                             Não
                                                         @endif
                                                     </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <i class="material-icons grey-text text-darken-3" style="font-size: 18px;">signal_wifi_4_bar</i>
+                                                    <td style="width: 30px; padding: 8px 5px;">
+                                                        <i class="material-icons grey-text text-darken-3" style="font-size: 18px;">flag</i>
                                                     </td>
-                                                    <td colspan="3">
-                                                        {{ $report->ip_address ?? 'Sem IP' }} - {{ $report->ip_country ?? 'Sem País' }}
+                                                    <td style="padding: 8px 5px;">
+                                                        {{ $report->ip_country ?? 'N/A' }}
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td><i class="material-icons grey-text text-darken-3" style="font-size: 18px;">system_update_alt</i>
                                                     </td>
-                                                    <td colspan="3">{{ $report->source }}</td>
+                                                    <td colspan="5">{{ $report->source }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="vertical-align: middle;">
+                                                        <i class="material-icons grey-text text-darken-3" style="font-size: 18px;">signal_wifi_4_bar</i>
+                                                    </td>
+                                                    <td colspan="5" style="padding: 0;">
+                                                        <div style="display: flex; align-items: center; gap: 0;">
+                                                            <input type="text" readonly 
+                                                                   value="{{ $report->ip_address ?? 'Sem IP' }}" 
+                                                                   id="ip_address_{{ $report->id }}"
+                                                                   style="flex: 1; border: 1px solid #ddd; padding: 5px; margin: 0; height: 36px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; border-right: none;">
+                                                            <a onclick="copyToClipboard('ip_address_{{ $report->id }}'); return false;" 
+                                                               class="btn blue lighten-3 waves-effect waves-light" 
+                                                               style="margin: 0; height: 48px; line-height: 36px; padding: 5px 12px; border-radius: 0;">
+                                                                <i class="material-icons">content_copy</i>
+                                                            </a>
+                                                        </div>
+                                                    </td>
                                                 </tr>
                                                 <tr>
                                                     <td style="vertical-align: middle;">
                                                         <i class="material-icons grey-text text-darken-3" style="font-size: 18px;">phone_iphone</i>
                                                     </td>
-                                                    <td colspan="3" style="padding: 0">
+                                                    <td colspan="5" style="padding: 0">
                                                         <div style="display: flex; align-items: center; gap: 0;">
                                                             <input type="text" readonly 
                                                                    value="{{ $report->user_agent ?? 'Desconhecido' }}" 
@@ -186,9 +202,9 @@
                                                 </tr>
                                                 <tr>
                                                     <td style="vertical-align: middle;">
-                                                        <i class="material-icons grey-text text-darken-3" style="font-size: 18px;">assistant_photo</i>
+                                                        <i class="material-icons grey-text text-darken-3" style="font-size: 18px;">vpn_key</i>
                                                     </td>
-                                                    <td colspan="3" style="padding: 0;">
+                                                    <td colspan="5" style="padding: 0;">
                                                         <div style="display: flex; align-items: center; gap: 0;">
                                                             <input type="text" readonly 
                                                                    value="{{ $report->uuid ?? 'Sem UUID' }}" 
