@@ -15,6 +15,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use App\UuidKarma;
 
 class ProcessScoreReportBans implements ShouldQueue
 {
@@ -119,7 +120,8 @@ class ProcessScoreReportBans implements ShouldQueue
         Log::info("$totalFakes fake scores, $totalBans bans created out of a total of $totalProcessed reports processed");
     }
 
-    private function banUser($user_id, ScoreReport $scoreReport, $banExpiration, string $reason): bool {
+    private function banUser($user_id, ScoreReport $scoreReport, $banExpiration, string $reason): bool
+    {
         try {
             ScoreReportBan::create([
                 'user_id' => $user_id,
@@ -130,6 +132,8 @@ class ProcessScoreReportBans implements ShouldQueue
                 'expires_at' => $banExpiration,
                 'reason' => Str::limit($reason, 255, ''),
             ]);
+
+            $this->handleKarma($scoreReport);
         } catch (\Exception $e) {
             Log::error("Error creating score report ban for report $scoreReport->id: " . $e->getMessage());
             return false;
@@ -157,6 +161,31 @@ class ProcessScoreReportBans implements ShouldQueue
             );
         } catch (\Exception $e) {
             Log::error("Error sending notification to banned user " . $user->email . ": " . $e->getMessage());
+        }
+    }
+
+    private function handleKarma(ScoreReport $scoreReport): void
+    {
+        if (empty($scoreReport)) {
+            return;
+        }
+
+        try {
+            // Update karma accordingly
+            $uuidKarma = UuidKarma::where('uuid', '=', $scoreReport->uuid)->first();
+            if (empty($uuidKarma)) {
+                $uuidKarma = new UuidKarma();
+                $uuidKarma->uuid = $scoreReport->uuid;
+                $uuidKarma->karma = -1;
+                $uuidKarma->save();
+            } else {
+                // One fake score report should flip the count to negative, after
+                // that decrementing it by 3 every time it get's banned again
+                $uuidKarma->karma = $uuidKarma->karma >= 0 ? -1 : $uuidKarma->karma - 3;
+                $uuidKarma->save();
+            }
+        } catch (\Exception $e) {
+            Log::error("Error handling karma for score report $scoreReport->id: " . $e->getMessage());
         }
     }
 }

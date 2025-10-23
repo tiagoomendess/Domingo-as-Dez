@@ -369,16 +369,18 @@ class GamesController extends Controller
 
     public function updateIsFake(Request $request, ScoreReport $report) {
         $this->validate($request, [
-            'is_fake' => 'nullable|string|max:10'
+            'is_fake' => 'nullable|string|max:10',
+            'back_to' => 'nullable|string|max:255'
         ]);
 
         $is_fake = $request->input('is_fake', "off") == "on";
+        $back_to = $request->input('back_to', route('games.today_edit'));
         $report->is_fake = $is_fake;
         $report->save();
 
         // If it was not fake, we don't need to do anything
         if (!$is_fake) {
-            return redirect()->back();
+            return redirect()->to(url()->previous() . '?back_to=' . $back_to);
         }
 
         try {
@@ -386,13 +388,13 @@ class GamesController extends Controller
         } catch (\Exception $e) {
             Log::error("Error while trying to ban user: " . $e->getMessage());
         } finally {
-            return redirect()->back();
+            return redirect()->to(url()->previous() . '?back_to=' . $back_to);
         }
     }
 
     public function listScoreReports(Request $request, Game $game) {
 
-        $backUrl = $request->query('back_to', url()->previous());
+        $backUrl = $request->query('back_to', route('games.today_edit'));
 
         $reports = ScoreReport::where('game_id', $game->id)
             ->orderBy('id', 'desc')

@@ -76,7 +76,7 @@ class Playground extends SearchableModel
         if (count($inArray) != 2)
             return null;
 
-        return $inArray[0];
+        return (float) $inArray[0];
     }
 
     public function getLongitude()
@@ -90,7 +90,7 @@ class Playground extends SearchableModel
         if (count($inArray) != 2)
             return null;
 
-        return $inArray[1];
+        return (float) $inArray[1];
     }
 
     public function toPoint($latitude, $longitude)

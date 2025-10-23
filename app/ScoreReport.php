@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class ScoreReport extends BaseModel
 {
@@ -47,6 +48,11 @@ class ScoreReport extends BaseModel
         return $this->belongsTo('App\User');
     }
 
+    public function uuidKarma(): HasOne
+    {
+        return $this->hasOne('App\UuidKarma', 'uuid', 'uuid');
+    }
+
     public function getLatitude()
     {
         if (empty($this->location))
@@ -58,7 +64,7 @@ class ScoreReport extends BaseModel
         if (count($inArray) != 2)
             return null;
 
-        return $inArray[0];
+        return (float) $inArray[0];
     }
 
     public function getLongitude()
@@ -72,7 +78,7 @@ class ScoreReport extends BaseModel
         if (count($inArray) != 2)
             return null;
 
-        return $inArray[1];
+        return (float) $inArray[1];
     }
 
     public function getGoogleMapsLink()
@@ -135,9 +141,50 @@ class ScoreReport extends BaseModel
             'score_report_id' => $this->id,
         ]);
 
+        $this->handleKarmaBannedUser();
+
         if (!empty($user_id)) {
             $this->notifyUser($user_id, $reason, $banExpiration);
         }
+    }
+
+    public function isFromNearPlaygroundLocation(): bool
+    {
+        if (empty($this->location)) {
+            return false;
+        }
+
+        $game = $this->game;
+        if (empty($game) || empty($game->playground) || empty($game->playground->location)) {
+            return false;
+        }
+
+        // calculate if the location is within 150 meters of the game location
+        $distance = $this->haversineGreatCircleDistance(
+            $this->getLatitude(), $this->getLongitude(),
+            $game->playground->getLatitude(), $game->playground->getLongitude());
+        $distance = round($distance, 2);
+        if ($distance >= 0 && $distance <= 150.0) {
+            return true;
+        }
+
+        return false;
+    }
+
+    private function haversineGreatCircleDistance($latitudeFrom, $longitudeFrom, $latitudeTo, $longitudeTo, $earthRadius = 6371000) {
+        // convert from degrees to radians
+        $latFrom = deg2rad((float) $latitudeFrom);
+        $lonFrom = deg2rad((float) $longitudeFrom);
+        $latTo = deg2rad((float) $latitudeTo);
+        $lonTo = deg2rad((float) $longitudeTo);
+
+        $latDelta = $latTo - $latFrom;
+        $lonDelta = $lonTo - $lonFrom;
+
+        $angle = 2 * asin(sqrt(pow(sin($latDelta / 2), 2) +
+                cos($latFrom) * cos($latTo) * pow(sin($lonDelta / 2), 2)));
+
+        return $angle * $earthRadius;
     }
 
     private function notifyUser(int $userId, string $reason, string $expiration)
@@ -153,6 +200,26 @@ class ScoreReport extends BaseModel
             );
         } catch (\Exception $e) {
             Log::error("Error sending notification to banned user " . $user->email . ": " . $e->getMessage());
+        }
+    }
+
+    private function handleKarmaBannedUser(): void
+    {
+        if (empty($this->uuid)) {
+            return;
+        }
+
+        try {
+            $uuidKarma = UuidKarma::where('uuid', '=', $this->uuid)->first();
+            if (empty($uuidKarma)) {
+                $uuidKarma = new UuidKarma();
+                $uuidKarma->uuid = $this->uuid;
+            }
+            
+            $uuidKarma->karma = -1;
+            $uuidKarma->save();
+        } catch (\Exception $e) {
+            Log::error("Error handling karma for banned user " . $this->uuid . ": " . $e->getMessage());
         }
     }
 }

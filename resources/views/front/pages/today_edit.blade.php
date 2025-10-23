@@ -39,7 +39,7 @@
                                                     </h2>
 
                                                     @if(!empty($score_reports[$game->id]))
-                                                        <small><a href="{{ route('front.games.show_score_reports', ['game' => $game]) }}">detalhes</a></small>
+                                                        <small><a href="{{ route('front.games.show_score_reports', ['game' => $game, 'back_to' => \Request::url()]) }}">detalhes</a></small>
                                                     @endif
 
                                                     <input class="center" type="hidden" name="goals_home"

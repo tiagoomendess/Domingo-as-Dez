@@ -55,11 +55,12 @@
                             <ul style="margin: 0">
                                 <div class="divider"></div>
                                 @foreach($reports as $report)
+                                <a href="#modal_report_{{ $report->id }}" class="modal-trigger">
                                     <li>
                                         <div class="row" style="margin: 5px 0">
-                                            <div class="col s3">
+                                            <div class="col s2">
                                                 <div style="padding-top: 5px">
-                                                <span style="font-weight: 200;">
+                                                <span style="font-weight: 300; color: black;">
                                                      {{ \Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $report->created_at)->timezone('Europe/Lisbon')->format("H:i") }}
                                                 </span>
                                                 </div>
@@ -71,7 +72,7 @@
                                                 </span>
                                                 </div>
                                             </div>
-                                            <div class="col s6">
+                                            <div class="col s7">
                                                 <div style="padding-top: 7px" class="left">
                                                     @if($report->user_id)
                                                         <i class="material-icons grey-text text-darken-3">person</i>
@@ -105,16 +106,19 @@
                                                             <i class="material-icons grey-text text-darken-3">tv</i>
                                                             @break
                                                     @endswitch
+                                                    @if($report->uuidKarma)
+                                                        @php
+                                                            $karma = $report->uuidKarma->karma;
+                                                            $color = $karma < 0 ? 'red' : ($karma == 0 ? 'grey' : 'green');
+                                                        @endphp
+                                                        <span class="badge {{ $color }}-text text-bold darken-2" style="font-size: 1.2rem; margin-left: 0;">{{ $karma }}</span>
+                                                    @endif
                                                 </div>
-
-                                                <a href="#modal_report_{{ $report->id }}"
-                                                   class="waves-effect waves-light btn blue lighten-1 right modal-trigger"
-                                                   style="padding: 0; width: 36px">
-                                                    <i class="material-icons">remove_red_eye</i>
-                                                </a>
+                                                <span class="badge right" style="margin-top: 10px; margin-left: 0;">{{ substr($report->uuid, -4) }}</span>
                                             </div>
                                         </div>
                                     </li>
+                                    </a>
                                     <div class="divider"></div>
 
                                     <div id="modal_report_{{ $report->id }}" class="modal" style="width: 90%; max-height: 90%!important;">
@@ -126,8 +130,8 @@
                                             <table class="bordered">
                                                 <tbody>
                                                 <tr>
-                                                    <td>
-                                                        <i class="material-icons grey-text text-darken-3">person</i>
+                                                    <td style="width: 40px;">
+                                                        <i class="material-icons grey-text text-darken-3" style="font-size: 18px;">person</i>
                                                     </td>
                                                     <td>
                                                         @if($report->user_id)
@@ -137,16 +141,13 @@
                                                             Não
                                                         @endif
                                                     </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <i class="material-icons grey-text text-darken-3">location_on</i>
+                                                    <td style="width: 40px;">
+                                                        <i class="material-icons grey-text text-darken-3" style="font-size: 18px;">location_on</i>
                                                     </td>
                                                     <td>
                                                         @if(!empty($report->location))
                                                             <a target="_blank"
-                                                               href="{{ $report->getGoogleMapsLink() }}">Sim, precisão
-                                                                de {{ (int) $report->location_accuracy }}m</a>
+                                                               href="{{ $report->getGoogleMapsLink() }}">Sim, {{ (int) $report->location_accuracy }}m</a>
                                                         @else
                                                             Não
                                                         @endif
@@ -154,30 +155,51 @@
                                                 </tr>
                                                 <tr>
                                                     <td>
-                                                        <i class="material-icons grey-text text-darken-3">signal_wifi_4_bar</i>
+                                                        <i class="material-icons grey-text text-darken-3" style="font-size: 18px;">signal_wifi_4_bar</i>
                                                     </td>
-                                                    <td>
+                                                    <td colspan="3">
                                                         {{ $report->ip_address ?? 'Sem IP' }} - {{ $report->ip_country ?? 'Sem País' }}
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td><i class="material-icons grey-text text-darken-3">system_update_alt</i>
+                                                    <td><i class="material-icons grey-text text-darken-3" style="font-size: 18px;">system_update_alt</i>
                                                     </td>
-                                                    <td>{{ $report->source }}</td>
+                                                    <td colspan="3">{{ $report->source }}</td>
                                                 </tr>
                                                 <tr>
-                                                    <td>
-                                                        <i class="material-icons grey-text text-darken-3">phone_iphone</i>
+                                                    <td style="vertical-align: middle;">
+                                                        <i class="material-icons grey-text text-darken-3" style="font-size: 18px;">phone_iphone</i>
                                                     </td>
-                                                    <td>{{ $report->user_agent ?? 'Desconhecido' }}</td>
+                                                    <td colspan="3" style="padding: 0">
+                                                        <div style="display: flex; align-items: center; gap: 0;">
+                                                            <input type="text" readonly 
+                                                                   value="{{ $report->user_agent ?? 'Desconhecido' }}" 
+                                                                   id="user_agent_{{ $report->id }}"
+                                                                   style="flex: 1; border: 1px solid #ddd; padding: 5px; margin: 0; height: 36px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; border-right: none;">
+                                                            <a onclick="copyToClipboard('user_agent_{{ $report->id }}'); return false;" 
+                                                               class="btn blue lighten-3 waves-effect waves-light" 
+                                                               style="margin-left: 0; height: 48px; line-height: 36px; padding: 5px 12px; border-radius: 0;">
+                                                                <i class="material-icons">content_copy</i>
+                                                            </a>
+                                                        </div>
+                                                    </td>
                                                 </tr>
-
                                                 <tr>
-                                                    <td>
-                                                        <i class="material-icons grey-text text-darken-3">assistant_photo</i>
+                                                    <td style="vertical-align: middle;">
+                                                        <i class="material-icons grey-text text-darken-3" style="font-size: 18px;">assistant_photo</i>
                                                     </td>
-                                                    <td>
-                                                        {{ $report->uuid ?? 'Sem UUID' }}
+                                                    <td colspan="3" style="padding: 0;">
+                                                        <div style="display: flex; align-items: center; gap: 0;">
+                                                            <input type="text" readonly 
+                                                                   value="{{ $report->uuid ?? 'Sem UUID' }}" 
+                                                                   id="uuid_{{ $report->id }}"
+                                                                   style="flex: 1; border: 1px solid #ddd; padding: 5px; margin: 0; height: 36px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; border-right: none;">
+                                                            <a onclick="copyToClipboard('uuid_{{ $report->id }}'); return false;" 
+                                                               class="btn blue lighten-3 waves-effect waves-light" 
+                                                               style="margin: 0; height: 48px; line-height: 36px; padding: 5px 12px; border-radius: 0;">
+                                                                <i class="material-icons">content_copy</i>
+                                                            </a>
+                                                        </div>
                                                     </td>
                                                 </tr>
                                                 </tbody>
@@ -209,7 +231,7 @@
                                         </div>
                                         <div class="modal-footer">
                                             <a href="javascript:void(0)"
-                                               class="modal-action modal-close waves-effect btn-flat">Fechar</a>
+                                               class="modal-action modal-close waves-effect btn green lighten-1" style="margin-right: 10px;">Fechar</a>
                                         </div>
                                     </div>
 
@@ -284,6 +306,16 @@
             // enable submit button
             const submitButton = document.getElementById('is_fake_submit_button_' + reportId);
             submitButton.disabled = false;
+        }
+
+        const copyToClipboard = (elementId) => {
+            const element = document.getElementById(elementId);
+            element.select();
+            element.setSelectionRange(0, 99999); // For mobile devices
+            document.execCommand('copy');
+            
+            // Optional: Show feedback
+            M.toast({html: 'Copiado!', displayLength: 1000});
         }
 
     </script>

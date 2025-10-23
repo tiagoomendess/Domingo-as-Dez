@@ -484,7 +484,7 @@
 
             @if(has_permission('score_update'))
             <div class="col s12 center">
-                <p><a href="{{ route('front.games.show_score_reports', ['game' => $game]) }}">Resultados
+                <p><a href="{{ route('front.games.show_score_reports', ['game' => $game, 'back_to' => \Request::url()]) }}">Resultados
                         Enviados</a></p>
             </div>
             @endif

@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Collection;
 
 class UserUuid extends BaseModel
 {
@@ -76,5 +77,17 @@ class UserUuid extends BaseModel
         }
 
         return true;
+    }
+
+    public function uuidKarma()
+    {
+        return $this->hasOne(UuidKarma::class, 'uuid', 'uuid');
+    }
+
+    public function getRelated(): Collection
+    {
+        return self::where('user_id', '=', $this->user_id)
+          ->where('uuid', '!=', $this->uuid)
+          ->get();
     }
 }

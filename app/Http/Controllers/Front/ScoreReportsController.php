@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\MessageBag;
 use Illuminate\Support\Str;
+use App\UuidKarma;
 
 class ScoreReportsController extends Controller
 {
@@ -186,7 +187,7 @@ class ScoreReportsController extends Controller
         if (!empty($user)) {
             $recentReportByUserId = ScoreReport::where('user_id', $user->id)
                 ->where('source', 'website')
-                ->where('created_at', '>', $now->subMinutes(4))
+                ->where('created_at', '>', $now->subMinutes(1))
                 ->first();
         }
 
@@ -247,7 +248,7 @@ class ScoreReportsController extends Controller
             $location_accuracy = min($location_accuracy, 1000);
         }
 
-        ScoreReport::create([
+        $scoreReport = ScoreReport::create([
             'user_id' => empty($user) ? null : $user->id,
             'game_id' => $game->id,
             'home_score' => $home_score,
@@ -270,6 +271,8 @@ class ScoreReportsController extends Controller
         $messages->add('success', $successMessage);
         $logMessage = "User ($user_id) created score report of $home_score-$away_score for game " . $game->id . " - uuid($uuid)";
         Log::info($logMessage);
+
+        $this->handleKarma($scoreReport);
 
         return redirect($url)
             ->with('popup_message', $messages);
@@ -295,5 +298,36 @@ class ScoreReportsController extends Controller
 
         // Output the 36 character UUID.
         return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4));
+    }
+
+    private function handleKarma(ScoreReport $scoreReport): void
+    {
+        if (empty($scoreReport->uuid)) {
+            return;
+        }
+
+        $uuidKarma = UuidKarma::where('uuid', '=', $scoreReport->uuid)->first();
+        if (empty($uuidKarma)) {
+            $uuidKarma = new UuidKarma();
+            $uuidKarma->uuid = $scoreReport->uuid;
+            $uuidKarma->karma = 0;
+            $uuidKarma->save();
+        }
+
+        $karmaToAdd = 0;
+
+        try {
+            if ($scoreReport->isFromNearPlaygroundLocation()) {
+                $karmaToAdd += 1;
+            }
+
+            if ($scoreReport->user_id != null) {
+                $karmaToAdd += 1;
+            }
+
+            $uuidKarma->addKarma($karmaToAdd);
+        } catch (\Exception $e) {
+            Log::error("Error handling karma for score report $scoreReport->id on frontend: " . $e->getMessage());
+        }
     }
 }
