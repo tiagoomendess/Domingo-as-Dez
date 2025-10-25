@@ -491,157 +491,157 @@ p {
 /** Flow Text for titles */
 @media only screen and (min-width: 1px) {
     .flow-text-h1 {
-        font-size: 1.4rem;
-        line-height: 2rem;
+        font-size: 1.6rem;
+        line-height: 2.2rem;
         font-weight: 400;
     }
 }
 
 @media only screen and (min-width: 360px) {
     .flow-text-h1 {
-        font-size: 1.5rem;
-        line-height: 2.1rem;
+        font-size: 1.7rem;
+        line-height: 2.3rem;
         font-weight: 400;
     }
 }
 
 @media only screen and (min-width: 390px) {
     .flow-text-h1 {
-        font-size: 1.524rem;
-        line-height: 2.124rem;
+        font-size: 1.724rem;
+        line-height: 2.424rem;
         font-weight: 600;
     }
 }
 
 @media only screen and (min-width: 420px) {
     .flow-text-h1 {
-        font-size: 1.548rem;
-        line-height: 2.148rem;
+        font-size: 1.748rem;
+        line-height: 2.448rem;
     }
 }
 
 @media only screen and (min-width: 450px) {
     .flow-text-h1 {
-        font-size: 1.572rem;
-        line-height: 2.172rem;
+        font-size: 1.772rem;
+        line-height: 2.472rem;
     }
 }
 
 @media only screen and (min-width: 480px) {
     .flow-text-h1 {
-        font-size: 1.596rem;
-        line-height: 2.196rem;
+        font-size: 1.796rem;
+        line-height: 2.496rem;
     }
 }
 
 @media only screen and (min-width: 510px) {
     .flow-text-h1 {
-        font-size: 1.62rem;
-        line-height: 2.22rem;
+        font-size: 1.82rem;
+        line-height: 2.52rem;
     }
 }
 
 @media only screen and (min-width: 540px) {
     .flow-text-h1 {
-        font-size: 1.644rem;
-        line-height: 2.244rem;
+        font-size: 1.944rem;
+        line-height: 2.544rem;
     }
 }
 
 @media only screen and (min-width: 570px) {
     .flow-text-h1 {
-        font-size: 1.668rem;
-        line-height: 2.268rem;
+        font-size: 1.968rem;
+        line-height: 2.568rem;
     }
 }
 
 @media only screen and (min-width: 600px) {
     .flow-text-h1 {
-        font-size: 1.692rem;
-        line-height: 2.292rem;
+        font-size: 1.992rem;
+        line-height: 2.592rem;
     }
 }
 
 @media only screen and (min-width: 630px) {
     .flow-text-h1 {
-        font-size: 1.716rem;
-        line-height: 2.316rem;
+        font-size: 2.016rem;
+        line-height: 2.616rem;
     }
 }
 
 @media only screen and (min-width: 660px) {
     .flow-text-h1 {
-        font-size: 1.74rem;
-        line-height: 2.34rem;
+        font-size: 2.04rem;
+        line-height: 2.64rem;
     }
 }
 
 @media only screen and (min-width: 690px) {
     .flow-text-h1 {
-        font-size: 1.764rem;
-        line-height: 2.364rem;
+        font-size: 2.064rem;
+        line-height: 2.664rem;
     }
 }
 
 @media only screen and (min-width: 720px) {
     .flow-text-h1 {
-        font-size: 1.788rem;
-        line-height: 2.388rem;
+        font-size: 2.088rem;
+        line-height: 2.688rem;
     }
 }
 
 @media only screen and (min-width: 750px) {
     .flow-text-h1 {
-        font-size: 1.812rem;
-        line-height: 2.412rem;
+        font-size: 2.112rem;
+        line-height: 2.712rem;
     }
 }
 
 @media only screen and (min-width: 780px) {
     .flow-text-h1 {
-        font-size: 1.836rem;
-        line-height: 2.436rem;
+        font-size: 2.136rem;
+        line-height: 2.736rem;
     }
 }
 
 @media only screen and (min-width: 810px) {
     .flow-text-h1 {
-        font-size: 1.86rem;
-        line-height: 2.46rem;
+        font-size: 2.16rem;
+        line-height: 2.76rem;
     }
 }
 
 @media only screen and (min-width: 840px) {
     .flow-text-h1 {
-        font-size: 1.884rem;
-        line-height: 2.484rem;
+        font-size: 2.184rem;
+        line-height: 2.784rem;
     }
 }
 
 @media only screen and (min-width: 870px) {
     .flow-text-h1 {
-        font-size: 1.908rem;
-        line-height: 2.508rem;
+        font-size: 2.208rem;
+        line-height: 2.808rem;
     }
 }
 
 @media only screen and (min-width: 900px) {
     .flow-text-h1 {
-        font-size: 1.932rem;
+        font-size: 2.232rem;
         line-height: 2.532rem;
     }
 }
 
 @media only screen and (min-width: 930px) {
     .flow-text-h1 {
-        font-size: 1.956rem;
+        font-size: 2.256rem;
         line-height: 2.556rem;
     }
 }
 
 @media only screen and (min-width: 960px) {
     .flow-text-h1 {
-        font-size: 2.1rem;
-        line-height: 2.7rem;
+        font-size: 2.4rem;
+        line-height: 3rem;
     }
 }
