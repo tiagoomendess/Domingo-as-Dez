@@ -251,12 +251,14 @@ class MatchImageGeneratorController extends Controller
     {
         $width = $type === 'story' ? self::STORY_WIDTH : self::SQUARE_WIDTH;
         $height = $type === 'story' ? self::STORY_HEIGHT : self::SQUARE_HEIGHT;
-        $yPosition = $type === 'story' ? (int) (($height / 5) * 4) : (int) (($height / 4) * 3);
+        $yPosition = $type === 'story' ? (int) (($height / 5) * 3.5) : (int) (($height / 4) * 3);
 
-        $textSize = $type === 'story' ? 50 : 30;
+        $scoreOffset = $type === 'story' ? 40 : 12;
+        $gpOffset = $type === 'story' ? 230 : 120;
+        $gpTextSize = $type === 'story' ? 60 : 30;
 
-        $finalScoreTextSize = $type === 'story' ? 50 : 30;
-        $scoreTextSize = $type === 'story' ? 120 : 30;
+        $finalScoreTextSize = $type === 'story' ? 55 : 30;
+        $scoreTextSize = $type === 'story' ? 210 : 110;
         
         // Final score shadow
         $base->text("RESULTADO FINAL", (int) ($width / 2) + 2, $yPosition - 29, function ($font) use ($finalScoreTextSize) {
@@ -275,14 +277,14 @@ class MatchImageGeneratorController extends Controller
         });
 
         // Score Text
-        $base->text($game->getHomeScore() . ' - ' . $game->getAwayScore(), (int) ($width / 2) + 2, $yPosition + 12, function ($font) use ($scoreTextSize) {
+        $base->text($game->getHomeScore() . ' - ' . $game->getAwayScore(), (int) ($width / 2) + 2, $yPosition + $scoreOffset + 2, function ($font) use ($scoreTextSize) {
             $font->file(public_path('Roboto-Black.ttf'));
             $font->size($scoreTextSize);
             $font->color('#484848');
             $font->align('center');
             $font->valign('top');
         });
-        $base->text($game->getHomeScore() . ' - ' . $game->getAwayScore(), (int) ($width / 2), $yPosition + 12, function ($font) use ($scoreTextSize) {
+        $base->text($game->getHomeScore() . ' - ' . $game->getAwayScore(), (int) ($width / 2), $yPosition + $scoreOffset, function ($font) use ($scoreTextSize) {
             $font->file(public_path('Roboto-Black.ttf'));
             $font->size($scoreTextSize);
             $font->color('#ffffff');
@@ -291,16 +293,16 @@ class MatchImageGeneratorController extends Controller
         });
 
         if ($game->decidedByPenalties()) {
-            $base->text('(' . $game->penalties_home . '-' . $game->penalties_away . ' g.p)', (int) ($width / 2) + 1, $yPosition + 121, function ($font) {
+            $base->text('(' . $game->penalties_home . '-' . $game->penalties_away . ' g.p)', (int) ($width / 2) + 1, $yPosition + $gpOffset + 2, function ($font) use ($gpTextSize) {
                 $font->file(public_path('Roboto-Black.ttf'));
-                $font->size(30);
+                $font->size($gpTextSize);
                 $font->color('#282828');
                 $font->align('center');
                 $font->valign('top');
             });
-            $base->text('(' . $game->penalties_home . '-' . $game->penalties_away . ' g.p)', (int) ($width / 2), $yPosition + 120, function ($font) {
+            $base->text('(' . $game->penalties_home . '-' . $game->penalties_away . ' g.p)', (int) ($width / 2), $yPosition + $gpOffset, function ($font) use ($gpTextSize) {
                 $font->file(public_path('Roboto-Black.ttf'));
-                $font->size(30);
+                $font->size($gpTextSize);
                 $font->color('#ffffff');
                 $font->align('center');
                 $font->valign('top');
