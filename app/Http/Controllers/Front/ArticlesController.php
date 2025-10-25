@@ -5,11 +5,10 @@ namespace App\Http\Controllers\Front;
 use App\Article;
 use App\ArticleComment;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Intervention\Image\Facades\Image;
+use Illuminate\Support\Str;
 
 class ArticlesController extends Controller
 {
@@ -38,8 +37,10 @@ class ArticlesController extends Controller
         if (!$carbon)
             return abort(404);
 
+        $startOfDay = $carbon->copy()->startOfDay();
+        $endOfDay = $carbon->copy()->endOfDay();
 
-        $articles = DB::table('articles')->where('date', $carbon->format("Y-m-d 0:0:0"))->get();
+        $articles = Article::whereBetween('date', [$startOfDay, $endOfDay])->get();
 
         if ($articles->count() == 0)
             return abort(404);
@@ -48,7 +49,7 @@ class ArticlesController extends Controller
 
         foreach ($articles as $article) {
 
-            if (str_slug($article->title) == $slug) {
+            if (Str::slug($article->title) == $slug) {
                 $found_article = $article;
                 break;
             }
@@ -58,7 +59,7 @@ class ArticlesController extends Controller
         if (!$found_article)
             return abort(404);
 
-        $article = Article::find($found_article->id);
+        $article = $found_article;
 
         if (!$article->visible && !has_permission('articles'))
             return abort(404);

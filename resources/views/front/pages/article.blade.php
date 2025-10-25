@@ -40,7 +40,7 @@
 
                         <div class="col s12 article-title">
                             <div class="container">
-                                <h1 class="light">{{ $article->title }}</h1>
+                                <h1 class="light flow-text-h1">{{ $article->title }}</h1>
                             </div>
                         </div>
                     </div>
@@ -57,7 +57,7 @@
 
                     <div class="col s12 article-title-video">
                         <div class="container">
-                            <h1 class="light">{{ $article->title }}</h1>
+                            <h1 class="light flow-text-h1">{{ $article->title }}</h1>
                         </div>
                     </div>
                 </div>
@@ -72,7 +72,7 @@
 
                     <div class="col s12 article-title-video">
                         <div class="container">
-                            <h1 class="light" style="">{{ $article->title }}</h1>
+                            <h1 class="light flow-text-h1">{{ $article->title }}</h1>
                         </div>
                     </div>
                 </div>
@@ -88,7 +88,7 @@
 
                     <div class="article-title col s12">
                         <div class="container">
-                            <h1 class="light">{{ $article->title }}</h1>
+                            <h1 class="light flow-text-h1">{{ $article->title }}</h1>
                         </div>
                     </div>
                 </div>

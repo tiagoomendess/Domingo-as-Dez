@@ -9,9 +9,9 @@
 }
 
 .article-title h1 {
-    font-size: 40px;
     margin: 0;
     padding: 10px 0;
+    margin-bottom: 20px;
 }
 
 .article-title-video {
@@ -23,7 +23,6 @@
 }
 
 .article-title-video h1 {
-    font-size: 40px;
     margin: 0;
     padding: 10px 0;
 }
