@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Game;
 use App\Http\Controllers\Controller;
 use App\ScoreReport;
+use App\UuidKarma;
 use App\Variable;
 use Carbon\Carbon;
 use DateTime;
@@ -332,6 +333,7 @@ class GamesController extends Controller
         $validator = Validator::make($request->all(), [
             'home_score' => 'required|min:0|max:99|integer',
             'away_score' => 'required|min:0|max:99|integer',
+            'uuid' => 'string|max:36|nullable',
         ]);
 
         if ($validator->fails()) {
@@ -347,6 +349,8 @@ class GamesController extends Controller
                 'message' => 'O jogo ainda não começou ou já terminou!'
             ], 400);
         }
+
+        UuidKarma::ensureExists($request->json('uuid'));
 
         $home_score = $request->json('home_score');
         $away_score = $request->json('away_score');
@@ -366,7 +370,8 @@ class GamesController extends Controller
                 'game_id' => $game->id,
                 'home_score' => $home_score,
                 'away_score' => $away_score,
-                'source' => 'placard'
+                'source' => 'placard',
+                'uuid' => $request->json('uuid'),
             ]);
         }
 
@@ -374,7 +379,7 @@ class GamesController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Este jogo não aceita atualizações de resultado via placard!'
-            ], 400);
+            ], 200);
         }
 
         if ($home_score == $current_home_score && $away_score == $current_away_score) {

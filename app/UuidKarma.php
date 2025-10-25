@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Log;
 
 class UuidKarma extends Model
 {
@@ -49,5 +50,24 @@ class UuidKarma extends Model
         }
 
         $uuid_karma->addKarma($karma);
+    }
+
+    public static function ensureExists(string $uuid): void
+    {
+        if (empty($uuid)) {
+            return;
+        }
+
+        try {
+            $uuid_karma = self::where('uuid', '=', $uuid)->first();
+            if (empty($uuid_karma)) {
+                $uuid_karma = new UuidKarma();
+                $uuid_karma->uuid = $uuid;
+                $uuid_karma->karma = 0;
+                $uuid_karma->save();
+            }
+        } catch (\Exception $e) {
+            Log::error("Error ensuring UUID karma exists: " . $e->getMessage());
+        }
     }
 }

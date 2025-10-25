@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use App\UuidKarma;
 
 class ScoreReportsController extends Controller
 {
@@ -49,7 +50,7 @@ class ScoreReportsController extends Controller
             $location_accuracy = min($location_accuracy, 1000);
         }
 
-        ScoreReport::create([
+        $scoreReport = ScoreReport::create([
             'user_id' => $request->input('user_id'),
             'game_id' => $game->id,
             'home_score' => $request->input('home_score'),
@@ -62,6 +63,8 @@ class ScoreReportsController extends Controller
             'uuid' => $request->input('uuid'),
             'finished' => $request->input('finished', false)
         ]);
+
+        UuidKarma::ensureExists($scoreReport->uuid);
 
         return response()->json([
             'message' => 'Score report created successfully'
