@@ -704,10 +704,14 @@
                 class="material-icons">edit</i></a>
         @endif
 
-        <form action="{{ route('generate_game_image', ['game' => $game->id]) }}" method="POST" target="_blank">
+        <form action="{{ route('generate_game_image', ['game' => $game->id]) }}" method="POST" target="_blank" style="display: flex; align-items: center; gap: 10px;">
             {{ csrf_field() }}
-            <button class="btn waves-effect waves-light green darken-3" type="submit" name="action"><i
-                    class="material-icons right">cloud_download</i>Download Imagem
+            <select name="image_type" class="browser-default" style="width: 150px;">
+                <option value="square" selected>Quadrado</option>
+                <option value="story">Story (9:16)</option>
+            </select>
+            <button class="btn waves-effect waves-light green darken-3" type="submit" name="action">
+                <i class="material-icons right">cloud_download</i>Download Imagem
             </button>
         </form>
 

@@ -123,6 +123,8 @@ Route::post('/games/import', 'Resources\GameController@importGames')->name('game
 Route::post('/settings/change', 'SettingsController@changeSetting')->name('settings.change');
 Route::post('/articles/{article}/post-on-facebook', 'Resources\ArticleController@postOnFacebook')
     ->name('articles.post_on_facebook');
+Route::get('/articles/{article}/generate-social-image', 'Resources\ArticleController@generateSocialImage')
+    ->name('articles.generate_social_image');
 Route::get('/audit', 'Backoffice\AuditController@index')->name('audit.index');
 Route::post('/ckeditor/upload', 'Backoffice\CKEditorController@upload')->name('ckeditor.upload');
 Route::get('/partners/{partner}/generate-image', 'Resources\PartnerController@showGenerateImage')

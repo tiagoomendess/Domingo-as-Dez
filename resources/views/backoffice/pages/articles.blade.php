@@ -38,7 +38,7 @@
                                 <a href="{{ route('articles.show', ['article' => $article]) }}">{{ $article->title }}</a>
                             </td>
                             <td>
-                                <!-- Modal Trigger -->
+                                <!-- Facebook Modal Trigger -->
                                 @if (empty($article->facebook_post_id))
                                     <a class="blue darken-3 waves-effect waves-light btn modal-trigger"
                                        style="padding: 0 12px"
@@ -47,7 +47,16 @@
                                     <a class="waves-effect waves-light btn modal-trigger disabled"
                                        style="padding: 0 12px"
                                        href="#post-on-facebook-for-{{ $article->id }}">f</a>
-                            @endif
+                                @endif
+                                
+                                <!-- Social Image Generator Button -->
+                                <a class="green lighten-1 waves-effect waves-light btn" 
+                                   style="padding: 0 12px; margin-left: 5px;"
+                                   href="{{ route('articles.generate_social_image', ['article' => $article->id]) }}"
+                                   target="_blank"
+                                   title="Gerar imagem para redes sociais">
+                                    <i class="material-icons">image</i>
+                                </a>
                             <!-- Modal Structure -->
                                 <div id="post-on-facebook-for-{{ $article->id }}" class="modal">
                                     <div class="modal-content">

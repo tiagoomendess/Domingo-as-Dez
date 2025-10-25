@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\MessageBag;
+use Illuminate\Support\Str;
+use Intervention\Image\ImageManager;
 use Symfony\Component\HttpKernel\Log\Logger;
 
 class ArticleController extends Controller
@@ -22,7 +24,7 @@ class ArticleController extends Controller
         $this->middleware('auth');
         $this->middleware('permission:articles')->only(['index', 'show']);
         $this->middleware('permission:articles.edit')->only(['edit', 'update']);
-        $this->middleware('permission:articles.create')->only(['create', 'store', 'destroy', 'postOnFacebook']);
+        $this->middleware('permission:articles.create')->only(['create', 'store', 'destroy', 'postOnFacebook', 'generateSocialImage']);
     }
 
     /**
@@ -293,5 +295,126 @@ class ArticleController extends Controller
         }
 
         return redirect(route('articles.index'))->with(['popup_message' => $messages]);
+    }
+
+    public function generateSocialImage(Article $article, ImageManager $manager)
+    {
+        Log::info('Generating social media image for article ' . $article->id . ' by user ' . Auth::user()->name);
+
+        // Base image dimensions
+        $baseWidth = 1080;
+        $baseHeight = 1350;
+
+        // Load base image
+        $base = $manager->make(public_path('/images/article_post_base.png'));
+
+        // Title section (top part)
+        $titleHeight = 300;
+        $titleY = 370;
+
+        // Wrap and center title text
+        $this->drawWrappedText($base, $article->title, (int) ($baseWidth / 2), $titleY, $baseWidth - 100, 50, $manager);
+
+        // Media section (16:9 aspect ratio)
+        $mediaWidth = (int) ($baseWidth - 100); // 980px
+        $mediaHeight = (int) (($mediaWidth * 9) / 16); // 551px
+        
+        // Position media so its bottom is 15% from the bottom
+        $bottomMargin = (int) ($baseHeight * 0.15); // 135px from bottom
+        $mediaBottom = $baseHeight - $bottomMargin; // 1215px
+        $mediaY = (int) ($mediaBottom - $mediaHeight); // Top position of media
+
+        // Get media image
+        if ($article->media) {
+            if ($article->media->media_type == 'image') {
+                // Use full image
+                $mediaPath = public_path($article->media->url);
+            } else {
+                // Use thumbnail for video or other types
+                $mediaPath = public_path($article->getThumbnail());
+            }
+        } else {
+            // Use placeholder
+            $mediaPath = public_path(Media::getPlaceholder('16:9', $article->id));
+        }
+
+        // Insert and resize media
+        $mediaImg = $manager->make($mediaPath);
+        $mediaImg->fit($mediaWidth, $mediaHeight);
+        $base->insert($mediaImg, 'top-left', (int) 50, $mediaY);
+
+        // Generate filename
+        $name = 'article-' . $article->id . '-social.jpg';
+        $base = $base->encode('jpg', 95);
+
+        $headers = [
+            'Content-Type' => 'image/jpeg',
+            'Content-Disposition' => 'attachment; filename=' . $name,
+        ];
+
+        Audit::add(Audit::ACTION_VIEW, "ArticleSocialImage", null, $article->toArray());
+        Log::info("Social media image generated for article " . $article->id);
+
+        return response()->stream(function () use ($base) {
+            echo $base;
+        }, 200, $headers);
+    }
+
+    private function drawWrappedText($image, $text, $x, $y, $maxWidth, $fontSize, $manager)
+    {
+        $fontPath = public_path('Roboto-Black.ttf');
+        $words = explode(' ', $text);
+        $lines = [];
+        $currentLine = '';
+
+        // Word wrapping
+        foreach ($words as $word) {
+            $testLine = $currentLine . ($currentLine ? ' ' : '') . $word;
+            $testImg = $manager->canvas(1, 1);
+            $testImg->text($testLine, 0, 0, function($font) use ($fontPath, $fontSize) {
+                $font->file($fontPath);
+                $font->size($fontSize);
+            });
+            
+            // Simple width estimation
+            if (strlen($testLine) * ($fontSize * 0.6) <= $maxWidth) {
+                $currentLine = $testLine;
+            } else {
+                if ($currentLine) {
+                    $lines[] = $currentLine;
+                }
+                $currentLine = $word;
+            }
+        }
+        
+        if ($currentLine) {
+            $lines[] = $currentLine;
+        }
+
+        // Draw lines centered
+        $lineHeight = $fontSize + 10;
+        $startY = (int) ($y - ((count($lines) - 1) * $lineHeight / 2));
+
+        foreach ($lines as $index => $line) {
+            $currentY = (int) ($startY + ($index * $lineHeight));
+            
+            // Shadow
+            $image->text($line, $x - 3, $currentY + 3, function($font) use ($fontPath, $fontSize) {
+                $font->file($fontPath);
+                $font->size($fontSize);
+                $font->color('#282828');
+                $font->align('center');
+                $font->valign('center');
+            });
+            
+            // Main text
+            $image->text($line, $x, $currentY, function($font) use ($fontPath, $fontSize) {
+                $font->file($fontPath);
+                $font->size($fontSize);
+                $font->color('#ffffff');
+                $font->align('center');
+                $font->valign('center');
+            });
+        }
     }
 }
