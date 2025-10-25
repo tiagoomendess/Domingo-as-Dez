@@ -52,7 +52,7 @@ class UuidKarma extends Model
         $uuid_karma->addKarma($karma);
     }
 
-    public static function ensureExists(string $uuid): void
+    public static function ensureExists(?string $uuid): void
     {
         if (empty($uuid)) {
             return;
