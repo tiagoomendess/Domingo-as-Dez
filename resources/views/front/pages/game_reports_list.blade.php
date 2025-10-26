@@ -220,17 +220,30 @@
                                                 </tr>
                                                 </tbody>
                                             </table>
-
-                                            @if($report->source == "website")
                                             <div>
+                                                <p style="margin-top: 10px;" class="flow-text text-bold">
+                                                    Este resultado é:
+                                                </p>
                                                 <form action="{{ route('score_reports.update_is_fake', ['report' => $report]) }}" method="POST" style="width: 100%; display: flex; align-items: center; justify-content: space-between; flex-direction: row; padding: 10px 0">
-                                                    <div>
+                                                    <div style="width: 100%;">
                                                         {{ csrf_field() }}
                                                         {{ method_field('PUT') }}
-                                                        <p onclick="fakeCheckboxClicked({{ $report->id }})">
-                                                            <input type="checkbox" name="is_fake" class="filled-in checkbox-blue" id="is_fake_{{ $report->id }}" @if($report->is_fake)checked="checked"@endif />
-                                                            <label for="is_fake_{{ $report->id }}">Resultado Falso</label>
-                                                        </p>
+                                                        <div class="row no-margin-bottom" onclick="fakeCheckboxClicked({{ $report->id }})">
+                                                            <div class="col s4">
+                                                                <input name="status" type="radio" value="fake" @if($report->is_fake)checked="checked"@endif id="status_{{ $report->id }}" />
+                                                                <label for="status_{{ $report->id }}">❌</label>
+                                                            </div>
+                                                                
+                                                            <div class="col s4">
+                                                                <input name="status" type="radio" value="unknown" @if(!$report->is_fake && !$report->is_correct)checked="checked"@endif id="unknown_{{ $report->id }}" />
+                                                                <label for="unknown_{{ $report->id }}">🤷‍♂️</label>
+                                                            </div>
+
+                                                            <div class="col s4">
+                                                                <input name="status" type="radio" value="correct" @if($report->is_correct)checked="checked"@endif id="correct_{{ $report->id }}" />
+                                                                <label for="correct_{{ $report->id }}">✅</label>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                     <div>
                                                         <button id="is_fake_submit_button_{{ $report->id }}"
@@ -242,7 +255,6 @@
                                                     </div>
                                                 </form>
                                             </div>
-                                            @endif
                                             <div class="divider"></div>
                                         </div>
                                         <div class="modal-footer">

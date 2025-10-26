@@ -52,10 +52,10 @@ class UuidKarma extends Model
         $uuid_karma->addKarma($karma);
     }
 
-    public static function ensureExists(?string $uuid): void
+    public static function ensureExists(?string $uuid): ?self
     {
         if (empty($uuid)) {
-            return;
+            return null;
         }
 
         try {
@@ -66,8 +66,11 @@ class UuidKarma extends Model
                 $uuid_karma->karma = 0;
                 $uuid_karma->save();
             }
+
+            return $uuid_karma;
         } catch (\Exception $e) {
             Log::error("Error ensuring UUID karma exists: " . $e->getMessage());
+            return null;
         }
     }
 }

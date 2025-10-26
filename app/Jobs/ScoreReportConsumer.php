@@ -80,6 +80,7 @@ class ScoreReportConsumer implements ShouldQueue
 
         $reports = ScoreReport::where('game_id', '=', $game->id)
             ->where('created_at', '>=', $listenFrom->format("Y-m-d H:i:s"))
+            ->where('is_fake', '=', 0)
             ->orderBy('created_at', 'asc')
             ->get();
 

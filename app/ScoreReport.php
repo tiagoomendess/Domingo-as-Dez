@@ -26,6 +26,7 @@ class ScoreReport extends BaseModel
         'uuid',
         'finished',
         'is_fake',
+        'is_correct',
     ];
 
     protected $guarded = [];

@@ -369,27 +369,51 @@ class GamesController extends Controller
 
     public function updateIsFake(Request $request, ScoreReport $report) {
         $this->validate($request, [
-            'is_fake' => 'nullable|string|max:10',
+            'status' => 'required|string|in:unknown,correct,fake',
             'back_to' => 'nullable|string|max:255'
         ]);
 
-        $is_fake = $request->input('is_fake', "off") == "on";
+        $status = $request->input('status');
         $back_to = $request->input('back_to', route('games.today_edit'));
-        $report->is_fake = $is_fake;
+        
+        // Reset both fields first
+        $report->is_fake = false;
+        $report->is_correct = false;
+        
+        // Set the appropriate field based on status
+        switch ($status) {
+            case 'fake':
+                $report->is_fake = true;
+                $report->is_correct = false;
+                break;
+            case 'correct':
+                $report->is_correct = true;
+                $report->is_fake = false;
+                break;
+            case 'unknown':
+                $report->is_fake = false;
+                $report->is_correct = false;
+                break;
+        }
+        
         $report->save();
 
-        // If it was not fake, we don't need to do anything
-        if (!$is_fake) {
+        // If report is not from website, we don't need to ban the user
+        if ($report->source != 'website') {
+            Log::info("Report $report->id is not from website, skipping ban");
             return redirect()->to(url()->previous() . '?back_to=' . $back_to);
         }
 
-        try {
-            $report->banUser();
-        } catch (\Exception $e) {
-            Log::error("Error while trying to ban user: " . $e->getMessage());
-        } finally {
-            return redirect()->to(url()->previous() . '?back_to=' . $back_to);
+        // If it was marked as fake, ban the user
+        if ($status === 'fake') {
+            try {
+                $report->banUser();
+            } catch (\Exception $e) {
+                Log::error("Error while trying to ban user: " . $e->getMessage());
+            }
         }
+        
+        return redirect()->to(url()->previous() . '?back_to=' . $back_to);
     }
 
     public function listScoreReports(Request $request, Game $game) {
