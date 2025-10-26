@@ -131,6 +131,8 @@ Route::get('/partners/{partner}/generate-image', 'Resources\PartnerController@sh
     ->name('partners.show_generate_image');
 Route::post('/partners/{partner}/generate-image', 'Resources\PartnerController@doGenerateImage')
     ->name('partners.do_generate_image');
+Route::get('/logs', 'Backoffice\LogViewerController@index')->name('logs.index');
+Route::get('/logs/content', 'Backoffice\LogViewerController@getContent')->name('logs.content');
 // =====================================================================================================================
 
 // === Backoffice CRUD =================================================================================================

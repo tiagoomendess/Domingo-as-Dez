@@ -187,6 +187,12 @@
                                 <li><a class="waves-effect"
                                        href="{{ route('audit.index') }}">{{ trans('models.audit') }}</a></li>
                             @endif
+                            @if(Auth::user()->hasPermission('admin'))
+                                <li><a class="waves-effect"
+                                       href="{{ route('logs.index') }}">
+                                    Logs
+                                </a></li>
+                            @endif
                     </ul>
                 </div>
             </li>
