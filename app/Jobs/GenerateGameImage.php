@@ -48,12 +48,12 @@ class GenerateGameImage
             return;
         }
 
-        Log::info("Starting GenerateGameImage Job");
-        Log::info("Got " . count($games) . " game(s) to generate.");
+        Log::debug("Starting GenerateGameImage Job");
+        Log::debug("Got " . count($games) . " game(s) to generate.");
 
         foreach ($games as $game) {
             try {
-                Log::info('Generating image for game ' . $game->id);
+                Log::debug('Generating image for game ' . $game->id);
                 $base = $this->manager->canvas(self::WIDTH, self::HEIGHT);
 
                 if ($game->playground) {
@@ -100,7 +100,7 @@ class GenerateGameImage
                 $game->image = "/storage/$filename";
                 $game->generate_image = false;
                 $game->save();
-                Log::info("Successfully generated image for game $game->id");
+                Log::debug("Successfully generated image for game $game->id");
             } catch (\Exception $e) {
                 Log::error("Error generating image for game $game->id");
             }
@@ -108,7 +108,7 @@ class GenerateGameImage
 
         $endTime = new \DateTime();
         $diff = $endTime->diff($startTime);
-        Log::info("Finished GenerateGameImage Job in " . $diff->format('%s seconds %F microseconds'));
+        Log::debug("Finished GenerateGameImage Job in " . $diff->format('%s seconds %F microseconds'));
     }
 
     private function setCompetitionLogo(Image &$base, $data)

@@ -40,9 +40,9 @@ class ProcessPolls
     public function handle()
     {
         $startTime = new \DateTime();
-        Log::info("Starting Processing Polls Job");
+        Log::debug("Starting Processing Polls Job");
 
-        Log::info("Publishing scheduled polls");
+        Log::debug("Publishing scheduled polls");
         $now = Carbon::now();
         DB::table('polls')
             ->where('visible', '=', false)
@@ -50,14 +50,14 @@ class ProcessPolls
             ->where('close_after', '>', $now->format("Y-m-d H:i:s"))
             ->update(['visible' => true]);
 
-        Log::info("Updating images");
+        Log::debug("Updating images");
         $pollsToUpdate = Poll::where('update_image' , true)->limit(10)->get();
-        Log::info("Got " . $pollsToUpdate->count() . " polls to update");
+        Log::debug("Got " . $pollsToUpdate->count() . " polls to update");
         $success = 0;
         $failed = 0;
         foreach($pollsToUpdate as $poll){
             try {
-                Log::info('Generating image for poll ' . $poll->id);
+                Log::debug('Generating image for poll ' . $poll->id);
                 $base = $this->manager->canvas(self::WIDTH, self::HEIGHT);
                 $base->insert(public_path("/images/poll_default.png"), 'center');
 
@@ -105,6 +105,6 @@ class ProcessPolls
         $diff = $endTime->diff($startTime);
 
         $total = $success + $failed;
-        Log::info("Finished Processing $total Polls. $success success and $failed fails in " . $diff->format('%s seconds %F microseconds'));
+        Log::debug("Finished Processing $total Polls. $success success and $failed fails in " . $diff->format('%s seconds %F microseconds'));
     }
 }

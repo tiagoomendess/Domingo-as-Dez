@@ -37,7 +37,7 @@ class GenerateGameComments implements ShouldQueue
      */
     public function handle()
     {
-        Log::info("Starting GenerateGameComments Job");
+        Log::debug("Starting GenerateGameComments Job");
         $startTime = new DateTime();
 
         $created = $this->run();
@@ -45,7 +45,7 @@ class GenerateGameComments implements ShouldQueue
         $endTime = new DateTime();
         $diff = $endTime->diff($startTime);
         $delta = $diff->format('%s seconds %F microseconds');
-        Log::info("A total of $created games were processed in $delta");
+        Log::debug("A total of $created games were processed in $delta");
     }
 
     private function run(): int
@@ -62,7 +62,7 @@ class GenerateGameComments implements ShouldQueue
             ->limit(10)
             ->get();
 
-        Log::info("Got " . $gamesWithoutComments->count() . " games to comment");
+        Log::debug("Got " . $gamesWithoutComments->count() . " games to comment");
 
         foreach ($gamesWithoutComments as $game) {
             $this->handleGame($game);
@@ -110,7 +110,7 @@ class GenerateGameComments implements ShouldQueue
 
         $notification_email = $this->getNotificationEmail($team);
         if (empty($notification_email)) {
-            Log::info("No notification email found for team $team->id");
+            Log::debug("No notification email found for team $team->id");
             return;
         }
 
@@ -144,12 +144,12 @@ class GenerateGameComments implements ShouldQueue
     private function sendNotificationEmail(string $email, Game $game, GameComment $gameComment, Team $team)
     {
         if (!$team->club->notifications_enabled) {
-            Log::info("Game comment notification disabled for team $team->id");
+            Log::debug("Game comment notification disabled for team $team->id");
             return;
         }
 
         // Send email
-        Log::info("Sending email to $email for game $game->id with uuid $gameComment->uuid and pin $gameComment->pin");
+        Log::debug("Sending email to $email for game $game->id with uuid $gameComment->uuid and pin $gameComment->pin");
 
         try {
             Mail::to($email)

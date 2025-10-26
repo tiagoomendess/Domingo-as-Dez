@@ -44,7 +44,7 @@ class ScoreReportConsumer implements ShouldQueue
             return;
         }
 
-        Log::info("Starting ScoreReportConsumer...");
+        Log::debug("Starting ScoreReportConsumer...");
         foreach ($games as $game) {
             try {
                 $this->process_game($game);
@@ -56,14 +56,14 @@ class ScoreReportConsumer implements ShouldQueue
         if ($this->games_updated > 0) {
             // invalidate cache for live games because games were updated
             Cache::store('file')->forget('live_matches');
-            Log::info("Invalidated live_matches cache because at least one game was updated");
+            Log::debug("Invalidated live_matches cache because at least one game was updated");
         }
 
         $endTime = new DateTime();
         $diff = $endTime->diff($startTime);
         $delta = $diff->format('%s seconds %F microseconds');
         $gamesTotal = $games->count();
-        Log::info("A total of $this->games_updated games were updated out of $gamesTotal processed in $delta");
+        Log::debug("A total of $this->games_updated games were updated out of $gamesTotal processed in $delta");
     }
 
     private function process_game(Game $game)
@@ -214,22 +214,22 @@ class ScoreReportConsumer implements ShouldQueue
         $gameId = $game->id;
         $finalStats = "1st: $highestScoreKey($highestScorePoints) | 2nd: $secondHighestScoreKey($secondHighestScorePoints) | lowest: $lowestScoreKey($lowestScorePoints)";
         if ($canUpdateScore) {
-            Log::info("Game $gameId will update score to $highestScoreKey: $finalStats");
+            Log::debug("Game $gameId will update score to $highestScoreKey: $finalStats");
             $updated = $this->updateGameScore($game, $highestScoreKey);
             if ($updated) {
-                Log::info("Game $gameId updated score to $highestScoreKey successfully");
+                Log::debug("Game $gameId updated score to $highestScoreKey successfully");
             } else {
-                Log::info("Game $gameId did not update score");
+                Log::debug("Game $gameId did not update score");
             }
         } else {
-            Log::info("Game $gameId will NOT update score: $finalStats");
+            Log::debug("Game $gameId will NOT update score: $finalStats");
         }
     }
 
     function updateGameScore(Game $game, string $scoreKey): bool {
         $previousScore = $game->getHomeScore() . '-' . $game->getAwayScore() . '-' . ($game->finished ? 'true' : 'false');
         if ($previousScore == $scoreKey) {
-            Log::info("Score for game " . $game->id . " is already $scoreKey");
+            Log::debug("Score for game " . $game->id . " is already $scoreKey");
             return false;
         }
 
@@ -242,7 +242,7 @@ class ScoreReportConsumer implements ShouldQueue
         $game->goals_away = $awayScore;
         $game->finished = $finished == 'true';
         $game->save();
-        Log::info("Updated score for game " . $game->id . " from $previousScore to $scoreKey");
+        Log::debug("Updated score for game " . $game->id . " from $previousScore to $scoreKey");
         $this->games_updated++;
 
         return true;

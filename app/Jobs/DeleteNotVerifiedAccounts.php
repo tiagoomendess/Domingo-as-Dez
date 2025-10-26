@@ -32,7 +32,7 @@ class DeleteNotVerifiedAccounts implements ShouldQueue
     public function handle()
     {
         $startTime = new \DateTime();
-        Log::info('Deleting not verified accounts older than 15 minutes');
+        Log::debug('Deleting not verified accounts older than 15 minutes');
         $from = Carbon::now()->subMinutes(15);
 
         try {
@@ -49,13 +49,13 @@ class DeleteNotVerifiedAccounts implements ShouldQueue
                     'remember_token' => null
                 ]);
 
-            Log::info("$result accounts deleted!");
+            Log::debug("$result accounts deleted!");
         } catch (\Exception $e) {
             Log::error("Error executing job. Message: " . $e->getMessage());
         }
 
         $endTime = new \DateTime();
         $diff = $endTime->diff($startTime);
-        Log::info("Job DeleteNotVerifiedAccounts finished in " . $diff->format('%s seconds %F microseconds'));
+        Log::debug("Job DeleteNotVerifiedAccounts finished in " . $diff->format('%s seconds %F microseconds'));
     }
 }
