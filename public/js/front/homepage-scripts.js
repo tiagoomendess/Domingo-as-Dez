@@ -6,9 +6,6 @@ function start() {
 }
 
 function changeNewsTile() {
-
-    console.log('Changing news snippet');
-
     var current_news = $('#news_snippets a.active');
     var next = current_news.next();
 
@@ -17,11 +14,9 @@ function changeNewsTile() {
 
     current_news.attr('class', 'hide');
     next.attr('class', 'active');
-
 }
 
 function startSlideShow() {
-
     var delay = 25;
     var ticks = 0;
     var bar = $('.news-snippet-progress');
