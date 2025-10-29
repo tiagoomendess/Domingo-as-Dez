@@ -5,18 +5,18 @@
     function gtag(){dataLayer.push(arguments);}
 
     gtag('consent', 'default', {
-        'ad_storage': 'denied',
-        'ad_user_data': 'denied',
-        'ad_personalization': 'denied',
-        'analytics_storage': 'denied',
+        'ad_storage': 'granted',
+        'ad_user_data': 'granted',
+        'ad_personalization': 'granted',
+        'analytics_storage': 'granted',
         'regions':['PT', 'ES', 'GB', 'FR', 'CH', 'NL']
     });
 
     gtag('consent', 'default', {
-        'ad_storage': 'denied',
-        'ad_user_data': 'denied',
-        'ad_personalization': 'denied',
-        'analytics_storage': 'denied'
+        'ad_storage': 'granted',
+        'ad_user_data': 'granted',
+        'ad_personalization': 'granted',
+        'analytics_storage': 'granted'
     });
 </script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-PPBRM1T8VZ"></script>
