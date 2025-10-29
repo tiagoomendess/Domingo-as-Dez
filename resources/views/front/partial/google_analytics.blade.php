@@ -91,10 +91,12 @@
                 gtag('get', 'G-PPBRM1T8VZ', 'client_id', function(clientId) {
                     if (clientId) {
                         console.log('Google Analytics tracking active');
+                    } else {
+                        console.log('Google Analytics tracking not active');
                     }
                 });
             };
-            setTimeout(checkConsent, 2000);
+            setTimeout(checkConsent, 2500);
         }
     });
 </script>
