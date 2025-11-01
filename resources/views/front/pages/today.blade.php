@@ -170,7 +170,27 @@
                 </script>
             </div>
         @endif
-        <div class="row">
+        <!-- Loading Spinner (hidden by default) -->
+        <div id="loading-spinner" class="row" style="display: none;">
+            <div class="col s12 center-align" style="padding: 60px 0;">
+                <div class="preloader-wrapper big active">
+                    <div class="spinner-layer spinner-blue-only">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="gap-patch">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+                </div>
+                <p style="margin-top: 20px; color: #666;">A carregar jogos...</p>
+            </div>
+        </div>
+
+        <div class="row" id="games-content">
             <div class="col s12 m12 l8">
                 @if (count($games) < 1)
                     <div class="card">
@@ -293,7 +313,7 @@
             @if(!$is_today)
                 <div class="row">
                     <div class="col s12 center-align" style="margin-top: 5px;">
-                        <a href="{{ route('games.today') }}" class="btn-flat waves-effect waves-light"">
+                        <a href="{{ route('games.today') }}" class="btn-flat waves-effect waves-light date-nav-trigger">
                             <i class="material-icons left">today</i>
                             Voltar ao dia de Hoje
                         </a>
@@ -307,4 +327,22 @@
 @endsection
 
 @section('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get all date navigation elements (arrows + bottom button)
+            const dateNavElements = document.querySelectorAll('.date-nav-arrow, .date-nav-trigger');
+            
+            dateNavElements.forEach(function(element) {
+                element.addEventListener('click', function(e) {
+                    // Show spinner
+                    document.getElementById('loading-spinner').style.display = 'block';
+                    
+                    // Hide games content
+                    document.getElementById('games-content').style.display = 'none';
+                    
+                    // Let the navigation proceed naturally
+                });
+            });
+        });
+    </script>
 @endsection
