@@ -63,6 +63,120 @@
             border-left: 1px solid #e0e0e0;
             border-right: 1px solid #e0e0e0;
             min-width: 200px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        
+        .date-display:hover {
+            background-color: #f5f5f5;
+        }
+        
+        /* Custom Date Picker Styles */
+        .custom-datepicker-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .custom-datepicker {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            max-width: 350px;
+            width: 90%;
+        }
+        
+        .datepicker-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .datepicker-header button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 5px 10px;
+            font-size: 1.2rem;
+            color: #1976d2;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+        
+        .datepicker-header button:hover {
+            background-color: #e3f2fd;
+        }
+        
+        .datepicker-month-year {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .datepicker-weekdays {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+            margin-bottom: 5px;
+        }
+        
+        .datepicker-weekday {
+            text-align: center;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #666;
+            padding: 8px 0;
+        }
+        
+        .datepicker-days {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+        }
+        
+        .datepicker-day {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border-radius: 50%;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+        
+        .datepicker-day:hover {
+            background-color: #e3f2fd;
+        }
+        
+        .datepicker-day.other-month {
+            color: #ccc;
+        }
+        
+        .datepicker-day.selected {
+            background-color: #1976d2;
+            color: white;
+            font-weight: 600;
+        }
+        
+        .datepicker-day.today {
+            border: 2px solid #1976d2;
+            font-weight: 600;
+        }
+        
+        @media only screen and (max-width: 600px) {
+            .custom-datepicker {
+                max-width: 320px;
+            }
         }
         
         .date-display .day-name {
@@ -128,7 +242,7 @@
                     <i class="material-icons">chevron_left</i>
                 </a>
                 
-                <div class="date-display">
+                <div class="date-display" id="date-display-trigger">
                     <div class="day-name">
                         {{ $selected_date->locale('pt')->isoFormat('dddd') }}
                     </div>
@@ -142,6 +256,27 @@
                 <a href="{{ route('games.today') }}?date={{ $next_date }}" class="date-nav-arrow">
                     <i class="material-icons">chevron_right</i>
                 </a>
+            </div>
+        </div>
+
+        <!-- Custom Date Picker -->
+        <div class="custom-datepicker-overlay" id="datepicker-overlay">
+            <div class="custom-datepicker" id="datepicker-widget">
+                <div class="datepicker-header">
+                    <button type="button" id="prev-month">&laquo;</button>
+                    <div class="datepicker-month-year" id="month-year-display"></div>
+                    <button type="button" id="next-month">&raquo;</button>
+                </div>
+                <div class="datepicker-weekdays">
+                    <div class="datepicker-weekday">D</div>
+                    <div class="datepicker-weekday">S</div>
+                    <div class="datepicker-weekday">T</div>
+                    <div class="datepicker-weekday">Q</div>
+                    <div class="datepicker-weekday">Q</div>
+                    <div class="datepicker-weekday">S</div>
+                    <div class="datepicker-weekday">S</div>
+                </div>
+                <div class="datepicker-days" id="datepicker-days"></div>
             </div>
         </div>
 
@@ -342,6 +477,128 @@
                     
                     // Let the navigation proceed naturally
                 });
+            });
+
+            // Custom Date Picker Logic
+            const overlay = document.getElementById('datepicker-overlay');
+            const datepickerWidget = document.getElementById('datepicker-widget');
+            const dateDisplayTrigger = document.getElementById('date-display-trigger');
+            const monthYearDisplay = document.getElementById('month-year-display');
+            const daysContainer = document.getElementById('datepicker-days');
+            const prevMonthBtn = document.getElementById('prev-month');
+            const nextMonthBtn = document.getElementById('next-month');
+            
+            let currentDate = new Date('{{ $selected_date->format('Y-m-d') }}');
+            let displayDate = new Date(currentDate);
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            
+            const monthNames = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 
+                               'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+            
+            function renderCalendar() {
+                const year = displayDate.getFullYear();
+                const month = displayDate.getMonth();
+                
+                monthYearDisplay.textContent = monthNames[month] + ' ' + year;
+                
+                // Get first day of month and number of days
+                const firstDay = new Date(year, month, 1);
+                const lastDay = new Date(year, month + 1, 0);
+                const prevLastDay = new Date(year, month, 0);
+                
+                const firstDayWeekday = firstDay.getDay();
+                const daysInMonth = lastDay.getDate();
+                const prevMonthDays = prevLastDay.getDate();
+                
+                daysContainer.innerHTML = '';
+                
+                // Previous month days
+                for (let i = firstDayWeekday - 1; i >= 0; i--) {
+                    const day = prevMonthDays - i;
+                    const dayEl = document.createElement('div');
+                    dayEl.className = 'datepicker-day other-month';
+                    dayEl.textContent = day;
+                    daysContainer.appendChild(dayEl);
+                }
+                
+                // Current month days
+                for (let day = 1; day <= daysInMonth; day++) {
+                    const dayDate = new Date(year, month, day);
+                    const dayEl = document.createElement('div');
+                    dayEl.className = 'datepicker-day';
+                    dayEl.textContent = day;
+                    
+                    // Check if it's the selected date
+                    if (dayDate.getTime() === currentDate.getTime()) {
+                        dayEl.classList.add('selected');
+                    }
+                    
+                    // Check if it's today
+                    if (dayDate.getTime() === today.getTime()) {
+                        dayEl.classList.add('today');
+                    }
+                    
+                    dayEl.addEventListener('click', function() {
+                        const selectedDate = new Date(year, month, day);
+                        const formattedDate = selectedDate.getFullYear() + '-' + 
+                                            String(selectedDate.getMonth() + 1).padStart(2, '0') + '-' + 
+                                            String(selectedDate.getDate()).padStart(2, '0');
+                        
+                        // Show spinner
+                        document.getElementById('loading-spinner').style.display = 'block';
+                        document.getElementById('games-content').style.display = 'none';
+                        
+                        // Close datepicker
+                        overlay.style.display = 'none';
+                        
+                        // Navigate to the selected date
+                        window.location.href = '{{ route('games.today') }}?date=' + formattedDate;
+                    });
+                    
+                    daysContainer.appendChild(dayEl);
+                }
+                
+                // Next month days to fill the grid
+                const totalCells = daysContainer.children.length;
+                const remainingCells = 42 - totalCells; // 6 rows * 7 days
+                for (let day = 1; day <= remainingCells && remainingCells < 7; day++) {
+                    const dayEl = document.createElement('div');
+                    dayEl.className = 'datepicker-day other-month';
+                    dayEl.textContent = day;
+                    daysContainer.appendChild(dayEl);
+                }
+            }
+            
+            // Open datepicker
+            dateDisplayTrigger.addEventListener('click', function(e) {
+                e.stopPropagation();
+                overlay.style.display = 'flex';
+                renderCalendar();
+            });
+            
+            // Close datepicker when clicking overlay
+            overlay.addEventListener('click', function(e) {
+                if (e.target === overlay) {
+                    overlay.style.display = 'none';
+                }
+            });
+            
+            // Prevent closing when clicking inside the widget
+            datepickerWidget.addEventListener('click', function(e) {
+                e.stopPropagation();
+            });
+            
+            // Previous month
+            prevMonthBtn.addEventListener('click', function() {
+                displayDate.setMonth(displayDate.getMonth() - 1);
+                renderCalendar();
+            });
+            
+            // Next month
+            nextMonthBtn.addEventListener('click', function() {
+                displayDate.setMonth(displayDate.getMonth() + 1);
+                renderCalendar();
             });
         });
     </script>
