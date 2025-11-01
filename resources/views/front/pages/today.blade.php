@@ -13,11 +13,139 @@
     <meta itemprop="name" content="Jogos de Hoje">
     <meta itemprop="description" content="Lista de todos os jogos marcados para o dia de hoje">
     <meta itemprop="image" content="{{ url('/images/todays_games.jpg') }}">
+    
+    <style>
+        .date-nav-box {
+            display: inline-flex;
+            align-items: stretch;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            overflow: hidden;
+            margin: 20px auto;
+        }
+        
+        .date-nav-arrow {
+            padding: 15px 20px;
+            background-color: #f5f5f5;
+            text-decoration: none;
+            color: #666;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            border: none;
+            min-width: 50px;
+        }
+        
+        .date-nav-arrow:hover {
+            background-color: #1976d2;
+            color: white;
+        }
+        
+        .date-nav-arrow:active {
+            background-color: #1565c0;
+        }
+        
+        .date-display {
+            padding: 15px 40px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background-color: white;
+            border-left: 1px solid #e0e0e0;
+            border-right: 1px solid #e0e0e0;
+            min-width: 200px;
+        }
+        
+        .date-display .day-name {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #333;
+            text-transform: capitalize;
+            line-height: 1.2;
+        }
+        
+        .date-display .date-info {
+            font-size: 1rem;
+            color: #666;
+            margin-top: 4px;
+        }
+        
+        .date-display .today-badge {
+            font-size: 1rem;
+            color: #1976d2;
+            font-weight: 500;
+            margin-top: 4px;
+        }
+        
+        .date-nav-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        @media only screen and (max-width: 600px) {
+            .date-nav-box {
+                margin: 15px auto;
+            }
+            
+            .date-nav-arrow {
+                padding: 12px 15px;
+                min-width: 45px;
+            }
+            
+            .date-display {
+                padding: 12px 25px;
+                min-width: 160px;
+            }
+            
+            .date-display .day-name {
+                font-size: 1.2rem;
+            }
+            
+            .date-display .date-info,
+            .date-display .today-badge {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
 @endsection
 
 @section('content')
     <div class="container">
-        <h1 class="hide-on-med-and-down">Jogos de Hoje</h1>
+        <!-- Date Navigation Bar -->
+        <div class="date-nav-container">
+            <div class="date-nav-box">
+                <a href="{{ route('games.today') }}?date={{ $previous_date }}" class="date-nav-arrow">
+                    <i class="material-icons">chevron_left</i>
+                </a>
+                
+                <div class="date-display">
+                    <div class="day-name">
+                        {{ $selected_date->locale('pt')->isoFormat('dddd') }}
+                    </div>
+                    @if($is_today)
+                        <div class="today-badge">Hoje</div>
+                    @else
+                        <div class="date-info">{{ $selected_date->format('d/m/Y') }}</div>
+                    @endif
+                </div>
+                
+                <a href="{{ route('games.today') }}?date={{ $next_date }}" class="date-nav-arrow">
+                    <i class="material-icons">chevron_right</i>
+                </a>
+            </div>
+        </div>
+
+        <h1 class="hide" style="margin-top: 0;">
+            @if($is_today)
+                Jogos de Hoje
+            @else
+                Jogos do Dia
+            @endif
+        </h1>
 
         @if(!has_permission('disable_ads') && \Config::get('custom.adsense_enabled'))
             <div class="hide-on-med-and-up" style="margin-top: 5px">
@@ -42,11 +170,14 @@
                     <div class="card">
                         <div class="card-content group-games" style="padding: 10px">
                             <p class="flow-text text-center">
-                                Não existem jogos marcados para hoje.
+                                @if($is_today)
+                                    Não existem jogos marcados para hoje.
+                                @else
+                                    Não existem jogos marcados para este dia.
+                                @endif
                                 @if($closest)
-                                    O <a href="{{ $closest->getPublicUrl() }}">jogo mais próximo </a>está marcado para
-                                    dia
-                                    {{ (new \Carbon\Carbon($closest->date))->setTimezone('Europe/Lisbon')->format('d/m \d\e Y') }}
+                                    O jogo mais próximo depois desta data está marcado para
+                                    <a href="{{ route('games.today') }}?date={{ \Carbon\Carbon::parse($closest->date)->format('Y-m-d') }}">dia {{ (new \Carbon\Carbon($closest->date))->setTimezone('Europe/Lisbon')->format('d/m \d\e Y') }}</a>
                                 @endif
                             </p>
                         </div>
@@ -124,7 +255,7 @@
                 @endif
             </div>
 
-            @if(has_permission('score_update'))
+            @if(has_permission('score_update') && $is_today)
                 <div class="row">
                     <div class="col s12">
                         <a href="{{ route('games.today_edit') }}"
@@ -149,6 +280,17 @@
                         <script>
                             (adsbygoogle = window.adsbygoogle || []).push({});
                         </script>
+                    </div>
+                </div>
+            @endif
+
+            @if(!$is_today)
+                <div class="row">
+                    <div class="col s12 center-align" style="margin-top: 5px;">
+                        <a href="{{ route('games.today') }}" class="btn-flat waves-effect waves-light"">
+                            <i class="material-icons left">today</i>
+                            Voltar ao dia de Hoje
+                        </a>
                     </div>
                 </div>
             @endif

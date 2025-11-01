@@ -244,17 +244,38 @@ class GamesController extends Controller
         return view('front.pages.live_matches');
     }
 
-    public function today() {
-        $cache_key = "today_games_cache";
+    public function today(Request $request) {
+        // Get date from query parameter or use today
+        $dateParam = $request->query('date');
+        
+        if ($dateParam) {
+            try {
+                $targetDate = Carbon::createFromFormat('Y-m-d', $dateParam);
+            } catch (\Exception $e) {
+                // Invalid date format, fallback to today
+                $targetDate = Carbon::now();
+            }
+        } else {
+            $targetDate = Carbon::now();
+        }
+        
+        $isToday = $targetDate->isToday();
+        
+        $cache_key = "today_games_cache_" . $targetDate->format('Y-m-d');
         $cached_data = Cache::store('file')->get($cache_key);
-        if (!empty($cached_data))
+        if (!empty($cached_data)) {
+            // Add runtime variables that shouldn't be cached
+            $cached_data['selected_date'] = $targetDate;
+            $cached_data['is_today'] = $isToday;
+            $cached_data['previous_date'] = $targetDate->copy()->subDay()->format('Y-m-d');
+            $cached_data['next_date'] = $targetDate->copy()->addDay()->format('Y-m-d');
             return view('front.pages.today', $cached_data);
-        else
-            Log::debug("Cache miss for today games, generating new one");
+        } else {
+            Log::debug("Cache miss for games on " . $targetDate->format('Y-m-d') . ", generating new one");
+        }
 
-        $now = Carbon::now();
-        $begin = clone($now)->startOfDay();
-        $end = clone($now)->endOfDay();
+        $begin = $targetDate->copy()->startOfDay();
+        $end = $targetDate->copy()->endOfDay();
 
         $games = Game::where('date', '>', $begin)
             ->where('date', '<', $end)
@@ -283,7 +304,11 @@ class GamesController extends Controller
         $view_data = [
             'grouped_games' => $grouped_games,
             'games' => $games,
-            'closest' => $closest
+            'closest' => $closest,
+            'selected_date' => $targetDate,
+            'is_today' => $isToday,
+            'previous_date' => $targetDate->copy()->subDay()->format('Y-m-d'),
+            'next_date' => $targetDate->copy()->addDay()->format('Y-m-d')
         ];
         Cache::store('file')->add($cache_key, $view_data, 60);
 
