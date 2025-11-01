@@ -482,6 +482,21 @@
                     const href = this.getAttribute('href');
                     window.location.href = href;
                 });
+
+                element.addEventListener('touchend', function(e) {
+                    // Prevent default navigation
+                    e.preventDefault();
+                    
+                    // Show spinner
+                    document.getElementById('loading-spinner').style.display = 'block';
+                    
+                    // Hide games content
+                    document.getElementById('games-content').style.display = 'none';
+                    
+                    // Get the href and navigate programmatically
+                    const href = this.getAttribute('href');
+                    window.location.href = href;
+                });
             });
 
             // Custom Date Picker Logic
