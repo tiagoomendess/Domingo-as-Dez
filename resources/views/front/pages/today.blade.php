@@ -1,7 +1,13 @@
 @extends('front.layouts.default-page')
 
 @section('head-content')
-    <title>Jogos de Hoje</title>
+    <title>
+        @if($is_today)
+            Jogos de Hoje
+        @else
+            Jogos de {{ $selected_date->format('d/m/Y') }}
+        @endif
+    </title>
 
     <meta property="og:title" content="{{ 'Jogos Hoje - ' . config('app.name') }}"/>
     <meta property="og:type" content="website"/>
