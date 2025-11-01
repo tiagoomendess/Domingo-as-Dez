@@ -469,13 +469,18 @@
             
             dateNavElements.forEach(function(element) {
                 element.addEventListener('click', function(e) {
+                    // Prevent default navigation
+                    e.preventDefault();
+                    
                     // Show spinner
                     document.getElementById('loading-spinner').style.display = 'block';
                     
                     // Hide games content
                     document.getElementById('games-content').style.display = 'none';
                     
-                    // Let the navigation proceed naturally
+                    // Get the href and navigate programmatically
+                    const href = this.getAttribute('href');
+                    window.location.href = href;
                 });
             });
 
