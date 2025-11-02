@@ -216,3 +216,7 @@ body {
 .tables .positions-table tbody .promotion {
     background-color: #bbdcb1cc;
 }
+
+td {
+    border-radius: 0!important;
+}
