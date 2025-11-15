@@ -427,6 +427,95 @@ class SocialPoster
     }
 
     /**
+     * Post a photo to Facebook from a local file path (binary upload)
+     * Use this when the image is on your server and not publicly accessible
+     * 
+     * @param string $filePath Absolute path to the image file on disk
+     * @param string|null $caption Optional caption for the photo
+     * @return string The post ID
+     */
+    public function postToFacebookPhotoFromFile(string $filePath, ?string $caption = null): string
+    {
+        if (!file_exists($filePath)) {
+            throw new \RuntimeException("Image file not found at path: {$filePath}");
+        }
+        
+        Log::info('Uploading photo to Facebook from file', [
+            'file_path' => $filePath,
+            'file_size' => filesize($filePath),
+        ]);
+        
+        // Read file contents
+        $fileContents = file_get_contents($filePath);
+        if ($fileContents === false) {
+            throw new \RuntimeException("Failed to read image file: {$filePath}");
+        }
+        
+        // Prepare file data for multipart upload
+        $fileData = [
+            'source' => [
+                'contents' => $fileContents,
+                'filename' => basename($filePath),
+            ]
+        ];
+        
+        // Prepare parameters
+        $params = ['published' => 'true'];
+        if ($caption !== null) {
+            $params['caption'] = $caption;
+        }
+        
+        // Upload using multipart
+        $response = $this->makeGraphApiPost("{$this->pageId}/photos", $params, $this->pageToken, $fileData);
+        
+        $postId = $response['post_id'] ?? $response['id'] ?? '';
+        
+        if (empty($postId)) {
+            Log::error('Facebook photo upload did not return post_id', ['response' => $response]);
+            throw new \RuntimeException('Failed to get post ID from Facebook photo upload');
+        }
+        
+        Log::info('Photo uploaded to Facebook successfully', [
+            'post_id' => $postId,
+            'file_path' => $filePath,
+        ]);
+        
+        return $postId;
+    }
+
+    /**
+     * Post a comment on a Facebook post
+     * 
+     * @param string $postId The Facebook post ID (format: pageId_postId)
+     * @param string $message The comment text
+     * @return string The comment ID
+     */
+    public function postCommentOnFacebookPost(string $postId, string $message): string
+    {
+        Log::info('Posting comment on Facebook post', [
+            'post_id' => $postId,
+            'message_preview' => substr($message, 0, 50),
+        ]);
+        
+        $response = $this->makeGraphApiPost("{$postId}/comments", [
+            'message' => $message,
+        ], $this->pageToken);
+        
+        $commentId = $response['id'] ?? '';
+        
+        if (!$commentId) {
+            throw new \RuntimeException('Failed to post comment on Facebook post');
+        }
+        
+        Log::info('Comment posted successfully', [
+            'post_id' => $postId,
+            'comment_id' => $commentId,
+        ]);
+        
+        return $commentId;
+    }
+
+    /**
      * Post to Facebook Story Photo (single-step, legacy method)
      * For immediate posting. For scheduled posts, use createFacebookStoryPhotoMedia() + publishFacebookStoryPhoto()
      */

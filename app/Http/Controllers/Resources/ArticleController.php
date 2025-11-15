@@ -15,6 +15,7 @@ use Illuminate\Support\MessageBag;
 use Illuminate\Support\Str;
 use Intervention\Image\ImageManager;
 use Symfony\Component\HttpKernel\Log\Logger;
+use App\Services\SocialPoster;
 
 class ArticleController extends Controller
 {
@@ -247,7 +248,7 @@ class ArticleController extends Controller
         return redirect(route('articles.index'))->with(['popup_message' => $message]);
     }
 
-    public function postOnFacebook(Request $request, Article $article)
+    public function postOnFacebook(Request $request, Article $article, ImageManager $manager, SocialPoster $socialPoster)
     {
         $messages = new MessageBag();
 
@@ -257,41 +258,112 @@ class ArticleController extends Controller
         }
 
         $request->validate([
-            'message' => 'nullable|max:144|string',
+            'message' => 'nullable|max:280|string',
         ]);
 
-        $pageId = config('services.facebook.page_id');
-        $appId = config('services.facebook.client_id');
-        $appSecret = config('services.facebook.client_secret');
-        $pageAccessToken = config('services.facebook.page_access_token');
-
         try {
-            $fb = new Facebook([
-                'app_id' => $appId,
-                'app_secret' => $appSecret
-            ]);
-
-            $url = $article->getPublicUrl();
-            //$url = str_replace('localhost:8000', 'domingoasdez.com', $url);
-
-            $response = $fb->post("/$pageId/feed", [
-                'message' => $request->input('message', ''),
-                'link' => $url
-            ], $pageAccessToken, null, 'v11.0');
-        } catch (\Exception $e) {
-            $messages->add('error', "Não foi possível publicar o artigo na página de facebook, a API retornou uma exceção: " . $e->getMessage());
-            Log::info("Could not send post to facebook, error: " . $e->getMessage());
-
-            return redirect(route('articles.index'))->with(['popup_message' => $messages]);
-        }
-
-        $decodedBody = $response->getDecodedBody();
-        if ($response->getHttpStatusCode() == 200 && !empty($decodedBody) && isset($decodedBody['id'])) {
-            $messages->add('success', "O Artigo foi publicado no facebook");
-            $article->facebook_post_id = $decodedBody['id'];
+            // Step 1: Generate the social media image
+            Log::info('Generating social media image for Facebook post', ['article_id' => $article->id]);
+            $image = $this->createArticleSocialImage($article, $manager);
+            
+            // Step 2: Save image to tmp folder
+            $tmpFolder = 'storage/tmp/';
+            $tmpDir = public_path($tmpFolder);
+            if (!is_dir($tmpDir)) {
+                mkdir($tmpDir, 0755, true);
+            }
+            
+            $filename = 'article_fb_post_' . $article->id . '_' . time() . '.jpg';
+            $relativePath = $tmpFolder . $filename;
+            $absolutePath = public_path($relativePath);
+            
+            $image->encode('jpg', 95)->save($absolutePath);
+            Log::info('Image saved to tmp folder', ['path' => $relativePath]);
+            
+            // Step 3: Post image to Facebook with caption
+            $caption = $request->input('message', '');
+            if (empty($caption)) {
+                $caption = $article->title . "\n\n🔗 Link nos comentários";
+            } else {
+                $caption .= "\n\n🔗 Link nos comentários";
+            }
+            
+            Log::info('Posting image to Facebook', ['file_path' => $absolutePath, 'article_id' => $article->id]);
+            
+            // Use binary upload instead of URL (works for localhost and production)
+            $postId = $socialPoster->postToFacebookPhotoFromFile($absolutePath, $caption);
+            
+            if (empty($postId)) {
+                throw new \RuntimeException('Facebook did not return a post ID');
+            }
+            
+            Log::info('Facebook post created successfully', ['post_id' => $postId]);
+            
+            // Step 4: Try to comment on the post with the article link (non-critical)
+            $commentId = null;
+            $commentFailed = false;
+            try {
+                $articleUrl = $article->getPublicUrl();
+                $commentText = "📰 Lê o artigo completo aqui: " . $articleUrl;
+                
+                Log::info('Posting comment with article link', ['post_id' => $postId, 'article_url' => $articleUrl]);
+                $commentId = $socialPoster->postCommentOnFacebookPost($postId, $commentText);
+                
+                Log::info('Comment posted successfully', ['comment_id' => $commentId]);
+            } catch (\Exception $commentException) {
+                // Comment failed, but don't fail the whole operation
+                $commentFailed = true;
+                Log::warning('Failed to post comment on Facebook post (post was still published)', [
+                    'post_id' => $postId,
+                    'error' => $commentException->getMessage(),
+                ]);
+            }
+            
+            // Step 5: Save the post ID in the article
+            $article->facebook_post_id = $postId;
             $article->save();
-        } else {
-            $messages->add('error', "Não foi possível publicar o artigo na página de facebook");
+            
+            // Step 6: Clean up tmp file
+            if (file_exists($absolutePath)) {
+                unlink($absolutePath);
+                Log::info('Tmp file cleaned up', ['path' => $absolutePath]);
+            }
+            
+            // Success message
+            if ($commentFailed) {
+                $messages->add('success', "O Artigo foi publicado no Facebook com sucesso!");
+                $messages->add('warning', "⚠️ Não foi possível adicionar o comentário automaticamente. Por favor, adicione o link manualmente nos comentários ou configure as permissões da App do Facebook.");
+            } else {
+                $messages->add('success', "O Artigo foi publicado no Facebook com sucesso! Link adicionado nos comentários.");
+            }
+            
+            Audit::add(
+                Audit::ACTION_CREATE,
+                'FacebookPost',
+                null,
+                [
+                    'article_id' => $article->id, 
+                    'post_id' => $postId, 
+                    'comment_id' => $commentId,
+                    'comment_failed' => $commentFailed,
+                ]
+            );
+            
+        } catch (\Exception $e) {
+            Log::error('Failed to post article to Facebook', [
+                'article_id' => $article->id,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+            
+            $messages->add('error', "Não foi possível publicar o artigo na página de Facebook: " . $e->getMessage());
+            
+            // Clean up tmp file if it exists
+            if (isset($absolutePath) && file_exists($absolutePath)) {
+                unlink($absolutePath);
+            }
+            
+            return redirect(route('articles.index'))->with(['popup_message' => $messages]);
         }
 
         return redirect(route('articles.index'))->with(['popup_message' => $messages]);
@@ -301,6 +373,30 @@ class ArticleController extends Controller
     {
         Log::info('Generating social media image for article ' . $article->id . ' by user ' . Auth::user()->name);
 
+        $base = $this->createArticleSocialImage($article, $manager);
+
+        // Generate filename
+        $name = 'article-' . $article->id . '-social.jpg';
+        $base = $base->encode('jpg', 95);
+
+        $headers = [
+            'Content-Type' => 'image/jpeg',
+            'Content-Disposition' => 'attachment; filename=' . $name,
+        ];
+
+        Audit::add(Audit::ACTION_VIEW, "ArticleSocialImage", null, $article->toArray());
+        Log::info("Social media image generated for article " . $article->id);
+
+        return response()->stream(function () use ($base) {
+            echo $base;
+        }, 200, $headers);
+    }
+
+    /**
+     * Create the article social media image (reusable for download and posting)
+     */
+    private function createArticleSocialImage(Article $article, ImageManager $manager)
+    {
         // Base image dimensions
         $baseWidth = 1080;
         $baseHeight = 1350;
@@ -343,21 +439,7 @@ class ArticleController extends Controller
         $mediaImg->fit($mediaWidth, $mediaHeight);
         $base->insert($mediaImg, 'top-left', (int) 50, $mediaY);
 
-        // Generate filename
-        $name = 'article-' . $article->id . '-social.jpg';
-        $base = $base->encode('jpg', 95);
-
-        $headers = [
-            'Content-Type' => 'image/jpeg',
-            'Content-Disposition' => 'attachment; filename=' . $name,
-        ];
-
-        Audit::add(Audit::ACTION_VIEW, "ArticleSocialImage", null, $article->toArray());
-        Log::info("Social media image generated for article " . $article->id);
-
-        return response()->stream(function () use ($base) {
-            echo $base;
-        }, 200, $headers);
+        return $base;
     }
 
     private function drawWrappedText($image, $text, $x, $y, $maxWidth, $fontSize, $manager)

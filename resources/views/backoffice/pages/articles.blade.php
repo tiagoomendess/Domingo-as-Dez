@@ -62,7 +62,7 @@
                                     <div class="modal-content">
                                         <h4 class="center">Publicar artigo no Facebook</h4>
                                         <p class="center">A mensagem não é obrigatória e só é possível publicar uma
-                                            vez.</p>
+                                            vez. O link será automaticamente adicionado nos comentários.</p>
                                         <form action="{{ route('articles.post_on_facebook', ['article' => $article->id]) }}"
                                               method="POST">
                                             {{ csrf_field() }}
@@ -70,9 +70,9 @@
                                                 <div class="input-field col s12 m8 offset-m2">
                                                     <textarea autocomplete="off" name="message"
                                                               id="message_for_post_{{ $article->id }}" type="text"
-                                                              data-length="144"
+                                                              data-length="280"
                                                               class="validate materialize-textarea"></textarea>
-                                                    <label class="active" for="message_for_post_{{ $article->id }}">Mensagem</label>
+                                                    <label class="active" for="message_for_post_{{ $article->id }}">Mensagem (opcional)</label>
                                                 </div>
 
                                                 <div class="input-field col s12 center">
