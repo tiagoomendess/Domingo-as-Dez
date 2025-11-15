@@ -41,7 +41,14 @@ return [
         'client_secret' => env('FACEBOOK_CLIENT_SECRET'),
         'redirect' => env('FACEBOOK_CLIENT_CALLBACK'),
         'page_id' => env('FACEBOOK_PAGE_ID', 740853286020855),
-        'page_access_token' => env('FACEBOOK_PAGE_ACCESS_TOKEN', 'GGNotGoingToWork'),
+        
+        'app_id' => env('FB_APP_ID'),
+        'app_secret' => env('FB_APP_SECRET'),
+        'default_graph_version' => 'v24.0',
+    ],
+
+    'instagram' => [
+        'ig_user_id' => env('INSTAGRAM_IG_USER_ID', 1234),
     ],
 
     'google' => [

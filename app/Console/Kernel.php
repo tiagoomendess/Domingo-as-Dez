@@ -11,6 +11,9 @@ use App\Jobs\ProcessPolls;
 use App\Jobs\ProcessScoreReportBans;
 use App\Jobs\ScoreReportConsumer;
 use App\Jobs\ProcessUuidKarma;
+use App\Jobs\ScheduleSocialMedia;
+use App\Jobs\PublishSocialMedia;
+use App\Services\SocialPoster;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -43,6 +46,8 @@ class Kernel extends ConsoleKernel
         $schedule->job(new GenerateGameComments())->everyMinute();
         $schedule->job(new ProcessGameComments())->dailyAt('01:15');
         $schedule->job(new ProcessUuidKarma())->dailyAt('02:15');
+        $schedule->job(new ScheduleSocialMedia())->dailyAt('05:15');
+        $schedule->job(new PublishSocialMedia())->everyMinute();
     }
 
     /**

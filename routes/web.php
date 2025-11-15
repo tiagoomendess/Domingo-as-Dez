@@ -35,6 +35,9 @@ Route::get('/competicoes/1a-divisao-afpb', function () {
 });
 
 // === Front Routes =================================================================================================
+Route::get('/teste', function () {
+    return response()->json(['message' => 'Hello, World!', 'phpinfo' => phpinfo()]);
+});
 Route::get('/', 'Front\HomePageController@index')->name('homePage');
 Route::post('/vote', 'Front\MvpVotesController@vote')->name('mvp_vote');
 Route::post('/game/{game}/generate_image', 'Front\MatchImageGeneratorController@generateImage')->name('generate_game_image');
@@ -218,3 +221,5 @@ $honeyPotRoutes = [
 foreach ($honeyPotRoutes as $route) {
     Route::get($route, 'Front\HoneyPotController@Get');
 }
+
+

@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class Variable extends Model
 {
     protected $fillable = ['name', 'value'];
+    public $incrementing = false;
+    protected $primaryKey = 'name';
 
     public static function getValue($name) {
 
@@ -20,9 +22,9 @@ class Variable extends Model
 
     public static function set($name, $value) {
 
-        $var = Variable::where('name', $name)->get();
+        $var = Variable::where('name', $name)->first();
 
-        if (!$var)
+        if (empty($var))
             Variable::create([
                 'name' => $name,
                 'value' => $value

@@ -10,3 +10,7 @@ npm-debug.log
 yarn-error.log
 .env
 @php
+
+# Ignore all files in tmp directory but keep the folder structure
+/storage/app/public/tmp/*
+!/storage/app/public/tmp/.gitkeep
