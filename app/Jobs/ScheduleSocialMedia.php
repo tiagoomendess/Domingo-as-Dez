@@ -154,6 +154,15 @@ class ScheduleSocialMedia implements ShouldQueue
             ]);
         }
 
+        // Create post only on facebook with link to /direto page
+        SocialMediaPost::create([
+            'platform' => SocialMediaPost::PLATFORM_FACEBOOK,
+            'post_type' => SocialMediaPost::POST_TYPE_POST,
+            'post_content_type' => SocialMediaPost::POST_CONTENT_TYPE_TEXT,
+            'text_content' => '🔴 Acompanha aqui todos os resultados em direto ⤵️ https://domingoasdez.com/direto',
+            'publish_at' => $firstMatchTime->format('Y-m-d H:i:s'),
+        ]);
+
         // 10 minutes into the match publish LIVE_RESULTS story and post
         $tenMinutesAfterFirstMatch = $firstMatchTime->copy()->addMinutes(10);
         foreach (self::FB_AND_IG as $platform) {
