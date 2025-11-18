@@ -64,14 +64,19 @@ class ScheduleSocialMedia implements ShouldQueue
     {
         Log::info('Scheduling social media for today');
 
-        $todayMatches = Game::where('date', '>=', now()->startOfDay())
-            ->where('date', '<=', now()->endOfDay())
+        $nowTimeZoned = now()->setTimezone('Europe/Lisbon');
+        $startOfDay = $nowTimeZoned->copy()->startOfDay()->setTimezone('UTC');
+        $endOfDay = $nowTimeZoned->copy()->endOfDay()->setTimezone('UTC');
+
+        $todayMatches = Game::where('date', '>=', $startOfDay)
+            ->where('date', '<=', $endOfDay)
+            ->where('visible', true)
             ->orderBy('date', 'asc')
             ->orderBy('id', 'asc')
             ->get();
 
         // If no matches today, then we don't schedule any posts
-        if (empty($todayMatches)) {
+        if ($todayMatches->count() == 0) {
             Log::info('No matches today, skipping social media scheduling');
             return;
         }
