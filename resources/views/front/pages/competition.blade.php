@@ -36,6 +36,20 @@
             </div>
         </div>
 
+        @if($game_started_and_not_finished)
+            <div class="container">
+                <div class="row no-margin-bottom">
+                    <div class="col s12 m12 l12 xl12">
+                        <div>
+                            <p class="flow-text red-text text-darken-2">
+                                Atenção: Os resultados nesta página <b>não são atualizados</b> automaticamente. Para seguir todos os resultados com as atualizações mais recentes visite a página <a href="/direto">Resultados em Direto</a>. Os resultados apresentados nesta página podem já estar desatualizados.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endif
+        
         <div id="group_template" class="game-group hide">
             <div class="container">
                 <h2 class="game-group-title">

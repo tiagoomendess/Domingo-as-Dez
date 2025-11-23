@@ -54,9 +54,9 @@ class ScoreReportsController extends Controller
             $user_id = Auth::user()->id;
         }
         $already_sent = ScoreReport::GetAlreadySent($game->id, $uuid, $user_id);
-
         if (!empty($ban)) {
-            Log::info("A Banned user($user_id) is trying to submit a score report from $ip_address in country $ip_country uuid $uuid");
+            $gameTeamNames = $game->home_team->club->name . " vs " . $game->away_team->club->name;
+            Log::info("A Banned user($user_id) is trying to submit a score report to game $gameTeamNames from $ip_address in country $ip_country uuid $uuid");
         }
 
         // if passed 105 minutes from kickoff, can_finish is true
