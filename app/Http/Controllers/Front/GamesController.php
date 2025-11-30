@@ -378,11 +378,37 @@ class GamesController extends Controller
             'finished' => 'integer|min:0|max:1'
         ]);
 
+        $goals_home = $request->input('goals_home', 0);
+        $goals_away = $request->input('goals_away', 0);
+        $finished = $request->input('finished', false);
+
         $game = Game::findOrFail($request->input('game_id'));
+        // If score or finished changed, create a score report
+        if ($game->goals_home != $goals_home || $game->goals_away != $goals_away || $game->finished != $finished) {
+            // get uuid from cookie
+            $uuid = $request->cookie('uuid');
+            if (empty($uuid) || Str::length($uuid) != 36) {
+                $uuid = Str::limit($this->guidv4(), 36, '');
+            }
+
+            // Create score report for the game
+            ScoreReport::create([
+                'game_id' => $game->id,
+                'home_score' => $goals_home,
+                'away_score' => $goals_away,
+                'source' => 'admin',
+                'ip_address' => $request->getClientIp() ?? 'Unknown',
+                'user_agent' => $request->header('User-Agent', 'Unknown'),
+                'finished' => $finished,
+                'uuid' => $uuid,
+                'user_id' => Auth::user()->id,
+            ]);
+        }
+
         $old_game = $game->toArray();
-        $game->goals_home = $request->input('goals_home');
-        $game->goals_away = $request->input('goals_away');
-        $game->finished = (bool)$request->input('finished', false);
+        $game->goals_home = $goals_home;
+        $game->goals_away = $goals_away;
+        $game->finished = $finished;
         $game->save();
 
         $game->invalidateCache();

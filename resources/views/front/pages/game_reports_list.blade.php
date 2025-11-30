@@ -105,6 +105,9 @@
                                                         @case('placard')
                                                             <i class="material-icons grey-text text-darken-3">tv</i>
                                                             @break
+                                                        @case('admin')
+                                                            <i class="material-icons grey-text text-darken-3">security</i>
+                                                            @break
                                                     @endswitch
                                                     @if($report->uuidKarma)
                                                         @php
@@ -312,7 +315,10 @@
                                         <td><i class="material-icons grey-text text-darken-3">tv</i></td>
                                         <td>Informação vinda do placard</td>
                                     </tr>
-
+                                    <tr>
+                                        <td><i class="material-icons grey-text text-darken-3">security</i></td>
+                                        <td>Informação enviada por administrador</td>
+                                    </tr>
                                 </table>
                             </div>
                         </div>
