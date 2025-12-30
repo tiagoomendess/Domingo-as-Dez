@@ -20,6 +20,13 @@
     </div>
 
     <div class="row">
+        <div class="input-field col s12 m4 l3">
+            <input name="founding_date" id="founding_date" type="text" class="validate" value="{{ $club->founding_date }}" disabled>
+            <label for="founding_date">Data de Fundação</label>
+        </div>
+    </div>
+
+    <div class="row">
         <div class="file-field input-field col s10 m7 l5">
             <div class="btn">
                 <span>{{ trans('models.emblem') }}</span>

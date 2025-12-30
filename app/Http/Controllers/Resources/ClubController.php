@@ -63,6 +63,7 @@ class ClubController extends Controller
 
         $request->validate([
             'name' => 'required|string|max:155|unique:clubs,name',
+            'founding_date' => 'nullable|date',
             'emblem' => 'nullable|file|mimes:png,svg|max:1000',
             'website' => 'string|max:280|nullable|url',
             'contact_email' => 'string|max:155|nullable|email',
@@ -78,6 +79,7 @@ class ClubController extends Controller
             $visible = false;
 
         $name = $request->input('name');
+        $founding_date = $request->input('founding_date');
         $website = $request->input('website');
         $contact_email = $request->input('contact_email');
         $admin_user_id = $request->input('admin_user_id');
@@ -104,6 +106,7 @@ class ClubController extends Controller
 
         $club = Club::create([
             'name' => $name,
+            'founding_date' => $founding_date,
             'website' => $website,
             'emblem' => $url,
             'contact_email' => $contact_email,
@@ -155,6 +158,7 @@ class ClubController extends Controller
         $request->validate([
 
             'name' => 'required|string|max:155',
+            'founding_date' => 'nullable|date',
             'emblem' => 'nullable|file|mimes:png,svg|max:1000',
             'website' => 'string|max:280|nullable|url',
             'contact_email' => 'string|max:155|nullable|email',
@@ -173,6 +177,7 @@ class ClubController extends Controller
             $visible = false;
 
         $name = $request->input('name');
+        $founding_date = $request->input('founding_date');
         $website = $request->input('website');
         $contact_email = $request->input('contact_email');
         $admin_user_id = $request->input('admin_user_id');
@@ -201,6 +206,7 @@ class ClubController extends Controller
         }
 
         $club->name = $name;
+        $club->founding_date = $founding_date;
         $club->emblem = $url;
         $club->website = $website;
         $club->contact_email = $contact_email;

@@ -32,6 +32,13 @@
         </div>
 
         <div class="row">
+            <div class="input-field col s12 m4 l3">
+                <input name="founding_date" id="founding_date" type="text" class="datepicker" value="{{ old('founding_date') }}">
+                <label for="founding_date">Data de Fundação</label>
+            </div>
+        </div>
+
+        <div class="row">
             <div class="file-field input-field col s12 m8 l6">
                 <div class="btn">
                     <span>{{ trans('models.emblem') }}</span>
@@ -88,4 +95,8 @@
         </div>
 
     </form>
+@endsection
+
+@section('scripts')
+    @include('backoffice.partial.pick_a_date_js')
 @endsection
