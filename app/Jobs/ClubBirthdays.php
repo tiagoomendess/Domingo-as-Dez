@@ -240,7 +240,7 @@ class ClubBirthdays implements ShouldQueue
         // Add a new layer on top of the background
         // Fill with black and only 25% opacity to darken the background
         $image->fill('#000000', 0, 0, function ($draw) {
-            $draw->opacity(0.25);
+            $draw->opacity(0.33);
         });
 
         // Overlay the birthday_post.png template
