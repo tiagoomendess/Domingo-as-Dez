@@ -36,6 +36,16 @@
                 <input name="founding_date" id="founding_date" type="text" class="datepicker" value="{{ old('founding_date') }}">
                 <label for="founding_date">Data de Fundação</label>
             </div>
+            <div class="col s12 m4 l3" style="margin-top: 15px;">
+                <div class="switch">
+                    <label>
+                        Post de Aniversário
+                        <input name="birthday_post_enabled" type="hidden" value="false">
+                        <input name="birthday_post_enabled" type="checkbox" value="true" checked>
+                        <span class="lever"></span>
+                    </label>
+                </div>
+            </div>
         </div>
 
         <div class="row">

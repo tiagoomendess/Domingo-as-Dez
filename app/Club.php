@@ -7,7 +7,7 @@ use Illuminate\Support\Str;
 
 class Club extends SearchableModel
 {
-    protected $fillable = ['name', 'founding_date', 'emblem', 'website', 'contact_email', 'admin_user_id', 'priority', 'visible', 'notifications_enabled'];
+    protected $fillable = ['name', 'founding_date', 'birthday_post_enabled', 'emblem', 'website', 'contact_email', 'admin_user_id', 'priority', 'visible', 'notifications_enabled'];
 
     protected $guarded = [];
 

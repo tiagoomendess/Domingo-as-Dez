@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Jobs\ClubBirthdays;
 use App\Jobs\DeleteNotVerifiedAccounts;
 use App\Jobs\GenerateGameComments;
 use App\Jobs\GenerateGameImage;
@@ -13,7 +14,6 @@ use App\Jobs\ScoreReportConsumer;
 use App\Jobs\ProcessUuidKarma;
 use App\Jobs\ScheduleSocialMedia;
 use App\Jobs\PublishSocialMedia;
-use App\Services\SocialPoster;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -46,6 +46,7 @@ class Kernel extends ConsoleKernel
         $schedule->job(new GenerateGameComments())->everyMinute();
         $schedule->job(new ProcessGameComments())->dailyAt('01:15');
         $schedule->job(new ProcessUuidKarma())->dailyAt('02:15');
+        $schedule->job(new ClubBirthdays())->dailyAt('03:00');
         $schedule->job(new ScheduleSocialMedia())->dailyAt('05:15');
         $schedule->job(new PublishSocialMedia())->everyMinute();
     }

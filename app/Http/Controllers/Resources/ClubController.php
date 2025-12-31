@@ -104,9 +104,12 @@ class ClubController extends Controller
             $url = null;
         }
 
+        $birthday_post_enabled = $request->input('birthday_post_enabled', false) == 'true';
+
         $club = Club::create([
             'name' => $name,
             'founding_date' => $founding_date,
+            'birthday_post_enabled' => $birthday_post_enabled,
             'website' => $website,
             'emblem' => $url,
             'contact_email' => $contact_email,
@@ -205,8 +208,11 @@ class ClubController extends Controller
 
         }
 
+        $birthday_post_enabled = $request->input('birthday_post_enabled', false) == 'true';
+
         $club->name = $name;
         $club->founding_date = $founding_date;
+        $club->birthday_post_enabled = $birthday_post_enabled;
         $club->emblem = $url;
         $club->website = $website;
         $club->contact_email = $contact_email;

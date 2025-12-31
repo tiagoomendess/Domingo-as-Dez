@@ -38,6 +38,20 @@
                 <input name="founding_date" id="founding_date" type="text" class="datepicker" value="{{ old('founding_date', $club->founding_date) }}">
                 <label for="founding_date">Data de Fundação</label>
             </div>
+            <div class="col s12 m4 l3" style="margin-top: 15px;">
+                <div class="switch">
+                    <label>
+                        Post de Aniversário
+                        <input name="birthday_post_enabled" type="hidden" value="false">
+                        @if($club->birthday_post_enabled)
+                            <input name="birthday_post_enabled" type="checkbox" value="true" checked>
+                        @else
+                            <input name="birthday_post_enabled" type="checkbox" value="true">
+                        @endif
+                        <span class="lever"></span>
+                    </label>
+                </div>
+            </div>
         </div>
 
         <div class="row">
