@@ -136,7 +136,7 @@ class ClubBirthdays implements ShouldQueue
         // Shadow for club name
         $image->text($club->name, $clubNameX - 4, $clubNameY + 5, function ($font) {
             $font->file(public_path('Roboto-Black.ttf'));
-            $font->size(150);
+            $font->size(120);
             $font->color('#000000');
             $font->align('center');
             $font->valign('center');
@@ -145,7 +145,7 @@ class ClubBirthdays implements ShouldQueue
         // Club name text
         $image->text($club->name, $clubNameX, $clubNameY, function ($font) {
             $font->file(public_path('Roboto-Black.ttf'));
-            $font->size(150);
+            $font->size(120);
             $font->color('#ffffff');
             $font->align('center');
             $font->valign('center');
@@ -236,6 +236,12 @@ class ClubBirthdays implements ShouldQueue
                 Log::warning("Could not load playground image for club '{$club->name}' (post): " . $e->getMessage());
             }
         }
+
+        // Add a new layer on top of the background
+        // Fill with black and only 25% opacity to darken the background
+        $image->fill('#000000', 'top-left', 0, 0, function ($draw) {
+            $draw->opacity(0.25);
+        });
 
         // Overlay the birthday_post.png template
         $templatePath = public_path('social_media_poster/birthday_post.png');
