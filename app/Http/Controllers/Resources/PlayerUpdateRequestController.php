@@ -55,9 +55,26 @@ class PlayerUpdateRequestController extends Controller
         $updateRequest = PlayerUpdateRequest::with(['player', 'reviewedBy'])->findOrFail($id);
         $changes = $updateRequest->getChanges();
         
+        // Get teams for the club if club_name is provided
+        $clubTeams = [];
+        $requiresTeamSelection = false;
+        
+        if ($updateRequest->club_name && $updateRequest->club_name !== 'no_club' && $updateRequest->club_name !== 'none') {
+            $club = \App\Club::where('name', $updateRequest->club_name)->first();
+            if ($club) {
+                $teams = $club->teams()->where('visible', true)->get();
+                if ($teams->count() > 1) {
+                    $clubTeams = $teams;
+                    $requiresTeamSelection = true;
+                }
+            }
+        }
+        
         return view('backoffice.pages.player_update_request', [
             'updateRequest' => $updateRequest,
-            'changes' => $changes
+            'changes' => $changes,
+            'clubTeams' => $clubTeams,
+            'requiresTeamSelection' => $requiresTeamSelection
         ]);
     }
 
@@ -70,11 +87,30 @@ class PlayerUpdateRequestController extends Controller
      */
     public function approve(Request $request, $id)
     {
-        $request->validate([
-            'review_notes' => 'nullable|string|max:1000'
-        ]);
-
         $updateRequest = PlayerUpdateRequest::findOrFail($id);
+
+        // Check if team selection is required
+        $requiresTeamSelection = false;
+        if ($updateRequest->club_name && $updateRequest->club_name !== 'no_club' && $updateRequest->club_name !== 'none') {
+            $club = \App\Club::where('name', $updateRequest->club_name)->first();
+            if ($club) {
+                $teams = $club->teams()->where('visible', true)->get();
+                if ($teams->count() > 1) {
+                    $requiresTeamSelection = true;
+                }
+            }
+        }
+
+        // Validate request
+        $validationRules = [
+            'review_notes' => 'nullable|string|max:1000'
+        ];
+        
+        if ($requiresTeamSelection) {
+            $validationRules['team_id'] = 'required|exists:teams,id';
+        }
+
+        $request->validate($validationRules);
 
         if (!$updateRequest->isPending()) {
             $messages = new MessageBag();
@@ -84,7 +120,8 @@ class PlayerUpdateRequestController extends Controller
 
         try {
             $isCreateRequest = $updateRequest->isCreateRequest();
-            $updateRequest->approve($request->input('review_notes'));
+            $teamId = $request->input('team_id');
+            $updateRequest->approve($request->input('review_notes'), $teamId);
 
             $messages = new MessageBag();
             if ($isCreateRequest) {

@@ -258,8 +258,10 @@ class PlayerUpdateRequest extends SearchableModel
 
     /**
      * Approve the request and update/create the player
+     * @param string|null $reviewNotes Optional review notes
+     * @param int|null $teamId Optional team ID to use when the club has multiple teams
      */
-    public function approve($reviewNotes = null)
+    public function approve($reviewNotes = null, $teamId = null)
     {
         // Process picture FIRST - if this fails, nothing else gets updated
         $processedPictureUrl = null;
@@ -274,9 +276,9 @@ class PlayerUpdateRequest extends SearchableModel
         $this->save();
 
         if ($this->isCreateRequest()) {
-            $this->createPlayer($processedPictureUrl);
+            $this->createPlayer($processedPictureUrl, $teamId);
         } else {
-            $this->updatePlayer($processedPictureUrl);
+            $this->updatePlayer($processedPictureUrl, $teamId);
         }
 
         // Create audit entry
@@ -300,8 +302,10 @@ class PlayerUpdateRequest extends SearchableModel
 
     /**
      * Create a new player from the request data
+     * @param string|null $processedPictureUrl Processed picture URL
+     * @param int|null $teamId Optional team ID to use when the club has multiple teams
      */
-    private function createPlayer($processedPictureUrl = null)
+    private function createPlayer($processedPictureUrl = null, $teamId = null)
     {
         // Create the player
         $player = Player::create([
@@ -324,7 +328,7 @@ class PlayerUpdateRequest extends SearchableModel
 
         // Create transfer if club_name is provided
         if ($this->club_name) {
-            $this->createTransfer($player, $this->club_name);
+            $this->createTransfer($player, $this->club_name, $teamId);
         }
 
         // Create audit entry for the player creation
@@ -333,8 +337,10 @@ class PlayerUpdateRequest extends SearchableModel
 
     /**
      * Update an existing player from the request data
+     * @param string|null $processedPictureUrl Processed picture URL
+     * @param int|null $teamId Optional team ID to use when the club has multiple teams
      */
-    private function updatePlayer($processedPictureUrl = null)
+    private function updatePlayer($processedPictureUrl = null, $teamId = null)
     {
         $player = $this->player;
         if (!$player) {
@@ -391,7 +397,7 @@ class PlayerUpdateRequest extends SearchableModel
 
         // Create transfer if club is changing
         if ($needsClubTransfer) {
-            $this->createTransfer($player, $this->club_name);
+            $this->createTransfer($player, $this->club_name, $teamId);
         }
 
         // Create audit entry for the player update
@@ -400,34 +406,45 @@ class PlayerUpdateRequest extends SearchableModel
 
     /**
      * Create a transfer for the player to the specified club
+     * @param Player $player The player to transfer
+     * @param string $clubName The club name
+     * @param int|null $teamId Optional team ID to use when the club has multiple teams
      */
-    private function createTransfer($player, $clubName)
+    private function createTransfer($player, $clubName, $teamId = null)
     {
         if ($clubName == "none" || $clubName == "no_club") {
             $this->createTransferToNoClub($player);
             return;
         }
 
-        // Find the club by name
-        $club = Club::where('name', $clubName)->first();
-        
-        if (!$club) {
-            throw new \Exception("Club '{$clubName}' not found");
-        }
+        // If a specific team ID was provided, use it directly
+        if ($teamId) {
+            $team = Team::find($teamId);
+            if (!$team) {
+                throw new \Exception("Team with ID '{$teamId}' not found");
+            }
+        } else {
+            // Find the club by name
+            $club = Club::where('name', $clubName)->first();
+            
+            if (!$club) {
+                throw new \Exception("Club '{$clubName}' not found");
+            }
 
-        // Find teams for this club
-        $teams = $club->teams()->where('visible', true)->get();
-        
-        if ($teams->isEmpty()) {
-            throw new \Exception("No teams found for club '{$clubName}'");
-        }
+            // Find teams for this club
+            $teams = $club->teams()->where('visible', true)->get();
+            
+            if ($teams->isEmpty()) {
+                throw new \Exception("No teams found for club '{$clubName}'");
+            }
 
-        // Try to find a team with "Séniores" in the name
-        $team = $teams->where('name', 'like', '%Séniores%')->first();
-        
-        // If no "Séniores" team found, use the first team
-        if (!$team) {
-            $team = $teams->first();
+            // Try to find a team with "Séniores" in the name
+            $team = $teams->where('name', 'like', '%Séniores%')->first();
+            
+            // If no "Séniores" team found, use the first team
+            if (!$team) {
+                $team = $teams->first();
+            }
         }
 
         DB::transaction(function () use ($player, $team) {

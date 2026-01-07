@@ -322,6 +322,21 @@
                             Tem certeza que deseja aprovar esta solicitação? As alterações serão aplicadas ao jogador automaticamente.
                         @endif
                     </p>
+
+                    @if($requiresTeamSelection)
+                        <div class="row">
+                            <div class="col s12">
+                                <label for="team_id">Equipa do Clube (Obrigatório)</label>
+                                <select id="team_id" name="team_id" class="browser-default" required style="margin-top: 5px;">
+                                    <option value="" disabled selected>Selecione uma equipa</option>
+                                    @foreach($clubTeams as $team)
+                                        <option value="{{ $team->id }}">{{ $team->name }}</option>
+                                    @endforeach
+                                </select>
+                                <span class="helper-text" style="font-size: 12px; color: #9e9e9e;">O clube <strong>{{ $updateRequest->club_name }}</strong> tem múltiplas equipas. Selecione a equipa para onde o jogador será adicionado.</span>
+                            </div>
+                        </div>
+                    @endif
                     
                     <div class="row">
                         <div class="input-field col s12">
