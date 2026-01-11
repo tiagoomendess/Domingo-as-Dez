@@ -60,6 +60,14 @@
             font-weight: 600;
             color: #424242;
         }
+        .btn-copy-link {
+            padding: 4px 10px;
+            font-size: 0.8rem;
+            margin-top: 8px;
+        }
+        .btn-copy-link i {
+            font-size: 1rem;
+        }
     </style>
 @endsection
 
@@ -102,6 +110,16 @@
                                         </span>
                                     @endif
                                 </div>
+                                
+
+                                <div style="margin-top: 8px;">
+                                    <button type="button" 
+                                            class="btn waves-effect btn-flat"
+                                            onclick="copyLink('{{ route('front.game_comment', ['uuid' => $comment->uuid]) }}?pin={{ $comment->pin }}')"
+                                            title="Copiar link da Flash Interview">
+                                            <i class="material-icons right" style="margin-left: 0;">content_copy</i>
+                                    </button>
+                                </div>
                             </td>
                             
                             <td>
@@ -134,5 +152,37 @@
             @endif
         </div>
     </div>
+
+    <script>
+        function showToast(message, isSuccess) {
+            if (typeof M !== 'undefined' && M.toast) {
+                M.toast({html: message, classes: isSuccess ? 'green' : 'red'});
+            } else {
+                alert(message);
+            }
+        }
+
+        function copyLink(url) {
+            navigator.clipboard.writeText(url).then(function() {
+                showToast('Link copiado!', true);
+            }).catch(function(err) {
+                // Fallback for older browsers
+                var textArea = document.createElement("textarea");
+                textArea.value = url;
+                textArea.style.position = "fixed";
+                textArea.style.left = "-999999px";
+                document.body.appendChild(textArea);
+                textArea.focus();
+                textArea.select();
+                try {
+                    document.execCommand('copy');
+                    showToast('Link copiado!', true);
+                } catch (err) {
+                    showToast('Erro ao copiar link', false);
+                }
+                document.body.removeChild(textArea);
+            });
+        }
+    </script>
 @endsection
 
