@@ -27,7 +27,7 @@ class PlayerGoalMilestones implements ShouldQueue
     const TEMP_FOLDER = 'storage/tmp/';
     const FB_AND_IG = [SocialMediaPost::PLATFORM_FACEBOOK, SocialMediaPost::PLATFORM_INSTAGRAM];
 
-    const MILESTONES = [10, 25, 50, 100, 115, 150, 200];
+    const MILESTONES = [50, 75, 100, 125, 150, 200, 300];
 
     /**
      * Convert a URL path (e.g. /storage/media/images/...) to an absolute file path
