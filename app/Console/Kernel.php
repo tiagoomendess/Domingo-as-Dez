@@ -6,6 +6,7 @@ use App\Jobs\ClubBirthdays;
 use App\Jobs\DeleteNotVerifiedAccounts;
 use App\Jobs\GenerateGameComments;
 use App\Jobs\GenerateGameImage;
+use App\Jobs\PlayerGoalMilestones;
 use App\Jobs\ProcessDeleteRequest;
 use App\Jobs\ProcessGameComments;
 use App\Jobs\ProcessPolls;
@@ -47,6 +48,7 @@ class Kernel extends ConsoleKernel
         $schedule->job(new ProcessGameComments())->dailyAt('01:15');
         $schedule->job(new ProcessUuidKarma())->dailyAt('02:15');
         $schedule->job(new ClubBirthdays())->dailyAt('03:00');
+        $schedule->job(new PlayerGoalMilestones())->dailyAt('05:00');
         $schedule->job(new ScheduleSocialMedia())->dailyAt('05:15');
         $schedule->job(new PublishSocialMedia())->everyMinute();
     }
