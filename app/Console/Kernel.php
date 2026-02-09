@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Jobs\CleanupTmpFolder;
 use App\Jobs\ClubBirthdays;
 use App\Jobs\DeleteNotVerifiedAccounts;
 use App\Jobs\GenerateGameComments;
@@ -38,19 +39,22 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->job(new ProcessDeleteRequest())->daily();
-        $schedule->job(new DeleteNotVerifiedAccounts())->everyTenMinutes();
-        $schedule->job(new GenerateGameImage())->everyMinute();
-        $schedule->job(new ProcessPolls())->everyMinute();
-        $schedule->job(new ProcessScoreReportBans())->dailyAt('22:59');
+        $schedule->job(new PublishSocialMedia())->everyMinute();
         $schedule->job(new ScoreReportConsumer())->everyMinute();
         $schedule->job(new GenerateGameComments())->everyMinute();
+        $schedule->job(new GenerateGameImage())->everyMinute();
+        $schedule->job(new ProcessPolls())->everyMinute();
+
+        $schedule->job(new DeleteNotVerifiedAccounts())->everyTenMinutes();
+        
+        $schedule->job(new ProcessDeleteRequest())->dailyAt('01:00');
         $schedule->job(new ProcessGameComments())->dailyAt('01:15');
         $schedule->job(new ProcessUuidKarma())->dailyAt('02:15');
         $schedule->job(new ClubBirthdays())->dailyAt('03:00');
+        $schedule->job(new CleanupTmpFolder())->dailyAt('04:00');
         $schedule->job(new PlayerGoalMilestones())->dailyAt('05:00');
         $schedule->job(new ScheduleSocialMedia())->dailyAt('05:15');
-        $schedule->job(new PublishSocialMedia())->everyMinute();
+        $schedule->job(new ProcessScoreReportBans())->dailyAt('22:59');
     }
 
     /**
