@@ -106,7 +106,7 @@ class PlayerGoalMilestones implements ShouldQueue
     private function doHandle()
     {
         // Get all goals created in the last 24 hours
-        $recentGoals = Goal::where('created_at', '>=', Carbon::now()->subDay())->get();
+        $recentGoals = Goal::where('created_at', '>=', Carbon::now()->subHours(48))->get();
 
         if ($recentGoals->isEmpty()) {
             Log::info("No goals scored in the last 24 hours.");
@@ -134,7 +134,6 @@ class PlayerGoalMilestones implements ShouldQueue
     {
         // Get total goals for this player
         $totalGoals = Goal::where('player_id', $player->id)->count();
-        $totalGoals = 28;
 
         Log::info("Player '{$player->displayName()}' has $totalGoals total goals.");
 
