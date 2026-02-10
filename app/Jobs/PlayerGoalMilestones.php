@@ -27,7 +27,7 @@ class PlayerGoalMilestones implements ShouldQueue
     const TEMP_FOLDER = 'storage/tmp/';
     const FB_AND_IG = [SocialMediaPost::PLATFORM_FACEBOOK, SocialMediaPost::PLATFORM_INSTAGRAM];
 
-    const MILESTONES = [50, 75, 100, 125, 150, 200, 300];
+    const MILESTONES = [50, 75, 100, 125, 150, 200, 250, 300];
 
     /**
      * Convert a URL path (e.g. /storage/media/images/...) to an absolute file path
@@ -106,7 +106,7 @@ class PlayerGoalMilestones implements ShouldQueue
     private function doHandle()
     {
         // Get all goals created in the last 24 hours
-        $recentGoals = Goal::where('created_at', '>=', Carbon::now()->subHours(48))->get();
+        $recentGoals = Goal::where('created_at', '>=', Carbon::now()->subHours(24))->get();
 
         if ($recentGoals->isEmpty()) {
             Log::info("No goals scored in the last 24 hours.");
@@ -472,8 +472,8 @@ class PlayerGoalMilestones implements ShouldQueue
         $url = asset(self::TEMP_FOLDER . $fileName);
         Log::info("Generated goal milestone post image for player '{$player->displayName()}' at: $url");
 
-        // Schedule the social media posts for 10:05 AM Lisbon time (a few minutes after the story)
-        $publishAt = Carbon::now('Europe/Lisbon')->setTime(10, 5, 0)->timezone('UTC');
+        // Schedule the social media posts
+        $publishAt = Carbon::now('Europe/Lisbon')->setTime(19, 0, 0)->timezone('UTC');
 
         // Get player's club name for the post text
         $clubName = '';
