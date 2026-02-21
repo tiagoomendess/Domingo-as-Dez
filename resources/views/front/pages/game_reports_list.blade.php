@@ -6,7 +6,7 @@
     <style>
         .image-header {
             margin-top: 10px;
-            background-image: url({{ $game->playground->getPicture() }});
+            background-image: url({{ $game->playground?->getPicture() ?? '' }});
             background-size: cover;
             width: 100%;
             padding: 20px 0 10px 0;
