@@ -317,7 +317,7 @@ class PlayerGoalMilestones implements ShouldQueue
         Log::info("Generated goal milestone story image for player '{$player->displayName()}' at: $url");
 
         // Schedule the social media posts for 10AM Lisbon time
-        $publishAt = Carbon::now('Europe/Lisbon')->setTime(7, 0, 0)->timezone('UTC');
+        $publishAt = Carbon::now('Europe/Lisbon')->setTime(19, 0, 0)->timezone('UTC');
 
         foreach (self::FB_AND_IG as $platform) {
             SocialMediaPost::create([
