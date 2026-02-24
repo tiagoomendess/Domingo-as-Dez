@@ -35,7 +35,7 @@ class ScoreReportBanNotification extends Notification
                 'expiration_date' => $this->expirationDate,
                 'reason' => $this->reason]))
             ->line(trans('emails.score_report_ban_line_2'))
-            ->line(trans('emails.score_report_ban_line_3', ['site_email' => 'geraldomingoasdez@gmail.com']));
+            ->line(trans('emails.score_report_ban_line_3', ['site_email' => 'geral@domingoasdez.com']));
     }
 
     public function toArray($notifiable): array

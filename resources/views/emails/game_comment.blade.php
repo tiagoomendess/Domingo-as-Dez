@@ -80,7 +80,7 @@
 
         <p>
             Se já passou o prazo para responder, pode ainda enviar as informações para o email
-            <a href="mailto:geraldomingoasdez@gmail.com">geraldomingoasdez@gmail.com</a> se o artigo ainda não foi
+            <a href="mailto:geral@domingoasdez.com">geral@domingoasdez.com</a> se o artigo ainda não foi
             publicado.
         </p>
 
@@ -92,7 +92,7 @@
         <small>
             Esta mensagem foi enviada para este email porque foi identificado como sendo a pessoa ideal para falar pelo
             {{ $recipientName }} nestas questões. Se não for o caso, por favor entre em contacto pelas redes nossas sociais,
-            ou enviando um email para <a href="mailto:geraldomingoasdez@gmail.com">geraldomingoasdez@gmail.com</a>.
+            ou enviando um email para <a href="mailto:geral@domingoasdez.com">geral@domingoasdez.com</a>.
             Não responda a este email diretamente, foi enviado de forma automática e não obterá resposta. Para parar de
             receber estes emails, clique no seguinte link para <a href="{{ $unsubscribe }}">cancelar a subscrição</a>.
         </small>
