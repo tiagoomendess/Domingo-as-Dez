@@ -601,7 +601,7 @@
                         da data deste jogo.</p>
                     @else
                     <ul class="list-a">
-                        @foreach($past_games as $past_game)
+                        @foreach($past_games_to_show as $past_game)
                         <div class="past-game-item">
                             <a style="width: 100%" href="{{ $past_game->getPublicURL() }}">
                                 <div class="row no-margin-bottom" style="padding: 10px">
@@ -638,6 +638,9 @@
                         </div>
                         @endforeach
                     </ul>
+                    @if($remaining_past_games_count > 0)
+                        @include('front.partial.login_wall', ['customMessage' => trans('front.more_past_games', ['count' => $remaining_past_games_count]), 'withCard' => false])
+                    @endif
                     @endif
                 </div>
             </div>

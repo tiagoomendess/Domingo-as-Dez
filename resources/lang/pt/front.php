@@ -132,4 +132,8 @@ return [
     'players' => 'Jogadores',
     'no_technical_staff_in_team' => 'Não existem técnicos na equipa :team_name',
     'agent_type' => 'Tipo de Técnico',
+    'login_to_see_more' => 'Inicie sessão para ver mais',
+    'login_to_see_more_desc' => 'Crie uma conta gratuita ou inicie sessão para aceder a todo o conteúdo.',
+    'more_past_games' => 'Existem mais :count jogos entre estas duas equipas.',
+    'more_player_transfers' => 'Este jogador tem mais :count transferências no histórico.',
 ];

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Front;
 use App\Player;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 
@@ -57,8 +58,16 @@ class PlayersController extends Controller
 
         $transfers = $transfers->sortByDesc('date');
 
-        return view('front.pages.player', ['player' => $player, 'transfers' => $transfers]);
+        $isGuest = !Auth::check();
+        $maxTransfersToShow = $isGuest ? 2 : count($transfers);
+        $transfersToShow = $transfers->take($maxTransfersToShow);
+        $remainingTransfersCount = max(0, count($transfers) - $maxTransfersToShow);
 
-
+        return view('front.pages.player', [
+            'player' => $player,
+            'transfers' => $transfers,
+            'transfers_to_show' => $transfersToShow,
+            'remaining_transfers_count' => $remainingTransfersCount
+        ]);
     }
 }

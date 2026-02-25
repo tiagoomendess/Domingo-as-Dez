@@ -68,8 +68,11 @@ class GamesController extends Controller
         if (!empty($cached_data)) {
             // flash interview is not cached
             $flash_interview_link = $this->getFlashInterviewLink($cached_data['game']);
-
             $cached_data['flash_interview_link'] = $flash_interview_link;
+
+            // past games login wall (not cached as it depends on auth state)
+            $cached_data = $this->addPastGamesLoginWallData($cached_data);
+
             return view('front.pages.game', $cached_data);
         }
 
@@ -204,6 +207,9 @@ class GamesController extends Controller
         // flash interview link
         $view_data['flash_interview_link'] = $this->getFlashInterviewLink($game);
 
+        // past games login wall (not cached as it depends on auth state)
+        $view_data = $this->addPastGamesLoginWallData($view_data);
+
         return view(
             'front.pages.game',
             $view_data
@@ -238,6 +244,21 @@ class GamesController extends Controller
         $url .= "?pin=" . $gameComment->pin;
 
         return $url;
+    }
+
+    /**
+     * Add past games login wall data to view data.
+     * Limits past games for non-authenticated users.
+     */
+    private function addPastGamesLoginWallData(array $viewData): array {
+        $pastGames = $viewData['past_games'];
+        $isGuest = !Auth::check();
+        $maxGamesToShow = $isGuest ? 2 : count($pastGames);
+
+        $viewData['past_games_to_show'] = $pastGames->take($maxGamesToShow);
+        $viewData['remaining_past_games_count'] = max(0, count($pastGames) - $maxGamesToShow);
+
+        return $viewData;
     }
 
     public function liveMatches() {

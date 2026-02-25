@@ -95,7 +95,7 @@
                 <div class="card">
                     <div class="card-content player-clubs">
                         <ul>
-                            @foreach($transfers as $index => $transfer)
+                            @foreach($transfers_to_show as $index => $transfer)
 
                                 <li class="item">
                                     <a href="@if(has_permission('transfers.edit')){{ route('transfers.show',['id' => $transfer->id]) }}@elseif($transfer->team){{ $transfer->getClub()->getPublicURL() }}@else#@endif">
@@ -125,6 +125,9 @@
 
                             @endforeach
                         </ul>
+                        @if($remaining_transfers_count > 0)
+                            @include('front.partial.login_wall', ['customMessage' => trans('front.more_player_transfers', ['count' => $remaining_transfers_count]), 'withCard' => false])
+                        @endif
                     </div>
                 </div>
             </div>
