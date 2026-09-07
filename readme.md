@@ -37,4 +37,3 @@ Não há, quer dizer, há este [relatório](https://drive.google.com/file/d/1P0A
 
 ## Dummy Data
 Não há. Questões GDPR e não só. Deves conseguir inserir manualmente no backend a partir do momento que tenhas uma conta admin registada, até lá, edita manualmente a base de dados.
-
