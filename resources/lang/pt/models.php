@@ -7,6 +7,8 @@ return [
     'competitions' => 'Competições',
     'priority' => 'Prioridade',
     'competition_priority_hint' => 'Número mais alto aparece primeiro no site.',
+    'social_media_enabled' => 'Promoção nas redes sociais',
+    'social_media_enabled_hint' => 'Se desligado, os jogos desta competição não geram publicações automáticas.',
     'season' => 'Época',
     'seasons' => 'Epocas',
     'game_group' => 'Grupo Jogos',

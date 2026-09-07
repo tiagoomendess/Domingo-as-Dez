@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Competition extends Model
 {
-    protected $fillable = ['name', 'competition_type', 'picture', 'visible', 'priority'];
+    protected $fillable = ['name', 'competition_type', 'picture', 'visible', 'social_media_enabled', 'priority'];
 
     protected $guarded = [];
 

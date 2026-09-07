@@ -22,6 +22,7 @@
                         <th>{{ trans('general.id') }}</th>
                         <th>{{ trans('general.name') }}</th>
                         <th>{{ trans('models.priority') }}</th>
+                        <th>{{ trans('models.social_media_enabled') }}</th>
                         <th>{{ trans('general.created_at') }}</th>
                         <th>{{ trans('general.updated_at') }}</th>
                     </tr>
@@ -33,6 +34,7 @@
                             <td>{{ $competition->id }}</td>
                             <td><a href="{{ route('competitions.show', ['competition' => $competition]) }}">{{ $competition->name }}</a></td>
                             <td>{{ $competition->priority }}</td>
+                            <td>{{ trans_choice('general.boolean', $competition->social_media_enabled ? 1 : 0) }}</td>
                             <td>{{ $competition->created_at }}</td>
                             <td>{{ $competition->updated_at }}</td>
                         </tr>

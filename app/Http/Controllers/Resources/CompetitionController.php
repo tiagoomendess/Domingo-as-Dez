@@ -59,12 +59,15 @@ class CompetitionController extends Controller
             'file' => 'required|mimes:jpeg,jpg,png|max:20000',
             'priority' => 'required|integer|min:0|max:100000',
             'visible' => 'required',
+            'social_media_enabled' => 'required',
         ]);
 
         if($request->input('visible') == 'true')
             $visible = true;
         else
             $visible = false;
+
+        $social_media_enabled = $request->input('social_media_enabled') == 'true';
 
         $name = $request->input('name');
         $priority = (int) $request->input('priority');
@@ -89,6 +92,7 @@ class CompetitionController extends Controller
             'name' => $name,
             'picture' => $url,
             'visible' => $visible,
+            'social_media_enabled' => $social_media_enabled,
             'priority' => $priority,
         ]);
 
@@ -138,6 +142,7 @@ class CompetitionController extends Controller
             'file' => 'nullable|mimes:jpeg,jpg,png|max:20000',
             'priority' => 'required|integer|min:0|max:100000',
             'visible' => 'required',
+            'social_media_enabled' => 'required',
         ]);
 
         $competition = Competition::findOrFail($id);
@@ -148,6 +153,8 @@ class CompetitionController extends Controller
             $visible = true;
         else
             $visible = false;
+
+        $social_media_enabled = $request->input('social_media_enabled') == 'true';
 
         $name = $request->input('name');
         $priority = (int) $request->input('priority');
@@ -180,6 +187,7 @@ class CompetitionController extends Controller
         //alterar valores
         $competition->name = $name;
         $competition->visible = $visible;
+        $competition->social_media_enabled = $social_media_enabled;
         $competition->picture = $url;
         $competition->priority = $priority;
         $competition->save();

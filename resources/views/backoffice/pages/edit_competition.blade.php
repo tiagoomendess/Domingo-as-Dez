@@ -72,6 +72,24 @@
         </div>
 
         <div class="row">
+            <div class="col col s12 m8 l6">
+                <div class="switch">
+                    <label>
+                        {{ trans('models.social_media_enabled') }}
+                        <input name="social_media_enabled" type="hidden" value="false">
+                        @if($competition->social_media_enabled)
+                            <input name="social_media_enabled" type="checkbox" value="true" checked>
+                        @else
+                            <input name="social_media_enabled" type="checkbox" value="true">
+                        @endif
+                        <span class="lever"></span>
+                    </label>
+                </div>
+                <span class="helper-text">{{ trans('models.social_media_enabled_hint') }}</span>
+            </div>
+        </div>
+
+        <div class="row">
             <div class="input-field col s12">
                 @include('backoffice.partial.button', ['color' => 'green', 'icon' => 'save', 'text' => trans('general.save')])
             </div>

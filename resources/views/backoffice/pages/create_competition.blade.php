@@ -65,6 +65,20 @@
         </div>
 
         <div class="row">
+            <div class="col s12 m8 l6">
+                <div class="switch">
+                    <label>
+                        {{ trans('models.social_media_enabled') }}
+                        <input name="social_media_enabled" type="hidden" value="false">
+                        <input name="social_media_enabled" type="checkbox" value="true" checked>
+                        <span class="lever"></span>
+                    </label>
+                </div>
+                <span class="helper-text">{{ trans('models.social_media_enabled_hint') }}</span>
+            </div>
+        </div>
+
+        <div class="row">
             <div class="input-field col s12">
                 @include('backoffice.partial.button', ['color' => 'green', 'icon' => 'send', 'text' => trans('general.create')])
             </div>

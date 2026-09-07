@@ -71,13 +71,17 @@ class ScheduleSocialMedia implements ShouldQueue
         $todayMatches = Game::where('date', '>=', $startOfDay)
             ->where('date', '<=', $endOfDay)
             ->where('visible', true)
+            ->whereHas('game_group.season.competition', function ($query) {
+                $query->where('social_media_enabled', true);
+            })
+            ->with('game_group.season.competition')
             ->orderBy('date', 'asc')
             ->orderBy('id', 'asc')
             ->get();
 
-        // If no matches today, then we don't schedule any posts
+        // If no matches today (or only matches from competitions with social media off), skip
         if ($todayMatches->count() == 0) {
-            Log::info('No matches today, skipping social media scheduling');
+            Log::info('No matches today to promote, skipping social media scheduling');
             return;
         }
         
@@ -311,7 +315,7 @@ class ScheduleSocialMedia implements ShouldQueue
 
         foreach ($uniqueSeasons as $season) {
             $competition = $season->competition;
-            if (!$competition || !$competition->getAttribute('visible')) {
+            if (!$competition || !$competition->getAttribute('visible') || !$competition->social_media_enabled) {
                 continue;
             }
 
