@@ -67,8 +67,8 @@ class GenerateGameImage
                     'home_club_name' => mb_strtoupper($game->home_team->club->name),
                     'away_club_emblem' => public_path($game->away_team->club->getEmblem()),
                     'away_club_name' => mb_strtoupper($game->away_team->club->name),
-                    'competition' => mb_strtoupper($game->game_group->season->competition->name),
-                    'competition_logo' => public_path($game->game_group->season->competition->picture)
+                    'competition' => mb_strtoupper($game->game_group->season->getDisplayName()),
+                    'competition_logo' => public_path($game->game_group->season->getDisplayPicture())
                 ];
 
                 $base->insert($backgroundImg, 'center');
@@ -87,7 +87,7 @@ class GenerateGameImage
                 $name = Str::slug($game->home_team->club->name . '-vs-'
                         . $game->away_team->club->name
                         . '-'
-                        . $game->game_group->season->competition->name
+                        . $game->game_group->season->getDisplayName()
                         . '-'
                         . str_replace('/', '-', $game->game_group->season->getName())
                     ) . '.jpg';

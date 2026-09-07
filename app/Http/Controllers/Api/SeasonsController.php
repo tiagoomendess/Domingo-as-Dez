@@ -52,10 +52,16 @@ class SeasonsController extends Controller
 
         $data_object->data = new \stdClass();
         $data_object->data->competition_id = $season->competition->id;
-        $data_object->data->competition_name = $season->competition->name;
+        $data_object->data->competition_name = $season->getDisplayName();
+        $data_object->data->competition_logo = $season->getDisplayPicture();
+        $data_object->data->competition_slug = $season->getDisplaySlug();
         $data_object->data->season_id = $season->id;
         $data_object->data->season_name = $season->getName();
-        $data_object->data->stats_link = route('competition.stats', [str_slug($season->competition->name), $season_slug]);
+        $data_object->data->season_slug = $season_slug;
+        $data_object->data->stats_link = route('competition.stats', [
+            'season_slug' => $season_slug,
+            'competition_slug' => $season->getDisplaySlug(),
+        ]);
 
         foreach ($game_groups as $game_group) {
 

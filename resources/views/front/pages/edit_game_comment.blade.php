@@ -15,7 +15,7 @@
         <div class="row no-margin-bottom">
             <div class="col s12">
                 <p class="flow-text center">
-                    {{ $game->game_group->season->competition->name }}
+                    {{ $game->game_group->season->getDisplayName() }}
                 </p>
             </div>
             <div class="col s6 text-right">

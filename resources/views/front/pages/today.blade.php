@@ -349,11 +349,11 @@
                             <div class="card-content" style="padding: 10px">
                                 <div style="display: flex; align-items: center; margin-bottom: 10px; padding: 10px; background-color: #f5f5f5; border-radius: 4px">
                                     <img style="width: 35px; height: 35px; object-fit: contain; margin-right: 10px"
-                                         src="{{ $group_data['game_group']->season->competition->picture }}"
-                                         alt="{{ $group_data['game_group']->season->competition->name }}">
+                                         src="{{ $group_data['game_group']->season->getDisplayPicture() }}"
+                                         alt="{{ $group_data['game_group']->season->getDisplayName() }}">
                                     <div>
                                         <h6 style="margin: 0; font-weight: bold">{{ $group_data['game_group']->name }}</h6>
-                                        <span style="font-size: 0.9rem; color: #666">{{ $group_data['game_group']->season->competition->name }}</span>
+                                        <span style="font-size: 0.9rem; color: #666">{{ $group_data['game_group']->season->getDisplayName() }}</span>
                                     </div>
                                 </div>
 

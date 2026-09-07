@@ -158,10 +158,10 @@
 
             @foreach($competitions as $competition)
                 <div class="col s6 m6 l3">
-                    <a href="{{ route('competition', ['slug' => $competition->name_slug]) }}">
+                    <a href="{{ $competition->public_url }}">
                         <div class="homepage-competition-box">
-                            <img src="{{ $competition->picture }}" alt="">
-                            <span class="truncate">{{ $competition->name }}</span>
+                            <img src="{{ $competition->display_picture }}" alt="">
+                            <span class="truncate">{{ $competition->display_name }}</span>
                         </div>
                     </a>
                 </div>

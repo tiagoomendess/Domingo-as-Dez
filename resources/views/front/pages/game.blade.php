@@ -4,21 +4,21 @@
 <title>
     {{ $game->homeTeam->club->name }} vs
     {{ $game->awayTeam->club->name }} -
-    {{ $game->game_group->season->competition->name }}
+    {{ $game->game_group->season->getDisplayName() }}
     {{ $game->game_group->season->getName() }}
 </title>
 <meta name="description"
-    content="Jogo da {{ $game->game_group->season->competition->name }} na época {{ $game->game_group->season->getName() }}" />
+    content="Jogo da {{ $game->game_group->season->getDisplayName() }} na época {{ $game->game_group->season->getName() }}" />
 <link rel="stylesheet" href="/css/front/game-style.css">
 <meta property="og:title"
-    content="{{ $game->homeTeam->club->name }} vs {{ $game->awayTeam->club->name }} - {{ $game->game_group->season->competition->name }} {{ $game->game_group->season->getName() }}" />
+    content="{{ $game->homeTeam->club->name }} vs {{ $game->awayTeam->club->name }} - {{ $game->game_group->season->getDisplayName() }} {{ $game->game_group->season->getName() }}" />
 <meta property="og:type" content="website" />
 <meta property="og:description"
-    content="Jogo da {{ $game->game_group->season->competition->name }} na época {{ $game->game_group->season->getName() }}" />
+    content="Jogo da {{ $game->game_group->season->getDisplayName() }} na época {{ $game->game_group->season->getName() }}" />
 @if(!empty($game->image))
 <meta property="og:image" content="{{ url($game->image) }}">
 @else
-<meta property="og:image" content="{{ url($game->game_group->season->competition->picture) }}">
+<meta property="og:image" content="{{ url($game->game_group->season->getDisplayPicture()) }}">
 @endif
 
 <style>
@@ -153,9 +153,9 @@
             </a>
             @endif
             <span>
-                <img src="{{$game->game_group->season->competition->picture}}"
-                    alt="{{ $game->game_group->season->competition->name }}">
-                &nbsp;{{ $game->game_group->season->competition->name }}
+                <img src="{{ $game->game_group->season->getDisplayPicture() }}"
+                    alt="{{ $game->game_group->season->getDisplayName() }}">
+                &nbsp;{{ $game->game_group->season->getDisplayName() }}
             </span>
         </div>
 
@@ -630,8 +630,8 @@
                                     </div>
                                     <div class="col m1 hide-on-small-and-down">
                                         <img class="right"
-                                            src="{{ $past_game->game_group->season->competition->picture }}"
-                                            alt="Competição da AFPB">
+                                            src="{{ $past_game->game_group->season->getDisplayPicture() }}"
+                                            alt="{{ $past_game->game_group->season->getDisplayName() }}">
                                     </div>
                                 </div>
                             </a>

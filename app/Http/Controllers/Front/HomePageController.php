@@ -33,9 +33,12 @@ class HomePageController extends Controller
         else
             $live = false;
 
-        $competitions = Competition::where('visible', true)->orderBy('id', 'asc')->limit(3)->get();
+        $competitions = Competition::where('visible', true)->orderedForFrontend()->limit(3)->get();
         foreach ($competitions as $competition) {
-            $competition->name_slug = Str::slug($competition->name);
+            $season = $competition->getLatestVisibleSeason();
+            $competition->display_name = $season ? $season->getDisplayName() : $competition->name;
+            $competition->display_picture = $season ? $season->getDisplayPicture() : $competition->picture;
+            $competition->public_url = $competition->getPublicUrl($season);
         }
 
         $total_players = DB::table('players')->count();

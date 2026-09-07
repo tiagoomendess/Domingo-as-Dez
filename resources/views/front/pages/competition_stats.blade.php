@@ -1,13 +1,13 @@
 @extends('front.layouts.default-page')
 
 @section('head-content')
-    <title>{{ trans('front.competition_stats', ['competition' => $competition->name]) }}</title>
+    <title>{{ trans('front.competition_stats', ['competition' => $display_name]) }}</title>
     <link rel="stylesheet" href="/css/front/competition-stats-style.css">
 
-    <meta property="og:title" content="{{ trans('front.competition_stats', ['competition' => $competition->name]) }}"/>
+    <meta property="og:title" content="{{ trans('front.competition_stats', ['competition' => $display_name]) }}"/>
     <meta property="og:type" content="website"/>
     <meta property="og:description" content="{{ trans('front.footer_desc') }}"/>
-    <meta property="og:image" content="{{ url($competition->picture) }}">
+    <meta property="og:image" content="{{ url($display_picture) }}">
 
 @endsection
 
@@ -17,8 +17,8 @@
             <div class="container">
                 <div class="col s12">
                     <a href="{{ route('competitions') }}" class="breadcrumb">{{ trans('models.competitions') }}</a>
-                    <a href="{{ route('competition', ['slug' => str_slug($competition->name)]) }}"
-                       class="breadcrumb">{{ $competition->name }}</a>
+                    <a href="{{ $season->getPublicUrl() }}"
+                       class="breadcrumb">{{ $display_name }}</a>
                     <a href="#stats" class="breadcrumb">{{ trans('front.statistics') }}</a>
                 </div>
             </div>
@@ -28,7 +28,7 @@
     <div class="container" id="stats">
         <div class="row no-margin-bottom">
             <div class="col s12">
-                <h1 class="hide">{{ trans('front.competition_stats', ['competition' => $competition->name]) }}</h1>
+                <h1 class="hide">{{ trans('front.competition_stats', ['competition' => $display_name]) }}</h1>
             </div>
 
             <div class="col s12 m12 l12 xl6">

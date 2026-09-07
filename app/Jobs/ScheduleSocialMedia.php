@@ -301,17 +301,17 @@ class ScheduleSocialMedia implements ShouldQueue
 
     private function competitionsUpdated(Collection $games, Carbon $publishAt)
     {
-        $competitionIdsUsed = [];
-        $uniqueCompetitions = [];
+        $uniqueSeasons = [];
         foreach ($games as $game) {
-            if (!in_array($game->game_group->season->competition->id, $competitionIdsUsed)) {
-                $competitionIdsUsed[] = $game->game_group->season->competition->id;
-                $uniqueCompetitions[] = $game->game_group->season->competition;
+            $season = $game->game_group->season;
+            if (!isset($uniqueSeasons[$season->id])) {
+                $uniqueSeasons[$season->id] = $season;
             }
         }
 
-        foreach ($uniqueCompetitions as $competition) {
-            if (!$competition->visible) {
+        foreach ($uniqueSeasons as $season) {
+            $competition = $season->competition;
+            if (!$competition || !$competition->getAttribute('visible')) {
                 continue;
             }
 
@@ -319,7 +319,7 @@ class ScheduleSocialMedia implements ShouldQueue
                 'platform' => SocialMediaPost::PLATFORM_FACEBOOK,
                 'post_type' => SocialMediaPost::POST_TYPE_POST,
                 'post_content_type' => SocialMediaPost::POST_CONTENT_TYPE_TEXT,
-                'text_content' => 'Classificação da ' . $competition->name . ' atualizada ⤵️' . $competition->getPublicUrl(),
+                'text_content' => 'Classificação da ' . $season->getDisplayName() . ' atualizada ⤵️' . $season->getPublicUrl(),
                 'publish_at' => $publishAt->format('Y-m-d H:i:s'),
             ]);
         }

@@ -20,7 +20,7 @@
         </div>
     @endif
 
-    <form action="{{ route('seasons.update', ['season' => $season]) }}" method="POST">
+    <form action="{{ route('seasons.update', ['season' => $season]) }}" method="POST" enctype="multipart/form-data">
 
         {{ csrf_field() }}
 
@@ -56,6 +56,43 @@
             </div>
 
         </div>
+
+        <div class="row">
+            <div class="input-field col s12 m8 l6">
+                <input name="name" id="name" type="text" class="validate" value="{{ old('name', $season->name) }}" maxlength="155">
+                <label for="name">{{ trans('models.season_display_name') }}</label>
+                <span class="helper-text">{{ trans('models.season_display_name_hint') }}</span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="file-field input-field col s12 m8 l6">
+                <div class="btn">
+                    <span>{{ trans('general.file') }}</span>
+                    <input name="file" type="file" accept="image/jpeg,image/png,image/jpg">
+                </div>
+                <div class="file-path-wrapper">
+                    <input class="file-path validate" type="text" value="{{ $season->picture }}" placeholder="{{ trans('models.season_display_picture') }}">
+                </div>
+                <span class="helper-text">{{ trans('models.season_display_picture_hint') }}</span>
+            </div>
+        </div>
+
+        @if($season->picture)
+            <div class="row">
+                <div class="col s12 m8 l6">
+                    <img src="{{ $season->picture }}" alt="" style="max-height: 60px; margin-bottom: 10px;">
+                    <div class="switch">
+                        <label>
+                            Remover logótipo da época
+                            <input name="clear_picture" type="hidden" value="false">
+                            <input name="clear_picture" type="checkbox" value="true">
+                            <span class="lever"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        @endif
 
         <div class="row">
             <div class="input-field col s12 m8 l6">

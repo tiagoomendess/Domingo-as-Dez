@@ -1,40 +1,43 @@
 @extends('front.layouts.default-page')
 
 @section('head-content')
-    <title>{{ $competition->name }}</title>
+    <title>{{ $display_name }}</title>
     <link rel="stylesheet" href="/css/front/competition-style.css">
 
-    <meta property="og:title" content="{{ $competition->name . ' - ' . config('app.name') }}"/>
+    <meta property="og:title" content="{{ $display_name . ' - ' . config('app.name') }}"/>
     <meta property="og:type" content="website"/>
     <meta property="og:description" content="{{ trans('front.footer_desc') }}"/>
-    <meta property="og:image" content="{{ url($competition->picture) }}">
+    <meta property="og:image" content="{{ url($display_picture) }}">
 
 @endsection
 
 @section('content')
     <div style="min-height: 100vh">
-        <h1 class="hide">{{ $competition->name }}</h1>
-
         <div class="competition-season-selector">
             <div class="container">
-                <div class="row no-margin-bottom">
-                    <div class="input-field col s12 m6 l4">
-                        <select id="competition_selector" class="icons">
-                            <option slug="{{ str_slug($competition->name) }}" class="left circle"
-                                    value="{{ $competition->id }}" data-icon="{{ $competition->picture }}"
-                                    selected>{{ $competition->name }}</option>
-                        </select>
-                        <label>{{ trans('models.competition') }}</label>
+                <div class="row no-margin-bottom valign-wrapper">
+                    <div class="col s12 m8 l9 competition-heading">
+                        <img id="competition_logo" class="competition-heading-logo" src="{{ $display_picture }}" alt="">
+                        <h1 id="competition_title" class="competition-heading-title">{{ $display_name }}</h1>
                     </div>
 
-                    <div class="right input-field col s12 m4 l2">
-                        <select class="" id="season_selector">
+                    <div class="input-field col s12 m4 l3">
+                        <select id="season_selector">
                         </select>
                         <label>{{ trans('models.season') }}</label>
                     </div>
                 </div>
             </div>
         </div>
+
+        <script>
+            window.competitionPage = {
+                seasonSlug: @json($season_slug),
+                competitionSlug: @json($display_slug),
+                competitionId: {{ $competition->id }},
+                seasonId: {{ $season->id }}
+            };
+        </script>
 
         @if($game_started_and_not_finished)
             <div class="container">

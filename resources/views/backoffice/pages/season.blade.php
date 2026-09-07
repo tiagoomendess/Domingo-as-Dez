@@ -36,6 +36,29 @@
 
     <div class="row">
         <div class="input-field col s12 m8 l6">
+            <input disabled name="name" id="name" type="text" class="validate" value="{{ $season->name }}">
+            <label for="name">{{ trans('models.season_display_name') }}</label>
+            <span class="helper-text">{{ trans('models.season_display_name_hint') }}</span>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col s12 m8 l6">
+            <label>{{ trans('models.season_display_picture') }}</label>
+            @if($season->picture)
+                <div>
+                    <img src="{{ $season->picture }}" alt="" style="max-height: 60px;">
+                </div>
+            @else
+                <p class="grey-text">{{ trans('models.no_picture') }}</p>
+            @endif
+            <p class="helper-text">{{ trans('models.season_display_picture_hint') }}</p>
+            <p class="grey-text">Público: {{ $season->getDisplayName() }}</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="input-field col s12 m8 l6">
             <textarea disabled id="obs" name="obs" class="materialize-textarea" rows="1">{{ $season->obs }}</textarea>
             <label for="obs">{{ trans('models.obs') }}</label>
         </div>

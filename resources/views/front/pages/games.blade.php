@@ -109,7 +109,7 @@
                                             </div>
 
                                             <div class="col s1 m2 l2 right">
-                                                <img class="competition-logo-for-game right" src="{{ $game->game_group->season->competition->picture }}" alt="{{ $game->game_group->season->competition->name }}">
+                                                <img class="competition-logo-for-game right" src="{{ $game->game_group->season->getDisplayPicture() }}" alt="{{ $game->game_group->season->getDisplayName() }}">
                                             </div>
                                         </div>
                                     </a>
@@ -129,8 +129,8 @@
                             <li style="margin-top: 5px"><span class="game-score">ADI</span> - Jogo Adiado</li>
                             @foreach($competitions as $competition)
                                 <li style="display: flex; align-items: center; margin-top: 5px">
-                                    <img class="emblem" src="{{ $competition->picture }}" alt="{{ $competition->name }}">
-                                    {{ $competition->name }}
+                                    <img class="emblem" src="{{ $competition->getCurrentDisplayPicture() }}" alt="{{ $competition->getCurrentDisplayName() }}">
+                                    {{ $competition->getCurrentDisplayName() }}
                                 </li>
                             @endforeach
                         </ul>

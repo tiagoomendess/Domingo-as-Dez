@@ -45,9 +45,9 @@
                             class="material-icons" style="float: right">arrow_drop_down</i></a>
                 <div class="collapsible-body">
                     <ul>
-                        @foreach(\App\Competition::all()->where('visible', true) as $competition)
+                        @foreach(\App\Competition::visibleOrdered() as $competition)
                             <li><a style="padding: 0 45px" class="waves-effect"
-                                   href="{{ route('competition', ['slug' => str_slug($competition->name)]) }}"> {{ $competition->name }}</a>
+                                   href="{{ $competition->getPublicUrl() }}"> {{ $competition->getCurrentDisplayName() }}</a>
                             </li>
                         @endforeach
                     </ul>

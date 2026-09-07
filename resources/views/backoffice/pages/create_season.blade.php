@@ -20,7 +20,7 @@
         </div>
     @endif
 
-    <form action="{{ route('seasons.store') }}" method="POST">
+    <form action="{{ route('seasons.store') }}" method="POST" enctype="multipart/form-data">
 
         {{ csrf_field() }}
 
@@ -49,6 +49,27 @@
                 </select>
             </div>
 
+        </div>
+
+        <div class="row">
+            <div class="input-field col s12 m8 l6">
+                <input name="name" id="name" type="text" class="validate" value="{{ old('name') }}" maxlength="155">
+                <label for="name">{{ trans('models.season_display_name') }}</label>
+                <span class="helper-text">{{ trans('models.season_display_name_hint') }}</span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="file-field input-field col s12 m8 l6">
+                <div class="btn">
+                    <span>{{ trans('general.file') }}</span>
+                    <input name="file" type="file" accept="image/jpeg,image/png,image/jpg">
+                </div>
+                <div class="file-path-wrapper">
+                    <input class="file-path validate" type="text" placeholder="{{ trans('models.season_display_picture') }}">
+                </div>
+                <span class="helper-text">{{ trans('models.season_display_picture_hint') }}</span>
+            </div>
         </div>
 
         <div class="row">

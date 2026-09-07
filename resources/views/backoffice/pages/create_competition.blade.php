@@ -44,6 +44,14 @@
         </div>
 
         <div class="row">
+            <div class="input-field col s12 m4 l3">
+                <input required name="priority" id="priority" type="number" class="validate" min="0" value="{{ old('priority', 0) }}">
+                <label for="priority">{{ trans('models.priority') }}</label>
+                <span class="helper-text">{{ trans('models.competition_priority_hint') }}</span>
+            </div>
+        </div>
+
+        <div class="row">
             <div class="col s12 m8 l6">
                 <div class="switch">
                     <label>

@@ -21,9 +21,9 @@
                         <ul class="list-a competitions-list">
                             @foreach($competitions as $competition)
                                 <li>
-                                    <a href="{{ $competition->getPublicUrl() }}">
-                                        <img src="{{ $competition->picture }}" alt="{{$competition->name}}">
-                                        <span class="flow-text">{{ $competition->name }}</span>
+                                    <a href="{{ $competition->public_url }}">
+                                        <img src="{{ $competition->display_picture }}" alt="{{ $competition->display_name }}">
+                                        <span class="flow-text">{{ $competition->display_name }}</span>
                                     </a>
                                 </li>
                             @endforeach

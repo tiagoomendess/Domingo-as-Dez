@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Player;
 use App\Season;
 use App\Team;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Collection;
 use Illuminate\View\View;
 
@@ -17,16 +18,37 @@ class CompetitionStatsController extends Controller
 
     }
 
-    public function show(string $competition_slug, string $season_slug): View
+    public function show(string $season_slug, string $competition_slug)
     {
-        $competition = Competition::getCompetitionBySlug($competition_slug);
-        if (!$competition || !$competition->visible)
-            abort(404);
+        if (Season::isLegacyFullYearSlug($season_slug)) {
+            $years = Season::parseNameSlug($season_slug);
+            if (!$years) {
+                abort(404);
+            }
+            $canonicalSeason = (new Season([
+                'start_year' => $years[0],
+                'end_year' => $years[1],
+            ]))->getNameSlug();
 
-        $season_years = explode("-", $season_slug, 2);
-        $season = $competition->getSeasonByYears($season_years[0], isset($season_years[1]) ? $season_years[1] : null);
-        if (!$season || !$season->visible)
+            return redirect()->route('competition.stats', [
+                'season_slug' => $canonicalSeason,
+                'competition_slug' => $competition_slug,
+            ], 301);
+        }
+
+        $season = Season::findBySeasonAndCompetitionSlug($season_slug, $competition_slug);
+        if (!$season) {
             abort(404);
+        }
+
+        $competition = $season->competition;
+
+        if ($season->getDisplaySlug() !== $competition_slug || $season->getNameSlug() !== $season_slug) {
+            return redirect()->route('competition.stats', [
+                'season_slug' => $season->getNameSlug(),
+                'competition_slug' => $season->getDisplaySlug(),
+            ], 301);
+        }
 
         $bestScorers = self::getBestScorers($season);
         $attack = self::getBestAndWorstAttack($season);
@@ -34,10 +56,47 @@ class CompetitionStatsController extends Controller
 
         return view("front.pages.competition_stats", [
             'competition' => $competition,
+            'season' => $season,
+            'display_name' => $season->getDisplayName(),
+            'display_picture' => $season->getDisplayPicture(),
             'bestScorers' => $bestScorers,
             'attack' => $attack,
             'defense' => $defense
         ]);
+    }
+
+    /**
+     * 301 from old /competicoes/{competition}/{season}/estatisticas to season-first URL.
+     */
+    public function redirectLegacy(string $competition_slug, string $season_slug)
+    {
+        $years = Season::parseNameSlug($season_slug);
+        if (!$years) {
+            abort(404);
+        }
+
+        $canonicalSeason = (new Season([
+            'start_year' => $years[0],
+            'end_year' => $years[1],
+        ]))->getNameSlug();
+
+        $season = Season::findBySeasonAndCompetitionSlug($canonicalSeason, $competition_slug);
+        if (!$season) {
+            // Try with the raw parsed years against canonical competition slug
+            $competition = Competition::getCompetitionBySlug($competition_slug);
+            if (!$competition) {
+                abort(404);
+            }
+            $season = $competition->getSeasonByYears($years[0], $years[1]);
+            if (!$season || !$season->visible) {
+                abort(404);
+            }
+        }
+
+        return redirect()->route('competition.stats', [
+            'season_slug' => $season->getNameSlug(),
+            'competition_slug' => $season->getDisplaySlug(),
+        ], 301);
     }
 
     public static function getBestScorers(Season $season, int $limit = 10): Collection

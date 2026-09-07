@@ -18,6 +18,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::get('/competitions', 'Api\CompetitionsController@getCompetitions')->name('api.competitions');
+Route::get('/competitions/{season_slug}', 'Api\CompetitionsController@getCompetitionsBySeasonSlug')
+    ->name('api.competitions.by_season')
+    ->where(['season_slug' => '[0-9]{4}(-[0-9]{2})?|[0-9]{4}-[0-9]{4}']);
 Route::get('/competitions/{competition}/seasons', 'Api\CompetitionsController@getCompetitionSeasons')->name('api.competitions.seasons')->where(['competition' => '[0-9]+']);
 Route::get('/seasons/{season}', 'Api\SeasonsController@show')->name('api.seasons.show')->where(['season' => '[0-9]+']);
 Route::get('/seasons/{season}/games', 'Api\SeasonsController@getGames')->name('api.seasons.games')->where(['season' => '[0-9]+']);

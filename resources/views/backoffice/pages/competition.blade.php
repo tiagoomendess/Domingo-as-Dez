@@ -35,6 +35,13 @@
     </div>
 
     <div class="row">
+        <div class="input-field col s12 m4 l3">
+            <input disabled name="priority" id="priority" type="number" class="validate" value="{{ $competition->priority }}">
+            <label for="priority">{{ trans('models.priority') }}</label>
+        </div>
+    </div>
+
+    <div class="row">
         <div class="col col s12 m8 l6">
             <div class="switch">
                 <label>

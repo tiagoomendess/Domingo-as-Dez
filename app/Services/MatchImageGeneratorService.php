@@ -49,8 +49,8 @@ class MatchImageGeneratorService
             'day' => $gameDate->timezone('Europe/Lisbon')->format('d'),
             'month' => mb_strtoupper($this->translateMonth($gameDate->month)),
             'time' => $gameDate->timezone('Europe/Lisbon')->format('H\Hi'),
-            'competition' => mb_strtoupper($game->game_group->season->competition->name),
-            'competition_logo' => public_path($game->game_group->season->competition->picture)
+            'competition' => mb_strtoupper($game->game_group->season->getDisplayName()),
+            'competition_logo' => public_path($game->game_group->season->getDisplayPicture())
         ];
 
         $base->insert($backgroundImg, 'center');
@@ -98,8 +98,8 @@ class MatchImageGeneratorService
             'day' => $gameDate->timezone('Europe/Lisbon')->format('d'),
             'month' => mb_strtoupper($this->translateMonth($gameDate->month)),
             'time' => $gameDate->timezone('Europe/Lisbon')->format('H\Hi'),
-            'competition' => mb_strtoupper($game->game_group->season->competition->name),
-            'competition_logo' => public_path($game->game_group->season->competition->picture)
+            'competition' => mb_strtoupper($game->game_group->season->getDisplayName()),
+            'competition_logo' => public_path($game->game_group->season->getDisplayPicture())
         ];
 
         // Resize background to cover entire canvas (fit height, crop width)

@@ -37,9 +37,9 @@
                             </li>
 
                             <ul id="competitions_dropdown" class="dropdown-content navbar-dropdown">
-                                @foreach(\App\Competition::where('visible', true)->get() as $competition)
+                                @foreach(\App\Competition::visibleOrdered() as $competition)
                                     <li>
-                                        <a href="{{ route('competition', ['slug' => str_slug($competition->name)]) }}">{{ $competition->name }}</a>
+                                        <a href="{{ $competition->getPublicUrl() }}">{{ $competition->getCurrentDisplayName() }}</a>
                                     </li>
                                 @endforeach
                             </ul>

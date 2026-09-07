@@ -9,6 +9,7 @@ use App\MvpVotes;
 use App\Partner;
 use App\Player;
 use App\ScoreReport;
+use App\Season;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -51,7 +52,7 @@ class GamesController extends Controller
         }
 
         $competitions = Competition::where('visible', true)
-            ->orderBy('id', 'asc')->get();
+            ->orderedForFrontend()->get();
 
         $data = [
             'games' => $games,
@@ -62,8 +63,27 @@ class GamesController extends Controller
         return view('front.pages.games', $data);
     }
 
-    public function show($competition_slug, $season_slug, $group_slug, $round, $clubs_slug) {
-        $cache_key = "game-cache-$competition_slug-$season_slug-$group_slug-$round-$clubs_slug";
+    public function show($season_slug, $competition_slug, $group_slug, $round, $clubs_slug) {
+        if (Season::isLegacyFullYearSlug($season_slug)) {
+            $years = Season::parseNameSlug($season_slug);
+            if (!$years) {
+                abort(404);
+            }
+            $canonicalSeason = (new Season([
+                'start_year' => $years[0],
+                'end_year' => $years[1],
+            ]))->getNameSlug();
+
+            return redirect()->route('front.games.show', [
+                'season_slug' => $canonicalSeason,
+                'competition_slug' => $competition_slug,
+                'group_slug' => $group_slug,
+                'round' => $round,
+                'clubs_slug' => $clubs_slug,
+            ], 301);
+        }
+
+        $cache_key = "game-cache-$season_slug-$competition_slug-$group_slug-$round-$clubs_slug";
         $cached_data = Cache::get($cache_key);
         if (!empty($cached_data)) {
             // flash interview is not cached
@@ -76,22 +96,22 @@ class GamesController extends Controller
             return view('front.pages.game', $cached_data);
         }
 
-        $competition = Competition::getCompetitionBySlug($competition_slug);
-
-        if (!$competition)
-            return abort(404);
-
-        $years = mb_split('-', $season_slug, 2);
-
-        if (count($years) == 2)
-            $season = $competition->getSeasonByYears($years[0], $years[1]);
-        else if (count($years) == 1)
-            $season = $competition->getSeasonByYears($years[0], $years[0]);
-        else
-            return abort(404);
+        $season = Season::findBySeasonAndCompetitionSlug($season_slug, $competition_slug);
 
         if (!$season)
             return abort(404);
+
+        $competition = $season->competition;
+
+        if ($season->getDisplaySlug() !== $competition_slug || $season->getNameSlug() !== $season_slug) {
+            return redirect()->route('front.games.show', [
+                'season_slug' => $season->getNameSlug(),
+                'competition_slug' => $season->getDisplaySlug(),
+                'group_slug' => $group_slug,
+                'round' => $round,
+                'clubs_slug' => $clubs_slug,
+            ], 301);
+        }
 
         $group = $season->getGroupBySlug($group_slug);
 
@@ -214,6 +234,42 @@ class GamesController extends Controller
             'front.pages.game',
             $view_data
         );
+    }
+
+    /**
+     * 301 from old competition-first game URLs to season-first.
+     */
+    public function redirectLegacy($competition_slug, $season_slug, $group_slug, $round, $clubs_slug)
+    {
+        $years = Season::parseNameSlug($season_slug);
+        if (!$years) {
+            abort(404);
+        }
+
+        $canonicalSeason = (new Season([
+            'start_year' => $years[0],
+            'end_year' => $years[1],
+        ]))->getNameSlug();
+
+        $season = Season::findBySeasonAndCompetitionSlug($canonicalSeason, $competition_slug);
+        if (!$season) {
+            $competition = Competition::getCompetitionBySlug($competition_slug);
+            if (!$competition) {
+                abort(404);
+            }
+            $season = $competition->getSeasonByYears($years[0], $years[1]);
+            if (!$season) {
+                abort(404);
+            }
+        }
+
+        return redirect()->route('front.games.show', [
+            'season_slug' => $season->getNameSlug(),
+            'competition_slug' => $season->getDisplaySlug(),
+            'group_slug' => $group_slug,
+            'round' => $round,
+            'clubs_slug' => $clubs_slug,
+        ], 301);
     }
 
     /**

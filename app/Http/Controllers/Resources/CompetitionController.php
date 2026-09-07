@@ -31,7 +31,7 @@ class CompetitionController extends Controller
     public function index()
     {
 
-        $competitions = Competition::orderBy('id', 'desc')->paginate(config('custom.results_per_page'));
+        $competitions = Competition::orderByDesc('priority')->orderBy('id', 'desc')->paginate(config('custom.results_per_page'));
 
         return view('backoffice.pages.competitions', ['competitions' => $competitions]);
     }
@@ -57,6 +57,7 @@ class CompetitionController extends Controller
         $request->validate([
             'name' => 'string|max:155|required|unique:competitions,name',
             'file' => 'required|mimes:jpeg,jpg,png|max:20000',
+            'priority' => 'required|integer|min:0|max:100000',
             'visible' => 'required',
         ]);
 
@@ -66,6 +67,7 @@ class CompetitionController extends Controller
             $visible = false;
 
         $name = $request->input('name');
+        $priority = (int) $request->input('priority');
 
         if ($request->hasFile('file')) {
 
@@ -86,7 +88,8 @@ class CompetitionController extends Controller
         $competition = Competition::create([
             'name' => $name,
             'picture' => $url,
-            'visible' => $visible
+            'visible' => $visible,
+            'priority' => $priority,
         ]);
 
         Audit::add(Audit::ACTION_CREATE, 'Competition', null, $competition->toArray());
@@ -133,6 +136,7 @@ class CompetitionController extends Controller
         $request->validate([
             'name' => 'string|max:155|required',
             'file' => 'nullable|mimes:jpeg,jpg,png|max:20000',
+            'priority' => 'required|integer|min:0|max:100000',
             'visible' => 'required',
         ]);
 
@@ -146,6 +150,7 @@ class CompetitionController extends Controller
             $visible = false;
 
         $name = $request->input('name');
+        $priority = (int) $request->input('priority');
 
         if ($request->hasFile('file')) {
 
@@ -176,6 +181,7 @@ class CompetitionController extends Controller
         $competition->name = $name;
         $competition->visible = $visible;
         $competition->picture = $url;
+        $competition->priority = $priority;
         $competition->save();
 
         $messages->add('success', trans('success.model_edited', ['model_name' => trans('models.competition')]));

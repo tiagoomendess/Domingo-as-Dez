@@ -36,7 +36,7 @@ class BaseModel extends Model
             $raw = '';
             foreach ($this->geometry as $column)
             {
-                $raw .= 'AsText(`' . $this->table . '`.`' . $column . '`) as `' . $column . '`, ';
+                $raw .= 'ST_AsText(`' . $this->table . '`.`' . $column . '`) as `' . $column . '`, ';
             }
             $raw = substr($raw, 0, -2);
             return parent::newQuery($excludeDeleted)->addSelect('*', DB::raw($raw));

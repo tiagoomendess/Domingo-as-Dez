@@ -1,15 +1,15 @@
 @extends('front.layouts.default-page')
 
 @section('head-content')
-    <title> {{ trans('front.detailed_table') }} {{ $competition->name }}</title>
+    <title> {{ trans('front.detailed_table') }} {{ $season->getDisplayName() }}</title>
 @endsection
 
 @section('content')
-    <h1> {{ trans('front.detailed_table') }} {{ $competition->name }}</h1>
+    <h1> {{ trans('front.detailed_table') }} {{ $season->getDisplayName() }}</h1>
 
     @if($competition->competition_type == 'league')
 
-        <input id="competition_slug" type="hidden" value="{{ str_slug($competition->name) }}">
+        <input id="competition_slug" type="hidden" value="{{ $season->getDisplaySlug() }}">
         <input id="season_id" type="hidden" value="{{ $season->id }}">
         <input id="round" type="hidden" value="{{ $round_chosen }}">
         <input id="max_round" type="hidden" value="{{ $season->getTotalRounds() }}">

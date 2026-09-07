@@ -54,12 +54,13 @@ class MvpVotesController extends Controller
                 'user_id' => $user->id
             ]);
 
-            $competition_slug = Str::slug($game->game_group->season->competition->name);
-            $season_slug = $game->game_group->season->getNameSlug();
+            $season = $game->game_group->season;
+            $season_slug = $season->getNameSlug();
+            $competition_slug = $season->getDisplaySlug();
             $group_slug = Str::slug($game->game_group->name);
             $round = $game->round;
             $clubs_slug = Str::slug($game->home_team->club->name . '-vs-' . $game->away_team->club->name);
-            $cache_key = "game-cache-$competition_slug-$season_slug-$group_slug-$round-$clubs_slug";
+            $cache_key = "game-cache-$season_slug-$competition_slug-$group_slug-$round-$clubs_slug";
             Cache::store('file')->forget($cache_key);
 
             Log::info("User " . $user->id . " voted for player " . $player_id . " for MVP in the game " . $game_id);

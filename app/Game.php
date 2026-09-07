@@ -176,10 +176,11 @@ class Game extends Model
     }
 
     public function getPublicUrl() {
+        $season = $this->game_group->season;
 
         return route('front.games.show', [
-            'competition_slug' => str_slug($this->game_group->season->competition->name),
-            'season_slug' => str_replace('/', '-', $this->game_group->season->getName()),
+            'season_slug' => $season->getNameSlug(),
+            'competition_slug' => $season->getDisplaySlug(),
             'group_slug' => str_slug($this->game_group->name),
             'round' => $this->round,
             'clubs_slug' => str_slug($this->home_team->club->name) . '-vs-' . str_slug($this->away_team->club->name),
@@ -318,13 +319,14 @@ class Game extends Model
     }
 
     public function invalidateCache() {
-        $competition_slug = Str::slug($this->game_group->season->competition->name);
-        $season_slug = $this->game_group->season->getNameSlug();
+        $season = $this->game_group->season;
+        $season_slug = $season->getNameSlug();
+        $competition_slug = $season->getDisplaySlug();
         $group_slug = Str::slug($this->game_group->name);
         $round = $this->round;
         $clubs_slug = Str::slug($this->home_team->club->name . '-vs-' . $this->away_team->club->name);
 
-        $thisGameCache = "game-cache-$competition_slug-$season_slug-$group_slug-$round-$clubs_slug";
+        $thisGameCache = "game-cache-$season_slug-$competition_slug-$group_slug-$round-$clubs_slug";
 
         $cachesToInvalidate = [
             $thisGameCache,

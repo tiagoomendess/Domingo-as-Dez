@@ -29,9 +29,10 @@ Route::get('/login/{provider}/callback','Auth\LoginController@handleProviderCall
 // =====================================================================================================================
 
 // Frontend Redirects ================
-// Permanently redirect /competicoes/1a-divisao-afpb to competicoes/1a-divisao-agribar
+// Permanently redirect /competicoes/1a-divisao-afpb to the current Agribar season URL
 Route::get('/competicoes/1a-divisao-afpb', function () {
-    return redirect('/competicoes/1a-divisao-agribar', 301);
+    return app(\App\Http\Controllers\Front\CompetitionsController::class)
+        ->redirectLegacySlug('1a-divisao-agribar');
 });
 
 // === Front Routes =================================================================================================
@@ -56,13 +57,53 @@ Route::post('/hoje/edit/store', 'Front\GamesController@todayUpdateScore')->name(
 Route::get('/noticias', 'Front\ArticlesController@index')->name('news.index');
 Route::get('/noticias/{year}/{month}/{day}/{slug}', 'Front\ArticlesController@show')->name('news.show');
 Route::get('/competicoes', 'Front\CompetitionsController@showAll')->name('competitions');
-Route::get('/competicoes/{slug}', 'Front\CompetitionsController@show')->name('competition');
-Route::get('/competicoes/{competition_slug}/{season_slug}/estatisticas', 'Front\CompetitionStatsController@show')
+
+// Season-first canonical URLs (season_slug: 2025, 2025-26, or legacy 2025-2026)
+$seasonSlugPattern = '[0-9]{4}(-[0-9]{2})?|[0-9]{4}-[0-9]{4}';
+Route::get('/competicoes/{season_slug}/{competition_slug}', 'Front\CompetitionsController@show')
+    ->name('competition')
+    ->where([
+        'season_slug' => $seasonSlugPattern,
+        'competition_slug' => '[a-z0-9\-]+',
+    ]);
+Route::get('/competicoes/{season_slug}/{competition_slug}/estatisticas', 'Front\CompetitionStatsController@show')
     ->name('competition.stats')
     ->where([
+        'season_slug' => $seasonSlugPattern,
         'competition_slug' => '[a-z0-9\-]+',
-        'season_slug' => '[0-9]{4}\-[0-9]{4}|[0-9]{4}'
     ]);
+Route::get('/competicoes/{season_slug}/{competition_slug}/{group_slug}/{round}/{clubs_slug}', 'Front\GamesController@show')
+    ->name('front.games.show')
+    ->where([
+        'season_slug' => $seasonSlugPattern,
+        'competition_slug' => '[a-z0-9\-]+',
+        'group_slug' => '[a-z0-9\-]+',
+        'round' => '[0-9]+',
+        'clubs_slug' => '[a-z0-9\-]+-vs-[a-z0-9\-]+',
+    ]);
+
+// Competition slug must contain a letter so year-only segments never match these
+$competitionSlugPattern = '[0-9]*[a-z][a-z0-9\-]*';
+
+// Legacy competition-first URLs → 301 to season-first
+Route::get('/competicoes/{competition_slug}/{season_slug}/estatisticas', 'Front\CompetitionStatsController@redirectLegacy')
+    ->where([
+        'competition_slug' => $competitionSlugPattern,
+        'season_slug' => $seasonSlugPattern,
+    ]);
+Route::get('/competicoes/{competition_slug}/{season_slug}/{group_slug}/{round}/{clubs_slug}', 'Front\GamesController@redirectLegacy')
+    ->where([
+        'competition_slug' => $competitionSlugPattern,
+        'season_slug' => $seasonSlugPattern,
+        'group_slug' => '[a-z0-9\-]+',
+        'round' => '[0-9]+',
+        'clubs_slug' => '[a-z0-9\-]+-vs-[a-z0-9\-]+',
+    ]);
+
+// Legacy /competicoes/{slug} → 301 to latest matching season
+Route::get('/competicoes/{slug}', 'Front\CompetitionsController@redirectLegacySlug')
+    ->where(['slug' => $competitionSlugPattern]);
+
 Route::get('/sondagens/{slug}', 'Front\PollsController@show')->name('polls.front.show')->where([
     'slug' => '[0-9a-z-]+'
 ]);
@@ -70,15 +111,6 @@ Route::put('/sondagens/{slug}', 'Front\PollsController@vote')->name('polls.front
     'slug' => '[0-9a-z-]+'
 ]);
 Route::get('/transferencias', 'Front\TransfersController@index')->name('transfers');
-Route::get('/competicoes/{competition_slug}/{season_slug}/{group_slug}/{round}/{clubs_slug}', 'Front\GamesController@show')
-    ->name('front.games.show')
-    ->where([
-        'competition_slug' => '[a-z0-9\-]+',
-        'season_slug' => '[0-9]{4}\-[0-9]{4}|[0-9]{4}',
-        'group_slug' => '[a-z0-9\-]+',
-        'round' => '[0-9]+',
-        'clubs_slug' => '[a-z0-9\-]+-vs-[a-z0-9\-]+',
-    ]);
 Route::get('/jogos/{game}/resultados-enviados', 'Front\GamesController@listScoreReports')->name('front.games.show_score_reports');
 Route::put('/score-reports/{report}', 'Front\GamesController@updateIsFake')->name('score_reports.update_is_fake');
 Route::get('/perfil/editar', 'Front\UserProfileController@edit')->name('front.userprofile.edit');

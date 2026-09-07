@@ -342,7 +342,11 @@ class MediaController extends Controller
                 'visible' => true,
             ]);
 
-            $media->generateThumbnail();
+            try {
+                $media->generateThumbnail();
+            } catch (\Exception $e) {
+                // Thumbnail is optional; the original image was already stored.
+            }
 
         } catch (\Exception $e) {
             return null;

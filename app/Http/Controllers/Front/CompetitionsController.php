@@ -17,15 +17,46 @@ use Illuminate\Support\Facades\Cache;
 class CompetitionsController extends Controller
 {
 
-    public function show($slug)
+    public function show($season_slug, $competition_slug)
     {
-        $competition = Competition::getCompetitionBySlug($slug);
+        if (Season::isLegacyFullYearSlug($season_slug)) {
+            $years = Season::parseNameSlug($season_slug);
+            if (!$years) {
+                abort(404);
+            }
+            $canonicalSeason = (new Season([
+                'start_year' => $years[0],
+                'end_year' => $years[1],
+            ]))->getNameSlug();
 
-        if (!$competition || !$competition->visible)
+            return redirect()->route('competition', [
+                'season_slug' => $canonicalSeason,
+                'competition_slug' => $competition_slug,
+            ], 301);
+        }
+
+        $season = Season::findBySeasonAndCompetitionSlug($season_slug, $competition_slug);
+
+        if (!$season) {
             abort(404);
+        }
 
-        $mostRecentSeason = $competition->seasons()->where('visible', true)->orderByDesc('id')->limit(1)->first();
-        $seasonSlug = $mostRecentSeason->start_year . '-' . $mostRecentSeason->end_year;
+        $competition = $season->competition;
+
+        // Canonicalize display slug if URL used the old competition name
+        if ($season->getDisplaySlug() !== $competition_slug) {
+            return redirect()->route('competition', [
+                'season_slug' => $season->getNameSlug(),
+                'competition_slug' => $season->getDisplaySlug(),
+            ], 301);
+        }
+
+        if ($season->getNameSlug() !== $season_slug) {
+            return redirect()->route('competition', [
+                'season_slug' => $season->getNameSlug(),
+                'competition_slug' => $season->getDisplaySlug(),
+            ], 301);
+        }
 
         $gameStartedAndNotFinished = false;
         $cacheKey = "competition_game_started_and_not_finished_cache_" . $competition->id;
@@ -45,15 +76,39 @@ class CompetitionsController extends Controller
 
         return view('front.pages.competition', [
             'competition' => $competition,
-            'season_slug' => $seasonSlug,
+            'season' => $season,
+            'season_slug' => $season->getNameSlug(),
+            'display_name' => $season->getDisplayName(),
+            'display_picture' => $season->getDisplayPicture(),
+            'display_slug' => $season->getDisplaySlug(),
             'game_started_and_not_finished' => $gameStartedAndNotFinished,
         ]);
     }
 
+    /**
+     * 301 from /competicoes/{slug} to the latest season URL for that display slug.
+     */
+    public function redirectLegacySlug($slug)
+    {
+        $result = Competition::findLatestByDisplaySlug($slug);
+
+        if (!$result) {
+            abort(404);
+        }
+
+        return redirect($result['season']->getPublicUrl(), 301);
+    }
+
     public function showAll()
     {
+        $competitions = Competition::where('visible', true)->orderedForFrontend()->get();
 
-        $competitions = Competition::where('visible', true)->get();
+        foreach ($competitions as $competition) {
+            $season = $competition->getLatestVisibleSeason();
+            $competition->display_name = $season ? $season->getDisplayName() : $competition->name;
+            $competition->display_picture = $season ? $season->getDisplayPicture() : $competition->picture;
+            $competition->public_url = $competition->getPublicUrl($season);
+        }
 
         return view('front.pages.competitions', ['competitions' => $competitions]);
     }
