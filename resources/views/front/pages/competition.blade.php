@@ -2,7 +2,7 @@
 
 @section('head-content')
     <title>{{ $display_name }}</title>
-    <link rel="stylesheet" href="/css/front/competition-style.css">
+    <link rel="stylesheet" href="/css/front/competition-style.css?v=season-stepper">
 
     <meta property="og:title" content="{{ $display_name . ' - ' . config('app.name') }}"/>
     <meta property="og:type" content="website"/>
@@ -21,12 +21,30 @@
                         <h1 id="competition_title" class="competition-heading-title">{{ $display_name }}</h1>
                     </div>
 
-                    <div class="input-field col s12 m4 l3">
-                        <select id="season_selector">
-                        </select>
-                        <label>{{ trans('models.season') }}</label>
+                    <div class="col s12 m4 l3">
+                        <div id="season_stepper" class="season-stepper">
+                            <a id="season_prev" href="javascript:void(0)" class="button button-left disabled" role="button"
+                               aria-label="{{ trans('general.previous') }}"><i
+                                        class="material-icons no-select">keyboard_arrow_left</i></a>
+                            <a id="season_current" href="javascript:void(0)" class="season-stepper-name" role="button"
+                               aria-haspopup="dialog"></a>
+                            <a id="season_next" href="javascript:void(0)" class="button button-right disabled" role="button"
+                               aria-label="{{ trans('general.next') }}"><i
+                                        class="material-icons no-select">keyboard_arrow_right</i></a>
+                        </div>
                     </div>
                 </div>
+            </div>
+        </div>
+
+        <div id="season_picker_modal" class="modal">
+            <div class="modal-content">
+                <h5 class="season-picker-title">{{ trans('models.season') }}</h5>
+                <ul id="season_picker_list" class="season-picker-list"></ul>
+            </div>
+            <div class="modal-footer">
+                <a href="javascript:void(0)"
+                   class="modal-action modal-close waves-effect btn-flat">{{ trans('general.close') }}</a>
             </div>
         </div>
 
@@ -204,6 +222,6 @@
 @endsection
 
 @section('scripts')
-    <script src="/js/front/competition-scripts.js"></script>
+    <script src="/js/front/competition-scripts.js?v=season-stepper"></script>
     <script src="/js/front/points-tie-breakers-scripts.js"></script>
 @endsection

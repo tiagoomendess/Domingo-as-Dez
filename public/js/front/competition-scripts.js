@@ -1,5 +1,8 @@
 $(function () {
-    $('#season_selector').on('change', seasonChanged);
+    $('#season_picker_modal').modal();
+    $('#season_prev').on('click', goToPreviousSeason);
+    $('#season_next').on('click', goToNextSeason);
+    $('#season_current').on('click', openSeasonPicker);
 
     start();
 });
@@ -7,7 +10,9 @@ $(function () {
 var data;
 var currentSeasonSlug = (window.competitionPage && window.competitionPage.seasonSlug) || null;
 var currentCompetitionSlug = (window.competitionPage && window.competitionPage.competitionSlug) || null;
+// Ordered from the most recent season to the oldest one
 var seasonsData = [];
+var currentSeasonIndex = -1;
 
 function leftBtnClicked(event) {
 
@@ -84,6 +89,18 @@ function updateCompetitionHeading(name, logo, slug) {
     }
 }
 
+function formatSeasonLabel(season) {
+    if (!season) {
+        return '';
+    }
+
+    if (parseInt(season.start_year) === parseInt(season.end_year)) {
+        return String(season.start_year);
+    }
+
+    return season.start_year + '/' + String(season.end_year).slice(-2);
+}
+
 function start() {
     var competitionId = window.competitionPage && window.competitionPage.competitionId;
     if (!competitionId) {
@@ -93,30 +110,86 @@ function start() {
     currentSeasonSlug = window.competitionPage.seasonSlug || null;
     currentCompetitionSlug = window.competitionPage.competitionSlug || null;
     updateSeasonsList(competitionId);
-    $('select').material_select();
+}
+
+function goToPreviousSeason(event) {
+    if (event) {
+        event.preventDefault();
+    }
+
+    if (currentSeasonIndex < 0 || currentSeasonIndex >= seasonsData.length - 1) {
+        return;
+    }
+
+    selectSeasonByIndex(currentSeasonIndex + 1);
+}
+
+function goToNextSeason(event) {
+    if (event) {
+        event.preventDefault();
+    }
+
+    if (currentSeasonIndex <= 0) {
+        return;
+    }
+
+    selectSeasonByIndex(currentSeasonIndex - 1);
+}
+
+function openSeasonPicker(event) {
+    if (event) {
+        event.preventDefault();
+    }
+
+    if (!seasonsData.length) {
+        return;
+    }
+
+    $('#season_picker_modal').modal('open');
+}
+
+function selectSeasonByIndex(index) {
+    if (index < 0 || index >= seasonsData.length) {
+        return;
+    }
+
+    if (index === currentSeasonIndex) {
+        updateSeasonStepper();
+        return;
+    }
+
+    currentSeasonIndex = index;
+    updateSeasonStepper();
+    seasonChanged();
+}
+
+function updateSeasonStepper() {
+    var current = seasonsData[currentSeasonIndex];
+    $('#season_current').text(current ? formatSeasonLabel(current) : '');
+
+    $('#season_prev').toggleClass('disabled', currentSeasonIndex < 0 || currentSeasonIndex >= seasonsData.length - 1);
+    $('#season_next').toggleClass('disabled', currentSeasonIndex <= 0);
+
+    $('#season_picker_list .season-picker-item').removeClass('active');
+    $('#season_picker_item_' + (current ? current.id : '')).addClass('active');
 }
 
 function seasonChanged() {
+    var selectedSeason = seasonsData[currentSeasonIndex];
+    if (!selectedSeason) {
+        return;
+    }
+
+    var season_id = parseInt(selectedSeason.id);
+
     $('#stats_button').addClass('hide');
-    var season_selector = $('#season_selector');
-    var season_id = parseInt(season_selector.val());
 
-    var selectedSeason = null;
-    for (var i = 0; i < seasonsData.length; i++) {
-        if (parseInt(seasonsData[i].id) === season_id) {
-            selectedSeason = seasonsData[i];
-            break;
-        }
-    }
-
-    if (selectedSeason) {
-        updateCompetitionHeading(
-            selectedSeason.competition_name,
-            selectedSeason.competition_logo,
-            selectedSeason.competition_slug
-        );
-        updateBrowserUrl(selectedSeason.season_slug, selectedSeason.competition_slug, selectedSeason.competition_name);
-    }
+    updateCompetitionHeading(
+        selectedSeason.competition_name,
+        selectedSeason.competition_logo,
+        selectedSeason.competition_slug
+    );
+    updateBrowserUrl(selectedSeason.season_slug, selectedSeason.competition_slug, selectedSeason.competition_name);
 
     $('#groups').empty();
     $('#main_loading').removeClass('hide');
@@ -132,9 +205,10 @@ function updateSeasonsList(competition_id) {
 
 function addSeasonsToOptions(response) {
     seasonsData = response || [];
-    var season_selector = $('#season_selector');
-    season_selector.empty();
     $('#season_obs').find('span[id^="season_obs_"]').remove();
+
+    var pickerList = $('#season_picker_list');
+    pickerList.empty();
 
     var preferredSeasonId = window.competitionPage && window.competitionPage.seasonId
         ? parseInt(window.competitionPage.seasonId)
@@ -142,12 +216,12 @@ function addSeasonsToOptions(response) {
     var preferredSeasonSlug = currentSeasonSlug;
     var selectedIndex = 0;
 
-    for (var i = 0; i < response.length; i++) {
-        if (preferredSeasonId && parseInt(response[i].id) === preferredSeasonId) {
+    for (var i = 0; i < seasonsData.length; i++) {
+        if (preferredSeasonId && parseInt(seasonsData[i].id) === preferredSeasonId) {
             selectedIndex = i;
             break;
         }
-        if (preferredSeasonSlug && response[i].season_slug === preferredSeasonSlug) {
+        if (preferredSeasonSlug && seasonsData[i].season_slug === preferredSeasonSlug) {
             selectedIndex = i;
             break;
         }
@@ -158,38 +232,28 @@ function addSeasonsToOptions(response) {
         window.competitionPage.seasonId = null;
     }
 
-    for (var j = 0; j < response.length; j++) {
-        var new_option = $('<option>');
-        new_option.attr('value', response[j].id);
-        new_option.attr('season-slug', response[j].season_slug);
-        new_option.attr('competition-slug', response[j].competition_slug);
-        new_option.text(response[j].name);
-        if (j === selectedIndex) {
-            new_option.prop('selected', true);
-        }
+    for (var j = 0; j < seasonsData.length; j++) {
+        (function (index) {
+            var season = seasonsData[index];
+            var item = $('<a href="javascript:void(0)" class="season-picker-item"></a>');
+            item.attr('id', 'season_picker_item_' + season.id);
+            item.text(formatSeasonLabel(season));
+            item.on('click', function (event) {
+                event.preventDefault();
+                $('#season_picker_modal').modal('close');
+                selectSeasonByIndex(index);
+            });
+            $('<li class="season-picker-item-wrap"></li>').append(item).appendTo(pickerList);
+        })(j);
 
         $('#season_obs').append(
-            '<span id="season_obs_' + response[j].id + '" class="small hide">' +
-            (response[j].obs ?? '') +
+            '<span id="season_obs_' + seasonsData[j].id + '" class="small hide">' +
+            (seasonsData[j].obs ?? '') +
             '</span>'
         );
-
-        new_option.appendTo(season_selector);
     }
 
-    $('select').material_select();
-
-    var selected = response[selectedIndex];
-    if (selected) {
-        updateCompetitionHeading(
-            selected.competition_name,
-            selected.competition_logo,
-            selected.competition_slug
-        );
-        updateBrowserUrl(selected.season_slug, selected.competition_slug, selected.competition_name);
-    }
-
-    season_selector.trigger('change');
+    selectSeasonByIndex(selectedIndex);
 }
 
 function handleGetGamesRequest(response) {
