@@ -13,7 +13,7 @@ class PlayerUpdateRequest extends SearchableModel
 {
     protected $fillable = [
         'player_id', 'name', 'nickname', 'club_name', 'picture_url', 'association_id', 
-        'phone', 'email', 'facebook_profile', 'birth_date', 'position', 'obs',
+        'phone', 'email', 'facebook_profile', 'birth_date', 'position', 'obs', 'team',
         'status', 'created_by', 'reviewed_by', 'reviewed_at', 'review_notes', 'source_data'
     ];
 
@@ -176,6 +176,81 @@ class PlayerUpdateRequest extends SearchableModel
     public function isUpdateRequest()
     {
         return $this->player_id !== null;
+    }
+
+    /**
+     * Pick the club team that corresponds to the AFPB squad name.
+     * "Seniores Masculino" maps to "Séniores". Other labels, such as
+     * "Séniores Feminino", are matched against the club's team names.
+     *
+     * @param \Illuminate\Support\Collection|array $teams
+     * @return \App\Team|null
+     */
+    public function suggestTeam($teams)
+    {
+        if (!$this->team || $teams === null || count($teams) === 0) {
+            return null;
+        }
+
+        $target = self::normalizeTeamLabel($this->team);
+        if ($target === 'seniores masculino') {
+            $target = 'seniores';
+        }
+
+        $best = null;
+        $bestScore = 0;
+
+        foreach ($teams as $team) {
+            $candidate = self::normalizeTeamLabel($team->name);
+            $score = self::teamMatchScore($target, $candidate);
+            $preferAccentedSenior = $target === 'seniores' && $team->name === 'Séniores';
+
+            if ($score > $bestScore || ($score === $bestScore && $score > 0 && $preferAccentedSenior)) {
+                $bestScore = $score;
+                $best = $team;
+            }
+        }
+
+        if ($bestScore < 0.8) {
+            return null;
+        }
+
+        return $best;
+    }
+
+    private static function normalizeTeamLabel($value)
+    {
+        $value = mb_strtolower(trim((string) $value));
+        $value = str_replace(
+            ['á', 'à', 'â', 'ã', 'ä', 'é', 'è', 'ê', 'ë', 'í', 'ì', 'î', 'ï', 'ó', 'ò', 'ô', 'õ', 'ö', 'ú', 'ù', 'û', 'ü', 'ç'],
+            ['a', 'a', 'a', 'a', 'a', 'e', 'e', 'e', 'e', 'i', 'i', 'i', 'i', 'o', 'o', 'o', 'o', 'o', 'u', 'u', 'u', 'u', 'c'],
+            $value
+        );
+
+        return preg_replace('/\s+/', ' ', $value);
+    }
+
+    private static function teamMatchScore($target, $candidate)
+    {
+        if ($target === '' || $candidate === '') {
+            return 0;
+        }
+
+        if ($target === $candidate) {
+            return 1.0;
+        }
+
+        $targetTokens = explode(' ', $target);
+        $candidateTokens = explode(' ', $candidate);
+        $shared = count(array_intersect($targetTokens, $candidateTokens));
+        $union = count(array_unique(array_merge($targetTokens, $candidateTokens)));
+        $jaccard = $union > 0 ? $shared / $union : 0;
+
+        similar_text($target, $candidate, $percent);
+        $tokenDifference = abs(count($targetTokens) - count($candidateTokens));
+        $similar = ($percent / 100) * (1 - (0.25 * $tokenDifference));
+
+        return max(0, $jaccard, $similar);
     }
 
     /**

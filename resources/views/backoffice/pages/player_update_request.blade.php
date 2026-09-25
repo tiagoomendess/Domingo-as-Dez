@@ -58,6 +58,9 @@
                                 @if($updateRequest->club_name)
                                     <p style="margin-bottom: 5px;"><strong>Clube:</strong> {{ $updateRequest->club_name }}</p>
                                 @endif
+                                @if($updateRequest->team)
+                                    <p style="margin-bottom: 5px;"><strong>Equipa AFPB:</strong> {{ $updateRequest->team }}</p>
+                                @endif
                             @elseif($updateRequest->player)
                                 <p style="margin-bottom: 5px;"><strong>Nome:</strong> 
                                     <a href="{{ route('players.show', ['player' => $updateRequest->player]) }}">
@@ -69,6 +72,9 @@
                                 @endif
                                 @if($updateRequest->player->getClub())
                                     <p style="margin-bottom: 5px;"><strong>Clube:</strong> {{ $updateRequest->player->getClub()->name }}</p>
+                                @endif
+                                @if($updateRequest->team)
+                                    <p style="margin-bottom: 5px;"><strong>Equipa AFPB:</strong> {{ $updateRequest->team }}</p>
                                 @endif
                             @else
                                 <p style="margin-bottom: 5px;"><strong>Jogador:</strong> #{{ $updateRequest->player_id }} (Não encontrado)</p>
@@ -328,12 +334,24 @@
                             <div class="col s12">
                                 <label for="team_id">Equipa do Clube (Obrigatório)</label>
                                 <select id="team_id" name="team_id" class="browser-default" required style="margin-top: 5px;">
-                                    <option value="" disabled selected>Selecione uma equipa</option>
+                                    <option value="" disabled {{ empty($suggestedTeam) ? 'selected' : '' }}>Selecione uma equipa</option>
                                     @foreach($clubTeams as $team)
-                                        <option value="{{ $team->id }}">{{ $team->name }}</option>
+                                        <option value="{{ $team->id }}" {{ !empty($suggestedTeam) && (int) $suggestedTeam->id === (int) $team->id ? 'selected' : '' }}>{{ $team->name }}</option>
                                     @endforeach
                                 </select>
-                                <span class="helper-text" style="font-size: 12px; color: #9e9e9e;">O clube <strong>{{ $updateRequest->club_name }}</strong> tem múltiplas equipas. Selecione a equipa para onde o jogador será adicionado.</span>
+                                <span class="helper-text" style="font-size: 12px; color: #9e9e9e;">
+                                    O clube <strong>{{ $updateRequest->club_name }}</strong> tem múltiplas equipas.
+                                    @if($updateRequest->team)
+                                        Equipa na AFPB: <strong>{{ $updateRequest->team }}</strong>.
+                                        @if(!empty($suggestedTeam))
+                                            Sugestão: <strong>{{ $suggestedTeam->name }}</strong>.
+                                        @else
+                                            Nenhuma equipa correspondeu automaticamente.
+                                        @endif
+                                    @else
+                                        Selecione a equipa para onde o jogador será adicionado.
+                                    @endif
+                                </span>
                             </div>
                         </div>
                     @endif

@@ -7,6 +7,11 @@ services:
       - "8000:8000"
     volumes:
       - .:/var/www/html
+      # These two stay on the Linux disk inside the Docker VM.
+      # A Windows bind mount makes every PHP stat() take milliseconds, and
+      # Laravel touches thousands of files in vendor/ on each request.
+      - vendor:/var/www/html/vendor
+      - framework:/var/www/html/storage/framework
     extra_hosts:
       - "host.docker.internal:host-gateway"
     environment:
@@ -15,3 +20,9 @@ services:
       # If MySQL is on a shared Docker network instead, override:
       #   DOCKER_DB_HOST=mysql_container_name docker compose up
       DB_HOST: ${DOCKER_DB_HOST:-host.docker.internal}
+    # No CPU or memory cap: the container can use the whole Docker VM.
+    # The VM size is set in %USERPROFILE%\.wslconfig (24GB / 16 threads).
+
+volumes:
+  vendor:
+  framework:

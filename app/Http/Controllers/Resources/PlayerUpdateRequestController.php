@@ -52,17 +52,19 @@ class PlayerUpdateRequestController extends Controller
      */
     public function show($id)
     {
-        $updateRequest = PlayerUpdateRequest::with(['player', 'reviewedBy'])->findOrFail($id);
+        $updateRequest = PlayerUpdateRequest::with(['player.team', 'reviewedBy'])->findOrFail($id);
         $changes = $updateRequest->getChanges();
         
         // Get teams for the club if club_name is provided
         $clubTeams = [];
         $requiresTeamSelection = false;
+        $suggestedTeam = null;
         
         if ($updateRequest->club_name && $updateRequest->club_name !== 'no_club' && $updateRequest->club_name !== 'none') {
             $club = \App\Club::where('name', $updateRequest->club_name)->first();
             if ($club) {
                 $teams = $club->teams()->where('visible', true)->get();
+                $suggestedTeam = $updateRequest->suggestTeam($teams);
                 if ($teams->count() > 1) {
                     $clubTeams = $teams;
                     $requiresTeamSelection = true;
@@ -74,7 +76,8 @@ class PlayerUpdateRequestController extends Controller
             'updateRequest' => $updateRequest,
             'changes' => $changes,
             'clubTeams' => $clubTeams,
-            'requiresTeamSelection' => $requiresTeamSelection
+            'requiresTeamSelection' => $requiresTeamSelection,
+            'suggestedTeam' => $suggestedTeam
         ]);
     }
 

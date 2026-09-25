@@ -37,6 +37,7 @@ class PlayerUpdateRequestsController extends Controller
             'birth_date' => 'nullable|date',
             'position' => ['nullable', 'string', Rule::in(['none', 'striker', 'midfielder', 'defender', 'goalkeeper'])],
             'obs' => 'nullable|string|max:3000|min:6',
+            'team' => 'nullable|string|max:155',
             'created_by' => 'nullable|string|max:100',
             'source_data' => 'nullable|array'
         ];
@@ -54,6 +55,7 @@ class PlayerUpdateRequestsController extends Controller
             'birth_date' => 'nullable|date',
             'position' => ['nullable', 'string', Rule::in(['none', 'striker', 'midfielder', 'defender', 'goalkeeper'])],
             'obs' => 'nullable|string|max:3000|min:6',
+            'team' => 'nullable|string|max:155',
             'created_by' => 'nullable|string|max:100',
             'source_data' => 'nullable|array'
         ];
@@ -102,6 +104,7 @@ class PlayerUpdateRequestsController extends Controller
             'birth_date' => $request->birth_date,
             'position' => $request->position,
             'obs' => $request->obs,
+            'team' => $request->team,
             'created_by' => $request->created_by ?: 'API',
             'source_data' => $request->source_data,
             'status' => PlayerUpdateRequest::STATUS_PENDING
@@ -129,6 +132,7 @@ class PlayerUpdateRequestsController extends Controller
             ->where('name', $updateRequest->name)
             ->where('nickname', $updateRequest->nickname)
             ->where('club_name', $updateRequest->club_name)
+            ->where('team', $updateRequest->team)
             ->get();
 
         return $recentRequests->count() > 0;
