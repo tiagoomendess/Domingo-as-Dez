@@ -4,21 +4,14 @@ namespace App\Http\Controllers\Auth;
 
 use App\Audit;
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\Resources\MediaController;
-use App\SocialProvider;
 use App\User;
-use App\UserProfile;
 use App\UserUuid;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\MessageBag;
 use Illuminate\Support\Str;
-use Intervention\Image\Facades\Image;
-use League\Flysystem\Exception;
-use Socialite;
 
 class LoginController extends Controller
 {
@@ -143,94 +136,6 @@ class LoginController extends Controller
         $this->incrementLoginAttempts($request);
 
         return $this->sendFailedLoginResponse($request);
-    }
-
-    /**
-     * Redirect the user to the GitHub authentication page.
-     *
-     * @param $provider  string
-     * @return \Illuminate\Http\Response
-     */
-    public function redirectToProvider($provider)
-    {
-        return Socialite::driver($provider)->redirect();
-    }
-
-    /**
-     * Obtain the user information from GitHub.
-     *
-     * @return Mixed
-     */
-    public function handleProviderCallback($provider)
-    {
-        try {
-            $socialUser = Socialite::driver($provider)->user();
-        } catch(\Exception $e) {
-
-            $errors = new MessageBag();
-            $errors->add('login', trans('auth.failed'));
-            return redirect()->route('login')->withErrors($errors);
-        }
-
-        $socialProvider = SocialProvider::where('provider_id', $socialUser->getId())->first();
-
-        //If the user don't allow us to see the email
-        if (!$socialUser->getEmail()) {
-            $errors = new MessageBag();
-            $errors->add('login', trans('auth.we_need_email_access'));
-            return redirect()->route('login')->withErrors($errors);
-        }
-
-        //If there is not a social provider
-        if (!$socialProvider) {
-            if (count(User::where('email', $socialUser->getEmail())->get()) > 0) {
-                $errors = new MessageBag();
-                $errors->add('login', trans('auth.email_already_exists'));
-                return redirect()->route('login')->withErrors($errors);
-            }
-
-            $user = User::create([
-                'name' => $socialUser->getName(),
-                'email' => $socialUser->getEmail(),
-                'verified' => true,
-            ]);
-
-            $image = Image::make($socialUser->getAvatar());
-
-            try {
-                $url = MediaController::storeSquareImage($image, str_random(9), 400, 'jpg', config('custom.user_avatars_path'));
-            } catch(Exception $e) {
-                $url = null;
-            }
-
-            UserProfile::create([
-                'picture' => $url,
-                'user_id' => $user->id,
-            ]);
-
-            //Create the socialProvider
-            $user->socialProviders()->create([
-                'provider_id' => $socialUser->getId(),
-                'provider' => $provider,
-            ]);
-
-        } else { //there is already a social provider
-            $user = $socialProvider->user;
-        }
-
-        //If the user is banned
-        if ($user->isBanned()) {
-            $errors = new MessageBag();
-            $errors->add('login', trans('auth.banned'));
-            return redirect()->route('login')->withErrors($errors);
-        } else { //let him in
-            Auth::login($user);
-            Audit::add(Audit::ACTION_LOGIN, 'User', null, $user->toArray());
-            UserUuid::addIfNotExist($user->id, request()->cookie('uuid', ''));
-            Log::info("User $user->id logged in with $provider");
-        }
-
-        return redirect()->intended($this->redirectTo());
     }
 
     public function redirectTo() {

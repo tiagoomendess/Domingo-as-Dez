@@ -1,5 +1,22 @@
+.social-login-link {
+    display: inline-block;
+    color: #444;
+    margin: 8px 0;
+}
+
+.social-login-link:hover {
+    color: #222;
+}
+
 .social-login-link img {
     width: 60px;
+    height: 60px;
+}
+
+.social-login-link span {
+    display: block;
+    margin-top: 8px;
+    font-size: 13px;
 }
 
 .social-login-card .card-content .row {

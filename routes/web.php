@@ -20,12 +20,12 @@ Auth::routes();
 Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
 Route::get('/register/verify/{email}', 'Auth\RegisterController@verifyEmailPage')->name('verifyEmailPage');
 Route::get('/register/verify/{email}/{token}', 'Auth\RegisterController@verifyEmail')->name('verifyEmail');
-Route::get('/login/{provider}','Auth\LoginController@redirectToProvider')
+Route::get('/login/{provider}', 'Auth\SocialLoginController@redirectToProvider')
     ->name('social.redirect')
-    ->where('provider','twitter|facebook|google');
-Route::get('/login/{provider}/callback','Auth\LoginController@handleProviderCallback')
+    ->where('provider', 'google|facebook|apple');
+Route::match(['get', 'post'], '/login/{provider}/callback', 'Auth\SocialLoginController@handleProviderCallback')
     ->name('social.callback')
-    ->where('provider','facebook|google');
+    ->where('provider', 'google|facebook|apple');
 // =====================================================================================================================
 
 // Frontend Redirects ================

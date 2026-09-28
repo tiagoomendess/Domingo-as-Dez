@@ -14,5 +14,6 @@ class VerifyCsrfToken extends Middleware
     protected $except = [
         '/media_query',
         '/users/remove_permission',
+        '/login/apple/callback',
     ];
 }

@@ -101,8 +101,7 @@ class UserProfileController extends Controller
         /** @var User $user */
         $user = Auth::user();
 
-        //Social users, ex: Facebook, twitter, cannot change password because they don't have one
-        if ($user->isSocial()) {
+        if (empty($user->password)) {
             $messages->add('error', trans('auth.change_password_not_available_for_social_acc'));
             return redirect()->back()->with(['popup_message' => $messages]);
         }

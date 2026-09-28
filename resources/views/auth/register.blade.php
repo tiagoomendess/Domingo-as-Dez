@@ -107,7 +107,7 @@
                 </div>
             </div>
 
-            @if(config('custom.social_logins') == true)
+            @if(count($socialProviders) > 0)
                 @include('auth.social')
             @endif
 

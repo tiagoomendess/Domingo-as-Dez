@@ -9,7 +9,7 @@ return [
     'site_email' => 'geral@domingoasdez.com',
     'register_enable' => true,
     'login_enable' => true,
-    'social_logins' => env('SOCIAL_LOGINS_ENABLED', true),
+    'social_logins' => filter_var(env('SOCIAL_LOGINS_ENABLED', true), FILTER_VALIDATE_BOOLEAN),
     'default_profile_pic' => '/images/default-profile.png',
     'site_logo' => '/images/domingo.png',
     'results_per_page' => 25,
@@ -26,6 +26,7 @@ return [
     'exception_notification_email' => env('EXCEPTION_NOTIFICATION_EMAIL', 'tiagoomendess@gmail.com'),
     'adsense_enabled' => env('ADSENSE_ENABLED', true),
     'google_analytics_enabled' => env('GOOGLE_ANALYTICS_ENABLED', true),
-    'google_login_enabled' => env('GOOGLE_LOGIN_ENABLED', true),
-    'facebook_login_enabled' => env('FACEBOOK_LOGIN_ENABLED', true),
+    'google_login_enabled' => filter_var(env('GOOGLE_LOGIN_ENABLED', true), FILTER_VALIDATE_BOOLEAN),
+    'facebook_login_enabled' => filter_var(env('FACEBOOK_LOGIN_ENABLED', true), FILTER_VALIDATE_BOOLEAN),
+    'apple_login_enabled' => filter_var(env('APPLE_LOGIN_ENABLED', false), FILTER_VALIDATE_BOOLEAN),
 ];

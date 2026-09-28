@@ -124,7 +124,7 @@
                     </div>
                 </div>
 
-                @if(!$user->isSocial())
+                @if(!empty($user->password))
                     <h2 class="over-card-title">{{ trans('auth.change_password') }}</h2>
                     <div class="card">
                         <div class="card-content">

@@ -85,7 +85,7 @@
                 </div>
             </div>
 
-            @if(config('custom.social_logins') == true)
+            @if(count($socialProviders) > 0)
                 @include('auth.social')
             @else
                 <div class="row">
@@ -93,12 +93,10 @@
                         <div class="card">
                             <div class="card-content">
                                 <p>
-                                    Logins através de Facebook e Google estão desativados. Se registaste uma conta
-                                    através de um desses métodos, deves simplesmente recuperar a password. Clica em
+                                    {{ trans('auth.social_logins_disabled') }}
                                     <a href="{{ route('password.request') }}">
                                         {{ trans('auth.forgot_password') }}
-                                    </a> e utiliza o mesmo email da conta
-                                    de facebook ou google para fazer o pedido de recuperação.
+                                    </a>.
                                 </p>
                             </div>
                         </div>
