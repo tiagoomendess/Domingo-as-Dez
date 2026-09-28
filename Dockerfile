@@ -56,7 +56,11 @@ WORKDIR /var/www/html
 
 COPY . /var/www/html
 
+# /opt/vendor survives the bind mount of the project. The entrypoint copies
+# it onto the named volume so PHP does not read vendor through Windows.
 RUN composer install --no-interaction --prefer-dist --no-scripts \
+    && md5sum composer.lock | awk '{print $$1}' > vendor/.lock-hash \
+    && cp -a vendor /opt/vendor \
     && chown -R www-data:www-data /var/www/html \
     && find /var/www/html/storage /var/www/html/bootstrap/cache -type d -exec chmod 775 {} \;
 

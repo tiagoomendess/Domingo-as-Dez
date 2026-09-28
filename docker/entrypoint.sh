@@ -3,9 +3,32 @@ set -e
 
 cd /var/www/html
 
-if [ ! -f vendor/autoload.php ]; then
+mkdir -p \
+  storage/framework/cache/data \
+  storage/framework/sessions \
+  storage/framework/views \
+  storage/logs \
+  bootstrap/cache \
+  vendor
+
+# Prefer the vendor tree baked into the image. It lives on the Linux volume,
+# which is much faster to stat than the Windows project mount.
+if [ ! -f vendor/autoload.php ] && [ -d /opt/vendor ]; then
+  echo "Seeding vendor onto the Linux volume..."
+  cp -a /opt/vendor/. vendor/
+fi
+
+LOCK=""
+if [ -f composer.lock ]; then
+  LOCK=$(md5sum composer.lock | awk '{print $1}')
+fi
+
+if [ ! -f vendor/autoload.php ] || { [ -n "$LOCK" ] && [ "$(cat vendor/.lock-hash 2>/dev/null || true)" != "$LOCK" ]; }; then
   echo "Installing PHP dependencies..."
-  composer install --no-interaction --prefer-dist
+  composer install --no-interaction --prefer-dist --no-scripts
+  if [ -n "$LOCK" ]; then
+    echo "$LOCK" > vendor/.lock-hash
+  fi
 fi
 
 if [ ! -f .env ]; then
@@ -30,7 +53,10 @@ else
     echo "Warning: could not create public/storage link (common on Windows Docker)."
 fi
 
-# Writable dirs Laravel needs at runtime. On Windows bind mounts chown may no-op.
-chmod -R ug+rwx storage bootstrap/cache 2>/dev/null || true
+# Only the Linux volume and the small cache dir. A recursive chmod of
+# storage/ walks every uploaded file through the Windows mount and can
+# block container startup for minutes.
+chown -R www-data:www-data storage/framework bootstrap/cache 2>/dev/null || true
+chmod -R ug+rwx storage/framework storage/logs bootstrap/cache 2>/dev/null || true
 
 exec "$@"

@@ -5,6 +5,9 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8000:8000"
+    # No CPU or memory cap: the container can use the whole Docker VM.
+    # VM size is %USERPROFILE%\.wslconfig (24GB RAM, all 16 threads).
+    shm_size: "1gb"
     volumes:
       - .:/var/www/html
       # These two stay on the Linux disk inside the Docker VM.
@@ -20,8 +23,6 @@ services:
       # If MySQL is on a shared Docker network instead, override:
       #   DOCKER_DB_HOST=mysql_container_name docker compose up
       DB_HOST: ${DOCKER_DB_HOST:-host.docker.internal}
-    # No CPU or memory cap: the container can use the whole Docker VM.
-    # The VM size is set in %USERPROFILE%\.wslconfig (24GB / 16 threads).
 
 volumes:
   vendor:
