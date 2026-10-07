@@ -29,4 +29,7 @@ return [
     'google_login_enabled' => filter_var(env('GOOGLE_LOGIN_ENABLED', true), FILTER_VALIDATE_BOOLEAN),
     'facebook_login_enabled' => filter_var(env('FACEBOOK_LOGIN_ENABLED', true), FILTER_VALIDATE_BOOLEAN),
     'apple_login_enabled' => filter_var(env('APPLE_LOGIN_ENABLED', false), FILTER_VALIDATE_BOOLEAN),
+    // false: every visitor. true: only logged-in users.
+    'new_site_prompt_logged_in_only' => filter_var(env('NEW_SITE_PROMPT_LOGGED_IN_ONLY', false), FILTER_VALIDATE_BOOLEAN),
+    'new_site_url' => env('NEW_SITE_URL', 'https://app.domingoasdez.com'),
 ];

@@ -125,6 +125,40 @@
     width: 100%;
 }
 
+.new-site-return {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #107db7;
+    color: white;
+    margin-top: 1rem;
+}
+
+.new-site-return:hover {
+    box-shadow: 0 0 3px #3b3b3b;
+    background-color: #0573a6;
+}
+
+.new-site-return > div {
+    margin: .5rem .5rem;
+}
+
+.new-site-return > div > p {
+    margin: 0;
+    line-height: 3rem;
+}
+
+.new-site-return > div > span {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 300;
+}
+
+.new-site-return > div > i {
+    font-size: 4rem;
+}
+
 .is_live_outer {
     display: flex;
     flex-direction: row;

@@ -9,6 +9,24 @@
 @section('content')
 
     <div class="container">
+        @if($newSiteUrl = \App\Http\Controllers\Front\NewSitePromptController::returnUrl())
+            <div class="row no-margin-bottom">
+                <div class="col s12">
+                    <a href="{{ $newSiteUrl }}">
+                        <div class="new-site-return">
+                            <div>
+                                <p class="flow-text text-bold white-text">Ir para o novo site</p>
+                                <span>Volta à nova versão do Domingo às Dez</span>
+                            </div>
+                            <div>
+                                <i class="material-icons">arrow_forward_ios</i>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        @endif
+
         <div class="row no-margin-bottom {{ $live ? '' : 'hide' }}" id="is_live_warning">
             <div class="col s12">
                 <a href="{{ route('games.live') }}">

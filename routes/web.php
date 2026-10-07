@@ -126,6 +126,7 @@ Route::get('/politica-de-privacidade', 'Front\DefaultController@showPrivacyPolic
 Route::get('/termos-e-condicoes', 'Front\DefaultController@showTermsPage')->name('terms_and_conditions');
 Route::get('/rgpd', 'Front\DefaultController@showRGPDInfoPage')->name('rgpd_info');
 Route::post('/rgpd', 'Front\DefaultController@setRGPDSettings')->name('rgpd_info.settings');
+Route::post('/novo-site', 'Front\NewSitePromptController@choose')->name('front.new_site_prompt');
 Route::get('/perfil/apagar', 'Resources\DeleteRequestsController@showDeletePage')->name('front.userprofile.delete.create');
 Route::post('/perfil/apagar', 'Resources\DeleteRequestsController@storeDeleteRequest')->name('front.userprofile.delete.store');
 Route::get('/perfil/apagar/verificar', 'Resources\DeleteRequestsController@showVerificationPage')->name('front.userprofile.delete.verify.show');

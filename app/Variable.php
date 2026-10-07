@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Variable extends Model
 {
@@ -33,6 +34,21 @@ class Variable extends Model
             $var->value = $value;
             $var->save();
         }
+    }
+
+    /**
+     * Add 1 to an integer stored in value. The increment happens in the query
+     * so concurrent requests do not lose counts.
+     */
+    public static function incrementValue($name)
+    {
+        $now = now()->toDateTimeString();
+
+        DB::statement(
+            'INSERT INTO `variables` (`name`, `value`, `created_at`, `updated_at`) VALUES (?, ?, ?, ?)
+             ON DUPLICATE KEY UPDATE `value` = CAST(`value` AS UNSIGNED) + 1, `updated_at` = ?',
+            [$name, '1', $now, $now, $now]
+        );
     }
 
     public static function exists($name) {

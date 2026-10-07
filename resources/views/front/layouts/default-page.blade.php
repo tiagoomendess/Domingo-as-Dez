@@ -42,6 +42,10 @@
 
     @include('front.partial.footer')
 
+    @if(\App\Http\Controllers\Front\NewSitePromptController::shouldShow())
+        @include('front.partial.new_site_prompt')
+    @endif
+
     @if(!has_permission('disable_ads') && \Config::get('custom.adsense_enabled'))
         @include('front.partial.footer_ads')
     @endif
