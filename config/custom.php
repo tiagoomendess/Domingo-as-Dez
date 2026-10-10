@@ -32,4 +32,7 @@ return [
     // false: every visitor. true: only logged-in users.
     'new_site_prompt_logged_in_only' => filter_var(env('NEW_SITE_PROMPT_LOGGED_IN_ONLY', false), FILTER_VALIDATE_BOOLEAN),
     'new_site_url' => env('NEW_SITE_URL', 'https://app.domingoasdez.com'),
+    // 0 disables the new-site prompt. 1-100 is the % of guests who see it (A/B).
+    // Logged-in users always see it when this is > 0.
+    'new_version_ab_test' => (int) env('NEW_VERSION_AB_TEST', 0),
 ];

@@ -6,10 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Variable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
 
 class NewSitePromptController extends Controller
 {
     const COOKIE = 'new_site_prompt';
+
+    const AB_COOKIE = 'new_site_ab';
 
     const CHOICES = [
         'yes' => 'new_site_prompt_yes',
@@ -19,11 +22,20 @@ class NewSitePromptController extends Controller
 
     public static function shouldShow()
     {
+        if ((int) config('custom.new_version_ab_test', 0) <= 0) {
+            return false;
+        }
+
         if (self::destination() === null) {
             return false;
         }
 
         if (config('custom.new_site_prompt_logged_in_only') && !Auth::check()) {
+            return false;
+        }
+
+        // Logged-in users always get the prompt. Guests go through the A/B lottery.
+        if (!Auth::check() && !self::inAbTestGroup()) {
             return false;
         }
 
@@ -50,7 +62,15 @@ class NewSitePromptController extends Controller
             abort(422);
         }
 
+        if ((int) config('custom.new_version_ab_test', 0) <= 0) {
+            abort(403);
+        }
+
         if (config('custom.new_site_prompt_logged_in_only') && !Auth::check()) {
+            abort(403);
+        }
+
+        if (!Auth::check() && !self::inAbTestGroup()) {
             abort(403);
         }
 
@@ -70,6 +90,33 @@ class NewSitePromptController extends Controller
         }
 
         return redirect()->back()->withCookie($cookie);
+    }
+
+    /**
+     * Decide once per visitor whether they are in the prompt group.
+     * Result is stored in a cookie so it is not rolled again.
+     */
+    private static function inAbTestGroup()
+    {
+        $percentage = (int) config('custom.new_version_ab_test', 0);
+
+        if ($percentage <= 0) {
+            return false;
+        }
+
+        if ($percentage > 100) {
+            $percentage = 100;
+        }
+
+        $existing = request()->cookie(self::AB_COOKIE);
+        if ($existing !== null && $existing !== '') {
+            return (string) $existing === '1';
+        }
+
+        $inGroup = random_int(1, 100) <= $percentage;
+        Cookie::queue(cookie()->forever(self::AB_COOKIE, $inGroup ? '1' : '0', '/'));
+
+        return $inGroup;
     }
 
     /**
