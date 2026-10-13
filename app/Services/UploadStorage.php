@@ -5,6 +5,7 @@ namespace App\Services;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Intervention\Image\Image;
 use InvalidArgumentException;
 
@@ -20,21 +21,42 @@ class UploadStorage
 {
     const URL_PREFIX = '/storage/';
 
+    /**
+     * Social-media images in here keep a readable name that can be written again, so they are only cached briefly.
+     * Everything else is named by newUrl(), never changes, and can be cached for a year.
+     */
+    const TMP_FOLDER = '/storage/tmp/';
+    const CACHE_IMMUTABLE = 'public, max-age=31536000, immutable';
+    const CACHE_SHORT = 'public, max-age=3600';
+
     public static function usingR2(): bool
     {
         return config('filesystems.uploads') === 'r2';
     }
 
+    /**
+     * A new, never reused URL in a /storage/... folder, e.g. /storage/media/images/<uuid>.jpg.
+     */
+    public static function newUrl(string $folderUrl, string $extension): string
+    {
+        return rtrim($folderUrl, '/') . '/' . Str::uuid() . '.' . strtolower($extension);
+    }
+
+    public static function cacheControlFor(string $url): string
+    {
+        return strpos($url, self::TMP_FOLDER) === 0 ? self::CACHE_SHORT : self::CACHE_IMMUTABLE;
+    }
+
     public static function put(string $url, $contents): void
     {
-        static::disk()->put(static::path($url), $contents);
+        static::disk()->put(static::path($url), $contents, static::writeOptions($url));
         static::forgetLocalCopy($url);
     }
 
     public static function putUploadedFile(string $url, UploadedFile $file): void
     {
         $path = static::path($url);
-        static::disk()->putFileAs(dirname($path), $file, basename($path));
+        static::disk()->putFileAs(dirname($path), $file, basename($path), static::writeOptions($url));
         static::forgetLocalCopy($url);
     }
 
@@ -128,6 +150,14 @@ class UploadStorage
     public static function isStored(?string $url): bool
     {
         return is_string($url) && strpos($url, self::URL_PREFIX) === 0;
+    }
+
+    /**
+     * Sent as object metadata on R2; the local disk ignores it.
+     */
+    private static function writeOptions(string $url): array
+    {
+        return ['CacheControl' => static::cacheControlFor($url)];
     }
 
     private static function disk()

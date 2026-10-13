@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Poll;
+use App\Services\ImageOptimizer;
 use App\Services\UploadStorage;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
@@ -86,14 +87,16 @@ class ProcessPolls
                     $y += $font_height * 2;
                 }
 
-                $base = $base->encode('png');
-                $filename = $poll->slug . ".png";
-                UploadStorage::putImage($base, "/storage/poll_images/$filename");
+                $oldImage = $poll->image;
 
                 // Save data
-                $poll->image = "/storage/poll_images/$filename";
+                $poll->image = ImageOptimizer::store($base, '/storage/poll_images', 'jpg', ImageOptimizer::GENERATED_QUALITY);
                 $poll->update_image = false;
                 $poll->save();
+
+                if ($oldImage && !Poll::where('image', $oldImage)->exists()) {
+                    UploadStorage::delete($oldImage);
+                }
                 $success++;
 
             } catch (\Exception $e) {

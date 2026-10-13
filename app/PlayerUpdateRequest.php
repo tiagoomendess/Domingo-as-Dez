@@ -275,7 +275,7 @@ class PlayerUpdateRequest extends SearchableModel
             }
 
             // Store the square image (same logic as PlayerController)
-            $url = MediaController::storeSquareImage($image, $name);
+            $url = MediaController::storeSquareImage($image);
 
             // Create Media record with tags
             $tags = trans('models.player') . ',' . $name;

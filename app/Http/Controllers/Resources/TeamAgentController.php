@@ -201,7 +201,7 @@ class TeamAgentController extends Controller
         }
 
         if ($image) {
-            $url = MediaController::storeSquareImage($image, $teamAgent->name);
+            $url = MediaController::storeSquareImage($image);
 
             Media::create([
                 'user_id' => Auth::id(),

@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Services\ImageOptimizer;
 use App\Services\UploadStorage;
 use Intervention\Image\Facades\Image;
 
@@ -191,9 +192,7 @@ class Media extends SearchableModel
             $constraint->upsize();
         });
 
-        $path = config('custom.media_thumbnails') . '/' . $this->id . '.jpg';
-        UploadStorage::putImage($img, $path);
-        $this->thumbnail_url = $path;
+        $this->thumbnail_url = ImageOptimizer::store($img, config('custom.media_thumbnails'), 'jpg', ImageOptimizer::GENERATED_QUALITY);
         $this->save();
 
         return true;

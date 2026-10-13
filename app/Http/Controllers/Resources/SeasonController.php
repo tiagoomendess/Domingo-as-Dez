@@ -3,12 +3,9 @@
 namespace App\Http\Controllers\Resources;
 
 use App\GameGroup;
-use App\Media;
 use App\Season;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
-use App\Services\UploadStorage;
 use Illuminate\Support\MessageBag;
 
 class SeasonController extends Controller
@@ -247,25 +244,6 @@ class SeasonController extends Controller
      */
     private function storeSeasonPicture($file, $name = null)
     {
-        $originalName = $file->getClientOriginalName();
-        $filename = str_random(3) . time() . str_random(6) . '-' . $originalName;
-
-        $url = '/storage/media/images/' . $filename;
-
-        try {
-            UploadStorage::putUploadedFile($url, $file);
-
-            Media::create([
-                'url' => $url,
-                'media_type' => 'image',
-                'tags' => ($name ?: 'season') . ',' . trans('models.season'),
-                'user_id' => Auth::user()->id,
-                'visible' => true,
-            ]);
-        } catch (\Exception $e) {
-            return null;
-        }
-
-        return $url;
+        return MediaController::storeImage($file, ($name ?: 'season') . ',' . trans('models.season'));
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Services\SocialAuth;
 
 use App\Http\Controllers\Resources\MediaController;
+use App\Services\ImageOptimizer;
 use App\SocialProvider;
 use App\User;
 use App\UserProfile;
@@ -176,8 +177,7 @@ class SocialAccountService
 
             return MediaController::storeSquareImage(
                 $image,
-                Str::random(9),
-                400,
+                ImageOptimizer::AVATAR_SIZE,
                 'jpg',
                 config('custom.user_avatars_path')
             );

@@ -105,7 +105,7 @@ class PlayerController extends Controller
 
         if ($image) {
 
-            $url = MediaController::storeSquareImage($image, $name);
+            $url = MediaController::storeSquareImage($image);
 
             $tags = trans('models.player') . ',' . $name;
             if ($nickname)
@@ -239,7 +239,7 @@ class PlayerController extends Controller
 
         if ($image) {
 
-            $url = MediaController::storeSquareImage($image, $name);
+            $url = MediaController::storeSquareImage($image);
 
             $tags = trans('models.player') . ',' . $name;
             if ($nickname)

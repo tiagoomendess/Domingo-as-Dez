@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Resources;
 use App\Audit;
 use App\Club;
 use App\Media;
+use App\Services\ImageOptimizer;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\MessageBag;
@@ -88,9 +89,9 @@ class ClubController extends Controller
         if($request->hasFile('emblem')) {
 
             $image = Image::make($request->file('emblem'));
-            $filename = MediaController::removeLatin(trans('models.emblem') . '_' . $name);
 
-            $url = MediaController::storeSquareImage($image, $filename);
+            // PNG only if the emblem uses transparency
+            $url = MediaController::storeSquareImage($image, ImageOptimizer::SQUARE_SIZE, null);
 
             $media = Media::create([
                 'user_id' => Auth::user()->id,
@@ -190,8 +191,9 @@ class ClubController extends Controller
         if($request->hasFile('emblem')) {
 
             $image = Image::make($request->file('emblem'));
-            $filename = MediaController::removeLatin(trans('models.emblem') . '_' . $name);
-            $url = MediaController::storeSquareImage($image, $filename);
+
+            // PNG only if the emblem uses transparency
+            $url = MediaController::storeSquareImage($image, ImageOptimizer::SQUARE_SIZE, null);
 
             $media = Media::create([
                 'user_id' => Auth::user()->id,

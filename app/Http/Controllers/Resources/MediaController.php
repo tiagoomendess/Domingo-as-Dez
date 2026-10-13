@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Resources;
 
 use App\Audit;
 use App\Media;
+use App\Services\ImageOptimizer;
 use App\Services\UploadStorage;
 use Illuminate\Http\File;
 use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\MessageBag;
 use Illuminate\Support\Facades\Auth;
@@ -133,11 +135,7 @@ class MediaController extends Controller
             if ($request->hasFile('file')) {
 
                 $file = $request->file('file');
-                $extension = $file->getClientOriginalExtension();
-                $originalName = $file->getClientOriginalName();
-                $originalName = preg_replace('/(\.[a-zA-z0-9]+)$/', '', $originalName);
-                $originalName = str_slug($originalName);
-                $filename = str_random(3) . time() . str_random(6) . '_' . $originalName . '.' . $extension;
+                $extension = preg_replace('/[^a-z0-9]/', '', strtolower($file->getClientOriginalExtension())) ?: 'bin';
 
                 $mediaType = 'other';
                 $folder = 'files';
@@ -152,9 +150,12 @@ class MediaController extends Controller
                     $folder = 'videos';
                 }
 
-                $url = '/storage/media/' . $folder . '/' . $filename;
-
-                UploadStorage::putUploadedFile($url, $file);
+                if ($mediaType === 'image') {
+                    $url = static::storeUploadedImage($file);
+                } else {
+                    $url = UploadStorage::newUrl('/storage/media/' . $folder, $extension);
+                    UploadStorage::putUploadedFile($url, $file);
+                }
 
                 $media = Media::create([
                     'url' => $url,
@@ -303,17 +304,9 @@ class MediaController extends Controller
      */
     public static function storeImage($file, $tags = null) {
 
-        $extension = $file->getClientOriginalExtension();
-        $originalName = $file->getClientOriginalName();
-        $originalName = preg_replace('/(\.[a-zA-z0-9]+)$/', '', $originalName);
-        $originalName = str_slug($originalName);
-        $filename = str_random(3) . time() . str_random(6) . '_' . $originalName . '.' . $extension;
-
-        $url = '/storage/media/images/' . $filename;
-
         try {
 
-            UploadStorage::putUploadedFile($url, $file);
+            $url = static::storeUploadedImage($file);
 
             $media = Media::create([
                 'url' => $url,
@@ -339,50 +332,42 @@ class MediaController extends Controller
 
 
     /**
-     *
-     * Will save a squared image of any image ratio
-     *
-     * @param $image \Intervention\Image\Image
-     * @param $filename string
-     * @param $size int
-     * @param $format string
-     * @param $path string
-     * @param $upzise boolean
-     *
-     * @return string
+     * Saves an uploaded image under a new name: rotated, capped to ImageOptimizer::CONTENT_MAX_SIZE and
+     * re-encoded (PNG only when transparent). GIF and SVG are stored as uploaded.
      */
-    public static function storeSquareImage(\Intervention\Image\Image $image, $filename, $size = 500, $format = 'png', $path = null, $upzise = false) {
+    private static function storeUploadedImage(UploadedFile $file): string
+    {
+        $folder = config('custom.media_images_folder');
+        $extension = strtolower($file->getClientOriginalExtension());
 
-        if (!$path)
-            $path = config('custom.media_images_folder');
+        if (in_array($extension, ImageOptimizer::KEEP_ORIGINAL)) {
+            $url = UploadStorage::newUrl($folder, $extension);
+            UploadStorage::putUploadedFile($url, $file);
 
-        $filename = str_random(3) . time() . str_random(3) . '_' . $filename;
-        $filename = str_replace(' ', '_', $filename);
-        $filename = str_slug($filename);
+            return $url;
+        }
 
-        //Fit the image to a squared image
-        if ($upzise)
-            $image->fit($size, $size);
-        else
-            $image->fit($size, $size, function ($constraint) {
-                $constraint->upsize();
-            });
+        $image = ImageOptimizer::orientate(Image::make($file));
 
-        $url = $path . '/' . $filename . '.' . $format;
-        UploadStorage::putImage($image, $url);
-
-        return $url;
-
+        return ImageOptimizer::store(ImageOptimizer::limitSize($image), $folder);
     }
 
-    public static function removeLatin($string) {
+    /**
+     * Saves a square crop of any image (photos, emblems) under a new name.
+     *
+     * @param  string|null  $format  'jpg' for photos; null keeps PNG when the image is transparent (emblems)
+     * @param  string|null  $folder  /storage/... folder, media images by default
+     * @return string the new URL
+     */
+    public static function storeSquareImage(\Intervention\Image\Image $image, int $size = ImageOptimizer::SQUARE_SIZE, ?string $format = 'jpg', ?string $folder = null) {
 
-        $replaced = str_replace(
-            ['ç', 'Ç', 'ã', 'Ã', 'õ', 'Õ', 'é', 'É', 'â', 'Â', 'ê', 'Ê', 'ó', 'Ó', 'Á', 'a'],
-            ['c', 'C', 'a', 'A', 'o', 'O', 'e', 'E', 'A', 'A', 'e', 'E', 'o', 'O', 'A'],
-            $string
-        );
+        ImageOptimizer::orientate($image);
 
-        return $replaced;
+        $image->fit($size, $size, function ($constraint) {
+            $constraint->upsize();
+        });
+
+        return ImageOptimizer::store($image, $folder ?: config('custom.media_images_folder'), $format);
+
     }
 }

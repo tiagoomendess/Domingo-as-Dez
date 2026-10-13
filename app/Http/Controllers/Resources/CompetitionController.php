@@ -7,10 +7,7 @@ use App\Competition;
 use App\Season;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Media;
 use Illuminate\Support\MessageBag;
-use App\Services\UploadStorage;
-use Auth;
 
 class CompetitionController extends Controller
 {
@@ -161,21 +158,11 @@ class CompetitionController extends Controller
 
         if ($request->hasFile('file')) {
 
-            $file = $request->file('file');
-            $originalName = $file->getClientOriginalName();
-            $filename = str_random(3) . time() . str_random(6) . '-' . $originalName;
-
-            $url = '/storage/media/images/' . $filename;
-
-            UploadStorage::putUploadedFile($url, $file);
-
-            Media::create([
-                'url' => $url,
-                'media_type' => 'image',
-                'tags' => $name . ',' . trans('models.competition'),
-                'user_id' => Auth::user()->id,
-                'visible' => true,
-            ]);
+            // Keep the current logo if the new one cannot be stored
+            $url = MediaController::storeImage(
+                $request->file('file'),
+                $name . ',' . trans('models.competition')
+            ) ?: $competition->picture;
 
         } else {
             $url = $competition->picture;

@@ -4,13 +4,13 @@ namespace App\Jobs;
 
 use App\Game;
 use App\Media;
+use App\Services\ImageOptimizer;
 use App\Services\UploadStorage;
 use Illuminate\Bus\Queueable;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
 use Intervention\Image\Image;
 use Intervention\Image\ImageManager;
 
@@ -85,22 +85,16 @@ class GenerateGameImage
                     $base->insert(public_path('/images/game_image_postponed_watermark.png'));
                 }
 
-                $name = Str::slug($game->home_team->club->name . '-vs-'
-                        . $game->away_team->club->name
-                        . '-'
-                        . $game->game_group->season->getDisplayName()
-                        . '-'
-                        . str_replace('/', '-', $game->game_group->season->getName())
-                    ) . '.jpg';
+                $oldImage = $game->image;
 
-                $base = $base->encode('jpg');
-
-                $filename = "game_images/$name";
-                UploadStorage::putImage($base, "/storage/$filename");
-
-                $game->image = "/storage/$filename";
+                $game->image = ImageOptimizer::store($base, '/storage/game_images', 'jpg', ImageOptimizer::GENERATED_QUALITY);
                 $game->generate_image = false;
                 $game->save();
+
+                // Before names were unique, games with the same clubs and season shared one file
+                if ($oldImage && !Game::where('image', $oldImage)->exists()) {
+                    UploadStorage::delete($oldImage);
+                }
                 Log::debug("Successfully generated image for game $game->id");
             } catch (\Exception $e) {
                 Log::error("Error generating image for game $game->id");

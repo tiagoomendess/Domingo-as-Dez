@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Services\UploadStorage;
 use Aws\S3\S3Client;
 use Illuminate\Console\Command;
 use RecursiveDirectoryIterator;
@@ -122,6 +123,8 @@ class UploadStorageToR2 extends Command
                         'Bucket' => $bucket,
                         'Key' => $key,
                         'Body' => $body,
+                        // Same caching as files the site uploads (the key is the URL without its leading slash)
+                        'CacheControl' => UploadStorage::cacheControlFor('/' . $key),
                     ];
 
                     $mime = $this->guessMimeType($absolutePath);

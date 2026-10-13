@@ -87,7 +87,7 @@ class RefereeController extends Controller
 
         if ($image) {
 
-            $url = MediaController::storeSquareImage($image, $name);
+            $url = MediaController::storeSquareImage($image);
 
             $tags = trans('models.referee') . ',' . $name;
 
@@ -173,7 +173,7 @@ class RefereeController extends Controller
 
         if ($image) {
 
-            $url = MediaController::storeSquareImage($image, $name);
+            $url = MediaController::storeSquareImage($image);
 
             $tags = trans('models.referee') . ',' . $name;
 
