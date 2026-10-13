@@ -33,7 +33,7 @@ class MatchImageGeneratorService
         $base = $this->manager->canvas(self::SQUARE_WIDTH, self::SQUARE_HEIGHT);
 
         if ($game->playground) {
-            $backgroundImg = public_path(str_replace('16_9_placeholder_', '1_1_placeholder_', $game->playground->getPicture()));
+            $backgroundImg = UploadStorage::source(str_replace('16_9_placeholder_', '1_1_placeholder_', $game->playground->getPicture()));
         } else {
             $backgroundImg = public_path(\App\Media::getPlaceholder('1:1', $game->id));
         }
@@ -41,16 +41,16 @@ class MatchImageGeneratorService
         $gameDate = Carbon::createFromFormat('Y-m-d H:i:s', $game->date);
 
         $data = [
-            'home_club_emblem' => public_path($game->home_team->club->getEmblem()),
+            'home_club_emblem' => UploadStorage::source($game->home_team->club->getEmblem()),
             'home_club_name' => mb_strtoupper($game->home_team->club->name),
-            'away_club_emblem' => public_path($game->away_team->club->getEmblem()),
+            'away_club_emblem' => UploadStorage::source($game->away_team->club->getEmblem()),
             'away_club_name' => mb_strtoupper($game->away_team->club->name),
             'playground_name' => $game->playground ? mb_strtoupper($game->playground->name) : '',
             'day' => $gameDate->timezone('Europe/Lisbon')->format('d'),
             'month' => mb_strtoupper($this->translateMonth($gameDate->month)),
             'time' => $gameDate->timezone('Europe/Lisbon')->format('H\Hi'),
             'competition' => mb_strtoupper($game->game_group->season->getDisplayName()),
-            'competition_logo' => public_path($game->game_group->season->getDisplayPicture())
+            'competition_logo' => UploadStorage::source($game->game_group->season->getDisplayPicture())
         ];
 
         $base->insert($backgroundImg, 'center');
@@ -82,7 +82,7 @@ class MatchImageGeneratorService
         $base = $this->manager->canvas(self::STORY_WIDTH, self::STORY_HEIGHT);
 
         if ($game->playground) {
-            $backgroundImg = public_path($game->playground->getPicture());
+            $backgroundImg = UploadStorage::source($game->playground->getPicture());
         } else {
             $backgroundImg = public_path(\App\Media::getPlaceholder('16:9', $game->id));
         }
@@ -90,16 +90,16 @@ class MatchImageGeneratorService
         $gameDate = Carbon::createFromFormat('Y-m-d H:i:s', $game->date);
 
         $data = [
-            'home_club_emblem' => public_path($game->home_team->club->getEmblem()),
+            'home_club_emblem' => UploadStorage::source($game->home_team->club->getEmblem()),
             'home_club_name' => mb_strtoupper($game->home_team->club->name),
-            'away_club_emblem' => public_path($game->away_team->club->getEmblem()),
+            'away_club_emblem' => UploadStorage::source($game->away_team->club->getEmblem()),
             'away_club_name' => mb_strtoupper($game->away_team->club->name),
             'playground_name' => $game->playground ? mb_strtoupper($game->playground->name) : '',
             'day' => $gameDate->timezone('Europe/Lisbon')->format('d'),
             'month' => mb_strtoupper($this->translateMonth($gameDate->month)),
             'time' => $gameDate->timezone('Europe/Lisbon')->format('H\Hi'),
             'competition' => mb_strtoupper($game->game_group->season->getDisplayName()),
-            'competition_logo' => public_path($game->game_group->season->getDisplayPicture())
+            'competition_logo' => UploadStorage::source($game->game_group->season->getDisplayPicture())
         ];
 
         // Resize background to cover entire canvas (fit height, crop width)

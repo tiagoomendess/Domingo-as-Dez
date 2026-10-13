@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\DeleteRequest;
 use App\Notifications\GeneralBasicNotification;
+use App\Services\UploadStorage;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -68,8 +69,7 @@ class ProcessDeleteRequest implements ShouldQueue
             $profile->phone = null;
             $profile->bio = null;
 
-            if (!is_null($profile->picture))
-                unlink(public_path($profile->picture));
+            UploadStorage::delete($profile->picture);
 
             $profile->picture = null;
             $profile->account_data_consent = null;

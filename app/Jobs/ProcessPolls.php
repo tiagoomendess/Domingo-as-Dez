@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Poll;
+use App\Services\UploadStorage;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -87,7 +88,7 @@ class ProcessPolls
 
                 $base = $base->encode('png');
                 $filename = $poll->slug . ".png";
-                $base->save(public_path("/storage/poll_images/$filename"));
+                UploadStorage::putImage($base, "/storage/poll_images/$filename");
 
                 // Save data
                 $poll->image = "/storage/poll_images/$filename";

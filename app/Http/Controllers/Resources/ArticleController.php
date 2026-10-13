@@ -16,6 +16,7 @@ use Illuminate\Support\Str;
 use Intervention\Image\ImageManager;
 use Symfony\Component\HttpKernel\Log\Logger;
 use App\Services\SocialPoster;
+use App\Services\UploadStorage;
 
 class ArticleController extends Controller
 {
@@ -266,19 +267,11 @@ class ArticleController extends Controller
             Log::info('Generating social media image for Facebook post', ['article_id' => $article->id]);
             $image = $this->createArticleSocialImage($article, $manager);
             
-            // Step 2: Save image to tmp folder
-            $tmpFolder = 'storage/tmp/';
-            $tmpDir = public_path($tmpFolder);
-            if (!is_dir($tmpDir)) {
-                mkdir($tmpDir, 0755, true);
-            }
-            
-            $filename = 'article_fb_post_' . $article->id . '_' . time() . '.jpg';
-            $relativePath = $tmpFolder . $filename;
-            $absolutePath = public_path($relativePath);
-            
+            // Step 2: Save image to the system temp dir; it is uploaded as binary and deleted right after
+            $absolutePath = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'article_fb_post_' . $article->id . '_' . time() . '.jpg';
+
             $image->encode('jpg', 95)->save($absolutePath);
-            Log::info('Image saved to tmp folder', ['path' => $relativePath]);
+            Log::info('Image saved to tmp folder', ['path' => $absolutePath]);
             
             // Step 3: Post image to Facebook with caption
             $caption = $request->input('message', '');
@@ -424,10 +417,10 @@ class ArticleController extends Controller
         if ($article->media) {
             if ($article->media->media_type == 'image') {
                 // Use full image
-                $mediaPath = public_path($article->media->url);
+                $mediaPath = UploadStorage::source($article->media->url);
             } else {
                 // Use thumbnail for video or other types
-                $mediaPath = public_path($article->getThumbnail());
+                $mediaPath = UploadStorage::source($article->getThumbnail());
             }
         } else {
             // Use placeholder

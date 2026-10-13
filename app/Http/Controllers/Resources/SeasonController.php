@@ -8,7 +8,7 @@ use App\Season;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
+use App\Services\UploadStorage;
 use Illuminate\Support\MessageBag;
 
 class SeasonController extends Controller
@@ -251,10 +251,9 @@ class SeasonController extends Controller
         $filename = str_random(3) . time() . str_random(6) . '-' . $originalName;
 
         $url = '/storage/media/images/' . $filename;
-        $path = '/public/media/images/';
 
         try {
-            Storage::putFileAs($path, $file, $filename);
+            UploadStorage::putUploadedFile($url, $file);
 
             Media::create([
                 'url' => $url,

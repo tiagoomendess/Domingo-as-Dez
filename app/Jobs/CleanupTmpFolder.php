@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Services\UploadStorage;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
@@ -9,7 +10,6 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
 
 class CleanupTmpFolder implements ShouldQueue
 {
@@ -19,6 +19,8 @@ class CleanupTmpFolder implements ShouldQueue
      * The number of days after which files are considered old.
      */
     const DAYS_TO_KEEP = 3;
+
+    const TMP_FOLDER = '/storage/tmp';
 
     /**
      * Create a new job instance.
@@ -54,41 +56,19 @@ class CleanupTmpFolder implements ShouldQueue
 
     private function doHandle()
     {
-        $tmpPath = storage_path('app/public/tmp');
-
-        if (!is_dir($tmpPath)) {
-            Log::info("Tmp folder does not exist: $tmpPath");
-            return;
-        }
-
-        $cutoffDate = Carbon::now()->subDays(self::DAYS_TO_KEEP);
+        $cutoff = Carbon::now()->subDays(self::DAYS_TO_KEEP)->getTimestamp();
         $deletedCount = 0;
         $skippedCount = 0;
 
-        $files = scandir($tmpPath);
-
-        foreach ($files as $file) {
-            // Skip special entries and .gitkeep
-            if ($file === '.' || $file === '..' || $file === '.gitkeep') {
+        foreach (UploadStorage::files(self::TMP_FOLDER) as $url) {
+            if (basename($url) === '.gitkeep') {
                 continue;
             }
 
-            $filePath = $tmpPath . DIRECTORY_SEPARATOR . $file;
-
-            // Skip directories
-            if (is_dir($filePath)) {
-                continue;
-            }
-
-            $fileModifiedTime = Carbon::createFromTimestamp(filemtime($filePath));
-
-            if ($fileModifiedTime->lt($cutoffDate)) {
-                if (unlink($filePath)) {
-                    $deletedCount++;
-                    Log::debug("Deleted old tmp file: $file");
-                } else {
-                    Log::warning("Failed to delete tmp file: $file");
-                }
+            if (UploadStorage::lastModified($url) < $cutoff) {
+                UploadStorage::delete($url);
+                $deletedCount++;
+                Log::debug("Deleted old tmp file: $url");
             } else {
                 $skippedCount++;
             }
@@ -97,4 +77,3 @@ class CleanupTmpFolder implements ShouldQueue
         Log::info("CleanupTmpFolder completed: deleted $deletedCount file(s), kept $skippedCount file(s).");
     }
 }
-

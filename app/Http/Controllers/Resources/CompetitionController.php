@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Media;
 use Illuminate\Support\MessageBag;
-use Illuminate\Support\Facades\Storage;
+use App\Services\UploadStorage;
 use Auth;
 
 class CompetitionController extends Controller
@@ -166,11 +166,8 @@ class CompetitionController extends Controller
             $filename = str_random(3) . time() . str_random(6) . '-' . $originalName;
 
             $url = '/storage/media/images/' . $filename;
-            $path = '/public/media/images/';
 
-            Storage::putFileAs(
-                $path, $file, $filename
-            );
+            UploadStorage::putUploadedFile($url, $file);
 
             Media::create([
                 'url' => $url,

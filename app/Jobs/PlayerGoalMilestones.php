@@ -6,6 +6,7 @@ use App\Goal;
 use App\IdempotencyRecord;
 use App\Media;
 use App\Player;
+use App\Services\UploadStorage;
 use App\SocialMediaPost;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
@@ -24,18 +25,17 @@ class PlayerGoalMilestones implements ShouldQueue
     const STORY_HEIGHT = 1920;
     const POST_WIDTH = 1080;
     const POST_HEIGHT = 1350;
-    const TEMP_FOLDER = 'storage/tmp/';
+    const TEMP_FOLDER = '/storage/tmp/';
     const FB_AND_IG = [SocialMediaPost::PLATFORM_FACEBOOK, SocialMediaPost::PLATFORM_INSTAGRAM];
 
     const MILESTONES = [50, 75, 100, 125, 150, 200, 250, 300];
 
     /**
-     * Convert a URL path (e.g. /storage/media/images/...) to an absolute file path
+     * Image source (local path, URL or bytes) for a stored URL such as /storage/media/images/...
      */
     private function urlToFilePath(string $urlPath): string
     {
-        $relativePath = ltrim($urlPath, '/');
-        return public_path($relativePath);
+        return UploadStorage::source($urlPath);
     }
 
     /**
@@ -302,18 +302,11 @@ class PlayerGoalMilestones implements ShouldQueue
             }
         }
 
-        // Ensure tmp directory exists
-        $tmpDir = public_path(self::TEMP_FOLDER);
-        if (!is_dir($tmpDir)) {
-            mkdir($tmpDir, 0755, true);
-        }
-
         // Save the image
         $fileName = 'goal_milestone_story_' . $player->id . '_' . $milestone . '_' . now()->format('Y_m_d') . '.jpg';
-        $absolutePath = public_path(self::TEMP_FOLDER . $fileName);
-        $image->save($absolutePath, 90);
+        UploadStorage::putImage($image, self::TEMP_FOLDER . $fileName, 90);
 
-        $url = asset(self::TEMP_FOLDER . $fileName);
+        $url = UploadStorage::publicUrl(self::TEMP_FOLDER . $fileName);
         Log::info("Generated goal milestone story image for player '{$player->displayName()}' at: $url");
 
         // Schedule the social media posts for 10AM Lisbon time
@@ -458,18 +451,11 @@ class PlayerGoalMilestones implements ShouldQueue
             }
         }
 
-        // Ensure tmp directory exists
-        $tmpDir = public_path(self::TEMP_FOLDER);
-        if (!is_dir($tmpDir)) {
-            mkdir($tmpDir, 0755, true);
-        }
- 
         // Save the image
         $fileName = 'goal_milestone_post_' . $player->id . '_' . $milestone . '_' . now()->format('Y_m_d') . '.jpg';
-        $absolutePath = public_path(self::TEMP_FOLDER . $fileName);
-        $image->save($absolutePath, 90);
+        UploadStorage::putImage($image, self::TEMP_FOLDER . $fileName, 90);
 
-        $url = asset(self::TEMP_FOLDER . $fileName);
+        $url = UploadStorage::publicUrl(self::TEMP_FOLDER . $fileName);
         Log::info("Generated goal milestone post image for player '{$player->displayName()}' at: $url");
 
         // Schedule the social media posts

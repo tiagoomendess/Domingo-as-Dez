@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Media;
 use App\Page;
 use App\Partner;
+use App\Services\UploadStorage;
 use Illuminate\Http\Request;
 use Illuminate\Support\MessageBag;
 use Illuminate\Support\Str;
@@ -143,8 +144,8 @@ class PartnerController extends Controller
 
         $competitions = Competition::where('visible', true)->get();
         $media = Media::findOrFail($request->input('selected_media_id'));
-        $partnerImg = $this->imageManager->make(public_path($partner->picture));
-        $backgroundImg = $this->imageManager->make(public_path($media->url));
+        $partnerImg = $this->imageManager->make(UploadStorage::source($partner->picture));
+        $backgroundImg = $this->imageManager->make(UploadStorage::source($media->url));
         $backgroundImg = $backgroundImg->fit(900, 900);
         $text = $request->input('text');
         $topLogo = null;
@@ -162,7 +163,7 @@ class PartnerController extends Controller
             $topLogo = '/images/domingo_as_dez_logo_mono_shaddow.png';
         }
 
-        $logo = $this->imageManager->make(public_path($topLogo));
+        $logo = $this->imageManager->make(UploadStorage::source($topLogo));
         $logo = $logo->fit(170, 170);
         $base = $this->imageManager->canvas(900, 900);
         $base->insert($backgroundImg, 'center');

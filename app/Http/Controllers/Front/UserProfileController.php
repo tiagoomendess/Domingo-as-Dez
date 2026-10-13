@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Resources\MediaController;
 use App\InfoReport;
+use App\Services\UploadStorage;
 use App\Notifications\PasswordChangedNotification;
 use App\User;
 use Illuminate\Contracts\Hashing\Hasher;
@@ -64,18 +65,7 @@ class UserProfileController extends Controller
 
         $user = Auth::user();
 
-        if ($user->profile->picture) {
-
-            $url = public_path($user->profile->picture);
-
-            try{
-                unlink($url);
-            } catch (\Exception $exception) {
-                $user->profile->picture = null;
-                $user->profile->save();
-                return abort(500);
-            }
-        }
+        UploadStorage::delete($user->profile->picture);
 
         $image = Image::make($request->file('photo'));
 

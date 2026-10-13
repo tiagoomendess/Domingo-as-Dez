@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Club;
+use App\Services\UploadStorage;
 use App\SocialMediaPost;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
@@ -21,17 +22,15 @@ class ClubBirthdays implements ShouldQueue
     const STORY_HEIGHT = 1920;
     const POST_WIDTH = 1000;
     const POST_HEIGHT = 1250;
-    const TEMP_FOLDER = 'storage/tmp/';
+    const TEMP_FOLDER = '/storage/tmp/';
     const FB_AND_IG = [SocialMediaPost::PLATFORM_FACEBOOK, SocialMediaPost::PLATFORM_INSTAGRAM];
 
     /**
-     * Convert a URL path (e.g. /storage/media/images/...) to an absolute file path
+     * Image source (local path, URL or bytes) for a stored URL such as /storage/media/images/...
      */
     private function urlToFilePath(string $urlPath): string
     {
-        // Remove leading slash and prepend public_path
-        $relativePath = ltrim($urlPath, '/');
-        return public_path($relativePath);
+        return UploadStorage::source($urlPath);
     }
 
     /**
@@ -186,18 +185,11 @@ class ClubBirthdays implements ShouldQueue
             $font->valign('center');
         });
 
-        // Ensure tmp directory exists
-        $tmpDir = public_path(self::TEMP_FOLDER);
-        if (!is_dir($tmpDir)) {
-            mkdir($tmpDir, 0755, true);
-        }
-
         // Save the image
         $fileName = 'birthday_story_' . $club->id . '_' . now()->format('Y_m_d') . '.jpg';
-        $absolutePath = public_path(self::TEMP_FOLDER . $fileName);
-        $image->save($absolutePath, 90);
+        UploadStorage::putImage($image, self::TEMP_FOLDER . $fileName, 90);
 
-        $url = asset(self::TEMP_FOLDER . $fileName);
+        $url = UploadStorage::publicUrl(self::TEMP_FOLDER . $fileName);
         Log::info("Generated birthday story image for club '{$club->name}' at: $url");
 
         // Schedule the social media posts for 8AM Lisbon time
@@ -305,18 +297,11 @@ class ClubBirthdays implements ShouldQueue
             $font->valign('center');
         });
 
-        // Ensure tmp directory exists
-        $tmpDir = public_path(self::TEMP_FOLDER);
-        if (!is_dir($tmpDir)) {
-            mkdir($tmpDir, 0755, true);
-        }
-
         // Save the image
         $fileName = 'birthday_post_' . $club->id . '_' . now()->format('Y_m_d') . '.jpg';
-        $absolutePath = public_path(self::TEMP_FOLDER . $fileName);
-        $image->save($absolutePath, 90);
+        UploadStorage::putImage($image, self::TEMP_FOLDER . $fileName, 90);
 
-        $url = asset(self::TEMP_FOLDER . $fileName);
+        $url = UploadStorage::publicUrl(self::TEMP_FOLDER . $fileName);
         Log::info("Generated birthday post image for club '{$club->name}' at: $url");
 
         // Schedule the social media posts for 8AM Lisbon time (a few minutes after the story)

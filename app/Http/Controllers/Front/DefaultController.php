@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Front;
 
+use App\Services\UploadStorage;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -71,45 +72,34 @@ class DefaultController extends Controller
     public function downloadUserInfo() {
 
 
+        // filename => contents
         $files = array();
-        $public_dir = public_path('/storage/user_profile_downloads/');
-
-        $json_file_name = $public_dir . str_random(3) . time() . ".json";
-        $json_file = fopen($json_file_name, "w") or die("Unable to open file!");
-        $txt = json_encode(self::getAllUserInfo());
-        fwrite($json_file, $txt);
-        fclose($json_file);
-
-        $files[] = $json_file_name;
+        $files[str_random(3) . time() . ".json"] = json_encode(self::getAllUserInfo());
 
         if (Auth::check()) {
 
-            $user = Auth::user();
+            $picture = optional(Auth::user()->profile)->picture;
 
-            if (!is_null($user->picture))
-                $files[] = public_path($user->profile->picture);
+            if (UploadStorage::isStored($picture) && UploadStorage::exists($picture))
+                $files[basename($picture)] = UploadStorage::get($picture);
 
         }
 
+        // Built in the system temp dir and deleted once sent
         $name = str_random(rand(3,5)) . time() . str_random(rand(3,5)) . '-data.zip';
-        $archiveFile = $public_dir . $name;
+        $archiveFile = sys_get_temp_dir() . DIRECTORY_SEPARATOR . $name;
         $archive = new ZipArchive;
 
         // check if the archive could be created.
         if ($archive->open($archiveFile, ZipArchive::CREATE | ZipArchive::OVERWRITE)) {
-            // loop trough all the files and add them to the archive.
-            foreach ($files as $file) {
-                if ($archive->addFile($file, basename($file))) {
-                    // do something here if addFile succeeded, otherwise this statement is unnecessary and can be ignored.
-                    continue;
-                } else {
-                    throw new Exception("file `{$file}` could not be added to the zip file: " . $archive->getStatusString());
+            foreach ($files as $fileName => $contents) {
+                if (!$archive->addFromString($fileName, $contents)) {
+                    throw new \Exception("file `{$fileName}` could not be added to the zip file: " . $archive->getStatusString());
                 }
             }
 
             // close the archive.
             if ($archive->close()) {
-                unlink($json_file_name);
                 return response()->download($archiveFile, basename($archiveFile))->deleteFileAfterSend(true);
             } else {
                 throw new \Exception("could not close zip file: " . $archive->getStatusString());

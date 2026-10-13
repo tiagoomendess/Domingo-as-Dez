@@ -17,6 +17,18 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Uploads Disk
+    |--------------------------------------------------------------------------
+    |
+    | Where App\Services\UploadStorage keeps every /storage/... file.
+    | "public" writes to storage/app/public, "r2" writes to Cloudflare R2.
+    |
+    */
+
+    'uploads' => env('UPLOADS_DISK', 'public'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Default Cloud Filesystem Disk
     |--------------------------------------------------------------------------
     |
@@ -73,6 +85,8 @@ return [
             'url' => env('R2_URL'),
             'use_path_style_endpoint' => env('R2_USE_PATH_STYLE_ENDPOINT', false),
             'visibility' => 'private',
+            // PHP 7.4: the SDK's deprecation warning becomes an exception under Laravel's error handler.
+            'suppress_php_deprecation_warning' => true,
         ],
 
     ],

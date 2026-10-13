@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Front;
 
 use App\Article;
 use App\ArticleComment;
+use App\Services\UploadStorage;
 use Carbon\Carbon;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Str;
 
@@ -64,7 +66,13 @@ class ArticlesController extends Controller
         if (!$article->visible && !has_permission('articles'))
             return abort(404);
 
-        $img = Image::make(public_path($article->getThumbnail()));
+        // Cached: on R2 this would download the thumbnail on every view just to read its size
+        $thumbnail = $article->getThumbnail();
+        $imgSize = Cache::store('file')->rememberForever('og_image_size:' . $thumbnail, function () use ($thumbnail) {
+            $img = Image::make(UploadStorage::source($thumbnail));
+
+            return ['width' => $img->width(), 'height' => $img->height()];
+        });
 
         $comments = ArticleComment::where([
             'deleted' => false,
@@ -75,8 +83,8 @@ class ArticlesController extends Controller
         return view('front.pages.article', [
             'article' => $article,
             'navbar_title' => trans('front.news_singular'),
-            'img_width' => $img->width(),
-            'img_height' => $img->height(),
+            'img_width' => $imgSize['width'],
+            'img_height' => $imgSize['height'],
             'comments' => $comments,
             'user' => Auth::user()
         ]);

@@ -4,16 +4,14 @@ namespace App\Http\Controllers\Resources;
 
 use App\Audit;
 use App\Media;
-use Illuminate\Contracts\Session\Session;
+use App\Services\UploadStorage;
 use Illuminate\Http\File;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\MessageBag;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
-use League\Flysystem\Exception;
 use Illuminate\Support\Facades\DB;
 
 class MediaController extends Controller
@@ -155,11 +153,8 @@ class MediaController extends Controller
                 }
 
                 $url = '/storage/media/' . $folder . '/' . $filename;
-                $path = '/public/media/' . $folder;
 
-                Storage::putFileAs(
-                    $path, $file, $filename
-                );
+                UploadStorage::putUploadedFile($url, $file);
 
                 $media = Media::create([
                     'url' => $url,
@@ -285,19 +280,8 @@ class MediaController extends Controller
         //if it does not huave http means it's a local file
         if (!Str::contains($media->url, 'http')){
 
-            $path = str_replace('storage', 'public', $media->url);
-            $path_thumbnail = str_replace('storage', 'public', $media->thumbnail_url);
-
-            try {
-                Storage::delete($path);
-                Storage::delete($path_thumbnail);
-
-            } catch (Exception $e) {
-                $errors = new MessageBag();
-                $errors->add('error_deleting', trans('errors.deleting_file'));
-                Session::flash('popup_errors', $errors);
-            }
-
+            UploadStorage::delete($media->url);
+            UploadStorage::delete($media->thumbnail_url);
         }
 
         $media->delete();
@@ -326,13 +310,10 @@ class MediaController extends Controller
         $filename = str_random(3) . time() . str_random(6) . '_' . $originalName . '.' . $extension;
 
         $url = '/storage/media/images/' . $filename;
-        $path = '/public/media/images/';
 
         try {
 
-            Storage::putFileAs(
-                $path, $file, $filename
-            );
+            UploadStorage::putUploadedFile($url, $file);
 
             $media = Media::create([
                 'url' => $url,
@@ -387,10 +368,9 @@ class MediaController extends Controller
                 $constraint->upsize();
             });
 
-        //Save the image to the disk
-        $image->save(public_path($path) . '/' .$filename . '.' . $format);
-
         $url = $path . '/' . $filename . '.' . $format;
+        UploadStorage::putImage($image, $url);
+
         return $url;
 
     }

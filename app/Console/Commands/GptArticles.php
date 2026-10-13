@@ -5,7 +5,7 @@ namespace App\Console\Commands;
 use App\Article;
 use Barryvdh\DomPDF\Facade as PDF;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Storage;
+use App\Services\UploadStorage;
 
 class GptArticles extends BaseExportCommand
 {
@@ -109,7 +109,7 @@ class GptArticles extends BaseExportCommand
         $filename = "article_" . $article->id . "_" . $now->format("YmdHis") . ".pdf";
         $pdf = PDF::loadView('pdf.article', ['article' => $article]);
 
-        Storage::disk('public')->put("exports/articles/pdf/$filename", $pdf->output());
+        UploadStorage::put("/storage/exports/articles/pdf/$filename", $pdf->output());
     }
 
     private function generateJson($article) {
@@ -122,7 +122,7 @@ class GptArticles extends BaseExportCommand
             'data' => Carbon::createFromFormat('Y-m-d H:i:s', $article->date)->format('Y-m-d'),
         ];
 
-        Storage::disk('public')->put("exports/articles/json/$filename", json_encode($data, JSON_UNESCAPED_UNICODE));
+        UploadStorage::put("/storage/exports/articles/json/$filename", json_encode($data, JSON_UNESCAPED_UNICODE));
     }
 
     private function generateCsv($article) {
@@ -132,6 +132,6 @@ class GptArticles extends BaseExportCommand
         $data = ["título, descrição, texto, data"];
         $data[] = '"' . $article->title . '";"' . $article->description . '";"' . $article->text . '";"' . Carbon::createFromFormat('Y-m-d H:i:s', $article->date)->format('Y-m-d') . '"';
 
-        Storage::disk('public')->put("exports/articles/csv/$filename", implode("\n", $data));
+        UploadStorage::put("/storage/exports/articles/csv/$filename", implode("\n", $data));
     }
 }

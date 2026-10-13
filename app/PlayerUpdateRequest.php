@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Intervention\Image\Facades\Image;
 use App\Http\Controllers\Resources\MediaController;
+use App\Services\UploadStorage;
 use Illuminate\Support\Facades\Log;
 
 class PlayerUpdateRequest extends SearchableModel
@@ -308,23 +309,14 @@ class PlayerUpdateRequest extends SearchableModel
         }
 
         try {
-            // Find and delete the Media record
+            // Find and delete the Media record, along with its thumbnail
             $media = \App\Media::where('url', $oldPictureUrl)->first();
             if ($media) {
+                UploadStorage::delete($media->thumbnail_url);
                 $media->delete();
             }
 
-            // Delete the physical file if it exists
-            $filePath = public_path(ltrim($oldPictureUrl, '/'));
-            if (file_exists($filePath)) {
-                unlink($filePath);
-            }
-
-            // Also delete thumbnail if it exists
-            $thumbnailPath = str_replace('/images/', '/images/thumbs/', $filePath);
-            if (file_exists($thumbnailPath)) {
-                unlink($thumbnailPath);
-            }
+            UploadStorage::delete($oldPictureUrl);
         } catch (\Exception $e) {
             // Log the error but don't throw - we don't want to fail the approval just because we can't delete old files
             Log::warning('Failed to delete old picture: ' . $e->getMessage());

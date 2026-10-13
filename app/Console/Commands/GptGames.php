@@ -4,7 +4,7 @@ namespace App\Console\Commands;
 
 use App\Game;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Storage;
+use App\Services\UploadStorage;
 use Illuminate\Support\Str;
 
 class GptGames extends BaseExportCommand
@@ -55,16 +55,25 @@ class GptGames extends BaseExportCommand
         if ($this->fileType === "json")
             $filename = $filename ."l";
 
-        $path = "exports/games/$this->fileType/$filename";
-
-        // Create empty file
-        Storage::disk('public')->put($path, $this->fileType === "csv" ? $this->getCsvHeader() : "");
+        // Built in a local temp file and uploaded once: appending to an R2 object rewrites it every time
+        $tmpFile = tempnam(sys_get_temp_dir(), 'gpt_games_');
+        $handle = fopen($tmpFile, 'w');
+        if ($this->fileType === "csv") {
+            fwrite($handle, $this->getCsvHeader());
+        }
 
         $query = Game::where('visible', true)->where('date', '>=', $start_date)->where('date', '<=', $end_date)->orderBy('date', 'asc');
         foreach ($query->cursor() as $game) {
             echo ".";
-            Storage::disk('public')->append($path, $this->getLine($game));
+            // Same line layout as Storage::append()
+            fwrite($handle, PHP_EOL . $this->getLine($game));
         }
+        fclose($handle);
+
+        $handle = fopen($tmpFile, 'r');
+        UploadStorage::put("/storage/exports/games/$this->fileType/$filename", $handle);
+        fclose($handle);
+        unlink($tmpFile);
 
         $this->info("");
         $this->info("Finished generating games export file $filename");

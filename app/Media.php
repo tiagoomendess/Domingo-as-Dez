@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Services\UploadStorage;
 use Intervention\Image\Facades\Image;
 
 class Media extends SearchableModel
@@ -151,7 +152,7 @@ class Media extends SearchableModel
 
         switch ($this->media_type) {
             case "image":
-                $img = Image::make(public_path($this->url));
+                $img = Image::make(UploadStorage::source($this->url));
                 break;
             case "youtube":
                 $play_btn = Image::make(public_path('/images/play_button.png'));
@@ -191,7 +192,7 @@ class Media extends SearchableModel
         });
 
         $path = config('custom.media_thumbnails') . '/' . $this->id . '.jpg';
-        $img->save(public_path($path));
+        UploadStorage::putImage($img, $path);
         $this->thumbnail_url = $path;
         $this->save();
 

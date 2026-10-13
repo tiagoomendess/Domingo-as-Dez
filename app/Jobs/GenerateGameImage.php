@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\Game;
 use App\Media;
+use App\Services\UploadStorage;
 use Illuminate\Bus\Queueable;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
@@ -57,18 +58,18 @@ class GenerateGameImage
                 $base = $this->manager->canvas(self::WIDTH, self::HEIGHT);
 
                 if ($game->playground) {
-                    $backgroundImg = public_path(str_replace('16_9_placeholder_', '1_1_placeholder_', $game->playground->getPicture()));
+                    $backgroundImg = UploadStorage::source(str_replace('16_9_placeholder_', '1_1_placeholder_', $game->playground->getPicture()));
                 } else {
                     $backgroundImg = public_path(Media::getPlaceholder('16:9', $game->id));
                 }
 
                 $data = [
-                    'home_club_emblem' => public_path($game->home_team->club->getEmblem()),
+                    'home_club_emblem' => UploadStorage::source($game->home_team->club->getEmblem()),
                     'home_club_name' => mb_strtoupper($game->home_team->club->name),
-                    'away_club_emblem' => public_path($game->away_team->club->getEmblem()),
+                    'away_club_emblem' => UploadStorage::source($game->away_team->club->getEmblem()),
                     'away_club_name' => mb_strtoupper($game->away_team->club->name),
                     'competition' => mb_strtoupper($game->game_group->season->getDisplayName()),
-                    'competition_logo' => public_path($game->game_group->season->getDisplayPicture())
+                    'competition_logo' => UploadStorage::source($game->game_group->season->getDisplayPicture())
                 ];
 
                 $base->insert($backgroundImg, 'center');
@@ -95,7 +96,7 @@ class GenerateGameImage
                 $base = $base->encode('jpg');
 
                 $filename = "game_images/$name";
-                $base->save(public_path("/storage/$filename"));
+                UploadStorage::putImage($base, "/storage/$filename");
 
                 $game->image = "/storage/$filename";
                 $game->generate_image = false;

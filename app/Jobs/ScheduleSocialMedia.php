@@ -13,6 +13,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use App\SocialMediaPost;
 use App\Services\MatchImageGeneratorService;
+use App\Services\UploadStorage;
 use Intervention\Image\ImageManager;
 use Illuminate\Support\Facades\Log;
 
@@ -35,7 +36,7 @@ class ScheduleSocialMedia implements ShouldQueue
     const POST_LIVE_RESULTS = 'social_media.post_live_results';
 
     const FB_AND_IG = [SocialMediaPost::PLATFORM_FACEBOOK, SocialMediaPost::PLATFORM_INSTAGRAM];
-    const TEMP_FOLDER = 'storage/tmp/';
+    const TEMP_FOLDER = '/storage/tmp/';
     const AMOUNT_MATCHES_TO_PROMOTE = 5;
 
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
@@ -269,26 +270,17 @@ class ScheduleSocialMedia implements ShouldQueue
         $imageGenerator = new MatchImageGeneratorService(new ImageManager());
         $timeToPublish = $publishAt->copy();
         
-        // Ensure tmp directory exists
-        $tmpDir = public_path(self::TEMP_FOLDER);
-        if (!is_dir($tmpDir)) {
-            mkdir($tmpDir, 0755, true);
-        }
-        
         foreach ($matches as $match) {
-            // Build paths correctly: relative path for URL, absolute path for saving
             $relativePath = self::TEMP_FOLDER . 'match_promotion_story_' . $match->id . '.jpg';
-            $absolutePath = public_path($relativePath);
 
             try {
-                $imageGenerator->generateStoryImage($match)->save($absolutePath);
+                UploadStorage::putImage($imageGenerator->generateStoryImage($match), $relativePath);
             } catch (\Exception $e) {
                 Log::error('Error generating story image for match ' . $match->id, ['error' => $e->getMessage()]);
                 return;
             }
 
-            // Use asset() for files in public folder, not url()
-            $url = asset($relativePath);
+            $url = UploadStorage::publicUrl($relativePath);
             foreach (self::FB_AND_IG as $platform) {
                 SocialMediaPost::create([
                     'platform' => $platform,
@@ -366,8 +358,8 @@ class ScheduleSocialMedia implements ShouldQueue
         });
         
         $imageFileName = now()->format('Y_m_d') . '_more_matches_story.jpg';
-        $image->save(public_path(self::TEMP_FOLDER . $imageFileName));
-        $url = asset(self::TEMP_FOLDER . $imageFileName);
+        UploadStorage::putImage($image, self::TEMP_FOLDER . $imageFileName);
+        $url = UploadStorage::publicUrl(self::TEMP_FOLDER . $imageFileName);
 
         $timeToPublish = $publishAt->copy()->addMinutes(($interval * $amount));
         foreach (self::FB_AND_IG as $platform) {
