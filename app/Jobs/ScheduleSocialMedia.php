@@ -105,7 +105,7 @@ class ScheduleSocialMedia implements ShouldQueue
                 'post_type' => SocialMediaPost::POST_TYPE_POST,
                 'post_content_type' => SocialMediaPost::POST_CONTENT_TYPE_IMAGE,
                 'media_path' => $this->vars[self::POST_TODAY_HAS_GAME],
-                'text_content' => 'Hoje tem futebol popular, lista de jogos em 🔗 https://domingoasdez.com/hoje',
+                'text_content' => 'Hoje tem futebol popular, lista de jogos em 🔗 https://domingoasdez.com/jogos',
                 'publish_at' => $todayAt7AM->format('Y-m-d H:i:s'),
             ]);
         }
@@ -169,7 +169,7 @@ class ScheduleSocialMedia implements ShouldQueue
             'platform' => SocialMediaPost::PLATFORM_FACEBOOK,
             'post_type' => SocialMediaPost::POST_TYPE_POST,
             'post_content_type' => SocialMediaPost::POST_CONTENT_TYPE_TEXT,
-            'text_content' => '🔴 Acompanha aqui todos os resultados em direto ⤵️ https://domingoasdez.com/direto',
+            'text_content' => '🔴 Acompanha aqui todos os resultados em direto ⤵️ https://domingoasdez.com/jogos',
             'publish_at' => $firstMatchTime->format('Y-m-d H:i:s'),
         ]);
 
@@ -191,7 +191,7 @@ class ScheduleSocialMedia implements ShouldQueue
                 'post_type' => SocialMediaPost::POST_TYPE_POST,
                 'post_content_type' => SocialMediaPost::POST_CONTENT_TYPE_IMAGE,
                 'media_path' => $this->vars[self::POST_LIVE_RESULTS],
-                'text_content' => 'Acompanha em 🔗 https://domingoasdez.com/direto',
+                'text_content' => 'Acompanha em 🔗 https://domingoasdez.com/jogos',
                 'publish_at' => $tenMinutesAfterFirstMatch->format('Y-m-d H:i:s'),
             ]);
         }
